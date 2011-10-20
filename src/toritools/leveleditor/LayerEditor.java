@@ -78,4 +78,10 @@ public class LayerEditor extends JPanel {
 	public int getCurrentLayer() {
 		return currentLayer;
 	}
+
+	public void clear() {
+		for (int i = 0; i < MAXLAYER; i++) {
+			layerBoxes[i].setSelected(i == 0);
+		}
+	}
 }

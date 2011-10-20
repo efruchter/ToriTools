@@ -63,10 +63,9 @@ import toritools.xml.ToriXMLParser;
 public class LevelEditor {
 
 	/**
-	 * This is the base directory everything works out of. All level files
-	 * should be under this directory.
+	 * The current level file being edited.
 	 */
-	private final File BASE_DIR = new File("levels/level1");
+	private File levelFile, workingDirectory;
 
 	/**
 	 * Maps for getting the docs out of files. Files are the basic way to
@@ -112,6 +111,11 @@ public class LevelEditor {
 	 * This object handles layering information.
 	 */
 	private LayerEditor layerEditor = new LayerEditor(this);
+	
+	/**
+	 * The text of this is where you can set some neat data to display to the user.
+	 */
+	private JMenuItem statusBar = new JMenuItem("Hello!");
 
 	/**
 	 * Mouse controller.
@@ -153,8 +157,9 @@ public class LevelEditor {
 
 	public LevelEditor() throws IOException, ParserConfigurationException,
 			TransformerException {
-		setupXML();
+		setLevelFile(new File("levels/TestLevel.xml"));
 		setupGUI();
+		reloadLevel();
 
 		/*
 		 * Add the keyboard handler.
@@ -171,23 +176,43 @@ public class LevelEditor {
 	}
 
 	/**
-	 * If a level.xml file exists, load the data from it.
+	 * Sets the working level file and the working directory.
+	 * 
+	 * @param file
+	 *            the level xml file.
+	 */
+	private void setLevelFile(final File file) {
+		this.levelFile = file;
+		this.workingDirectory = file.getParentFile();
+	}
+
+	/**
+	 * If a level.xml file exists, load the data from it. Uses levelFile.
 	 * 
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
-	private void setupXML() throws IOException, ParserConfigurationException,
-			TransformerException {
+	private void reloadLevel() throws IOException,
+			ParserConfigurationException, TransformerException {
 		// Create the essential level.xml file
-		File f = new File(BASE_DIR + "/level.xml");
-		if (f.exists()) {
-			Document doc = ToriXMLParser.parse(f);
+		clear();
+		if (levelFile.exists()) {
+			Document doc = ToriXMLParser.parse(levelFile);
 			loadLevel(doc);
 		} else {
 			saveLevel();
 		}
+		statusBar.setText(levelFile.getName());
+	}
 
+	private void clear() {
+		objects.clear();
+		entities.clear();
+		current = null;
+		selected = null;
+		buttonPanel.removeAll();
+		layerEditor.clear();
 	}
 
 	/**
@@ -217,11 +242,29 @@ public class LevelEditor {
 		 */
 
 		JMenu fileMenu = new JMenu("File");
+		JMenuItem open = new JMenuItem("Open");
+		open.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				File f = importNewFileDialog();
+				if (f != null) {
+					setLevelFile(f);
+					try {
+						reloadLevel();
+					} catch (IOException | ParserConfigurationException
+							| TransformerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		fileMenu.add(open);
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					saveLevel();
+					JOptionPane.showMessageDialog(null, "Level Saved!");
 				} catch (ParserConfigurationException | TransformerException e) {
 					e.printStackTrace();
 				}
@@ -242,7 +285,9 @@ public class LevelEditor {
 		JMenuItem importXml = new JMenuItem("Import XML Entity");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				importNewObjectDialog();
+				File f = importNewFileDialog();
+				if (f != null)
+					importXML(f);
 			}
 		});
 		entityMenu.add(importXml);
@@ -291,6 +336,7 @@ public class LevelEditor {
 			}
 		});
 		menuBar.add(item);
+		menuBar.add(statusBar);
 
 		frame.setJMenuBar(menuBar);
 		frame.pack();
@@ -419,9 +465,13 @@ public class LevelEditor {
 						e.getXml()
 								.getPath()
 								.substring(
-										e.getXml().getPath()
-												.indexOf(BASE_DIR.getName())
-												+ BASE_DIR.getName().length()));
+										e.getXml()
+												.getPath()
+												.indexOf(
+														workingDirectory
+																.getName())
+												+ workingDirectory.getName()
+														.length()));
 				object.setAttribute("layer", entry.getKey() + "");
 
 				Element pos = doc.createElement("position");
@@ -450,7 +500,7 @@ public class LevelEditor {
 		System.out.println(xmlString);
 
 		try {
-			FileWriter f = new FileWriter(BASE_DIR + "/level.xml");
+			FileWriter f = new FileWriter(levelFile);
 			f.write(xmlString);
 			f.close();
 		} catch (IOException e1) {
@@ -471,7 +521,7 @@ public class LevelEditor {
 			Node node = objects.item(i);
 			String s = node.getAttributes().getNamedItem("template")
 					.getNodeValue();
-			Entity e = importXML(new File(BASE_DIR + s));
+			Entity e = importXML(new File(workingDirectory + s));
 
 			/**
 			 * Special param data.
@@ -499,16 +549,16 @@ public class LevelEditor {
 	/**
 	 * Bring up a file picker to import a new item.
 	 */
-	private void importNewObjectDialog() {
+	private File importNewFileDialog() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
 				"xml files", "xml"));
-		fileChooser.setCurrentDirectory(BASE_DIR);
+		fileChooser.setCurrentDirectory(workingDirectory);
 		int ret = fileChooser.showDialog(null, "Import an xml file");
 		if (ret == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			importXML(file);
+			return fileChooser.getSelectedFile();
 		}
+		return null;
 	}
 
 	/**
