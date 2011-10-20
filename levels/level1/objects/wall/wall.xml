@@ -1,0 +1,9 @@
+<entity>
+	<title>wall</title>
+	<dimension x="32" y="32"/>
+	<source>wall</source>
+	<solid>true</solid>
+	<sprites>
+		<editor img="editor.png"/>
+	</sprites>
+</entity>
