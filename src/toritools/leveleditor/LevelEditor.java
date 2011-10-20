@@ -23,6 +23,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -55,11 +59,18 @@ public class LevelEditor {
 	private JPanel buttonPanel = new JPanel();
 	private JFrame frame = new JFrame("ToriEditor");
 
+	private Dimension gridSize = new Dimension(32, 32);
+
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
-			Entity e = new Entity(current.getXml(), current.getImage(),
-					arg0.getPoint());
-			entities.add(e);
+			if (current != null) {
+				Point p = (Point) arg0.getPoint().clone();
+				p.setLocation((p.x / gridSize.width) * gridSize.width,
+						(p.y / gridSize.height) * gridSize.height);
+
+				Entity e = new Entity(current.getXml(), current.getImage(), p);
+				entities.add(e);
+			}
 			frame.repaint();
 		}
 	};
@@ -78,6 +89,7 @@ public class LevelEditor {
 	public LevelEditor() throws IOException {
 		setupXML();
 		setupGUI();
+		frame.repaint();
 	}
 
 	private void setupXML() throws IOException {
@@ -95,14 +107,21 @@ public class LevelEditor {
 
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-		JButton importButton = new JButton("Import");
-		importButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				importNewObject();
-			}
-		});
-		JButton saveButton = new JButton("Save Level");
-		saveButton.addActionListener(new ActionListener() {
+		buttonPanel.add(new JSeparator(SwingConstants.VERTICAL));
+
+		/*
+		 * Setup menu
+		 */
+
+		JMenuBar menuBar = new JMenuBar();
+
+		/**
+		 * FILE MENU
+		 */
+
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					saveLevel();
@@ -111,11 +130,54 @@ public class LevelEditor {
 				}
 			}
 		});
+		fileMenu.add(save);
+		menuBar.add(fileMenu);
 
-		buttonPanel.add(importButton);
-		buttonPanel.add(saveButton);
-		buttonPanel.add(new JSeparator(SwingConstants.VERTICAL));
+		// Entity Menu
+		JMenu entityMenu = new JMenu("Entities");
+		JMenuItem importXml = new JMenuItem("Import XML Entity");
+		importXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				importNewObject();
+			}
+		});
+		entityMenu.add(importXml);
+		menuBar.add(entityMenu);
 
+		/**
+		 * SETTINGS MENU
+		 */
+		JMenu settingsMenu = new JMenu("Settings");
+		JMenuItem gridMenu = new JMenuItem("Grid Size");
+		gridMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					int i = Integer.parseInt(JOptionPane
+							.showInputDialog("Input an integer grid size:"));
+					gridSize.setSize(new Dimension(i, i));
+					frame.repaint();
+				} catch (final Exception i) {
+					return;
+				}
+
+			}
+		});
+		settingsMenu.add(gridMenu);
+		menuBar.add(settingsMenu);
+
+		/**
+		 * HELP MENU
+		 */
+		JMenuItem item = new JMenuItem("Help");
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null,
+						"Everything is still in progress!\n ~tori");
+			}
+		});
+		menuBar.add(item);
+
+		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -175,9 +237,24 @@ public class LevelEditor {
 	public void draw(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1000, 1000);
-		for (Entity e : entities) {
-			e.draw(g);
+
+		/*
+		 * DRAW THE GRID
+		 */
+		if (gridSize.width > 1) {
+			g.setColor(Color.BLACK);
+			for (int x = 0; x < 1000; x += gridSize.width)
+				g.drawLine(x, 0, x, 1000);
+
+			for (int y = 0; y < 1000; y += gridSize.height)
+				g.drawLine(0, y, 1000, y);
 		}
+
+		/**
+		 * DRAW ENTITIES
+		 */
+		for (Entity e : entities)
+			e.draw(g);
 	}
 
 	private void importNewObject() {
