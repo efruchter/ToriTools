@@ -16,11 +16,13 @@ import javax.swing.JPanel;
  * @author toriscope
  * 
  */
+@SuppressWarnings("serial")
 public class LayerEditor extends JPanel {
+
 	private JCheckBox[] layerBoxes;
 	private int currentLayer = 0;
 
-	private final int MAXLAYER = 10;
+	private final int MAXLAYER = 5;
 
 	public LayerEditor(final LevelEditor editor) {
 		ActionListener action = new ActionListener() {
@@ -31,16 +33,19 @@ public class LayerEditor extends JPanel {
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		JComboBox<Integer> combo = new JComboBox<Integer>(new Integer[] { 0, 1,
-				2, 3, 4, 5, 6, 7, 8, 9 });
+		Integer[] layers = new Integer[MAXLAYER];
+		for (int i = 0; i < MAXLAYER; i++)
+			layers[i] = i;
+		JComboBox<Integer> combo = new JComboBox<Integer>(layers);
 		combo.addActionListener(new ActionListener() {
+			@SuppressWarnings("rawtypes")
 			public void actionPerformed(ActionEvent e) {
 				currentLayer = (Integer) ((JComboBox) e.getSource())
 						.getSelectedItem();
 			}
 
 		});
-		
+
 		combo.setToolTipText("Editing Layer");
 
 		add(combo);

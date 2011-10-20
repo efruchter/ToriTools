@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -13,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -64,23 +62,60 @@ import toritools.xml.ToriXMLParser;
  */
 public class LevelEditor {
 
+	/**
+	 * This is the base directory everything works out of. All level files
+	 * should be under this directory.
+	 */
 	private final File BASE_DIR = new File("levels/level1");
 
+	/**
+	 * Maps for getting the docs out of files. Files are the basic way to
+	 * edentify unit type.
+	 */
 	private HashMap<File, Document> objects = new HashMap<File, Document>();
-	private HashMap<JButton, File> buttons = new HashMap<JButton, File>();
+
+	/**
+	 * Map of int layers to list of existing entities.
+	 */
 	private HashMap<Integer, ArrayList<Entity>> entities = new HashMap<Integer, ArrayList<Entity>>();
 
+	/**
+	 * The current placeable entity.
+	 */
 	private Entity current = null;
 
+	/**
+	 * The currently selected entity.
+	 */
 	private Entity selected = null;
 
+	/**
+	 * The panel where the entity selection buttons are added and removed.
+	 */
 	private JPanel buttonPanel = new JPanel();
+
+	/**
+	 * The root frame.
+	 */
 	private JFrame frame = new JFrame("ToriEditor");
 
+	/**************
+	 * EDITOR VARIABLES
+	 **************/
+
+	/**
+	 * Size of the grid. Usually square for now.
+	 */
 	private Dimension gridSize = new Dimension(32, 32);
 
+	/**
+	 * This object handles layering information.
+	 */
 	private LayerEditor layerEditor = new LayerEditor(this);
 
+	/**
+	 * Mouse controller.
+	 */
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
 			frame.requestFocus();
@@ -101,7 +136,11 @@ public class LevelEditor {
 		}
 	};
 
-	private JPanel panel = new JPanel() {
+	/**
+	 * This JPanel is where the actual drawing take splace.
+	 */
+	@SuppressWarnings("serial")
+	private JPanel drawPanel = new JPanel() {
 		{
 			setPreferredSize(new Dimension(640, 480));
 			this.addMouseListener(mouseAdapter);
@@ -116,9 +155,36 @@ public class LevelEditor {
 			TransformerException {
 		setupXML();
 		setupGUI();
+
+		/*
+		 * Add the keyboard handler.
+		 */
+		frame.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent arg0) {
+				System.err.println(arg0.getKeyCode());
+				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
+					deleteSelected();
+
+				}
+			}
+
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			public void keyTyped(KeyEvent arg0) {
+			}
+		});
+
 		frame.repaint();
 	}
 
+	/**
+	 * If a level.xml file exists, load the data from it.
+	 * 
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
 	private void setupXML() throws IOException, ParserConfigurationException,
 			TransformerException {
 		// Create the essential level.xml file
@@ -132,45 +198,32 @@ public class LevelEditor {
 
 	}
 
+	/**
+	 * Create the GUI components and menu.
+	 */
 	private void setupGUI() {
-	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.setFocusable(true);
-		frame.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent arg0) {
-				System.err.println(arg0.getKeyCode());
-				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
-					deleteSelected();
-	
-				}
-			}
-	
-			public void keyReleased(KeyEvent arg0) {
-			}
-	
-			public void keyTyped(KeyEvent arg0) {
-			}
-		});
-	
+
 		JPanel dummyPanel = new JPanel();
-		frame.add(new JScrollPane(panel), BorderLayout.CENTER);
+		frame.add(new JScrollPane(drawPanel), BorderLayout.CENTER);
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
 		dummyPanel.add(layerEditor);
 		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
-	
+
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-	
+
 		/*
 		 * Setup menu
 		 */
-	
+
 		JMenuBar menuBar = new JMenuBar();
-	
+
 		/**
 		 * FILE MENU
 		 */
-	
+
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(new ActionListener() {
@@ -191,13 +244,13 @@ public class LevelEditor {
 		});
 		fileMenu.add(close);
 		menuBar.add(fileMenu);
-	
+
 		// Entity Menu
 		JMenu entityMenu = new JMenu("Entities");
 		JMenuItem importXml = new JMenuItem("Import XML Entity");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				importNewObject();
+				importNewObjectDialog();
 			}
 		});
 		entityMenu.add(importXml);
@@ -210,7 +263,7 @@ public class LevelEditor {
 		});
 		entityMenu.add(deleteAll);
 		menuBar.add(entityMenu);
-	
+
 		/**
 		 * SETTINGS MENU
 		 */
@@ -226,12 +279,12 @@ public class LevelEditor {
 				} catch (final Exception i) {
 					return;
 				}
-	
+
 			}
 		});
 		settingsMenu.add(gridMenu);
 		menuBar.add(settingsMenu);
-	
+
 		/**
 		 * HELP MENU
 		 */
@@ -246,12 +299,18 @@ public class LevelEditor {
 			}
 		});
 		menuBar.add(item);
-	
+
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Make the first detected overlapping, visible object, selected.
+	 * 
+	 * @param p
+	 *            the mouse location.
+	 */
 	public void selectOverlapping(final Point p) {
 		Entity selected = null;
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
@@ -267,12 +326,21 @@ public class LevelEditor {
 		this.selected = selected;
 	}
 
+	/**
+	 * Delete the entity that is currently selected.
+	 */
 	public void deleteSelected() {
 		if (selected != null) {
 			removeEntity(selected);
 		}
 	}
 
+	/**
+	 * Delete the first object detected overlapping.
+	 * 
+	 * @param p
+	 *            the mouse point.
+	 */
 	public void deleteOverlapping(final Point p) {
 		Entity deleteMe = null;
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
@@ -288,14 +356,28 @@ public class LevelEditor {
 		removeEntity(deleteMe);
 	}
 
-	private void addEntity(final Entity e, final int depth) {
-		if (!entities.containsKey(depth)) {
-			entities.put(depth, new ArrayList<Entity>());
+	/**
+	 * Add an entity, and give it to a layer.
+	 * 
+	 * @param e
+	 *            the entity
+	 * @param layer
+	 *            the layer/depth.
+	 */
+	private void addEntity(final Entity e, final int layer) {
+		if (!entities.containsKey(layer)) {
+			entities.put(layer, new ArrayList<Entity>());
 		}
-		entities.get(depth).add(e);
+		entities.get(layer).add(e);
 		frame.repaint();
 	}
 
+	/**
+	 * Remove an entity from all layers.
+	 * 
+	 * @param e
+	 *            entity to remove.
+	 */
 	public void removeEntity(final Entity e) {
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
 			if (layerEditor.isLayerVisible(entry.getKey()))
@@ -303,12 +385,27 @@ public class LevelEditor {
 		frame.repaint();
 	}
 
-	private void transferEntity(final Entity e, final int depth) {
+	/**
+	 * Remove entity from one layer and add to another.
+	 * 
+	 * @param e
+	 *            entity to move.
+	 * @param layer
+	 *            layer to add to.
+	 */
+	@SuppressWarnings("unused")
+	private void transferEntity(final Entity e, final int layer) {
 		removeEntity(e);
-		addEntity(e, depth);
+		addEntity(e, layer);
 		frame.repaint();
 	}
 
+	/**
+	 * Save level.xml.
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
 	public void saveLevel() throws ParserConfigurationException,
 			TransformerException {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -370,6 +467,12 @@ public class LevelEditor {
 		}
 	}
 
+	/**
+	 * Load the entity data from level.xml.
+	 * 
+	 * @param doc
+	 *            the doc of level.xml.
+	 */
 	private void loadLevel(final Document doc) {
 		NodeList objects = doc.getElementsByTagName("entity");
 		for (int i = 0; i < objects.getLength(); i++) {
@@ -377,7 +480,7 @@ public class LevelEditor {
 			String s = node.getAttributes().getNamedItem("template")
 					.getNodeValue();
 			Entity e = importXML(new File(BASE_DIR + s));
-	
+
 			/**
 			 * Special param data.
 			 */
@@ -401,7 +504,10 @@ public class LevelEditor {
 		}
 	}
 
-	private void importNewObject() {
+	/**
+	 * Bring up a file picker to import a new item.
+	 */
+	private void importNewObjectDialog() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
 				"xml files", "xml"));
@@ -413,10 +519,18 @@ public class LevelEditor {
 		}
 	}
 
+	/**
+	 * Fully import and add an xml entity. if the entity is a new type, it will
+	 * be given a new button and added to button panel.
+	 * 
+	 * @param file
+	 *            the file of the xml.
+	 * @return the generated entity.
+	 */
 	private Entity importXML(final File file) {
 		Document doc = ToriXMLParser.parse(file);
 		doc.getDocumentElement().normalize();
-	
+
 		// get the editor image
 		String picture = doc.getElementsByTagName("editor").item(0)
 				.getAttributes().getNamedItem("img").getNodeValue()
@@ -424,10 +538,10 @@ public class LevelEditor {
 		// Get the dimensions
 		NamedNodeMap pos = doc.getElementsByTagName("dimensions").item(0)
 				.getAttributes();
-	
+
 		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
 		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
-	
+
 		// Form the image
 		final ImageIcon i = new ImageIcon(file.getPath().replace(
 				file.getName(), "")
@@ -448,11 +562,16 @@ public class LevelEditor {
 			buttonPanel.add(b);
 			frame.pack();
 			objects.put(file, doc);
-			buttons.put(b, file);
 		}
 		return e;
 	}
 
+	/**
+	 * Draw the state of the level.
+	 * 
+	 * @param g
+	 *            graphics!
+	 */
 	public void draw(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1000, 1000);
@@ -462,11 +581,11 @@ public class LevelEditor {
 		 */
 		if (gridSize.width > 1) {
 			g.setColor(Color.BLACK);
-			for (int x = 0; x < panel.getWidth(); x += gridSize.width)
-				g.drawLine(x, 0, x, panel.getHeight());
+			for (int x = 0; x < drawPanel.getWidth(); x += gridSize.width)
+				g.drawLine(x, 0, x, drawPanel.getHeight());
 
-			for (int y = 0; y < panel.getHeight(); y += gridSize.height)
-				g.drawLine(0, y, panel.getWidth(), y);
+			for (int y = 0; y < drawPanel.getHeight(); y += gridSize.height)
+				g.drawLine(0, y, drawPanel.getWidth(), y);
 		}
 
 		/**
