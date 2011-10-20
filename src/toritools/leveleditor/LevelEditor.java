@@ -17,6 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -345,9 +347,19 @@ public class LevelEditor {
 		}
 
 		/**
-		 * DRAW ENTITIES
+		 * DRAW ENTITIES in layer order.
 		 */
-		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+		List<Entry<Integer, ArrayList<Entity>>> list = new ArrayList<Entry<Integer, ArrayList<Entity>>>(
+				entities.entrySet());
+		Collections.sort(list,
+				new Comparator<Entry<Integer, ArrayList<Entity>>>() {
+					@Override
+					public int compare(Entry<Integer, ArrayList<Entity>> arg0,
+							Entry<Integer, ArrayList<Entity>> arg1) {
+						return arg0.getKey().compareTo(arg1.getKey()) * -1;
+					}
+				});
+		for (Entry<Integer, ArrayList<Entity>> entry : list)
 			for (Entity e : entry.getValue())
 				e.draw(g);
 	}
