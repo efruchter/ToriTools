@@ -231,6 +231,13 @@ public class LevelEditor {
 			}
 		});
 		fileMenu.add(save);
+		JMenuItem close = new JMenuItem("Close");
+		close.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		fileMenu.add(close);
 		menuBar.add(fileMenu);
 
 		// Entity Menu
