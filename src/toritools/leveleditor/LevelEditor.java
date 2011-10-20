@@ -44,6 +44,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -66,16 +67,21 @@ public class LevelEditor {
 
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
-			if (current != null) {
-				Point p = (Point) arg0.getPoint().clone();
-				p.setLocation((p.x / gridSize.width) * gridSize.width,
-						(p.y / gridSize.height) * gridSize.height);
-
-				Entity e = new Entity(current.getXml(), current.getImage(), p);
-				entities.add(e);
+			if (arg0.getButton() == 2) {
+				deleteOverlapping(arg0.getPoint());
+			} else {
+				if (current != null) {
+					Point p = (Point) arg0.getPoint().clone();
+					p.setLocation((p.x / gridSize.width) * gridSize.width,
+							(p.y / gridSize.height) * gridSize.height);
+					Entity e = new Entity(current.getXml(), current.getImage(),
+							p, current.getDim());
+					entities.add(e);
+				}
 			}
 			frame.repaint();
 		}
+
 	};
 
 	private JPanel panel = new JPanel() {
@@ -123,10 +129,13 @@ public class LevelEditor {
 			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
 				Node param = node.getChildNodes().item(ii);
 				if (param.getNodeName().equals("position")) {
-					Double x = Double.parseDouble(param.getAttributes().getNamedItem("x").getNodeValue());
-					Double y = Double.parseDouble(param.getAttributes().getNamedItem("y").getNodeValue());
-					entities.add(new Entity(current.getXml(), current.getImage(),
-							new Point.Double(x, y)));
+					Double x = Double.parseDouble(param.getAttributes()
+							.getNamedItem("x").getNodeValue());
+					Double y = Double.parseDouble(param.getAttributes()
+							.getNamedItem("y").getNodeValue());
+					entities.add(new Entity(current.getXml(), current
+							.getImage(), new Point.Double(x, y), current
+							.getDim()));
 				}
 			}
 		}
@@ -319,21 +328,31 @@ public class LevelEditor {
 		objects.put(file, doc);
 		doc.getDocumentElement().normalize();
 
+		// get the editor image
 		String picture = doc.getElementsByTagName("editor").item(0)
 				.getAttributes().getNamedItem("img").getNodeValue()
 				+ "";
+		// Get the dimensions
+		NamedNodeMap pos = doc.getElementsByTagName("dimensions").item(0)
+				.getAttributes();
+		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
+		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
 
 		final ImageIcon i = new ImageIcon(file.getPath().replace(
 				file.getName(), "")
 				+ picture);
+		i.setImage(i.getImage().getScaledInstance((int) x, (int) y, 0));
 
 		JButton b = new JButton(i);
+		b.setSize(new Dimension((int) x, (int) y));
+		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
+				new Point.Double(x, y));
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setCurrent(new Entity(file, i.getImage(), new Point()));
+				setCurrent(e);
 			}
 		});
-		setCurrent(new Entity(file, i.getImage(), new Point()));
+		setCurrent(e);
 		buttonPanel.add(b);
 		frame.pack();
 
@@ -350,15 +369,21 @@ public class LevelEditor {
 		new LevelEditor();
 	}
 
+	public void deleteOverlapping(final Point p) {
+
+	}
+
 	private class Entity {
 		private File xml;
 		private Image image;
 		private Point2D pos;
+		private Point2D dim;
 
-		public Entity(File xml, Image img, final Point2D pos) {
+		public Entity(File xml, Image img, final Point2D pos, final Point2D dim) {
 			this.xml = xml;
 			this.image = img;
 			this.pos = pos;
+			this.dim = dim;
 		}
 
 		public File getXml() {
@@ -386,7 +411,16 @@ public class LevelEditor {
 		}
 
 		public void draw(Graphics g) {
-			g.drawImage(image, (int) pos.getX(), (int) pos.getY(), panel);
+			g.drawImage(image, (int) pos.getX(), (int) pos.getY(),
+					(int) dim.getX(), (int) dim.getY(), panel);
+		}
+
+		public Point2D getDim() {
+			return dim;
+		}
+
+		public void setDim(Point2D dim) {
+			this.dim = dim;
 		}
 
 	}

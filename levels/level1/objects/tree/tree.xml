@@ -1,6 +1,6 @@
 <entity>
 	<title>tree</title>
-	<dimension x="64" y="64"/>
+	<dimensions x="32" y="32"/>
 	<solid>true</solid>
 	<sprites>
 		<editor img="editor.png"/>
