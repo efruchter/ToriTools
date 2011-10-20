@@ -111,9 +111,10 @@ public class LevelEditor {
 	 * This object handles layering information.
 	 */
 	private LayerEditor layerEditor = new LayerEditor(this);
-	
+
 	/**
-	 * The text of this is where you can set some neat data to display to the user.
+	 * The text of this is where you can set some neat data to display to the
+	 * user.
 	 */
 	private JMenuItem statusBar = new JMenuItem("Hello!");
 
@@ -157,7 +158,25 @@ public class LevelEditor {
 
 	public LevelEditor() throws IOException, ParserConfigurationException,
 			TransformerException {
-		setLevelFile(new File("levels/TestLevel.xml"));
+		/*
+		 * LOAD THE CONFIG FILE.
+		 */
+		Node configNode = ToriXMLParser.parse(new File("config.xml"))
+				.getElementsByTagName("config").item(0);
+		Node recentNode = configNode.getAttributes().getNamedItem("recent");
+		if (recentNode != null) {
+			File f = new File(recentNode.getNodeValue());
+			try {
+				if (!f.exists())
+					throw new NullPointerException();
+				setLevelFile(f);
+			} catch (final Exception NullPointer) {
+				JOptionPane.showMessageDialog(null,
+						"There was an issue loading the recent level file!");
+				setLevelFile(importNewFileDialog());
+			}
+		}
+
 		setupGUI();
 		reloadLevel();
 
@@ -204,8 +223,58 @@ public class LevelEditor {
 			saveLevel();
 		}
 		statusBar.setText(levelFile.getName());
+		saveConfig();
 	}
 
+	/**
+	 * Save the config file.
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
+	private void saveConfig() throws ParserConfigurationException,
+			TransformerException {
+		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+		Document doc = docBuilder.newDocument();
+
+		// Create level element
+		Element editorElement = doc.createElement("editor");
+		doc.appendChild(editorElement);
+
+		Element configElement = doc.createElement("config");
+		editorElement.appendChild(configElement);
+
+		configElement.setAttribute("recent", levelFile.getPath());
+
+		/*
+		 * SAVE ALL THE THINGS
+		 */
+		TransformerFactory transfac = TransformerFactory.newInstance();
+		Transformer trans = transfac.newTransformer();
+		trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		trans.setOutputProperty(OutputKeys.INDENT, "yes");
+		StringWriter sw = new StringWriter();
+		StreamResult result = new StreamResult(sw);
+		DOMSource source = new DOMSource(doc);
+		trans.transform(source, result);
+		String xmlString = sw.toString();
+
+		System.out.println(xmlString);
+
+		try {
+			FileWriter f = new FileWriter("config.xml");
+			f.write(xmlString);
+			f.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	/**
+	 * Clear the current state.
+	 */
 	private void clear() {
 		objects.clear();
 		entities.clear();
