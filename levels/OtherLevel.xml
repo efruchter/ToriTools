@@ -39,5 +39,11 @@
 <entity layer="0" template="\objects\wall\wall.xml">
 <position x="320.0" y="256.0"/>
 </entity>
+<entity layer="0" template="\objects\tree\tree.xml">
+<position x="480.0" y="192.0"/>
+</entity>
+<entity layer="0" template="\objects\tree\tree.xml">
+<position x="480.0" y="256.0"/>
+</entity>
 </objects>
 </level>
