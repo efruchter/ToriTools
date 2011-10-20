@@ -136,13 +136,11 @@ public class LevelEditor {
 			Node node = objects.item(i);
 			String s = node.getAttributes().getNamedItem("template")
 					.getNodeValue();
-			importXML(new File(BASE_DIR + s));
+			Entity e = importXML(new File(BASE_DIR + s));
 
 			/**
 			 * Special param data.
 			 */
-			Entity e = new Entity(current.getXml(), current.getImage(),
-					new Point.Double(0, 0), current.getDim());
 			int depth = 0;
 			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
 				Node param = node.getChildNodes().item(ii);
@@ -194,11 +192,12 @@ public class LevelEditor {
 				System.err.println(arg0.getKeyCode());
 				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
 					deleteSelected();
-					
+
 				}
 			}
 
-			public void keyReleased(KeyEvent arg0) {}
+			public void keyReleased(KeyEvent arg0) {
+			}
 
 			public void keyTyped(KeyEvent arg0) {
 			}
@@ -423,12 +422,8 @@ public class LevelEditor {
 		}
 	}
 
-	private void importXML(final File file) {
-		if (objects.containsKey(file)) {
-			return;
-		}
+	private Entity importXML(final File file) {
 		Document doc = ToriXMLParser.parse(file);
-		objects.put(file, doc);
 		doc.getDocumentElement().normalize();
 
 		// get the editor image
@@ -447,24 +442,24 @@ public class LevelEditor {
 				file.getName(), "")
 				+ picture);
 		i.setImage(i.getImage().getScaledInstance((int) x, (int) y, 0));
-
-		JButton b = new JButton(i);
-		b.setToolTipText(doc.getElementsByTagName("description").item(0)
-				.getChildNodes().item(0).getNodeValue());
-		b.setSize(new Dimension((int) x, (int) y));
 		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
 				new Point.Double(x, y));
-		b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setCurrent(e);
-			}
-		});
-		setCurrent(e);
-		buttonPanel.add(b);
-		frame.pack();
-
-		objects.put(file, doc);
-		buttons.put(b, file);
+		if (!objects.containsKey(file)) {
+			JButton b = new JButton(i);
+			b.setToolTipText(doc.getElementsByTagName("description").item(0)
+					.getChildNodes().item(0).getNodeValue());
+			b.setSize(new Dimension((int) x, (int) y));
+			b.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					setCurrent(e);
+				}
+			});
+			buttonPanel.add(b);
+			frame.pack();
+			objects.put(file, doc);
+			buttons.put(b, file);
+		}
+		return e;
 	}
 
 	public void setCurrent(final Entity e) {

@@ -1,7 +1,7 @@
 <entity>
 	<title>tree</title>
 	<description>A tree that cannot be passed through.</description>
-	<dimensions x="32" y="32"/>
+	<dimensions x="64" y="64"/>
 	<solid>true</solid>
 	<sprites>
 		<editor img="editor.png"/>
