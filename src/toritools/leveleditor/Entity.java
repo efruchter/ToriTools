@@ -5,6 +5,13 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.io.File;
 
+/**
+ * A placed object in the level editor. Packaged scoped because Entity is a
+ * really popular class name.
+ * 
+ * @author toriscope
+ * 
+ */
 class Entity {
 	private File xml;
 	private Image image;
