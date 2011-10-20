@@ -194,6 +194,14 @@ public class LevelEditor {
 			}
 		});
 		entityMenu.add(importXml);
+		JMenuItem deleteAll = new JMenuItem("Delete All");
+		deleteAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				entities.clear();
+				frame.repaint();
+			}
+		});
+		entityMenu.add(deleteAll);
 		menuBar.add(entityMenu);
 
 		/**
