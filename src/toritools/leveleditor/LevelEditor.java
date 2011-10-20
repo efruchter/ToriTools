@@ -243,18 +243,6 @@ public class LevelEditor {
 	}
 
 	/**
-	 * Clear the current state.
-	 */
-	private void clear() {
-		objects.clear();
-		entities.clear();
-		current = null;
-		selected = null;
-		buttonPanel.removeAll();
-		layerEditor.clear();
-	}
-
-	/**
 	 * Create the GUI components and menu.
 	 */
 	private void setupGUI() {
@@ -670,6 +658,18 @@ public class LevelEditor {
 								.getDim().getY());
 					}
 				}
+	}
+
+	/**
+	 * Clear the GUI state.
+	 */
+	private void clear() {
+		objects.clear();
+		entities.clear();
+		current = null;
+		selected = null;
+		buttonPanel.removeAll();
+		layerEditor.clear();
 	}
 
 	public void setCurrent(final Entity e) {
