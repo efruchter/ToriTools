@@ -1,6 +1,6 @@
 <entity>
-	<title>wall</title>
-	<dimension x="32" y="32"/>
+	<title>tree</title>
+	<dimension x="64" y="64"/>
 	<solid>true</solid>
 	<sprites>
 		<editor img="editor.png"/>
