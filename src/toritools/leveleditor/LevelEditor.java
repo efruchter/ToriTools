@@ -81,6 +81,7 @@ public class LevelEditor {
 
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
+			frame.requestFocus();
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
 				selectOverlapping(arg0.getPoint());
 			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
@@ -96,7 +97,6 @@ public class LevelEditor {
 			}
 			frame.repaint();
 		}
-
 	};
 
 	private JPanel panel = new JPanel() {
