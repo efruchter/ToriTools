@@ -203,8 +203,11 @@ public class LevelEditor {
 			}
 		});
 
-		frame.add(panel, BorderLayout.CENTER);
+		JPanel dummyPanel = new JPanel();
+		frame.add(new JScrollPane(panel), BorderLayout.CENTER);
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
+		dummyPanel.add(layerEditor);
+		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
 
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
 
