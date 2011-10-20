@@ -2,7 +2,9 @@ package toritools.leveleditor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -26,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -108,7 +111,8 @@ public class LevelEditor {
 	 * The text of this is where you can set some neat data to display to the
 	 * user.
 	 */
-	private JMenuItem statusBar = new JMenuItem("Hello!");
+	private JLabel fileLabel = new JLabel("FILE LABEL");
+	private JLabel gridLabel = new JLabel("GRID LABEL");
 
 	/**
 	 * Mouse controller.
@@ -129,7 +133,7 @@ public class LevelEditor {
 					addEntity(e, layerEditor.getCurrentLayer());
 				}
 			}
-			frame.repaint();
+			repaint();
 		}
 	};
 
@@ -183,7 +187,7 @@ public class LevelEditor {
 			}
 		});
 
-		frame.repaint();
+		repaint();
 	}
 
 	/**
@@ -214,7 +218,6 @@ public class LevelEditor {
 		} else {
 			saveLevel();
 		}
-		statusBar.setText(levelFile.getName());
 		saveConfig();
 	}
 
@@ -255,6 +258,20 @@ public class LevelEditor {
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
 		dummyPanel.add(layerEditor);
 		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
+
+		/*
+		 * Form the status bar
+		 */
+		dummyPanel = new JPanel();
+		dummyPanel.setBackground(Color.WHITE);
+		dummyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		dummyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		dummyPanel.add(fileLabel);
+		dummyPanel.add(new JLabel("|"));
+		dummyPanel.add(gridLabel);
+		dummyPanel.add(new JLabel("|"));
+
+		frame.add(dummyPanel, BorderLayout.NORTH);
 
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
 
@@ -321,7 +338,7 @@ public class LevelEditor {
 		deleteAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				entities.clear();
-				frame.repaint();
+				repaint();
 			}
 		});
 		entityMenu.add(deleteAll);
@@ -338,7 +355,7 @@ public class LevelEditor {
 					int i = Integer.parseInt(JOptionPane
 							.showInputDialog("Input an integer grid size:"));
 					gridSize.setSize(new Dimension(i, i));
-					frame.repaint();
+					repaint();
 				} catch (final Exception i) {
 					return;
 				}
@@ -362,7 +379,6 @@ public class LevelEditor {
 			}
 		});
 		menuBar.add(item);
-		menuBar.add(statusBar);
 
 		frame.setJMenuBar(menuBar);
 		frame.pack();
@@ -433,7 +449,7 @@ public class LevelEditor {
 			entities.put(layer, new ArrayList<Entity>());
 		}
 		entities.get(layer).add(e);
-		frame.repaint();
+		repaint();
 	}
 
 	/**
@@ -446,7 +462,7 @@ public class LevelEditor {
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
 			if (layerEditor.isLayerVisible(entry.getKey()))
 				entry.getValue().remove(e);
-		frame.repaint();
+		repaint();
 	}
 
 	/**
@@ -461,7 +477,7 @@ public class LevelEditor {
 	private void transferEntity(final Entity e, final int layer) {
 		removeEntity(e);
 		addEntity(e, layer);
-		frame.repaint();
+		repaint();
 	}
 
 	/**
@@ -681,8 +697,14 @@ public class LevelEditor {
 		new LevelEditor();
 	}
 
+	/**
+	 * Forces repaint on frame and updates status bar.
+	 */
 	public void repaint() {
 		frame.repaint();
+		fileLabel.setText(levelFile.getName());
+		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "
+				+ (int) gridSize.getHeight());
 	}
 
 }
