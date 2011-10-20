@@ -9,6 +9,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -79,7 +81,7 @@ public class LevelEditor {
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
-				deleteOverlapping(arg0.getPoint());
+				selectOverlapping(arg0.getPoint());
 			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
 				if (current != null) {
 					Point p = (Point) arg0.getPoint().clone();
@@ -164,21 +166,34 @@ public class LevelEditor {
 			entities.put(depth, new ArrayList<Entity>());
 		}
 		entities.get(depth).add(e);
+		frame.repaint();
 	}
 
 	public void removeEntity(final Entity e) {
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
 			entry.getValue().remove(e);
+		frame.repaint();
 	}
 
 	private void transferEntity(final Entity e, final int depth) {
 		removeEntity(e);
 		addEntity(e, depth);
+		frame.repaint();
 	}
 
 	private void setupGUI() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
+		frame.setFocusable(true);
+		frame.addKeyListener(new KeyListener(){
+			public void keyPressed(KeyEvent arg0) {}
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_DELETE){
+					deleteSelected();
+				}
+			}
+			public void keyTyped(KeyEvent arg0) {}
+		});
 
 		frame.add(panel, BorderLayout.CENTER);
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
@@ -259,7 +274,7 @@ public class LevelEditor {
 						.showMessageDialog(
 								null,
 								"Everything is still in progress!\n ~tori"
-										+ "\n\nLeft click to place\nRight click to delete!");
+										+ "\n\nLeft click to place the latest selected object!\nRight click to select!\nDELETE to delete selected object!");
 			}
 		});
 		menuBar.add(item);
@@ -360,8 +375,16 @@ public class LevelEditor {
 					}
 				});
 		for (Entry<Integer, ArrayList<Entity>> entry : list)
-			for (Entity e : entry.getValue())
+			for (Entity e : entry.getValue()) {
+
 				e.draw(g);
+				if (selected == e) {
+					g.setColor(Color.RED);
+					g.drawRect((int) e.getPos().getX(),
+							(int) e.getPos().getY(), (int) e.getDim().getX(),
+							(int) e.getDim().getY());
+				}
+			}
 	}
 
 	private void importNewObject() {
@@ -427,6 +450,28 @@ public class LevelEditor {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, TransformerException {
 		new LevelEditor();
+	}
+
+	private Entity selected = null;
+
+	public void selectOverlapping(final Point p) {
+		Entity selected = null;
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			for (Entity e : entry.getValue()) {
+				if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
+						.getY(), (int) e.getDim().getX(), (int) e.getDim()
+						.getY()).contains(p)) {
+					selected = e;
+					break;
+				}
+			}
+		this.selected = selected;
+	}
+
+	public void deleteSelected() {
+		if (selected != null) {
+			removeEntity(selected);
+		}
 	}
 
 	public void deleteOverlapping(final Point p) {
