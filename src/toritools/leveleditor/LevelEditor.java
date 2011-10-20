@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import toritools.xml.ToriXMLParser;
 
@@ -86,16 +89,47 @@ public class LevelEditor {
 		}
 	};
 
-	public LevelEditor() throws IOException {
+	public LevelEditor() throws IOException, ParserConfigurationException,
+			TransformerException {
 		setupXML();
 		setupGUI();
 		frame.repaint();
 	}
 
-	private void setupXML() throws IOException {
+	private void setupXML() throws IOException, ParserConfigurationException,
+			TransformerException {
 		// Create the essential level.xml file
-		File f = new File(BASE_DIR + "level.xml");
-		f.createNewFile();
+		File f = new File(BASE_DIR + "/level.xml");
+		if (f.exists()) {
+			Document doc = ToriXMLParser.parse(f);
+			loadLevel(doc);
+		} else {
+			saveLevel();
+		}
+
+	}
+
+	private void loadLevel(final Document doc) {
+		NodeList objects = doc.getElementsByTagName("entity");
+		for (int i = 0; i < objects.getLength(); i++) {
+			Node node = objects.item(i);
+			String s = node.getAttributes().getNamedItem("template")
+					.getNodeValue();
+			importXML(new File(BASE_DIR + s));
+
+			/**
+			 * Special param data.
+			 */
+			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
+				Node param = node.getChildNodes().item(ii);
+				if (param.getNodeName().equals("position")) {
+					Double x = Double.parseDouble(param.getAttributes().getNamedItem("x").getNodeValue());
+					Double y = Double.parseDouble(param.getAttributes().getNamedItem("y").getNodeValue());
+					entities.add(new Entity(current.getXml(), current.getImage(),
+							new Point.Double(x, y)));
+				}
+			}
+		}
 	}
 
 	private void setupGUI() {
@@ -232,6 +266,14 @@ public class LevelEditor {
 
 		System.out.println(xmlString);
 
+		try {
+			FileWriter f = new FileWriter(BASE_DIR + "/level.xml");
+			f.write(xmlString);
+			f.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public void draw(Graphics g) {
@@ -243,11 +285,11 @@ public class LevelEditor {
 		 */
 		if (gridSize.width > 1) {
 			g.setColor(Color.BLACK);
-			for (int x = 0; x < 1000; x += gridSize.width)
-				g.drawLine(x, 0, x, 1000);
+			for (int x = 0; x < panel.getWidth(); x += gridSize.width)
+				g.drawLine(x, 0, x, panel.getHeight());
 
-			for (int y = 0; y < 1000; y += gridSize.height)
-				g.drawLine(0, y, 1000, y);
+			for (int y = 0; y < panel.getHeight(); y += gridSize.height)
+				g.drawLine(0, y, panel.getWidth(), y);
 		}
 
 		/**
@@ -270,6 +312,9 @@ public class LevelEditor {
 	}
 
 	private void importXML(final File file) {
+		if (objects.containsKey(file)) {
+			return;
+		}
 		Document doc = ToriXMLParser.parse(file);
 		objects.put(file, doc);
 		doc.getDocumentElement().normalize();
@@ -288,15 +333,20 @@ public class LevelEditor {
 				setCurrent(new Entity(file, i.getImage(), new Point()));
 			}
 		});
+		setCurrent(new Entity(file, i.getImage(), new Point()));
 		buttonPanel.add(b);
 		frame.pack();
+
+		objects.put(file, doc);
+		buttons.put(b, file);
 	}
 
 	public void setCurrent(final Entity e) {
 		current = e;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException,
+			ParserConfigurationException, TransformerException {
 		new LevelEditor();
 	}
 

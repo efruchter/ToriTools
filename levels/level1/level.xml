@@ -1,0 +1,22 @@
+<level>
+<objects>
+<entity template="\objects\wall\wall.xml">
+<position x="480.0" y="352.0"/>
+</entity>
+<entity template="\objects\wall\wall.xml">
+<position x="352.0" y="352.0"/>
+</entity>
+<entity template="\objects\wall\wall.xml">
+<position x="256.0" y="288.0"/>
+</entity>
+<entity template="\objects\wall\wall.xml">
+<position x="416.0" y="288.0"/>
+</entity>
+<entity template="\objects\wall\wall.xml">
+<position x="320.0" y="224.0"/>
+</entity>
+<entity template="\objects\wall\wall.xml">
+<position x="256.0" y="224.0"/>
+</entity>
+</objects>
+</level>
