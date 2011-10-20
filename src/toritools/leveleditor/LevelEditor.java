@@ -72,6 +72,8 @@ public class LevelEditor {
 
 	private Entity current = null;
 
+	private Entity selected = null;
+
 	private JPanel buttonPanel = new JPanel();
 	private JFrame frame = new JFrame("ToriEditor");
 
@@ -130,35 +132,160 @@ public class LevelEditor {
 
 	}
 
-	private void loadLevel(final Document doc) {
-		NodeList objects = doc.getElementsByTagName("entity");
-		for (int i = 0; i < objects.getLength(); i++) {
-			Node node = objects.item(i);
-			String s = node.getAttributes().getNamedItem("template")
-					.getNodeValue();
-			Entity e = importXML(new File(BASE_DIR + s));
-
-			/**
-			 * Special param data.
-			 */
-			int depth = 0;
-			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
-				Node param = node.getChildNodes().item(ii);
-				if (param.getNodeName().equals("position")) {
-					Double x = Double.parseDouble(param.getAttributes()
-							.getNamedItem("x").getNodeValue());
-					Double y = Double.parseDouble(param.getAttributes()
-							.getNamedItem("y").getNodeValue());
-					e.setPos(new Point.Double(x, y));
+	private void setupGUI() {
+	
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		frame.setFocusable(true);
+		frame.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent arg0) {
+				System.err.println(arg0.getKeyCode());
+				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
+					deleteSelected();
+	
 				}
 			}
-			if (node.getAttributes().getNamedItem("layer") != null) {
-				depth = Integer.parseInt(node.getAttributes()
-						.getNamedItem("layer").getNodeValue());
-				layerEditor.setLayerVisibility(depth, true);
+	
+			public void keyReleased(KeyEvent arg0) {
 			}
-			addEntity(e, depth);
+	
+			public void keyTyped(KeyEvent arg0) {
+			}
+		});
+	
+		JPanel dummyPanel = new JPanel();
+		frame.add(new JScrollPane(panel), BorderLayout.CENTER);
+		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
+		dummyPanel.add(layerEditor);
+		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
+	
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
+	
+		/*
+		 * Setup menu
+		 */
+	
+		JMenuBar menuBar = new JMenuBar();
+	
+		/**
+		 * FILE MENU
+		 */
+	
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					saveLevel();
+				} catch (ParserConfigurationException | TransformerException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		fileMenu.add(save);
+		JMenuItem close = new JMenuItem("Close");
+		close.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		fileMenu.add(close);
+		menuBar.add(fileMenu);
+	
+		// Entity Menu
+		JMenu entityMenu = new JMenu("Entities");
+		JMenuItem importXml = new JMenuItem("Import XML Entity");
+		importXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				importNewObject();
+			}
+		});
+		entityMenu.add(importXml);
+		JMenuItem deleteAll = new JMenuItem("Delete All");
+		deleteAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				entities.clear();
+				frame.repaint();
+			}
+		});
+		entityMenu.add(deleteAll);
+		menuBar.add(entityMenu);
+	
+		/**
+		 * SETTINGS MENU
+		 */
+		JMenu settingsMenu = new JMenu("Settings");
+		JMenuItem gridMenu = new JMenuItem("Grid Size");
+		gridMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					int i = Integer.parseInt(JOptionPane
+							.showInputDialog("Input an integer grid size:"));
+					gridSize.setSize(new Dimension(i, i));
+					frame.repaint();
+				} catch (final Exception i) {
+					return;
+				}
+	
+			}
+		});
+		settingsMenu.add(gridMenu);
+		menuBar.add(settingsMenu);
+	
+		/**
+		 * HELP MENU
+		 */
+		JMenuItem item = new JMenuItem("Help");
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Everything is still in progress!\n ~tori"
+										+ "\n\nLeft click to place the latest selected object!\nRight click to select!\nDELETE to delete selected object!");
+			}
+		});
+		menuBar.add(item);
+	
+		frame.setJMenuBar(menuBar);
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	public void selectOverlapping(final Point p) {
+		Entity selected = null;
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			if (layerEditor.isLayerVisible(entry.getKey()))
+				for (Entity e : entry.getValue()) {
+					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
+							.getY(), (int) e.getDim().getX(), (int) e.getDim()
+							.getY()).contains(p)) {
+						selected = e;
+						break;
+					}
+				}
+		this.selected = selected;
+	}
+
+	public void deleteSelected() {
+		if (selected != null) {
+			removeEntity(selected);
 		}
+	}
+
+	public void deleteOverlapping(final Point p) {
+		Entity deleteMe = null;
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			if (layerEditor.getCurrentLayer() == entry.getKey())
+				for (Entity e : entry.getValue()) {
+					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
+							.getY(), (int) e.getDim().getX(), (int) e.getDim()
+							.getY()).contains(p)) {
+						deleteMe = e;
+						break;
+					}
+				}
+		removeEntity(deleteMe);
 	}
 
 	private void addEntity(final Entity e, final int depth) {
@@ -180,126 +307,6 @@ public class LevelEditor {
 		removeEntity(e);
 		addEntity(e, depth);
 		frame.repaint();
-	}
-
-	private void setupGUI() {
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
-		frame.setFocusable(true);
-		frame.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent arg0) {
-				System.err.println(arg0.getKeyCode());
-				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
-					deleteSelected();
-
-				}
-			}
-
-			public void keyReleased(KeyEvent arg0) {
-			}
-
-			public void keyTyped(KeyEvent arg0) {
-			}
-		});
-
-		JPanel dummyPanel = new JPanel();
-		frame.add(new JScrollPane(panel), BorderLayout.CENTER);
-		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
-		dummyPanel.add(layerEditor);
-		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
-
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-
-		/*
-		 * Setup menu
-		 */
-
-		JMenuBar menuBar = new JMenuBar();
-
-		/**
-		 * FILE MENU
-		 */
-
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem save = new JMenuItem("Save");
-		save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					saveLevel();
-				} catch (ParserConfigurationException | TransformerException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		fileMenu.add(save);
-		JMenuItem close = new JMenuItem("Close");
-		close.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
-		fileMenu.add(close);
-		menuBar.add(fileMenu);
-
-		// Entity Menu
-		JMenu entityMenu = new JMenu("Entities");
-		JMenuItem importXml = new JMenuItem("Import XML Entity");
-		importXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				importNewObject();
-			}
-		});
-		entityMenu.add(importXml);
-		JMenuItem deleteAll = new JMenuItem("Delete All");
-		deleteAll.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				entities.clear();
-				frame.repaint();
-			}
-		});
-		entityMenu.add(deleteAll);
-		menuBar.add(entityMenu);
-
-		/**
-		 * SETTINGS MENU
-		 */
-		JMenu settingsMenu = new JMenu("Settings");
-		JMenuItem gridMenu = new JMenuItem("Grid Size");
-		gridMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					int i = Integer.parseInt(JOptionPane
-							.showInputDialog("Input an integer grid size:"));
-					gridSize.setSize(new Dimension(i, i));
-					frame.repaint();
-				} catch (final Exception i) {
-					return;
-				}
-
-			}
-		});
-		settingsMenu.add(gridMenu);
-		menuBar.add(settingsMenu);
-
-		/**
-		 * HELP MENU
-		 */
-		JMenuItem item = new JMenuItem("Help");
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"Everything is still in progress!\n ~tori"
-										+ "\n\nLeft click to place the latest selected object!\nRight click to select!\nDELETE to delete selected object!");
-			}
-		});
-		menuBar.add(item);
-
-		frame.setJMenuBar(menuBar);
-		frame.pack();
-		frame.setVisible(true);
 	}
 
 	public void saveLevel() throws ParserConfigurationException,
@@ -363,12 +370,87 @@ public class LevelEditor {
 		}
 	}
 
-	public HashMap<Integer, ArrayList<Entity>> getEntities() {
-		return entities;
+	private void loadLevel(final Document doc) {
+		NodeList objects = doc.getElementsByTagName("entity");
+		for (int i = 0; i < objects.getLength(); i++) {
+			Node node = objects.item(i);
+			String s = node.getAttributes().getNamedItem("template")
+					.getNodeValue();
+			Entity e = importXML(new File(BASE_DIR + s));
+	
+			/**
+			 * Special param data.
+			 */
+			int depth = 0;
+			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
+				Node param = node.getChildNodes().item(ii);
+				if (param.getNodeName().equals("position")) {
+					Double x = Double.parseDouble(param.getAttributes()
+							.getNamedItem("x").getNodeValue());
+					Double y = Double.parseDouble(param.getAttributes()
+							.getNamedItem("y").getNodeValue());
+					e.setPos(new Point.Double(x, y));
+				}
+			}
+			if (node.getAttributes().getNamedItem("layer") != null) {
+				depth = Integer.parseInt(node.getAttributes()
+						.getNamedItem("layer").getNodeValue());
+				layerEditor.setLayerVisibility(depth, true);
+			}
+			addEntity(e, depth);
+		}
 	}
 
-	public void setEntities(HashMap<Integer, ArrayList<Entity>> entities) {
-		this.entities = entities;
+	private void importNewObject() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
+				"xml files", "xml"));
+		fileChooser.setCurrentDirectory(BASE_DIR);
+		int ret = fileChooser.showDialog(null, "Import an xml file");
+		if (ret == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			importXML(file);
+		}
+	}
+
+	private Entity importXML(final File file) {
+		Document doc = ToriXMLParser.parse(file);
+		doc.getDocumentElement().normalize();
+	
+		// get the editor image
+		String picture = doc.getElementsByTagName("editor").item(0)
+				.getAttributes().getNamedItem("img").getNodeValue()
+				+ "";
+		// Get the dimensions
+		NamedNodeMap pos = doc.getElementsByTagName("dimensions").item(0)
+				.getAttributes();
+	
+		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
+		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
+	
+		// Form the image
+		final ImageIcon i = new ImageIcon(file.getPath().replace(
+				file.getName(), "")
+				+ picture);
+		i.setImage(i.getImage().getScaledInstance((int) x, (int) y, 0));
+		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
+				new Point.Double(x, y));
+		if (!objects.containsKey(file)) {
+			JButton b = new JButton(i);
+			b.setToolTipText(doc.getElementsByTagName("description").item(0)
+					.getChildNodes().item(0).getNodeValue());
+			b.setSize(new Dimension((int) x, (int) y));
+			b.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					setCurrent(e);
+				}
+			});
+			buttonPanel.add(b);
+			frame.pack();
+			objects.put(file, doc);
+			buttons.put(b, file);
+		}
+		return e;
 	}
 
 	public void draw(Graphics g) {
@@ -413,58 +495,6 @@ public class LevelEditor {
 				}
 	}
 
-	private void importNewObject() {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
-				"xml files", "xml"));
-		fileChooser.setCurrentDirectory(BASE_DIR);
-		int ret = fileChooser.showDialog(null, "Import an xml file");
-		if (ret == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			importXML(file);
-		}
-	}
-
-	private Entity importXML(final File file) {
-		Document doc = ToriXMLParser.parse(file);
-		doc.getDocumentElement().normalize();
-
-		// get the editor image
-		String picture = doc.getElementsByTagName("editor").item(0)
-				.getAttributes().getNamedItem("img").getNodeValue()
-				+ "";
-		// Get the dimensions
-		NamedNodeMap pos = doc.getElementsByTagName("dimensions").item(0)
-				.getAttributes();
-
-		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
-		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
-
-		// Form the image
-		final ImageIcon i = new ImageIcon(file.getPath().replace(
-				file.getName(), "")
-				+ picture);
-		i.setImage(i.getImage().getScaledInstance((int) x, (int) y, 0));
-		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
-				new Point.Double(x, y));
-		if (!objects.containsKey(file)) {
-			JButton b = new JButton(i);
-			b.setToolTipText(doc.getElementsByTagName("description").item(0)
-					.getChildNodes().item(0).getNodeValue());
-			b.setSize(new Dimension((int) x, (int) y));
-			b.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					setCurrent(e);
-				}
-			});
-			buttonPanel.add(b);
-			frame.pack();
-			objects.put(file, doc);
-			buttons.put(b, file);
-		}
-		return e;
-	}
-
 	public void setCurrent(final Entity e) {
 		current = e;
 	}
@@ -472,96 +502,6 @@ public class LevelEditor {
 	public static void main(String[] args) throws IOException,
 			ParserConfigurationException, TransformerException {
 		new LevelEditor();
-	}
-
-	private Entity selected = null;
-
-	public void selectOverlapping(final Point p) {
-		Entity selected = null;
-		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
-			if (layerEditor.isLayerVisible(entry.getKey()))
-				for (Entity e : entry.getValue()) {
-					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
-							.getY(), (int) e.getDim().getX(), (int) e.getDim()
-							.getY()).contains(p)) {
-						selected = e;
-						break;
-					}
-				}
-		this.selected = selected;
-	}
-
-	public void deleteSelected() {
-		if (selected != null) {
-			removeEntity(selected);
-		}
-	}
-
-	public void deleteOverlapping(final Point p) {
-		Entity deleteMe = null;
-		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
-			if (layerEditor.getCurrentLayer() == entry.getKey())
-				for (Entity e : entry.getValue()) {
-					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
-							.getY(), (int) e.getDim().getX(), (int) e.getDim()
-							.getY()).contains(p)) {
-						deleteMe = e;
-						break;
-					}
-				}
-		removeEntity(deleteMe);
-	}
-
-	private class Entity {
-		private File xml;
-		private Image image;
-		private Point2D pos;
-		private Point2D dim;
-
-		public Entity(File xml, Image img, final Point2D pos, final Point2D dim) {
-			this.xml = xml;
-			this.image = img;
-			this.pos = pos;
-			this.dim = dim;
-		}
-
-		public File getXml() {
-			return xml;
-		}
-
-		public void setXml(File xml) {
-			this.xml = xml;
-		}
-
-		public Image getImage() {
-			return image;
-		}
-
-		public void setImage(Image image) {
-			this.image = image;
-		}
-
-		public Point2D getPos() {
-			return pos;
-		}
-
-		public void setPos(Point2D pos) {
-			this.pos = pos;
-		}
-
-		public void draw(Graphics g) {
-			g.drawImage(image, (int) pos.getX(), (int) pos.getY(),
-					(int) dim.getX(), (int) dim.getY(), panel);
-		}
-
-		public Point2D getDim() {
-			return dim;
-		}
-
-		public void setDim(Point2D dim) {
-			this.dim = dim;
-		}
-
 	}
 
 	public void repaint() {
