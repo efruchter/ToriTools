@@ -19,6 +19,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -63,7 +64,7 @@ public class LevelEditor {
 
 	private HashMap<File, Document> objects = new HashMap<File, Document>();
 	private HashMap<JButton, File> buttons = new HashMap<JButton, File>();
-	private List<Entity> entities = new ArrayList<Entity>();
+	private HashMap<Integer, ArrayList<Entity>> entities = new HashMap<Integer, ArrayList<Entity>>();
 
 	private Entity current = null;
 
@@ -71,6 +72,7 @@ public class LevelEditor {
 	private JFrame frame = new JFrame("ToriEditor");
 
 	private Dimension gridSize = new Dimension(32, 32);
+	private int currentDepth = 0;
 
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
@@ -84,7 +86,7 @@ public class LevelEditor {
 							(p.y / gridSize.height) * gridSize.height);
 					Entity e = new Entity(current.getXml(), current.getImage(),
 							p, current.getDim());
-					entities.add(e);
+					entities.get(currentDepth).add(e);
 				}
 			}
 			frame.repaint();
@@ -134,6 +136,9 @@ public class LevelEditor {
 			/**
 			 * Special param data.
 			 */
+			Entity e = new Entity(current.getXml(), current.getImage(),
+					new Point.Double(0, 0), current.getDim());
+			int depth = 0;
 			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
 				Node param = node.getChildNodes().item(ii);
 				if (param.getNodeName().equals("position")) {
@@ -141,12 +146,32 @@ public class LevelEditor {
 							.getNamedItem("x").getNodeValue());
 					Double y = Double.parseDouble(param.getAttributes()
 							.getNamedItem("y").getNodeValue());
-					entities.add(new Entity(current.getXml(), current
-							.getImage(), new Point.Double(x, y), current
-							.getDim()));
+					e.setPos(new Point.Double(x, y));
 				}
 			}
+			if (node.getAttributes().getNamedItem("depth") != null) {
+				depth = Integer.parseInt(node.getAttributes()
+						.getNamedItem("depth").getNodeValue());
+			}
+			addEntity(e, depth);
 		}
+	}
+
+	private void addEntity(final Entity e, final int depth) {
+		if (!entities.containsKey(depth)) {
+			entities.put(depth, new ArrayList<Entity>());
+		}
+		entities.get(depth).add(e);
+	}
+
+	public void removeEntity(final Entity e) {
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			entry.getValue().remove(e);
+	}
+
+	private void transferEntity(final Entity e, final int depth) {
+		removeEntity(e);
+		addEntity(e, depth);
 	}
 
 	private void setupGUI() {
@@ -255,27 +280,28 @@ public class LevelEditor {
 		// Save the objects
 		Element objectsElements = doc.createElement("objects");
 		levelElement.appendChild(objectsElements);
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			for (Entity e : entry.getValue()) {
+				Element object = doc.createElement("entity");
+				object.setAttribute(
+						"template",
+						e.getXml()
+								.getPath()
+								.substring(
+										e.getXml().getPath()
+												.indexOf(BASE_DIR.getName())
+												+ BASE_DIR.getName().length()));
+				object.setAttribute("depth", entry.getKey() + "");
 
-		for (Entity e : entities) {
-			Element object = doc.createElement("entity");
+				Element pos = doc.createElement("position");
+				pos.setAttribute("x", e.getPos().getX() + "");
+				pos.setAttribute("y", e.getPos().getY() + "");
 
-			object.setAttribute(
-					"template",
-					e.getXml()
-							.getPath()
-							.substring(
-									e.getXml().getPath()
-											.indexOf(BASE_DIR.getName())
-											+ BASE_DIR.getName().length()));
-			Element pos = doc.createElement("position");
-			pos.setAttribute("x", e.getPos().getX() + "");
-			pos.setAttribute("y", e.getPos().getY() + "");
+				object.appendChild(pos);
 
-			object.appendChild(pos);
+				objectsElements.appendChild(object);
 
-			objectsElements.appendChild(object);
-
-		}
+			}
 
 		/*
 		 * SAVE ALL THE THINGS
@@ -321,8 +347,9 @@ public class LevelEditor {
 		/**
 		 * DRAW ENTITIES
 		 */
-		for (Entity e : entities)
-			e.draw(g);
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			for (Entity e : entry.getValue())
+				e.draw(g);
 	}
 
 	private void importNewObject() {
@@ -392,15 +419,16 @@ public class LevelEditor {
 
 	public void deleteOverlapping(final Point p) {
 		Entity deleteMe = null;
-		for (Entity e : entities) {
-			if (new Rectangle((int) e.getPos().getX(), (int) e.getPos().getY(),
-					(int) e.getDim().getX(), (int) e.getDim().getY())
-					.contains(p)) {
-				deleteMe = e;
-				break;
+		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
+			for (Entity e : entry.getValue()) {
+				if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
+						.getY(), (int) e.getDim().getX(), (int) e.getDim()
+						.getY()).contains(p)) {
+					deleteMe = e;
+					break;
+				}
 			}
-		}
-		entities.remove(deleteMe);
+		removeEntity(deleteMe);
 	}
 
 	private class Entity {
