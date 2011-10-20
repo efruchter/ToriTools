@@ -13,9 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,12 +36,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,11 +44,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import toritools.xml.ToriXMLParser;
+import toritools.xml.ToriXML;
 
 /**
- * OH GOD IT IS SUCH A MESS.... It was hacked together quickly and with great
- * urgency.... feel free to REFACTOR!
+ * The core level editor. What a mess! :D
  * 
  * @author toriscope
  * 
@@ -161,7 +153,7 @@ public class LevelEditor {
 		/*
 		 * LOAD THE CONFIG FILE.
 		 */
-		Node configNode = ToriXMLParser.parse(new File("config.xml"))
+		Node configNode = ToriXML.parse(new File("config.xml"))
 				.getElementsByTagName("config").item(0);
 		Node recentNode = configNode.getAttributes().getNamedItem("recent");
 		if (recentNode != null) {
@@ -217,7 +209,7 @@ public class LevelEditor {
 		// Create the essential level.xml file
 		clear();
 		if (levelFile.exists()) {
-			Document doc = ToriXMLParser.parse(levelFile);
+			Document doc = ToriXML.parse(levelFile);
 			loadLevel(doc);
 		} else {
 			saveLevel();
@@ -247,29 +239,7 @@ public class LevelEditor {
 
 		configElement.setAttribute("recent", levelFile.getPath());
 
-		/*
-		 * SAVE ALL THE THINGS
-		 */
-		TransformerFactory transfac = TransformerFactory.newInstance();
-		Transformer trans = transfac.newTransformer();
-		trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-		trans.setOutputProperty(OutputKeys.INDENT, "yes");
-		StringWriter sw = new StringWriter();
-		StreamResult result = new StreamResult(sw);
-		DOMSource source = new DOMSource(doc);
-		trans.transform(source, result);
-		String xmlString = sw.toString();
-
-		System.out.println(xmlString);
-
-		try {
-			FileWriter f = new FileWriter("config.xml");
-			f.write(xmlString);
-			f.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ToriXML.saveXMLDoc(new File("config.xml"), doc);
 	}
 
 	/**
@@ -321,7 +291,6 @@ public class LevelEditor {
 						reloadLevel();
 					} catch (IOException | ParserConfigurationException
 							| TransformerException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -553,29 +522,7 @@ public class LevelEditor {
 
 			}
 
-		/*
-		 * SAVE ALL THE THINGS
-		 */
-		TransformerFactory transfac = TransformerFactory.newInstance();
-		Transformer trans = transfac.newTransformer();
-		trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-		trans.setOutputProperty(OutputKeys.INDENT, "yes");
-		StringWriter sw = new StringWriter();
-		StreamResult result = new StreamResult(sw);
-		DOMSource source = new DOMSource(doc);
-		trans.transform(source, result);
-		String xmlString = sw.toString();
-
-		System.out.println(xmlString);
-
-		try {
-			FileWriter f = new FileWriter(levelFile);
-			f.write(xmlString);
-			f.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ToriXML.saveXMLDoc(levelFile, doc);
 	}
 
 	/**
@@ -639,7 +586,7 @@ public class LevelEditor {
 	 * @return the generated entity.
 	 */
 	private Entity importXML(final File file) {
-		Document doc = ToriXMLParser.parse(file);
+		Document doc = ToriXML.parse(file);
 		doc.getDocumentElement().normalize();
 
 		// get the editor image
