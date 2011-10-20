@@ -338,6 +338,7 @@ public class LevelEditor {
 		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
 		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
 
+		// Form the image
 		final ImageIcon i = new ImageIcon(file.getPath().replace(
 				file.getName(), "")
 				+ picture);
