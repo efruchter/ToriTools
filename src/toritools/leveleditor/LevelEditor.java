@@ -76,7 +76,8 @@ public class LevelEditor {
 	private JFrame frame = new JFrame("ToriEditor");
 
 	private Dimension gridSize = new Dimension(32, 32);
-	private int currentDepth = 0;
+
+	private LayerEditor layerEditor = new LayerEditor(this);
 
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
@@ -90,7 +91,7 @@ public class LevelEditor {
 							(p.y / gridSize.height) * gridSize.height);
 					Entity e = new Entity(current.getXml(), current.getImage(),
 							p, current.getDim());
-					entities.get(currentDepth).add(e);
+					addEntity(e, layerEditor.getCurrentLayer());
 				}
 			}
 			frame.repaint();
@@ -153,9 +154,10 @@ public class LevelEditor {
 					e.setPos(new Point.Double(x, y));
 				}
 			}
-			if (node.getAttributes().getNamedItem("depth") != null) {
+			if (node.getAttributes().getNamedItem("layer") != null) {
 				depth = Integer.parseInt(node.getAttributes()
-						.getNamedItem("depth").getNodeValue());
+						.getNamedItem("layer").getNodeValue());
+				layerEditor.setLayerVisibility(depth, true);
 			}
 			addEntity(e, depth);
 		}
@@ -171,7 +173,8 @@ public class LevelEditor {
 
 	public void removeEntity(final Entity e) {
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
-			entry.getValue().remove(e);
+			if (layerEditor.isLayerVisible(entry.getKey()))
+				entry.getValue().remove(e);
 		frame.repaint();
 	}
 
@@ -182,17 +185,23 @@ public class LevelEditor {
 	}
 
 	private void setupGUI() {
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.setFocusable(true);
-		frame.addKeyListener(new KeyListener(){
-			public void keyPressed(KeyEvent arg0) {}
-			public void keyReleased(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_DELETE){
+		frame.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent arg0) {
+				System.err.println(arg0.getKeyCode());
+				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
 					deleteSelected();
+					
 				}
 			}
-			public void keyTyped(KeyEvent arg0) {}
+
+			public void keyReleased(KeyEvent arg0) {}
+
+			public void keyTyped(KeyEvent arg0) {
+			}
 		});
 
 		frame.add(panel, BorderLayout.CENTER);
@@ -308,7 +317,7 @@ public class LevelEditor {
 										e.getXml().getPath()
 												.indexOf(BASE_DIR.getName())
 												+ BASE_DIR.getName().length()));
-				object.setAttribute("depth", entry.getKey() + "");
+				object.setAttribute("layer", entry.getKey() + "");
 
 				Element pos = doc.createElement("position");
 				pos.setAttribute("x", e.getPos().getX() + "");
@@ -345,6 +354,14 @@ public class LevelEditor {
 		}
 	}
 
+	public HashMap<Integer, ArrayList<Entity>> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(HashMap<Integer, ArrayList<Entity>> entities) {
+		this.entities = entities;
+	}
+
 	public void draw(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1000, 1000);
@@ -375,16 +392,16 @@ public class LevelEditor {
 					}
 				});
 		for (Entry<Integer, ArrayList<Entity>> entry : list)
-			for (Entity e : entry.getValue()) {
-
-				e.draw(g);
-				if (selected == e) {
-					g.setColor(Color.RED);
-					g.drawRect((int) e.getPos().getX(),
-							(int) e.getPos().getY(), (int) e.getDim().getX(),
-							(int) e.getDim().getY());
+			if (layerEditor.isLayerVisible(entry.getKey()))
+				for (Entity e : entry.getValue()) {
+					e.draw(g);
+					if (selected == e) {
+						g.setColor(Color.RED);
+						g.drawRect((int) e.getPos().getX(), (int) e.getPos()
+								.getY(), (int) e.getDim().getX(), (int) e
+								.getDim().getY());
+					}
 				}
-			}
 	}
 
 	private void importNewObject() {
@@ -457,14 +474,15 @@ public class LevelEditor {
 	public void selectOverlapping(final Point p) {
 		Entity selected = null;
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
-			for (Entity e : entry.getValue()) {
-				if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
-						.getY(), (int) e.getDim().getX(), (int) e.getDim()
-						.getY()).contains(p)) {
-					selected = e;
-					break;
+			if (layerEditor.isLayerVisible(entry.getKey()))
+				for (Entity e : entry.getValue()) {
+					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
+							.getY(), (int) e.getDim().getX(), (int) e.getDim()
+							.getY()).contains(p)) {
+						selected = e;
+						break;
+					}
 				}
-			}
 		this.selected = selected;
 	}
 
@@ -477,14 +495,15 @@ public class LevelEditor {
 	public void deleteOverlapping(final Point p) {
 		Entity deleteMe = null;
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
-			for (Entity e : entry.getValue()) {
-				if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
-						.getY(), (int) e.getDim().getX(), (int) e.getDim()
-						.getY()).contains(p)) {
-					deleteMe = e;
-					break;
+			if (layerEditor.getCurrentLayer() == entry.getKey())
+				for (Entity e : entry.getValue()) {
+					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
+							.getY(), (int) e.getDim().getX(), (int) e.getDim()
+							.getY()).contains(p)) {
+						deleteMe = e;
+						break;
+					}
 				}
-			}
 		removeEntity(deleteMe);
 	}
 
@@ -538,6 +557,10 @@ public class LevelEditor {
 			this.dim = dim;
 		}
 
+	}
+
+	public void repaint() {
+		frame.repaint();
 	}
 
 }
