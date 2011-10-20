@@ -161,10 +161,8 @@ public class LevelEditor {
 		 */
 		frame.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent arg0) {
-				System.err.println(arg0.getKeyCode());
 				if (arg0.getKeyCode() == KeyEvent.VK_DELETE) {
 					deleteSelected();
-
 				}
 			}
 
