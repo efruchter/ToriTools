@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -50,6 +51,13 @@ import org.w3c.dom.NodeList;
 
 import toritools.xml.ToriXMLParser;
 
+/**
+ * OH GOD IT IS SUCH A MESS.... It was hacked together quickly and with great
+ * urgency.... feel free to REFACTOR!
+ * 
+ * @author toriscope
+ * 
+ */
 public class LevelEditor {
 
 	private final File BASE_DIR = new File("levels/level1");
@@ -67,11 +75,12 @@ public class LevelEditor {
 
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
-			if (arg0.getButton() == 2) {
+			if (arg0.getButton() == MouseEvent.BUTTON3) {
 				deleteOverlapping(arg0.getPoint());
-			} else {
+			} else if(arg0.getButton() == MouseEvent.BUTTON1) {
 				if (current != null) {
 					Point p = (Point) arg0.getPoint().clone();
+					deleteOverlapping(p);
 					p.setLocation((p.x / gridSize.width) * gridSize.width,
 							(p.y / gridSize.height) * gridSize.height);
 					Entity e = new Entity(current.getXml(), current.getImage(),
@@ -215,7 +224,8 @@ public class LevelEditor {
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null,
-						"Everything is still in progress!\n ~tori");
+						"Everything is still in progress!\n ~tori" +
+						"\n\nLeft click to place\nRight click to delete!");
 			}
 		});
 		menuBar.add(item);
@@ -335,6 +345,7 @@ public class LevelEditor {
 		// Get the dimensions
 		NamedNodeMap pos = doc.getElementsByTagName("dimensions").item(0)
 				.getAttributes();
+
 		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
 		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
 
@@ -371,7 +382,16 @@ public class LevelEditor {
 	}
 
 	public void deleteOverlapping(final Point p) {
-
+		Entity deleteMe = null;
+		for (Entity e : entities) {
+			if (new Rectangle((int) e.getPos().getX(), (int) e.getPos().getY(),
+					(int) e.getDim().getX(), (int) e.getDim().getY())
+					.contains(p)) {
+				deleteMe = e;
+				break;
+			}
+		}
+		entities.remove(deleteMe);
 	}
 
 	private class Entity {
