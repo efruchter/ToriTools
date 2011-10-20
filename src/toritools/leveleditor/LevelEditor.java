@@ -25,11 +25,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -77,7 +79,7 @@ public class LevelEditor {
 		public void mouseClicked(MouseEvent arg0) {
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
 				deleteOverlapping(arg0.getPoint());
-			} else if(arg0.getButton() == MouseEvent.BUTTON1) {
+			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
 				if (current != null) {
 					Point p = (Point) arg0.getPoint().clone();
 					deleteOverlapping(p);
@@ -155,11 +157,9 @@ public class LevelEditor {
 		frame.setLayout(new BorderLayout());
 
 		frame.add(panel, BorderLayout.CENTER);
-		frame.add(buttonPanel, BorderLayout.EAST);
+		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
 
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-
-		buttonPanel.add(new JSeparator(SwingConstants.VERTICAL));
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
 
 		/*
 		 * Setup menu
@@ -231,9 +231,11 @@ public class LevelEditor {
 		JMenuItem item = new JMenuItem("Help");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null,
-						"Everything is still in progress!\n ~tori" +
-						"\n\nLeft click to place\nRight click to delete!");
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Everything is still in progress!\n ~tori"
+										+ "\n\nLeft click to place\nRight click to delete!");
 			}
 		});
 		menuBar.add(item);
@@ -364,6 +366,8 @@ public class LevelEditor {
 		i.setImage(i.getImage().getScaledInstance((int) x, (int) y, 0));
 
 		JButton b = new JButton(i);
+		b.setToolTipText(doc.getElementsByTagName("description").item(0)
+				.getChildNodes().item(0).getNodeValue());
 		b.setSize(new Dimension((int) x, (int) y));
 		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
 				new Point.Double(x, y));
