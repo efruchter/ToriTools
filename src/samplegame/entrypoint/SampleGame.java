@@ -1,4 +1,4 @@
-package samplegame;
+package samplegame.entrypoint;
 
 /**
  * This will be the main class for a simple game that uses toritools.
