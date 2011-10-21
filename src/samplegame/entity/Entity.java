@@ -23,6 +23,7 @@ public class Entity {
 		this.variables = variables;
 	}
 }
+
 /*
  * TODO: Add scripting support.
  */
