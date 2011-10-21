@@ -1,5 +1,7 @@
 package samplegame.entity;
 
+import samplegame.entity.control.EntityScript;
+
 /**
  * A scripted entity that exists in the game world.
  * 
@@ -14,20 +16,38 @@ public class Entity {
 	private VariableCase variables = new VariableCase();
 
 	/**
+	 * The control script for this entity.
+	 */
+	private EntityScript script;
+
+	/**
 	 * This variable case will be passed in containing the additional data from
 	 * the xml level file, as well as entity data from the entity xml.
 	 * 
 	 * @param variables
 	 */
-	public Entity(final VariableCase variables) {
+	public Entity(final VariableCase variables, final EntityScript script) {
 		this.variables = variables;
+		this.script = script;
 	}
 
 	public VariableCase getVariables() {
 		return variables;
 	}
-}
 
-/*
- * TODO: Add scripting support.
- */
+	/*
+	 * CONTROL METHODS
+	 */
+
+	public void onSpawn(final World world) {
+		script.onSpawn(world, this);
+	}
+
+	public void onUpdate(final World world) {
+		script.onUpdate(world, this);
+	}
+
+	public void onDeath(final World world) {
+		script.onDeath(world, this);
+	}
+}

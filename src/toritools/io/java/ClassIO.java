@@ -94,9 +94,7 @@ public final class ClassIO {
 	/**
 	 * This convenience method will save a string as a java class, compile it,
 	 * and then load it as a Class, and finally return it as an instantiation of
-	 * one of I's subclasses. The class name is inserted automatically into the
-	 * class string, so please replace 'ClassName' with 'ANYCLASS' in your class
-	 * string, or use the setter method if you are sure your name is unique.
+	 * one of I's subclasses.
 	 * 
 	 * @param <I>
 	 *            This interface should be the superclass of all the instances
