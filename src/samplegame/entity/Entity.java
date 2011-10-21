@@ -1,6 +1,6 @@
 package samplegame.entity;
 
-import samplegame.entity.control.EntityScript;
+import samplegame.scripting.EntityScript;
 
 /**
  * A scripted entity that exists in the game world.

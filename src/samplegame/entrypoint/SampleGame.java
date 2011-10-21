@@ -9,6 +9,6 @@ package samplegame.entrypoint;
 public class SampleGame {
 
 	public static void main(final String[] args) {
-		System.out.println("A fun game!");
+
 	}
 }
