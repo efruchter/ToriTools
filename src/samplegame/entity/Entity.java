@@ -40,14 +40,14 @@ public class Entity {
 	 */
 
 	public void onSpawn(final World world) {
-		script.onSpawn(world, this);
+		script.onSpawn();
 	}
 
 	public void onUpdate(final World world) {
-		script.onUpdate(world, this);
+		script.onUpdate();
 	}
 
 	public void onDeath(final World world) {
-		script.onDeath(world, this);
+		script.onDeath();
 	}
 }

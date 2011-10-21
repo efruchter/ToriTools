@@ -1,8 +1,5 @@
 package samplegame.scripting;
 
-import samplegame.entity.Entity;
-import samplegame.entity.World;
-
 /**
  * The scripts that entities load should implement this interface.
  * 
@@ -19,7 +16,7 @@ public interface EntityScript {
 	 * @param self
 	 *            the entity running the script.
 	 */
-	void onSpawn(World world, Entity self);
+	public void onSpawn();
 
 	/**
 	 * This is called upon entity update.
@@ -29,7 +26,7 @@ public interface EntityScript {
 	 * @param self
 	 *            the entity running the script.
 	 */
-	void onUpdate(World world, Entity self);
+	public void onUpdate();
 
 	/**
 	 * This is called upon entity deletion.
@@ -39,5 +36,5 @@ public interface EntityScript {
 	 * @param self
 	 *            the entity running the script.
 	 */
-	void onDeath(World world, Entity self);
+	public void onDeath();
 }

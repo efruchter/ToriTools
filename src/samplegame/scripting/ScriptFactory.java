@@ -1,7 +1,10 @@
 package samplegame.scripting;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import org.python.core.PyObject;
-import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
 
 /**
@@ -20,10 +23,13 @@ public class ScriptFactory {
 	 * 
 	 * Once the module is imported than we obtain a reference to it and assign
 	 * the reference to a Java variable
+	 * 
+	 * @throws FileNotFoundException
 	 */
-	public ScriptFactory() {
+	public ScriptFactory() throws FileNotFoundException {
 		PythonInterpreter interpreter = new PythonInterpreter();
-		interpreter.exec("from EntityScript import EntityScript");
+		interpreter.compile(new FileReader(new File("Test.py")));
+		interpreter.exec("from Script import Script");
 		scriptEntity = interpreter.get("Script");
 	}
 
@@ -31,9 +37,8 @@ public class ScriptFactory {
 	 * The create method is responsible for performing the actual coercion of
 	 * the referenced python module into Java bytecode
 	 */
-	public EntityScript create(String name, String location, String id) {
-		PyObject buildingObject = scriptEntity.__call__(new PyString(name),
-				new PyString(location), new PyString(id));
+	public EntityScript create() {
+		PyObject buildingObject = scriptEntity.__call__();
 		return (EntityScript) buildingObject.__tojava__(EntityScript.class);
 	}
 
