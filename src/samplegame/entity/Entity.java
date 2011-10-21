@@ -22,6 +22,10 @@ public class Entity {
 	public Entity(final VariableCase variables) {
 		this.variables = variables;
 	}
+
+	public VariableCase getVariables() {
+		return variables;
+	}
 }
 
 /*
