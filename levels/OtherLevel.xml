@@ -1,9 +1,9 @@
 <level>
     <objects>
-        <entity layer="0" template="\objects\player\player.xml">
+        <entity layer="0" template="/objects/player/player.xml">
             <position x="224.0" y="160.0"/>
         </entity>
-        <entity layer="0" template="\objects\tree\tree.xml">
+        <entity layer="0" template="/objects/tree/tree.xml">
             <position x="288.0" y="128.0"/>
         </entity>
     </objects>
