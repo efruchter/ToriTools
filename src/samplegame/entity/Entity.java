@@ -28,8 +28,8 @@ public class Entity {
     /*
      * INSTANCE ENTITY VARIABLES
      */
-    private Vector2f pos, dim;
-    private Boolean solid;
+    public Vector2f pos, dim;
+    public Boolean solid;
     private File editorSprite;
 
     /**
@@ -50,8 +50,12 @@ public class Entity {
         editorSprite = new File(variables.getVar("sprites.editor"));
     }
 
-    public VariableCase getVariables() {
-        return variables;
+    public String getVar(final String s) {
+        return variables.getVar(s);
+    }
+
+    public void setVar(final String variable, final String value) {
+        variables.setVar(variable, value);
     }
 
     /*
@@ -72,22 +76,6 @@ public class Entity {
 
     public void draw() {
         Render2D.fillRect(pos, dim);
-    }
-
-    public Vector2f getPos() {
-        return pos;
-    }
-
-    public void setPos(Vector2f pos) {
-        this.pos = pos;
-    }
-
-    public Vector2f getDim() {
-        return dim;
-    }
-
-    public Boolean getSolid() {
-        return solid;
     }
 
     public File getEditorSprite() {
