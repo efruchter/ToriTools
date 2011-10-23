@@ -6,4 +6,9 @@ The top level packages are
 1) toritools, the level editor and jython module.
 2) samplegame, the tiny zelda clone that will be built alongside toritools to flesh out the features. Uses lwjgl.
 
+HOW-TO INSTALL:
+Create a blank java project in eclipse called ToriTools, 
+and drag the git repo onto it and merge. Add all the jars 
+and their natives (if they have them) to the build path.
+
 ~tori tori tori!

@@ -294,8 +294,7 @@ public class LevelEditor {
 					setLevelFile(f);
 					try {
 						reloadLevel();
-					} catch (IOException | ParserConfigurationException
-							| TransformerException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -308,7 +307,7 @@ public class LevelEditor {
 				try {
 					saveLevel();
 					JOptionPane.showMessageDialog(null, "Level Saved!");
-				} catch (ParserConfigurationException | TransformerException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
