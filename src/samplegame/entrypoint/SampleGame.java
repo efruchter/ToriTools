@@ -10,6 +10,7 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
 
 import samplegame.render.Render;
+import samplegame.render.Render2D;
 
 /**
  * This will be the main class for a simple game that uses toritools.
@@ -170,7 +171,7 @@ public class SampleGame {
          * DRAW ALL THE THINGS
          */
         Render.setColor(Color.GREEN);
-        Render.fillRect(test, new Vector2f(20, 20));
+        Render2D.fillRect(test, new Vector2f(20, 20));
 
         GL11.glPushMatrix();
 
