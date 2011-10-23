@@ -1,7 +1,5 @@
 package samplegame.entrypoint;
 
-import java.io.FileNotFoundException;
-
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -119,7 +117,27 @@ public class SampleGame {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             finished = true;
         }
+
+        /*
+         * TEMPORARY KEYBOARD CONTROLS.
+         */
+        int speed = 4;
+        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+            test.x -= speed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+            test.x += speed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+            test.y += speed;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+            test.y -= speed;
+        }
+
     }
+
+    private static Vector2f test = new Vector2f(20, 20);
 
     /**
      * Render the current frame
@@ -127,6 +145,7 @@ public class SampleGame {
     private static void render() {
 
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
@@ -151,7 +170,11 @@ public class SampleGame {
          * DRAW ALL THE THINGS
          */
         Render.setColor(Color.GREEN);
-        Render.fillRect(new Vector2f(20, 20), new Vector2f(20, 20));
+        Render.fillRect(test, new Vector2f(20, 20));
+
+        GL11.glPushMatrix();
+
+        GL11.glPopMatrix();
 
         GL11.glPopMatrix();
     }
