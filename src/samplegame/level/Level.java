@@ -1,8 +1,8 @@
 package samplegame.level;
 
 import samplegame.entity.Entity;
-import samplegame.entity.VariableCase;
 import samplegame.scripting.EntityScript;
+import toritools.map.VariableCase;
 
 public class Level extends Entity {
 

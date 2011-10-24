@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import samplegame.render.Render2D;
 import samplegame.scripting.EntityScript;
+import toritools.map.VariableCase;
 
 /**
  * A scripted entity that exists in the game world.
