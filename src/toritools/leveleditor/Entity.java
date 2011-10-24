@@ -2,8 +2,11 @@ package toritools.leveleditor;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.File;
+
+import toritools.map.VariableCase;
 
 /**
  * A placed object in the level editor. Packaged scoped because Entity is a
@@ -14,14 +17,17 @@ import java.io.File;
  */
 class Entity {
 	private File file;
+
 	private Image image;
-	private Point2D pos;
 	private Point2D dim;
 
-	public Entity(File file, Image img, final Point2D pos, final Point2D dim) {
+	private Point2D pos = new Point.Double();
+
+	private VariableCase variables = new VariableCase();
+
+	public Entity(File file, Image img, final Point2D dim) {
 		this.file = file;
 		this.image = img;
-		this.pos = pos;
 		this.dim = dim;
 	}
 
@@ -61,4 +67,17 @@ class Entity {
 	public void setDim(Point2D dim) {
 		this.dim = dim;
 	}
+
+	public VariableCase getVariables() {
+		return variables;
+	}
+
+	public void setVariables(VariableCase variables) {
+		this.variables = variables;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
 }

@@ -31,4 +31,8 @@ public class VariableCase {
 	public HashMap<String, String> getVariables() {
 		return variables;
 	}
+
+	public void setVariables(HashMap<String, String> variables) {
+		this.variables = variables;
+	}
 }

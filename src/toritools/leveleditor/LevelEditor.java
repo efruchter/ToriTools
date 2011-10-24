@@ -110,6 +110,11 @@ public class LevelEditor {
 	private LayerEditor layerEditor = new LayerEditor(this);
 
 	/**
+	 * This object handles instance variables.
+	 */
+	private VariableEditor varEditor = new VariableEditor(this);
+
+	/**
 	 * The text of this is where you can set some neat data to display to the
 	 * user.
 	 */
@@ -124,6 +129,9 @@ public class LevelEditor {
 			frame.requestFocus();
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
 				selectOverlapping(arg0.getPoint());
+				varEditor.setEntity(selected);
+				repaint();
+				frame.pack();
 			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
 				if (current != null) {
 					Point p = (Point) arg0.getPoint().clone();
@@ -131,7 +139,8 @@ public class LevelEditor {
 					p.setLocation((p.x / gridSize.width) * gridSize.width,
 							(p.y / gridSize.height) * gridSize.height);
 					Entity e = new Entity(current.getFile(),
-							current.getImage(), p, current.getDim());
+							current.getImage(), current.getDim());
+					e.setPos(p);
 					addEntity(e, layerEditor.getCurrentLayer());
 				}
 			}
@@ -260,6 +269,7 @@ public class LevelEditor {
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
 		dummyPanel.add(layerEditor);
 		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
+		frame.add(varEditor, BorderLayout.SOUTH);
 
 		/*
 		 * Form the status bar
@@ -525,10 +535,10 @@ public class LevelEditor {
 												+ workingDirectory.getName()
 														.length()));
 				map.put("layer", entry.getKey() + "");
+				map.putAll(e.getVariables().getVariables());
 				Element object = doc.createElement("entity");
 				object.setAttribute("map", ToriMapIO.writeMap(null, map));
 				objectsElements.appendChild(object);
-
 			}
 
 		ToriXML.saveXMLDoc(levelFile, doc);
@@ -556,6 +566,7 @@ public class LevelEditor {
 			Entity ent = importEntity(f);
 			ent.setPos(new Point.Double(x, y));
 			layerEditor.setLayerVisibility(layer, true);
+			ent.getVariables().getVariables().putAll(mapData);
 			addEntity(ent, layer);
 		}
 	}
@@ -594,8 +605,8 @@ public class LevelEditor {
 				file.getName(), "")
 				+ data.get("sprites.editor"));
 		i.setImage(i.getImage().getScaledInstance((int) width, (int) height, 0));
-		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
-				new Point.Double(width, height));
+		final Entity e = new Entity(file, i.getImage(), new Point.Double(width,
+				height));
 		if (!objects.containsKey(file)) {
 			JButton b = new JButton(i);
 			b.setToolTipText(data.get("description"));
@@ -609,6 +620,7 @@ public class LevelEditor {
 			frame.pack();
 			objects.put(file, data);
 		}
+		// e.getVariables().setVariables(data);
 		return e;
 	}
 
@@ -689,6 +701,7 @@ public class LevelEditor {
 		fileLabel.setText(levelFile.getName());
 		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "
 				+ (int) gridSize.getHeight());
+		frame.pack();
 	}
 
 }
