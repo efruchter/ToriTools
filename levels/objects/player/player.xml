@@ -1,10 +1,7 @@
-<entity>
-	<title>player</title>
-	<description>The dude you move</description>
-	<dimensions x="32" y="32"/>
-	<solid>false</solid>
-	<sprites>
-		<editor img="robo.png"/>
-	</sprites>
-	<script>Test.py</script>
-</entity>
+title = player;
+description = The dude you move.;
+dimensions.x = 32;
+dimensions.y = 32;
+sprites.editor = robo.png;
+solid = false;
+

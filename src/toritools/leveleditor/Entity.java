@@ -13,24 +13,24 @@ import java.io.File;
  * 
  */
 class Entity {
-	private File xml;
+	private File file;
 	private Image image;
 	private Point2D pos;
 	private Point2D dim;
 
-	public Entity(File xml, Image img, final Point2D pos, final Point2D dim) {
-		this.xml = xml;
+	public Entity(File file, Image img, final Point2D pos, final Point2D dim) {
+		this.file = file;
 		this.image = img;
 		this.pos = pos;
 		this.dim = dim;
 	}
 
-	public File getXml() {
-		return xml;
+	public File getFile() {
+		return file;
 	}
 
-	public void setXml(File xml) {
-		this.xml = xml;
+	public void setfile(File file) {
+		this.file = file;
 	}
 
 	public Image getImage() {
@@ -61,5 +61,4 @@ class Entity {
 	public void setDim(Point2D dim) {
 		this.dim = dim;
 	}
-
 }

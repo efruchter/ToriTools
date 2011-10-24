@@ -1,10 +1,18 @@
 <level>
-    <objects>
-        <entity layer="0" template="/objects/player/player.xml">
-            <position x="224.0" y="160.0"/>
-        </entity>
-        <entity layer="0" template="/objects/tree/tree.xml">
-            <position x="288.0" y="128.0"/>
-        </entity>
-    </objects>
+<objects>
+<entity map="template = /objects/player/player.xml;position.y = 128.0;position.x = 416.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 128.0;position.x = 384.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 192.0;position.x = 224.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 128.0;position.x = 224.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 256.0;position.x = 288.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 288.0;position.x = 384.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 320.0;position.x = 608.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 448.0;position.x = 576.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 0.0;position.x = 0.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 448.0;position.x = 32.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 416.0;position.x = 64.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 256.0;position.x = 96.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 192.0;position.x = 64.0;layer = 0;"/>
+<entity map="template = /objects/player/player.xml;position.y = 160.0;position.x = 64.0;layer = 0;"/>
+</objects>
 </level>

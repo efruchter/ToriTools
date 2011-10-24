@@ -15,13 +15,18 @@ import java.util.Scanner;
  * 
  */
 public class ToriMapIO {
-	public static <K, V> void writeMap(final File file, final HashMap<K, V> map)
-			throws IOException {
-		FileWriter f = new FileWriter(file);
+	public static <K, V> String writeMap(final File file,
+			final HashMap<K, V> map) throws IOException {
+		StringBuilder st = new StringBuilder();
 		for (Entry<K, V> s : map.entrySet())
-			f.write(s.getKey().toString() + " = " + s.getValue().toString()
+			st.append(s.getKey().toString() + " = " + s.getValue().toString()
 					+ ";");
-		f.close();
+		if (file != null) {
+			FileWriter f = new FileWriter(file);
+			f.write(st.toString());
+			f.close();
+		}
+		return st.toString();
 	}
 
 	public static HashMap<String, String> readMap(final File file)
@@ -31,11 +36,16 @@ public class ToriMapIO {
 		while (scan.hasNextLine()) {
 			doc.append(scan.nextLine()).append("\n");
 		}
+		return readMap(doc.toString());
+	}
+
+	public static HashMap<String, String> readMap(final String string)
+			throws FileNotFoundException {
+
 		HashMap<String, String> map = new HashMap<String, String>();
-		for (String token : doc.toString().split(";")) {
+		for (String token : string.toString().split(";")) {
 			if (!token.contains("="))
-				throw new RuntimeException("The token " + token
-						+ "is not a valid keymap entry. Needs a ';' and '='.");
+				continue;
 			else {
 				String[] entry = token.split("=");
 				map.put(entry[0].trim(), entry[1].trim());

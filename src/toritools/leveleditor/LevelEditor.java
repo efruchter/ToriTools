@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,12 +42,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import toritools.map.ToriMapIO;
 import toritools.xml.ToriXML;
 
 /**
@@ -66,7 +68,7 @@ public class LevelEditor {
 	 * Maps for getting the docs out of files. Files are the basic way to
 	 * edentify unit type.
 	 */
-	private HashMap<File, Document> objects = new HashMap<File, Document>();
+	private HashMap<File, HashMap<String, String>> objects = new HashMap<File, HashMap<String, String>>();
 
 	/**
 	 * Map of int layers to list of existing entities.
@@ -128,8 +130,8 @@ public class LevelEditor {
 					deleteOverlapping(p);
 					p.setLocation((p.x / gridSize.width) * gridSize.width,
 							(p.y / gridSize.height) * gridSize.height);
-					Entity e = new Entity(current.getXml(), current.getImage(),
-							p, current.getDim());
+					Entity e = new Entity(current.getFile(),
+							current.getImage(), p, current.getDim());
 					addEntity(e, layerEditor.getCurrentLayer());
 				}
 			}
@@ -329,7 +331,11 @@ public class LevelEditor {
 			public void actionPerformed(ActionEvent arg0) {
 				File f = importNewFileDialog();
 				if (f != null)
-					importXML(f);
+					try {
+						importXML(f);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
 			}
 		});
 		entityMenu.add(importXml);
@@ -484,9 +490,11 @@ public class LevelEditor {
 	 * 
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
+	 * @throws IOException
+	 * @throws DOMException
 	 */
 	public void saveLevel() throws ParserConfigurationException,
-			TransformerException {
+			TransformerException, DOMException, IOException {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 		Document doc = docBuilder.newDocument();
@@ -500,27 +508,25 @@ public class LevelEditor {
 		levelElement.appendChild(objectsElements);
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
 			for (Entity e : entry.getValue()) {
-				Element object = doc.createElement("entity");
-				object.setAttribute(
-						"template",
-						e.getXml()
+
+				HashMap<String, String> map = new HashMap<String, String>();
+
+				map.put("position.x", e.getPos().getX() + "");
+				map.put("position.y", e.getPos().getY() + "");
+				map.put("template",
+						e.getFile()
 								.getPath()
 								.substring(
-										e.getXml()
+										e.getFile()
 												.getPath()
 												.indexOf(
 														workingDirectory
 																.getName())
 												+ workingDirectory.getName()
 														.length()));
-				object.setAttribute("layer", entry.getKey() + "");
-
-				Element pos = doc.createElement("position");
-				pos.setAttribute("x", e.getPos().getX() + "");
-				pos.setAttribute("y", e.getPos().getY() + "");
-
-				object.appendChild(pos);
-
+				map.put("layer", entry.getKey() + "");
+				Element object = doc.createElement("entity");
+				object.setAttribute("map", ToriMapIO.writeMap(null, map));
 				objectsElements.appendChild(object);
 
 			}
@@ -533,35 +539,24 @@ public class LevelEditor {
 	 * 
 	 * @param doc
 	 *            the doc of level.xml.
+	 * @throws DOMException
+	 * @throws FileNotFoundException
 	 */
-	private void loadLevel(final Document doc) {
-		NodeList objects = doc.getElementsByTagName("entity");
-		for (int i = 0; i < objects.getLength(); i++) {
-			Node node = objects.item(i);
-			String s = node.getAttributes().getNamedItem("template")
-					.getNodeValue();
-			Entity e = importXML(new File(workingDirectory + s));
-
-			/**
-			 * Special param data.
-			 */
-			int depth = 0;
-			for (int ii = 0; ii < node.getChildNodes().getLength(); ii++) {
-				Node param = node.getChildNodes().item(ii);
-				if (param.getNodeName().equals("position")) {
-					Double x = Double.parseDouble(param.getAttributes()
-							.getNamedItem("x").getNodeValue());
-					Double y = Double.parseDouble(param.getAttributes()
-							.getNamedItem("y").getNodeValue());
-					e.setPos(new Point.Double(x, y));
-				}
-			}
-			if (node.getAttributes().getNamedItem("layer") != null) {
-				depth = Integer.parseInt(node.getAttributes()
-						.getNamedItem("layer").getNodeValue());
-				layerEditor.setLayerVisibility(depth, true);
-			}
-			addEntity(e, depth);
+	private void loadLevel(final Document doc) throws FileNotFoundException,
+			DOMException {
+		NodeList entities = doc.getElementsByTagName("entity");
+		for (int i = 0; i < entities.getLength(); i++) {
+			Node e = entities.item(i);
+			HashMap<String, String> mapData = ToriMapIO.readMap(e
+					.getAttributes().getNamedItem("map").getNodeValue());
+			int layer = Integer.parseInt(mapData.get("layer"));
+			double x = Double.parseDouble(mapData.get("position.x"));
+			double y = Double.parseDouble(mapData.get("position.y"));
+			File f = new File(workingDirectory + mapData.get("template"));
+			Entity ent = importXML(f);
+			ent.setPos(new Point.Double(x, y));
+			layerEditor.setLayerVisibility(layer, true);
+			addEntity(ent, layer);
 		}
 	}
 
@@ -587,34 +582,24 @@ public class LevelEditor {
 	 * @param file
 	 *            the file of the xml.
 	 * @return the generated entity.
+	 * @throws FileNotFoundException
 	 */
-	private Entity importXML(final File file) {
-		Document doc = ToriXML.parse(file);
-		doc.getDocumentElement().normalize();
+	private Entity importXML(final File file) throws FileNotFoundException {
+		HashMap<String, String> data = ToriMapIO.readMap(file);
 
-		// get the editor image
-		String picture = doc.getElementsByTagName("editor").item(0)
-				.getAttributes().getNamedItem("img").getNodeValue()
-				+ "";
-		// Get the dimensions
-		NamedNodeMap pos = doc.getElementsByTagName("dimensions").item(0)
-				.getAttributes();
-
-		double x = Double.parseDouble(pos.getNamedItem("x").getNodeValue());
-		double y = Double.parseDouble(pos.getNamedItem("y").getNodeValue());
-
+		double width = Double.parseDouble(data.get("dimensions.x"));
+		double height = Double.parseDouble(data.get("dimensions.y"));
 		// Form the image
 		final ImageIcon i = new ImageIcon(file.getPath().replace(
 				file.getName(), "")
-				+ picture);
-		i.setImage(i.getImage().getScaledInstance((int) x, (int) y, 0));
+				+ data.get("sprites.editor"));
+		i.setImage(i.getImage().getScaledInstance((int) width, (int) height, 0));
 		final Entity e = new Entity(file, i.getImage(), new Point.Double(),
-				new Point.Double(x, y));
+				new Point.Double(width, height));
 		if (!objects.containsKey(file)) {
 			JButton b = new JButton(i);
-			b.setToolTipText(doc.getElementsByTagName("description").item(0)
-					.getChildNodes().item(0).getNodeValue());
-			b.setSize(new Dimension((int) x, (int) y));
+			b.setToolTipText(data.get("description"));
+			b.setSize(new Dimension((int) width, (int) height));
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					setCurrent(e);
@@ -622,7 +607,7 @@ public class LevelEditor {
 			});
 			buttonPanel.add(b);
 			frame.pack();
-			objects.put(file, doc);
+			objects.put(file, data);
 		}
 		return e;
 	}
