@@ -68,9 +68,9 @@ public class VariableEditor extends JPanel {
 		return entity;
 	}
 
-	public void setEntity(final Entity... e) {
+	public void setEntity(final Entity e) {
 		clear();
-		this.entity = e[0];
+		this.entity = e;
 		loadVariables();
 		setEnabled(entity != null);
 		editor.repaint();
