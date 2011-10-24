@@ -332,7 +332,7 @@ public class LevelEditor {
 				File f = importNewFileDialog();
 				if (f != null)
 					try {
-						importXML(f);
+						importEntity(f);
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -553,7 +553,7 @@ public class LevelEditor {
 			double x = Double.parseDouble(mapData.get("position.x"));
 			double y = Double.parseDouble(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
-			Entity ent = importXML(f);
+			Entity ent = importEntity(f);
 			ent.setPos(new Point.Double(x, y));
 			layerEditor.setLayerVisibility(layer, true);
 			addEntity(ent, layer);
@@ -584,7 +584,7 @@ public class LevelEditor {
 	 * @return the generated entity.
 	 * @throws FileNotFoundException
 	 */
-	private Entity importXML(final File file) throws FileNotFoundException {
+	private Entity importEntity(final File file) throws FileNotFoundException {
 		HashMap<String, String> data = ToriMapIO.readMap(file);
 
 		double width = Double.parseDouble(data.get("dimensions.x"));
