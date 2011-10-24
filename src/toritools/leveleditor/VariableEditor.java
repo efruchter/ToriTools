@@ -1,40 +1,60 @@
 package toritools.leveleditor;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class VariableEditor extends JPanel {
-	private JButton addVarButton = new JButton("Add Variable");
+	private JButton addVarButton = new JButton(" + ");
 	private JPanel buttonPanel = new JPanel();
 	private Entity entity;
 	private HashMap<String, JTextField> keys = new HashMap<String, JTextField>();
-
+	private JLabel statusLabel = new JLabel("Variables");
 	private LevelEditor editor;
 
 	public VariableEditor(final LevelEditor editor) {
-		add(addVarButton);
+		setBackground(Color.cyan);
+		buttonPanel.setBackground(Color.cyan);
+
+		setBorder(BorderFactory.createRaisedBevelBorder());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
+		add(statusLabel);
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				saveCurrent();
+				if (getEntity() != null) {
+					saveCurrent();
+					JOptionPane.showMessageDialog(null,
+							"Instance variables saved to entity!");
+				}
 			}
 		});
-		add(saveButton);
-		add((buttonPanel));
+		JPanel p = new JPanel();
+		p.setBackground(Color.cyan);
+		p.add(addVarButton);
+		p.add(saveButton);
+		add(p);
+		add(new JScrollPane(buttonPanel));
 		this.editor = editor;
 		addVarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (getEntity() == null)
+					return;
 				String s = JOptionPane.showInputDialog("New variable name?");
-				if (s != null && !s.isEmpty() && entity != null) {
+				if (s != null && !s.isEmpty()) {
 					getEntity().getVariables().setVar(s, "");
 					Entity e = getEntity();
 					clear();
@@ -52,6 +72,7 @@ public class VariableEditor extends JPanel {
 		clear();
 		this.entity = e[0];
 		loadVariables();
+		setEnabled(entity != null);
 		editor.repaint();
 	}
 

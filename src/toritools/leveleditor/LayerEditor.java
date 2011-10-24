@@ -3,6 +3,7 @@ package toritools.leveleditor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -25,13 +26,14 @@ public class LayerEditor extends JPanel {
 	private final int MAXLAYER = 5;
 
 	public LayerEditor(final LevelEditor editor) {
+		setBorder(BorderFactory.createRaisedBevelBorder());
 		ActionListener action = new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				editor.repaint();
 			}
 		};
 
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		Integer[] layers = new Integer[MAXLAYER];
 		for (int i = 0; i < MAXLAYER; i++)

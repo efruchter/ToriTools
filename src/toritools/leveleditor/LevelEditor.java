@@ -131,7 +131,6 @@ public class LevelEditor {
 				selectOverlapping(arg0.getPoint());
 				varEditor.setEntity(selected);
 				repaint();
-				frame.pack();
 			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
 				if (current != null) {
 					Point p = (Point) arg0.getPoint().clone();
@@ -267,9 +266,10 @@ public class LevelEditor {
 		JPanel dummyPanel = new JPanel();
 		frame.add(new JScrollPane(drawPanel), BorderLayout.CENTER);
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
+		dummyPanel.setLayout(new BoxLayout(dummyPanel, BoxLayout.Y_AXIS));
 		dummyPanel.add(layerEditor);
-		frame.add(new JScrollPane(dummyPanel), BorderLayout.WEST);
-		frame.add(varEditor, BorderLayout.SOUTH);
+		dummyPanel.add(varEditor);
+		frame.add(dummyPanel, BorderLayout.WEST);
 
 		/*
 		 * Form the status bar
@@ -343,6 +343,7 @@ public class LevelEditor {
 				if (f != null)
 					try {
 						importEntity(f);
+						repaint();
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -617,7 +618,6 @@ public class LevelEditor {
 				}
 			});
 			buttonPanel.add(b);
-			frame.pack();
 			objects.put(file, data);
 		}
 		// e.getVariables().setVariables(data);
@@ -697,11 +697,11 @@ public class LevelEditor {
 	 * Forces repaint on frame and updates status bar.
 	 */
 	public void repaint() {
-		frame.repaint();
 		fileLabel.setText(levelFile.getName());
 		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "
 				+ (int) gridSize.getHeight());
-		frame.pack();
+		frame.invalidate();
+		frame.validate();
+		frame.repaint();
 	}
-
 }
