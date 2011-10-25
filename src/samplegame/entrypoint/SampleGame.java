@@ -1,5 +1,7 @@
 package samplegame.entrypoint;
 
+import java.io.File;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -7,9 +9,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import samplegame.entity.Entity;
-import samplegame.level.Level;
+import samplegame.entity.Level;
+import samplegame.load.Importer;
 import samplegame.render.Render2D;
-import samplegame.scripting.EntityScript;
 import toritools.map.VariableCase;
 
 /**
@@ -68,7 +70,7 @@ public class SampleGame {
 		VariableCase cas = new VariableCase();
 		cas.setVar("dimensions.x", 1000 + "");
 		cas.setVar("dimensions.y", 1000 + "");
-		level = new Level();
+		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 	}
 
 	/**

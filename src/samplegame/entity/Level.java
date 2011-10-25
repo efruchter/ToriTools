@@ -1,9 +1,8 @@
-package samplegame.level;
+package samplegame.entity;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import samplegame.entity.Entity;
 
 public class Level extends Entity {
 	/**

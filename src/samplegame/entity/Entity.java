@@ -2,7 +2,6 @@ package samplegame.entity;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import samplegame.level.Level;
 import samplegame.scripting.EntityScript;
 import toritools.map.VariableCase;
 
@@ -59,10 +58,6 @@ public class Entity {
 
 	public void onDeath(final Level world) {
 		script.onDeath();
-	}
-
-	public void draw() {
-
 	}
 
 	public boolean isColliding(final Entity e) {
