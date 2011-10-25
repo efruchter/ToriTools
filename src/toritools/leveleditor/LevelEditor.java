@@ -439,7 +439,7 @@ public class LevelEditor {
 				for (Entity e : entry.getValue()) {
 					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
 							.getY(), (int) e.getDim().getX(), (int) e.getDim()
-							.getY()).contains(p)) {
+							.getY()).contains(p) && this.selected != e) {
 						selected = e;
 						break;
 					}

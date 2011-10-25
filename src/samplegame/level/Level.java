@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import samplegame.entity.Entity;
-import samplegame.scripting.EntityScript;
-import toritools.map.VariableCase;
 
 public class Level extends Entity {
 	/**
@@ -19,7 +17,7 @@ public class Level extends Entity {
 			nonSolids = new LinkedList<Entity>();
 
 	public void addEntity(final Entity e) {
-		String isSolid = e.getVar("solid");
+		String isSolid = e.variables.getVar("solid");
 		if (isSolid != null && isSolid.equalsIgnoreCase("true")) {
 			solids.add(e);
 		} else {
@@ -39,7 +37,7 @@ public class Level extends Entity {
 		}
 	}
 
-	public Level(VariableCase variables, EntityScript script) {
-		super(variables, script);
+	public Level() {
+		super();
 	}
 }

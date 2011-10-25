@@ -68,7 +68,7 @@ public class SampleGame {
 		VariableCase cas = new VariableCase();
 		cas.setVar("dimensions.x", 1000 + "");
 		cas.setVar("dimensions.y", 1000 + "");
-		level = new Level(cas, EntityScript.BLANK);
+		level = new Level();
 	}
 
 	/**
