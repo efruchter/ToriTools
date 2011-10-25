@@ -1,12 +1,14 @@
 package toritools.leveleditor;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,9 +27,9 @@ public class VariableEditor extends JPanel {
 	private LevelEditor editor;
 
 	public VariableEditor(final LevelEditor editor) {
+		setAlignmentY(Component.TOP_ALIGNMENT);
 		setBackground(Color.cyan);
 		buttonPanel.setBackground(Color.cyan);
-
 		setBorder(BorderFactory.createRaisedBevelBorder());
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
@@ -84,12 +86,15 @@ public class VariableEditor extends JPanel {
 						|| s.getKey().startsWith("position.")
 						|| s.getKey().equals("template"))
 					continue;
-				buttonPanel.add(new JLabel(s.getKey() + ":"));
+				JPanel micro = new JPanel();
+				micro.setBackground(Color.CYAN);
 				String value = s.getValue();
 				value = value != null ? value : "";
 				JTextField field = new JTextField(value, 10);
-				buttonPanel.add(field);
 				keys.put(s.getKey(), field);
+				micro.add(new JLabel(s.getKey() + ":"));
+				micro.add(field);
+				buttonPanel.add(micro);
 			}
 	}
 

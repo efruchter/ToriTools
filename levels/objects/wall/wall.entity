@@ -2,10 +2,10 @@ title = wall;
 
 description = A gnarly wall!;
 
-dimensions.x = 32;
-dimensions.y = 32;
+dimensions.x = 64;
+dimensions.y = 64;
 
-sprites.editor = editor.png;
+sprites.editor = editor.jpg;
 
 solid = tree;
 

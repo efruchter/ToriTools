@@ -2,8 +2,8 @@ title = tree;
 
 description = A pretty solid tree.;
 
-dimensions.x = 32;
-dimensions.y = 32;
+dimensions.x = 64;
+dimensions.y = 64;
 
 sprites.editor = editor.png;
 
