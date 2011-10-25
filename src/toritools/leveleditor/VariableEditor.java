@@ -55,7 +55,7 @@ public class VariableEditor extends JPanel {
 					return;
 				String s = JOptionPane.showInputDialog("New variable name?");
 				if (s != null && !s.isEmpty()) {
-					getEntity().getVariables().setVar(s, "");
+					getEntity().getVariables().setVar(s, "DEFAULT");
 					Entity e = getEntity();
 					clear();
 					setEntity(e);
@@ -95,9 +95,16 @@ public class VariableEditor extends JPanel {
 
 	public void saveCurrent() {
 		if (entity != null)
-			for (Entry<String, JTextField> s : keys.entrySet())
-				entity.getVariables().getVariables()
-						.put(s.getKey(), s.getValue().getText());
+			for (Entry<String, JTextField> s : keys.entrySet()) {
+				String data = s.getValue().getText();
+				if (!data.isEmpty()) {
+					entity.getVariables().getVariables()
+							.put(s.getKey(), s.getValue().getText());
+				} else {
+					entity.getVariables().getVariables().remove(s.getKey());
+				}
+
+			}
 	}
 
 	public void clear() {
