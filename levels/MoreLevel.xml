@@ -25,6 +25,11 @@
 <entity map="template = /objects/tree/tree.entity;position.y = 96.0;position.x = 448.0;layer = 0;"/>
 <entity map="template = /objects/tree/tree.entity;position.y = 64.0;position.x = 224.0;layer = 0;"/>
 <entity map="template = /objects/tree/tree.entity;position.y = 32.0;position.x = 384.0;layer = 0;"/>
+<entity map="template = /objects/wall/wall.entity;position.y = 384.0;position.x = 192.0;layer = 0;"/>
+<entity map="template = /objects/wall/wall.entity;position.y = 384.0;position.x = 256.0;layer = 0;"/>
+<entity map="template = /objects/wall/wall.entity;position.y = 384.0;position.x = 512.0;layer = 0;"/>
+<entity map="template = /objects/wall/wall.entity;position.y = 384.0;position.x = 448.0;layer = 0;"/>
+<entity map="template = /objects/wall/wall.entity;position.y = 384.0;position.x = 320.0;layer = 0;"/>
 <entity map="template = /objects/ground/dirt1.entity;position.y = 448.0;position.x = 192.0;layer = 1;"/>
 <entity map="template = /objects/ground/dirt1.entity;position.y = 448.0;position.x = 320.0;layer = 1;"/>
 <entity map="template = /objects/ground/dirt1.entity;position.y = 448.0;position.x = 448.0;layer = 1;"/>
