@@ -4,12 +4,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Color;
-import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
 
-import samplegame.render.Render;
+import samplegame.entity.Entity;
+import samplegame.level.Level;
 import samplegame.render.Render2D;
+import samplegame.scripting.EntityScript;
+import toritools.map.VariableCase;
 
 /**
  * This will be the main class for a simple game that uses toritools.
@@ -60,6 +61,14 @@ public class SampleGame {
 		Display.setDisplayMode(new DisplayMode((int) BOUNDS.getX(),
 				(int) BOUNDS.getY()));
 		Display.create();
+
+		/**
+		 * Create a blank level with size 1000x1000.
+		 */
+		VariableCase cas = new VariableCase();
+		cas.setVar("dimensions.x", 1000 + "");
+		cas.setVar("dimensions.y", 1000 + "");
+		level = new Level(cas, EntityScript.BLANK);
 	}
 
 	/**
@@ -114,53 +123,25 @@ public class SampleGame {
 			test.x += speed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			test.y += speed;
+			test.y -= speed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			test.y -= speed;
+			test.y += speed;
 		}
 
 	}
 
 	private static Vector2f test = new Vector2f(20, 20);
+	private static Level level;
 
-	/**
-	 * Render the current frame
-	 */
 	private static void render() {
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GLU.gluPerspective(45, BOUNDS.x / BOUNDS.y, 0, 10000);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-
-		// clear the screen and set the camera
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
-
+		Render2D.setup2D(BOUNDS);
+		Render2D.clearScreen();
 		GL11.glPushMatrix();
-		GL11.glTranslatef(-BOUNDS.x / 2, -BOUNDS.y / 2, -725);
-
-		Render.setColor(Color.BLACK, .6f);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex3f(0, 0, 0);
-		GL11.glVertex3f(BOUNDS.getX(), 0, 0);
-		GL11.glVertex3f(BOUNDS.getX(), BOUNDS.getY(), 0);
-		GL11.glVertex3f(0, BOUNDS.getY(), 0);
-		GL11.glEnd();
-
-		/**
-		 * DRAW ALL THE THINGS
-		 */
-		Render.setColor(Color.GREEN);
-		Render2D.fillRect(test, new Vector2f(20, 20));
-
-		GL11.glPushMatrix();
-
-		GL11.glPopMatrix();
-
+		for (Entity e : level.solids)
+			Render2D.drawRect(e.pos, Vector2f.add(e.pos, e.dim, null));
+		for (Entity e : level.nonSolids)
+			Render2D.drawRect(e.pos, Vector2f.add(e.pos, e.dim, null));
 		GL11.glPopMatrix();
 	}
 

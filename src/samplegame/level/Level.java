@@ -1,14 +1,45 @@
 package samplegame.level;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import samplegame.entity.Entity;
 import samplegame.scripting.EntityScript;
 import toritools.map.VariableCase;
 
 public class Level extends Entity {
+	/**
+	 * entity vars pos = meaningless, dim = dim of level.
+	 */
 
-    public Level(VariableCase variables, EntityScript script) {
-        super(variables, script);
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * The entity lists.
+	 */
+	public List<Entity> solids = new LinkedList<Entity>(),
+			nonSolids = new LinkedList<Entity>();
 
+	public void addEntity(final Entity e) {
+		String isSolid = e.getVar("solid");
+		if (isSolid != null && isSolid.equalsIgnoreCase("true")) {
+			solids.add(e);
+		} else {
+			nonSolids.add(e);
+		}
+	}
+
+	/**
+	 * Call this each update cycle. WIll update all entities.
+	 */
+	public void onUpdate() {
+		for (Entity e : solids) {
+			e.onUpdate(this);
+		}
+		for (Entity e : nonSolids) {
+			e.onUpdate(this);
+		}
+	}
+
+	public Level(VariableCase variables, EntityScript script) {
+		super(variables, script);
+	}
 }

@@ -37,4 +37,10 @@ public interface EntityScript {
 	 *            the entity running the script.
 	 */
 	public void onDeath();
+	
+	public static EntityScript BLANK = new EntityScript() {
+		public void onSpawn() {}
+		public void onUpdate() {}
+		public void onDeath() {}
+	};
 }
