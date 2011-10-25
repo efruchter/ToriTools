@@ -59,6 +59,7 @@ public class Importer {
 		HashMap<String, String> props = ToriMapIO.readMap(doc
 				.getElementsByTagName("level").item(0).getAttributes()
 				.getNamedItem("map").getNodeValue());
+		level.variables.setVariables(props);
 
 		// Extract level instance info
 		// levelSize.width = Integer.parseInt(props.get("width"));
