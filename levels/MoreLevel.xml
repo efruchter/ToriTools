@@ -1,4 +1,4 @@
-<level>
+<level map="height = 1000;width = 1000;">
 <objects>
 <entity map="id = player;template = /objects/player/player.entity;position.y = 384.0;position.x = 384.0;layer = 0;"/>
 <entity map="template = /objects/tree/tree.entity;position.y = 288.0;position.x = 256.0;layer = 1;"/>

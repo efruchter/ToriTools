@@ -105,6 +105,11 @@ public class LevelEditor {
 	private Dimension gridSize = new Dimension(32, 32);
 
 	/**
+	 * Size of the editing world.
+	 */
+	private Dimension levelSize = new Dimension(1000, 1000);
+
+	/**
 	 * This object handles layering information.
 	 */
 	private LayerEditor layerEditor = new LayerEditor(this);
@@ -120,6 +125,7 @@ public class LevelEditor {
 	 */
 	private JLabel fileLabel = new JLabel("FILE LABEL");
 	private JLabel gridLabel = new JLabel("GRID LABEL");
+	private JLabel levelSizeLabel = new JLabel("WORLD SIZE LABEL");
 
 	/**
 	 * Mouse controller.
@@ -282,6 +288,8 @@ public class LevelEditor {
 		dummyPanel.add(new JLabel("|"));
 		dummyPanel.add(gridLabel);
 		dummyPanel.add(new JLabel("|"));
+		dummyPanel.add(levelSizeLabel);
+		dummyPanel.add(new JLabel("|"));
 
 		frame.add(dummyPanel, BorderLayout.NORTH);
 
@@ -379,6 +387,23 @@ public class LevelEditor {
 			}
 		});
 		settingsMenu.add(gridMenu);
+		JMenuItem levelSizeItem = new JMenuItem("Level Size");
+		levelSizeItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String result = JOptionPane
+							.showInputDialog("Input an integer world width, height (ex. 1000, 5000):");
+					String vals[] = result.split(",");
+					levelSize.width = Integer.parseInt(vals[0].trim());
+					levelSize.height = Integer.parseInt(vals[1].trim());
+					repaint();
+				} catch (final Exception i) {
+					return;
+				}
+
+			}
+		});
+		settingsMenu.add(levelSizeItem);
 		menuBar.add(settingsMenu);
 
 		/**
@@ -514,6 +539,12 @@ public class LevelEditor {
 		Element levelElement = doc.createElement("level");
 		doc.appendChild(levelElement);
 
+		// Add the attributes of the level
+		HashMap<String, String> props = new HashMap<String, String>();
+		props.put("width", levelSize.width + "");
+		props.put("height", levelSize.height + "");
+		levelElement.setAttribute("map", ToriMapIO.writeMap(null, props));
+
 		// Save the objects
 		Element objectsElements = doc.createElement("objects");
 		levelElement.appendChild(objectsElements);
@@ -521,7 +552,6 @@ public class LevelEditor {
 			for (Entity e : entry.getValue()) {
 
 				HashMap<String, String> map = new HashMap<String, String>();
-
 				map.put("position.x", e.getPos().getX() + "");
 				map.put("position.y", e.getPos().getY() + "");
 				map.put("template",
@@ -555,6 +585,14 @@ public class LevelEditor {
 	 */
 	private void loadLevel(final Document doc) throws FileNotFoundException,
 			DOMException {
+		HashMap<String, String> props = ToriMapIO.readMap(doc
+				.getElementsByTagName("level").item(0).getAttributes()
+				.getNamedItem("map").getNodeValue());
+
+		// Extract level instance info
+		levelSize.width = Integer.parseInt(props.get("width"));
+		levelSize.height = Integer.parseInt(props.get("height"));
+
 		NodeList entities = doc.getElementsByTagName("entity");
 		for (int i = 0; i < entities.getLength(); i++) {
 			Node e = entities.item(i);
@@ -632,15 +670,15 @@ public class LevelEditor {
 	 */
 	public void draw(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1000, 1000);
+		g.fillRect(0, 0, levelSize.width, levelSize.height);
 
 		/*
 		 * DRAW THE GRID
 		 */
 		if (gridSize.width > 1) {
 			g.setColor(Color.BLACK);
-			for (int x = 0; x < drawPanel.getWidth(); x += gridSize.width)
-				g.drawLine(x, 0, x, drawPanel.getHeight());
+			for (int x = 0; x < levelSize.width; x += gridSize.width)
+				g.drawLine(x, 0, x, levelSize.height);
 
 			for (int y = 0; y < drawPanel.getHeight(); y += gridSize.height)
 				g.drawLine(0, y, drawPanel.getWidth(), y);
@@ -670,6 +708,8 @@ public class LevelEditor {
 								.getDim().getY());
 					}
 				}
+		g.setColor(Color.RED);
+		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
 	}
 
 	/**
@@ -700,6 +740,9 @@ public class LevelEditor {
 		fileLabel.setText(levelFile.getName());
 		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "
 				+ (int) gridSize.getHeight());
+		levelSizeLabel.setText("Level Size: "+ (int) levelSize.getWidth() + " x "
+				+ (int) levelSize.getHeight());
+		drawPanel.setPreferredSize(levelSize);
 		frame.invalidate();
 		frame.validate();
 		frame.repaint();
