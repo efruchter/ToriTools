@@ -1,5 +1,7 @@
 package samplegame.entity;
 
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector2f;
 
 import samplegame.scripting.EntityScript;
@@ -60,19 +62,31 @@ public class Entity {
 		script.onDeath(world, this, isRoomExit);
 	}
 
+	public Entity isCollidingWithSolid(List<Entity> solids) {
+		for (Entity e : solids) {
+			if (e != this && this.isColliding(e))
+				return e;
+		}
+		return null;
+	}
+
 	public boolean isColliding(final Entity e) {
 		// left of
-		if (this.pos.x + this.dim.x < e.pos.x)
+		if (this.pos.x + this.dim.x < e.pos.x){
 			return false;
+		}
 		// below
-		if (this.pos.y + this.dim.y < e.pos.y)
+		else if (this.pos.y + this.dim.y < e.pos.y){
 			return false;
+		}
 		// right
-		if (e.pos.x + e.dim.x < this.pos.x)
+		else if (e.pos.x + e.dim.x < this.pos.x){
 			return false;
+		}
 		// above
-		if (e.pos.y + e.dim.y < this.pos.y)
+		else if (e.pos.y + e.dim.y < this.pos.y){
 			return false;
+		}
 
 		return true;
 	}

@@ -15,8 +15,7 @@ public class Level extends Entity {
 			nonSolids = new LinkedList<Entity>();
 
 	public void addEntity(final Entity e) {
-		String isSolid = e.variables.getVar("solid");
-		if (isSolid != null && isSolid.equalsIgnoreCase("true")) {
+		if (e.solid) {
 			solids.add(e);
 		} else {
 			nonSolids.add(e);

@@ -1,5 +1,7 @@
 package samplegame.render;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -27,6 +29,10 @@ public class Render2D {
 		GL11.glVertex2f(a.x, a.y);
 		GL11.glVertex2f(b.x, b.y);
 		GL11.glEnd();
+	}
+	
+	public static void setColor(final Color color) {
+		GL11.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
 	}
 
 	public static void setColor(int r, int g, int b) {

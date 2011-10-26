@@ -41,7 +41,7 @@ public class Importer {
 		}
 		// SOLID
 		try {
-			e.solid = Boolean.parseBoolean(entityMap.getVar("solid"));
+			e.solid = Boolean.parseBoolean(entityMap.getVar("solid").trim());
 		} catch (Exception er) {
 			e.solid = false;
 		}

@@ -1,5 +1,6 @@
 package samplegame.entrypoint;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.HashMap;
 
@@ -25,7 +26,7 @@ import toritools.map.VariableCase;
 public class Game {
 
 	/** Game title */
-	public static final String GAME_TITLE = "SampleGame";
+	public static final String GAME_TITLE = "USE WASD!";
 
 	/** Exit the game */
 	private static boolean finished;
@@ -34,6 +35,11 @@ public class Game {
 	private static final int FRAMERATE = 60;
 
 	public static final Vector2f BOUNDS = new Vector2f(800, 600);
+
+	/**
+	 * The current working level.
+	 */
+	private static Level level;
 
 	/**
 	 * Application init
@@ -84,23 +90,64 @@ public class Game {
 		cas.setVar("dimensions.y", 1000 + "");
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 		level.idMap.get("player").script = new EntityScript() {
-			public void onSpawn(Level level, Entity self) {}
+			public void onSpawn(Level level, Entity self) {
+			}
+
 			public void onUpdate(Level level, Entity self) {
-				int speed = 4;
-				if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+				float x = self.pos.x, y = self.pos.y;
+
+				int speed = 6;
+				if (Keyboard.isKeyDown(Keyboard.KEY_A))
 					self.pos.x -= speed;
-				}
-				if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+				if (Keyboard.isKeyDown(Keyboard.KEY_D))
 					self.pos.x += speed;
-				}
-				if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+				// Detect and correct for collisions
+				moveOutClosest(self, x, null, level);
+
+				if (Keyboard.isKeyDown(Keyboard.KEY_W))
 					self.pos.y -= speed;
-				}
-				if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+
+				if (Keyboard.isKeyDown(Keyboard.KEY_S))
 					self.pos.y += speed;
+				// Detect and correct for y collisions
+				moveOutClosest(self, null, y, level);
+
+			}
+
+			public void onDeath(Level level, Entity self, boolean isRoomExit) {
+			}
+
+			private void moveOutClosest(Entity self, Float oldX, Float oldY,
+					final Level level) {
+
+				Entity e = self.isCollidingWithSolid(level.solids);
+				if (e != null && oldY != null) {
+					float y = self.pos.y;
+					float midY = y + self.dim.y / 2f;
+					float oMidY = e.pos.y + e.dim.y / 2f;
+					if (oMidY < midY) {
+						// self on bottom
+						y = e.pos.y + e.dim.y + 1;
+					} else if (oMidY > midY) {
+						// self on top
+						y = e.pos.y - self.dim.y - 1;
+					}
+					self.pos.y = y;
+				}
+				if (e != null && oldX != null) {
+					float x = self.pos.x;
+					float midX = x + self.dim.x / 2f;
+					float oMidX = e.pos.x + e.dim.x / 2f;
+					if (oMidX < midX) {
+						// self on right
+						x = e.pos.x + e.dim.x + 1;
+					} else if (oMidX > midX) {
+						// self on left
+						x = e.pos.x - self.dim.x - 1;
+					}
+					self.pos.x = x;
 				}
 			}
-			public void onDeath(Level level, Entity self, boolean isRoomExit) {}
 		};
 	}
 
@@ -152,17 +199,17 @@ public class Game {
 
 	}
 
-	private static Vector2f test = new Vector2f(20, 20);
-	private static Level level;
-
 	private static void render() {
 		Render2D.setup2D(BOUNDS);
 		Render2D.clearScreen();
 		GL11.glPushMatrix();
-		for (Entity e : level.solids)
-			Render2D.drawRect(e.pos, Vector2f.add(e.pos, e.dim, null));
+		Render2D.setColor(Color.BLUE);
 		for (Entity e : level.nonSolids)
 			Render2D.drawRect(e.pos, Vector2f.add(e.pos, e.dim, null));
+		Render2D.setColor(Color.RED);
+		for (Entity e : level.solids)
+			Render2D.drawRect(e.pos, Vector2f.add(e.pos, e.dim, null));
+
 		GL11.glPopMatrix();
 	}
 }
