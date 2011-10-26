@@ -96,7 +96,7 @@ public class Game {
 			public void onUpdate(Level level, Entity self) {
 				float x = self.pos.x, y = self.pos.y;
 
-				int speed = 6;
+				int speed = 3;
 				if (Keyboard.isKeyDown(Keyboard.KEY_A))
 					self.pos.x -= speed;
 				if (Keyboard.isKeyDown(Keyboard.KEY_D))
