@@ -1,6 +1,7 @@
 package samplegame.entrypoint;
 
 import java.io.File;
+import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -12,6 +13,7 @@ import samplegame.entity.Entity;
 import samplegame.entity.Level;
 import samplegame.load.Importer;
 import samplegame.render.Render2D;
+import samplegame.scripting.EntityScript;
 import toritools.map.VariableCase;
 
 /**
@@ -20,7 +22,7 @@ import toritools.map.VariableCase;
  * @author toriscope
  * 
  */
-public class SampleGame {
+public class Game {
 
 	/** Game title */
 	public static final String GAME_TITLE = "SampleGame";
@@ -48,6 +50,16 @@ public class SampleGame {
 		System.exit(0);
 	}
 
+	private static HashMap<String, String> globalVariables = new HashMap<String, String>();
+
+	public static void setGlobalVar(final String key, final String value) {
+		globalVariables.put(key, value);
+	}
+
+	public static String getGlobalVar(final String key) {
+		return globalVariables.get(key);
+	}
+
 	/**
 	 * Initialize the game
 	 * 
@@ -71,6 +83,25 @@ public class SampleGame {
 		cas.setVar("dimensions.x", 1000 + "");
 		cas.setVar("dimensions.y", 1000 + "");
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
+		level.idMap.get("player").script = new EntityScript() {
+			public void onSpawn(Level level, Entity self) {}
+			public void onUpdate(Level level, Entity self) {
+				int speed = 4;
+				if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+					self.pos.x -= speed;
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+					self.pos.x += speed;
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+					self.pos.y -= speed;
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+					self.pos.y += speed;
+				}
+			}
+			public void onDeath(Level level, Entity self, boolean isRoomExit) {}
+		};
 	}
 
 	/**
@@ -114,22 +145,10 @@ public class SampleGame {
 			finished = true;
 		}
 
-		/*
-		 * TEMPORARY KEYBOARD CONTROLS.
-		 */
-		int speed = 4;
-		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			test.x -= speed;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			test.x += speed;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			test.y -= speed;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			test.y += speed;
-		}
+		for (Entity e : level.solids)
+			e.onUpdate(level);
+		for (Entity e : level.nonSolids)
+			e.onUpdate(level);
 
 	}
 
@@ -146,5 +165,4 @@ public class SampleGame {
 			Render2D.drawRect(e.pos, Vector2f.add(e.pos, e.dim, null));
 		GL11.glPopMatrix();
 	}
-
 }

@@ -1,6 +1,5 @@
 package samplegame.load;
 
-import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -53,7 +52,8 @@ public class Importer {
 		return e;
 	}
 
-	public static Level importLevel(final File file) throws FileNotFoundException {
+	public static Level importLevel(final File file)
+			throws FileNotFoundException {
 		Level level = new Level();
 		Document doc = ToriXML.parse(file);
 		HashMap<String, String> props = ToriMapIO.readMap(doc
@@ -71,15 +71,17 @@ public class Importer {
 			Node e = entities.item(i);
 			HashMap<String, String> mapData = ToriMapIO.readMap(e
 					.getAttributes().getNamedItem("map").getNodeValue());
-			int layer = Integer.parseInt(mapData.get("layer"));
+			// int layer = Integer.parseInt(mapData.get("layer"));
 			double x = Double.parseDouble(mapData.get("position.x"));
 			double y = Double.parseDouble(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
 			Entity ent = importEntity(f);
 			ent.pos = new Vector2f((float) x, (float) y);
-			//layerEditor.setLayerVisibility(layer, true);
+			// layerEditor.setLayerVisibility(layer, true);
 			ent.variables.getVariables().putAll(mapData);
 			level.addEntity(ent);
+			if (mapData.containsKey("id"))
+				level.idMap.put(mapData.get("id"), ent);
 		}
 		return level;
 	}

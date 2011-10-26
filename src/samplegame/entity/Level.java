@@ -1,13 +1,12 @@
 package samplegame.entity;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class Level extends Entity {
-	/**
-	 * entity vars pos = meaningless, dim = dim of level.
-	 */
+
+	public HashMap<String, Entity> idMap = new HashMap<String, Entity>();
 
 	/**
 	 * The entity lists.

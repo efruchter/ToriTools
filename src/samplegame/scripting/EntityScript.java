@@ -1,5 +1,8 @@
 package samplegame.scripting;
 
+import samplegame.entity.Entity;
+import samplegame.entity.Level;
+
 /**
  * The scripts that entities load should implement this interface.
  * 
@@ -10,13 +13,9 @@ public interface EntityScript {
 
 	/**
 	 * This is called upon entity creation, after all entities have loaded.
-	 * 
-	 * @param world
-	 *            the world object
-	 * @param self
-	 *            the entity running the script.
+	 * Happens once each room load, or upon dynamic spawn.
 	 */
-	public void onSpawn();
+	public void onSpawn(final Level level, final Entity self);
 
 	/**
 	 * This is called upon entity update.
@@ -26,21 +25,42 @@ public interface EntityScript {
 	 * @param self
 	 *            the entity running the script.
 	 */
-	public void onUpdate();
+	public void onUpdate(final Level level, final Entity self);
 
 	/**
-	 * This is called upon entity deletion.
+	 * This is called upon entity deletion not including room exit.
 	 * 
 	 * @param world
 	 *            the world object
 	 * @param self
-	 *            the entity running the script.
+	 *            the entity running the script
+	 * @param isRoomExit
+	 *            True if the room is exiting, false if the deletion was natural
+	 *            (player killed it, etc.).
 	 */
-	public void onDeath();
-	
+	public void onDeath(final Level level, final Entity self, boolean isRoomExit);
+
+	/**
+	 * A Blank entity script.
+	 */
 	public static EntityScript BLANK = new EntityScript() {
-		public void onSpawn() {}
-		public void onUpdate() {}
-		public void onDeath() {}
+
+		@Override
+		public void onSpawn(Level level, Entity self) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onUpdate(Level level, Entity self) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onDeath(Level level, Entity self, boolean isRoomExit) {
+			// TODO Auto-generated method stub
+
+		}
 	};
 }

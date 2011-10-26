@@ -49,15 +49,15 @@ public class Entity {
 	 */
 
 	public void onSpawn(final Level world) {
-		script.onSpawn();
+		script.onSpawn(world, this);
 	}
 
 	public void onUpdate(final Level world) {
-		script.onUpdate();
+		script.onUpdate(world, this);
 	}
 
-	public void onDeath(final Level world) {
-		script.onDeath();
+	public void onDeath(final Level world, final boolean isRoomExit) {
+		script.onDeath(world, this, isRoomExit);
 	}
 
 	public boolean isColliding(final Entity e) {
