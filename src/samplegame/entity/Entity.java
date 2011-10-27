@@ -1,8 +1,5 @@
 package samplegame.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.util.vector.Vector2f;
 
 import samplegame.scripting.EntityScript;
@@ -63,7 +60,7 @@ public class Entity {
 		script.onDeath(world, this, isRoomExit);
 	}
 
-	public Entity isCollidingWithSolid(List<Entity> solids) {
+	public Entity isCollidingWithSolid(Entity... solids) {
 		for (Entity e : solids) {
 			if (e != this && this.isColliding(e))
 				return e;
@@ -92,8 +89,16 @@ public class Entity {
 		return true;
 	}
 
-	public void moveOutClosest(final Float oldX, final Float oldY,
-			final List<Entity> others) {
+	public void moveOutX(final Float oldX, final Entity... others) {
+		moveOut(oldX, null, others);
+	}
+
+	public void moveOutY(final Float oldY, final Entity... others) {
+		moveOut(null, oldY, others);
+	}
+
+	public void moveOut(final Float oldX, final Float oldY,
+			final Entity... others) {
 		final Entity e = this.isCollidingWithSolid(others);
 		if (e != null && oldY != null) {
 			float y = this.pos.y;
@@ -110,12 +115,7 @@ public class Entity {
 		}
 		if (e == null)
 			return;
-		@SuppressWarnings("serial")
-		final Entity newE = this.isCollidingWithSolid(new ArrayList<Entity>() {
-			{
-				add(e);
-			}
-		});
+		final Entity newE = this.isCollidingWithSolid(e);
 		if (newE != null && oldX != null) {
 			float x = this.pos.x;
 			float midX = x + this.dim.x / 2f;

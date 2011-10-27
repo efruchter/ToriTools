@@ -102,7 +102,7 @@ public class Game {
 				if (Keyboard.isKeyDown(Keyboard.KEY_D))
 					self.pos.x += speed;
 				// Detect and correct for collisions
-				self.moveOutClosest(x, null, level.solids);
+				self.moveOutX(x, level.solids.toArray(new Entity[0]));
 
 				if (Keyboard.isKeyDown(Keyboard.KEY_W))
 					self.pos.y -= speed;
@@ -110,28 +110,28 @@ public class Game {
 				if (Keyboard.isKeyDown(Keyboard.KEY_S))
 					self.pos.y += speed;
 				// Detect and correct for y collisions
-				self.moveOutClosest(null, y, level.solids);
+				self.moveOutY(y, level.solids.toArray(new Entity[0]));
 
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 
-			
 		};
 		level.idMap.get("blockbuddy").script = new EntityScript() {
 			public void onSpawn(Level level, Entity self) {
 			}
 
 			public void onUpdate(Level level, Entity self) {
-				
-				//self.moveOutClosest(self.pos.x, null, level.idMap.get("player"));
+				self.moveOut(self.pos.x, null, level.idMap.get("player"));
+				self.moveOutX(self.pos.x, level.solids.toArray(new Entity[0]));
+				level.idMap.get("player").moveOutX(self.pos.x, self);
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
-		
+
 		for (Entity e : level.nonSolids)
 			e.onSpawn(level);
 		Render2D.setColor(Color.RED);
