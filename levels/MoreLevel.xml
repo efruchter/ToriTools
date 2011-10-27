@@ -3,7 +3,7 @@
 <entity map="id = player;template = /objects/player/player.entity;position.y = 384.0;position.x = 384.0;layer = 0;"/>
 <entity map="template = /objects/tree/tree.entity;position.y = 352.0;position.x = 512.0;layer = 0;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 480.0;position.x = 416.0;layer = 0;"/>
-<entity map="id = blockbuddy;template = /objects/player/player.entity;position.y = 320.0;position.x = 320.0;layer = 0;"/>
+<entity map="id = blockbuddy;template = /objects/player/player.entity;position.y = 408.0;position.x = 320.0;layer = 0;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 256.0;position.x = 128.0;layer = 3;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 320.0;position.x = 128.0;layer = 3;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 384.0;position.x = 128.0;layer = 3;"/>
