@@ -102,7 +102,7 @@ public class Game {
 				if (Keyboard.isKeyDown(Keyboard.KEY_D))
 					self.pos.x += speed;
 				// Detect and correct for collisions
-				moveOutClosest(self, x, null, level);
+				self.moveOutClosest(x, null, level.solids);
 
 				if (Keyboard.isKeyDown(Keyboard.KEY_W))
 					self.pos.y -= speed;
@@ -110,45 +110,33 @@ public class Game {
 				if (Keyboard.isKeyDown(Keyboard.KEY_S))
 					self.pos.y += speed;
 				// Detect and correct for y collisions
-				moveOutClosest(self, null, y, level);
+				self.moveOutClosest(null, y, level.solids);
 
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 
-			private void moveOutClosest(Entity self, Float oldX, Float oldY,
-					final Level level) {
+			
+		};
+		level.idMap.get("blockbuddy").script = new EntityScript() {
+			public void onSpawn(Level level, Entity self) {
+			}
 
-				Entity e = self.isCollidingWithSolid(level.solids);
-				if (e != null && oldY != null) {
-					float y = self.pos.y;
-					float midY = y + self.dim.y / 2f;
-					float oMidY = e.pos.y + e.dim.y / 2f;
-					if (oMidY < midY) {
-						// self on bottom
-						y = e.pos.y + e.dim.y + 1;
-					} else if (oMidY > midY) {
-						// self on top
-						y = e.pos.y - self.dim.y - 1;
-					}
-					self.pos.y = y;
-				}
-				if (e != null && oldX != null) {
-					float x = self.pos.x;
-					float midX = x + self.dim.x / 2f;
-					float oMidX = e.pos.x + e.dim.x / 2f;
-					if (oMidX < midX) {
-						// self on right
-						x = e.pos.x + e.dim.x + 1;
-					} else if (oMidX > midX) {
-						// self on left
-						x = e.pos.x - self.dim.x - 1;
-					}
-					self.pos.x = x;
-				}
+			public void onUpdate(Level level, Entity self) {
+				
+				//self.moveOutClosest(self.pos.x, null, level.idMap.get("player"));
+			}
+
+			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
+		
+		for (Entity e : level.nonSolids)
+			e.onSpawn(level);
+		Render2D.setColor(Color.RED);
+		for (Entity e : level.solids)
+			e.onSpawn(level);
 	}
 
 	/**

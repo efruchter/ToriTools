@@ -1,5 +1,6 @@
 package samplegame.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -72,22 +73,61 @@ public class Entity {
 
 	public boolean isColliding(final Entity e) {
 		// left of
-		if (this.pos.x + this.dim.x < e.pos.x){
+		if (this.pos.x + this.dim.x < e.pos.x) {
 			return false;
 		}
 		// below
-		else if (this.pos.y + this.dim.y < e.pos.y){
+		else if (this.pos.y + this.dim.y < e.pos.y) {
 			return false;
 		}
 		// right
-		else if (e.pos.x + e.dim.x < this.pos.x){
+		else if (e.pos.x + e.dim.x < this.pos.x) {
 			return false;
 		}
 		// above
-		else if (e.pos.y + e.dim.y < this.pos.y){
+		else if (e.pos.y + e.dim.y < this.pos.y) {
 			return false;
 		}
 
 		return true;
+	}
+
+	public void moveOutClosest(final Float oldX, final Float oldY,
+			final List<Entity> others) {
+		final Entity e = this.isCollidingWithSolid(others);
+		if (e != null && oldY != null) {
+			float y = this.pos.y;
+			float midY = y + this.dim.y / 2f;
+			float oMidY = e.pos.y + e.dim.y / 2f;
+			if (oMidY < midY) {
+				// this on bottom
+				y = e.pos.y + e.dim.y + 1;
+			} else if (oMidY > midY) {
+				// this on top
+				y = e.pos.y - this.dim.y - 1;
+			}
+			this.pos.y = y;
+		}
+		if (e == null)
+			return;
+		@SuppressWarnings("serial")
+		final Entity newE = this.isCollidingWithSolid(new ArrayList<Entity>() {
+			{
+				add(e);
+			}
+		});
+		if (newE != null && oldX != null) {
+			float x = this.pos.x;
+			float midX = x + this.dim.x / 2f;
+			float oMidX = e.pos.x + e.dim.x / 2f;
+			if (oMidX < midX) {
+				// this on right
+				x = newE.pos.x + newE.dim.x + 1;
+			} else if (oMidX > midX) {
+				// this on left
+				x = newE.pos.x - this.dim.x - 1;
+			}
+			this.pos.x = x;
+		}
 	}
 }
