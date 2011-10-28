@@ -25,9 +25,10 @@ public class Importer {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static Entity importEntity(final File file)
+	public static Entity importEntity(final File file, final HashMap<String, String> instanceMap)
 			throws FileNotFoundException {
 		VariableCase entityMap = ToriMapIO.readVariables(file);
+		entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
 
 		/**
@@ -81,8 +82,9 @@ public class Importer {
 			double x = Double.parseDouble(mapData.get("position.x"));
 			double y = Double.parseDouble(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
-			Entity ent = importEntity(f);
+			Entity ent = importEntity(f, mapData);
 			ent.pos = new Vector2((float) x, (float) y);
+			ent.layer = Integer.parseInt(mapData.get("layer"));
 			// layerEditor.setLayerVisibility(layer, true);
 			ent.variables.getVariables().putAll(mapData);
 			level.addEntity(ent);

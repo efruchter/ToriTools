@@ -102,7 +102,7 @@ public class Game_J2d {
 			public void onUpdate(Level level, Entity self) {
 				float x = self.pos.x, y = self.pos.y;
 
-				int speed = 3;
+				int speed = 2;
 				if (keys.isPressed(KeyEvent.VK_A))
 					self.pos.x -= speed;
 				if (keys.isPressed(KeyEvent.VK_D))
@@ -150,7 +150,7 @@ public class Game_J2d {
 	 * Runs the game (the "main loop")
 	 */
 	private static void run() {
-		timer = new Timer(16, new ActionListener() {
+		timer = new Timer(17, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logic();
@@ -172,13 +172,9 @@ public class Game_J2d {
 	}
 
 	private static void render(final Graphics g) {
-		if (level == null)
-			return;
-		for (Entity e : level.nonSolids) {
-			e.draw(g);
-		}
-		for (Entity e : level.solids) {
-			e.draw(g);
-		}
+		for (int i = level.layers.size() - 1; i >= 0; i--)
+			for (Entity e : level.layers.get(i))
+				e.draw(g);
+
 	}
 }

@@ -32,6 +32,7 @@ public class Entity {
 	public Vector2 pos, dim;
 	public boolean solid;
 	public String title;
+	public int layer;
 
 	public HashMap<String, Image> spriteMap = new HashMap<String, Image>();
 
@@ -47,6 +48,7 @@ public class Entity {
 		this.dim = new Vector2();
 		this.solid = false;
 		this.title = "DEFAULT";
+		this.layer = 0;
 	}
 
 	/*
@@ -140,13 +142,6 @@ public class Entity {
 		g.drawImage(spriteMap.get("editor"), (int) pos.x, (int) pos.y,
 				(int) dim.x, (int) dim.y, null);
 	}
-
-	// public getOrientationAround(final Entity other) {
-	// if (pos.x + dim.x < other.pos.x)
-	// return Orientation.WEST;
-	// if(pos.x > other.pos.x + other.dim.x)
-	// return Orientation.EAST;
-	// }
 
 	public static enum Orientation {
 		NORTH, SOUTH, WEST, EAST
