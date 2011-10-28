@@ -39,7 +39,7 @@ public class Importer {
 					.getVar("dimensions.x")), Float.parseFloat(entityMap
 					.getVar("dimensions.y")));
 		} catch (Exception er) {
-			e.dim = new Vector2f();
+			e.dim = new Vector2();
 		}
 		// SOLID
 		try {
@@ -82,7 +82,7 @@ public class Importer {
 			double y = Double.parseDouble(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
 			Entity ent = importEntity(f);
-			ent.pos = new Vector2f((float) x, (float) y);
+			ent.pos = new Vector2((float) x, (float) y);
 			// layerEditor.setLayerVisibility(layer, true);
 			ent.variables.getVariables().putAll(mapData);
 			level.addEntity(ent);
