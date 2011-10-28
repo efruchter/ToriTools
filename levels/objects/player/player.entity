@@ -6,6 +6,7 @@ solid = false;
 
 sprites.editor = robo.png;
 
-sprites.ingame = playersheet.png, 3, 4;
+sprites.ingame = playersheet.png, 4, 4;
+sprites.timescale = 5;
 
 

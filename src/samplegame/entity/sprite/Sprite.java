@@ -9,6 +9,7 @@ public class Sprite {
 	private int xSplit = 1, ySplit = 1, x = 0, y = 0, w, h;
 	public Image image;
 	private Vector2 bRight;
+	public int timeStretch = 1;
 
 	public Sprite(final Image image, final int xTiles, final int yTiles) {
 		this.image = image;
@@ -20,8 +21,7 @@ public class Sprite {
 	}
 
 	public void nextFrame() {
-		x = ++x % xSplit;
-		System.err.println(x);
+		x = ++x % (xSplit * timeStretch);
 	}
 
 	public void setFrame(final int frame) {
@@ -33,11 +33,11 @@ public class Sprite {
 	}
 
 	public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+		int x = this.x / timeStretch;
 		g.drawImage(image, (int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
 				(int) pos.y + (int) dim.y, x * (int) bRight.x, y
-						* (int) bRight.y, x * (int) bRight.x
-						+ (int) bRight.x, y * (int) bRight.y
-						+ (int) bRight.y, null);
+						* (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
+				y * (int) bRight.y + (int) bRight.y, null);
 	}
 
 }

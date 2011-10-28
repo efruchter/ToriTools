@@ -97,6 +97,7 @@ public class Game_J2d {
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 		level.idMap.get("player").script = new EntityScript() {
 			public void onSpawn(Level level, Entity self) {
+				System.out.println("The kid is spawned!");
 			}
 
 			public void onUpdate(Level level, Entity self) {
@@ -131,7 +132,7 @@ public class Game_J2d {
 				// Detect and correct for y collisions
 				self.moveOutY(y, level.solids.toArray(new Entity[0]));
 
-				if(walked)
+				if (walked)
 					self.sprite.nextFrame();
 			}
 

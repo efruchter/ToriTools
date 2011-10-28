@@ -64,6 +64,10 @@ public class Importer {
 			e.sprite = new Sprite(new ImageIcon(file.getParent() + "/"
 					+ value[0].trim()).getImage(), Integer.parseInt(value[1]
 					.trim()), Integer.parseInt(value[2].trim()));
+			inGame = entityMap.getVar("sprites.timescale");
+			if (inGame != null) {
+				e.sprite.timeStretch = Integer.parseInt(inGame.trim());
+			}
 
 		} else {
 			e.sprite = e.editor;
