@@ -4,7 +4,7 @@ dimensions.x = 32;
 dimensions.y = 32;
 solid = false;
 
-sprites.editor = robo.png;
+sprites.editor = editor.png;
 
 sprites.ingame = playersheet.png, 4, 4;
 sprites.timescale = 5;
