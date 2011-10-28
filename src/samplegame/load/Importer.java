@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import samplegame.entity.Entity;
 import samplegame.entity.Level;
+import samplegame.entity.sprite.Sprite;
 import samplegame.math.Vector2;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
@@ -25,7 +26,8 @@ public class Importer {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static Entity importEntity(final File file, final HashMap<String, String> instanceMap)
+	public static Entity importEntity(final File file,
+			final HashMap<String, String> instanceMap)
 			throws FileNotFoundException {
 		VariableCase entityMap = ToriMapIO.readVariables(file);
 		entityMap.getVariables().putAll(instanceMap);
@@ -52,10 +54,20 @@ public class Importer {
 		e.title = entityMap.getVar("solid");
 		e.title = e.title != null ? e.title : "DEFAULT";
 
-		// Editor sprite : more later!
-		e.spriteMap.put("editor", new ImageIcon(file.getParent() + "/"
-				+ entityMap.getVar("sprites.editor")).getImage());
+		e.editor = new Sprite(new ImageIcon(file.getParent() + "/"
+				+ entityMap.getVar("sprites.editor")).getImage(), 1, 1);
+		String inGame = entityMap.getVar("sprites.ingame");
+		if (inGame != null) {
+			// The key is sprite but not editor
+			String[] value = inGame.split(",");
+			// 0: file, 1: x tile, 2: y tile
+			e.sprite = new Sprite(new ImageIcon(file.getParent() + "/"
+					+ value[0].trim()).getImage(), Integer.parseInt(value[1]
+					.trim()), Integer.parseInt(value[2].trim()));
 
+		} else {
+			e.sprite = e.editor;
+		}
 		return e;
 	}
 

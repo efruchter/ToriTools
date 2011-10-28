@@ -103,40 +103,55 @@ public class Game_J2d {
 				float x = self.pos.x, y = self.pos.y;
 
 				int speed = 2;
-				if (keys.isPressed(KeyEvent.VK_A))
+				boolean walked = false;
+				if (keys.isPressed(KeyEvent.VK_A)) {
+					walked = true;
 					self.pos.x -= speed;
-				if (keys.isPressed(KeyEvent.VK_D))
+					self.sprite.setCylcle(1);
+				}
+				if (keys.isPressed(KeyEvent.VK_D)) {
+					walked = true;
 					self.pos.x += speed;
+					self.sprite.setCylcle(2);
+				}
 				// Detect and correct for collisions
 				self.moveOutX(x, level.solids.toArray(new Entity[0]));
 
-				if (keys.isPressed(KeyEvent.VK_W))
+				if (keys.isPressed(KeyEvent.VK_W)) {
+					walked = true;
 					self.pos.y -= speed;
+					self.sprite.setCylcle(3);
+				}
 
-				if (keys.isPressed(KeyEvent.VK_S))
+				if (keys.isPressed(KeyEvent.VK_S)) {
+					walked = true;
 					self.pos.y += speed;
+					self.sprite.setCylcle(0);
+				}
 				// Detect and correct for y collisions
 				self.moveOutY(y, level.solids.toArray(new Entity[0]));
 
+				if(walked)
+					self.sprite.nextFrame();
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 
 		};
-		level.idMap.get("blockbuddy").script = new EntityScript() {
-			public void onSpawn(Level level, Entity self) {
-			}
-
-			public void onUpdate(Level level, Entity self) {
-				self.moveOut(self.pos.x, null, level.idMap.get("player"));
-				self.moveOutX(self.pos.x, level.solids.toArray(new Entity[0]));
-				level.idMap.get("player").moveOutX(self.pos.x, self);
-			}
-
-			public void onDeath(Level level, Entity self, boolean isRoomExit) {
-			}
-		};
+		// level.idMap.get("blockbuddy").script = new EntityScript() {
+		// public void onSpawn(Level level, Entity self) {
+		// }
+		//
+		// public void onUpdate(Level level, Entity self) {
+		// self.moveOut(self.pos.x, null, level.idMap.get("player"));
+		// self.moveOutX(self.pos.x, level.solids.toArray(new Entity[0]));
+		// level.idMap.get("player").moveOutX(self.pos.x, self);
+		// }
+		//
+		// public void onDeath(Level level, Entity self, boolean isRoomExit) {
+		// }
+		// };
 
 		for (Entity e : level.nonSolids)
 			e.onSpawn(level);

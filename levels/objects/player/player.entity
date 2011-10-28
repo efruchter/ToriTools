@@ -2,6 +2,10 @@ title = player;
 description = The dude you move.;
 dimensions.x = 32;
 dimensions.y = 32;
-sprites.editor = robo.png;
 solid = false;
+
+sprites.editor = robo.png;
+
+sprites.ingame = playersheet.png, 3, 4;
+
 

@@ -58,6 +58,10 @@ public class Vector2 {
 	public Vector2 scale(final float scalar) {
 		return new Vector2(this.x * scalar, this.y * scalar);
 	}
+	
+	public Vector2 scale(final float x, final Float y) {
+		return new Vector2(this.x * x, this.y * y);
+	}
 
 	public float dot(final Vector2 o) {
 		return this.x * o.getX() + this.y * o.getY();

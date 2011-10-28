@@ -1,9 +1,8 @@
 package samplegame.entity;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.util.HashMap;
 
+import samplegame.entity.sprite.Sprite;
 import samplegame.math.Vector2;
 import samplegame.scripting.EntityScript;
 import toritools.map.VariableCase;
@@ -34,8 +33,7 @@ public class Entity {
 	public String title;
 	public int layer;
 
-	public HashMap<String, Image> spriteMap = new HashMap<String, Image>();
-
+	public Sprite sprite, editor;
 	/**
 	 * This variable case will be passed in containing the additional data from
 	 * the xml level file, as well as entity data from the entity xml.
@@ -139,8 +137,7 @@ public class Entity {
 	}
 
 	public void draw(final Graphics g) {
-		g.drawImage(spriteMap.get("editor"), (int) pos.x, (int) pos.y,
-				(int) dim.x, (int) dim.y, null);
+		sprite.draw(g, pos, dim);
 	}
 
 	public static enum Orientation {
