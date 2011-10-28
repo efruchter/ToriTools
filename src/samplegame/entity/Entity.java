@@ -1,7 +1,10 @@
 package samplegame.entity;
 
-import org.lwjgl.util.vector.Vector2f;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.util.HashMap;
 
+import samplegame.math.Vector2;
 import samplegame.scripting.EntityScript;
 import toritools.map.VariableCase;
 
@@ -26,9 +29,11 @@ public class Entity {
 	/*
 	 * INSTANCE ENTITY VARIABLES
 	 */
-	public Vector2f pos, dim;
+	public Vector2 pos, dim;
 	public boolean solid;
 	public String title;
+
+	public HashMap<String, Image> spriteMap = new HashMap<String, Image>();
 
 	/**
 	 * This variable case will be passed in containing the additional data from
@@ -38,8 +43,8 @@ public class Entity {
 	 */
 	public Entity() {
 		this.script = EntityScript.BLANK;
-		this.pos = new Vector2f();
-		this.dim = new Vector2f();
+		this.pos = new Vector2();
+		this.dim = new Vector2();
 		this.solid = false;
 		this.title = "DEFAULT";
 	}
@@ -129,5 +134,21 @@ public class Entity {
 			}
 			this.pos.x = x;
 		}
+	}
+
+	public void draw(final Graphics g) {
+		g.drawImage(spriteMap.get("editor"), (int) pos.x, (int) pos.y,
+				(int) dim.x, (int) dim.y, null);
+	}
+
+	// public getOrientationAround(final Entity other) {
+	// if (pos.x + dim.x < other.pos.x)
+	// return Orientation.WEST;
+	// if(pos.x > other.pos.x + other.dim.x)
+	// return Orientation.EAST;
+	// }
+
+	public static enum Orientation {
+		NORTH, SOUTH, WEST, EAST
 	}
 }

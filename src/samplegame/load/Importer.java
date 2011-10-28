@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
-import org.lwjgl.util.vector.Vector2f;
+import javax.swing.ImageIcon;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import samplegame.entity.Entity;
 import samplegame.entity.Level;
+import samplegame.math.Vector2;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
 import toritools.xml.ToriXML;
@@ -33,7 +35,7 @@ public class Importer {
 		 */
 		// DIMENSION
 		try {
-			e.dim = new Vector2f(Float.parseFloat(entityMap
+			e.dim = new Vector2(Float.parseFloat(entityMap
 					.getVar("dimensions.x")), Float.parseFloat(entityMap
 					.getVar("dimensions.y")));
 		} catch (Exception er) {
@@ -48,6 +50,10 @@ public class Importer {
 		// TITLE
 		e.title = entityMap.getVar("solid");
 		e.title = e.title != null ? e.title : "DEFAULT";
+
+		// Editor sprite : more later!
+		e.spriteMap.put("editor", new ImageIcon(file.getParent() + "/"
+				+ entityMap.getVar("sprites.editor")).getImage());
 
 		return e;
 	}
