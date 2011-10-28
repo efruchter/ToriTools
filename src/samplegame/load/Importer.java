@@ -56,7 +56,7 @@ public class Importer {
 
 		e.editor = new Sprite(new ImageIcon(file.getParent() + "/"
 				+ entityMap.getVar("sprites.editor")).getImage(), 1, 1);
-		String inGame = entityMap.getVar("sprites.ingame");
+		String inGame = entityMap.getVar("sprites.inGame");
 		if (inGame != null) {
 			// The key is sprite but not editor
 			String[] value = inGame.split(",");
@@ -64,9 +64,13 @@ public class Importer {
 			e.sprite = new Sprite(new ImageIcon(file.getParent() + "/"
 					+ value[0].trim()).getImage(), Integer.parseInt(value[1]
 					.trim()), Integer.parseInt(value[2].trim()));
-			inGame = entityMap.getVar("sprites.timescale");
+			inGame = entityMap.getVar("sprites.timeScale");
 			if (inGame != null) {
 				e.sprite.timeStretch = Integer.parseInt(inGame.trim());
+			}
+			inGame = entityMap.getVar("sprites.sizeOffset");
+			if (inGame != null) {
+				e.sprite.sizeOffset = Integer.parseInt(inGame.trim());
 			}
 
 		} else {

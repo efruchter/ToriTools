@@ -1,0 +1,11 @@
+title = wall;
+
+description = A little wall!;
+
+dimensions.x = 32;
+dimensions.y = 32;
+
+sprites.editor = editor.jpg;
+
+solid = false;
+

@@ -50,9 +50,16 @@ public class Vector2 {
 	public Vector2 add(final Vector2 o) {
 		return new Vector2(this.x + o.getX(), this.y + o.getY());
 	}
+	public Vector2 add(final float add) {
+		return new Vector2(this.x + add, this.y + add);
+	}
 
 	public Vector2 sub(final Vector2 o) {
 		return new Vector2(this.x - o.getX(), this.y - o.getY());
+	}
+	
+	public Vector2 sub(final float o) {
+		return new Vector2(this.x - o, this.y - o);
 	}
 
 	public Vector2 scale(final float scalar) {

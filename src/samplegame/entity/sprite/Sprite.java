@@ -10,6 +10,7 @@ public class Sprite {
 	public Image image;
 	private Vector2 bRight;
 	public int timeStretch = 1;
+	public float sizeOffset = 0;
 
 	public Sprite(final Image image, final int xTiles, final int yTiles) {
 		this.image = image;
@@ -32,8 +33,10 @@ public class Sprite {
 		y = cycle % ySplit;
 	}
 
-	public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+	public void draw(Graphics g, final Vector2 posO, final Vector2 dimO) {
 		int x = this.x / timeStretch;
+		Vector2 dim = dimO.add(sizeOffset * 2);
+		Vector2 pos = posO.sub(sizeOffset);
 		g.drawImage(image, (int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
 				(int) pos.y + (int) dim.y, x * (int) bRight.x, y
 						* (int) bRight.y, x * (int) bRight.x + (int) bRight.x,

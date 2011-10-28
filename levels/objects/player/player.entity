@@ -1,12 +1,13 @@
 title = player;
 description = The dude you move.;
-dimensions.x = 32;
-dimensions.y = 32;
+dimensions.x = 25;
+dimensions.y = 25;
 solid = false;
 
 sprites.editor = editor.png;
 
-sprites.ingame = playersheet.png, 4, 4;
-sprites.timescale = 5;
+sprites.inGame = playersheet.png, 4, 4;
+sprites.timeScale = 5;
+sprites.sizeOffset = 4;
 
 

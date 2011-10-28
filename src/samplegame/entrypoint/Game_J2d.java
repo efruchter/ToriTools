@@ -140,19 +140,19 @@ public class Game_J2d {
 			}
 
 		};
-		// level.idMap.get("blockbuddy").script = new EntityScript() {
-		// public void onSpawn(Level level, Entity self) {
-		// }
-		//
-		// public void onUpdate(Level level, Entity self) {
-		// self.moveOut(self.pos.x, null, level.idMap.get("player"));
-		// self.moveOutX(self.pos.x, level.solids.toArray(new Entity[0]));
-		// level.idMap.get("player").moveOutX(self.pos.x, self);
-		// }
-		//
-		// public void onDeath(Level level, Entity self, boolean isRoomExit) {
-		// }
-		// };
+		level.idMap.get("pushblock1").script = new EntityScript() {
+			public void onSpawn(Level level, Entity self) {
+			}
+
+			public void onUpdate(Level level, Entity self) {
+				self.moveOut(self.pos.x, null, level.idMap.get("player"));
+				self.moveOutX(self.pos.x, level.solids.toArray(new Entity[0]));
+				level.idMap.get("player").moveOutX(self.pos.x, self);
+			}
+
+			public void onDeath(Level level, Entity self, boolean isRoomExit) {
+			}
+		};
 
 		for (Entity e : level.nonSolids)
 			e.onSpawn(level);
