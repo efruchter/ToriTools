@@ -1,0 +1,12 @@
+title = cross;
+
+description = a solemn cross!;
+
+dimensions.x = 26;
+dimensions.y = 26;
+
+sprites.editor = cross.png;
+
+solid = true;
+
+sprites.sizeOffset = 1;

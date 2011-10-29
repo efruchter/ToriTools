@@ -1,17 +1,26 @@
 package samplegame.entrypoint;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import samplegame.audio.MP3;
 import samplegame.controls.KeyHolder;
 import samplegame.entity.Entity;
 import samplegame.entity.Level;
@@ -32,6 +41,8 @@ public class Game_J2d {
 	public static final String GAME_TITLE = "USE WASD!";
 
 	public static final Vector2 BOUNDS = new Vector2(800, 600);
+
+	public static MP3 bg;
 
 	/**
 	 * The current working level.
@@ -153,11 +164,29 @@ public class Game_J2d {
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
+		level.idMap.get("wolf").script = new EntityScript() {
+			private Random rand = new Random();
+
+			public void onSpawn(Level level, Entity self) {
+			}
+
+			public void onUpdate(Level level, Entity self) {
+				self.sprite.nextFrame();
+				if (Math.random() > .98d) {
+					self.sprite.setCylcle(rand.nextInt(4));
+				}
+			}
+
+			public void onDeath(Level level, Entity self, boolean isRoomExit) {
+			}
+		};
 
 		for (Entity e : level.nonSolids)
 			e.onSpawn(level);
 		for (Entity e : level.solids)
 			e.onSpawn(level);
+		bg = new MP3("creep.mp3");
+		bg.play();
 	}
 
 	private static Timer timer;
@@ -184,13 +213,43 @@ public class Game_J2d {
 			e.onUpdate(level);
 		for (Entity e : level.nonSolids)
 			e.onUpdate(level);
-
 	}
 
+	private static ImageFilter filter = new RGBImageFilter() {
+		public int markerRGB = Color.WHITE.getRGB() | 0xFF000000;
+
+		public final int filterRGB(int x, int y, int rgb) {
+			if ((rgb | 0xFF000000) == markerRGB) {
+				return 0x00FFFFFF & rgb;
+			} else {
+				return 0xFE000000 & rgb;
+			}
+		}
+	};
+
 	private static void render(final Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i))
-				e.draw(g);
+				if (e.visible)
+					e.draw(g);
+		Image i = new BufferedImage((int) BOUNDS.x, (int) BOUNDS.y,
+				BufferedImage.TYPE_INT_RGB);
+		Graphics lightLayer = i.getGraphics();
+		lightLayer.setColor(Color.BLACK);
+		lightLayer.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
+		drawLanternAround(140, level.idMap.get("player").getMid(), lightLayer);
+		i = Toolkit.getDefaultToolkit().createImage(
+				new FilteredImageSource(i.getSource(), filter));
+		g.drawImage(i, 0, 0, null);
+	}
+
+	public static void drawLanternAround(final int radius, final Vector2 pos,
+			final Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillOval((int) pos.x - radius, (int) pos.y - radius, 2 * radius,
+				2 * radius);
 
 	}
 }

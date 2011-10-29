@@ -32,8 +32,10 @@ public class Entity {
 	public boolean solid;
 	public String title;
 	public int layer;
+	public boolean visible = true;
 
 	public Sprite sprite, editor;
+
 	/**
 	 * This variable case will be passed in containing the additional data from
 	 * the xml level file, as well as entity data from the entity xml.
@@ -134,6 +136,10 @@ public class Entity {
 			}
 			this.pos.x = x;
 		}
+	}
+
+	public Vector2 getMid() {
+		return new Vector2(pos.x + dim.x / 2, pos.y + dim.y / 2);
 	}
 
 	public void draw(final Graphics g) {

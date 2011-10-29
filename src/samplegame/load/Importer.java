@@ -68,13 +68,18 @@ public class Importer {
 			if (inGame != null) {
 				e.sprite.timeStretch = Integer.parseInt(inGame.trim());
 			}
-			inGame = entityMap.getVar("sprites.sizeOffset");
-			if (inGame != null) {
-				e.sprite.sizeOffset = Integer.parseInt(inGame.trim());
-			}
+			
 
 		} else {
 			e.sprite = e.editor;
+		}
+		inGame = entityMap.getVar("sprites.sizeOffset");
+		if (inGame != null) {
+			e.sprite.sizeOffset = Integer.parseInt(inGame.trim());
+		}
+		inGame = entityMap.getVar("visible");
+		if (inGame != null) {
+			e.visible= Boolean.parseBoolean(inGame.trim());
 		}
 		return e;
 	}

@@ -1,0 +1,13 @@
+title = wolf;
+description = The mysterious wolf;
+dimensions.x = 32;
+dimensions.y = 32;
+solid = true;
+
+sprites.editor = editor_wolf.png;
+
+sprites.inGame = wolfsheet.png, 4, 4;
+sprites.timeScale = 100;
+sprites.sizeOffset = 4;
+
+
