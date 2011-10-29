@@ -226,14 +226,15 @@ public class Game_J2d {
 			}
 		}
 	};
+	
 
-	private static void render(final Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
+	private static void render(final Graphics canvas) {
+		canvas.setColor(Color.BLACK);
+		canvas.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i))
 				if (e.visible)
-					e.draw(g);
+					e.draw(canvas);
 		Image i = new BufferedImage((int) BOUNDS.x, (int) BOUNDS.y,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics lightLayer = i.getGraphics();
@@ -242,7 +243,7 @@ public class Game_J2d {
 		drawLanternAround(140, level.idMap.get("player").getMid(), lightLayer);
 		i = Toolkit.getDefaultToolkit().createImage(
 				new FilteredImageSource(i.getSource(), filter));
-		g.drawImage(i, 0, 0, null);
+		canvas.drawImage(i, 0, 0, null);
 	}
 
 	public static void drawLanternAround(final int radius, final Vector2 pos,
