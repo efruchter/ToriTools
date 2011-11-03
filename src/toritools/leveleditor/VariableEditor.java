@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import toritools.entity.Entity;
+
 @SuppressWarnings("serial")
 public class VariableEditor extends JPanel {
 	private JButton addVarButton = new JButton(" + ");

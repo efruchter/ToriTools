@@ -22,12 +22,12 @@ import javax.swing.Timer;
 
 import samplegame.audio.MP3;
 import samplegame.controls.KeyHolder;
-import samplegame.entity.Entity;
-import samplegame.entity.Level;
 import samplegame.load.Importer;
-import samplegame.math.Vector2;
 import samplegame.scripting.EntityScript;
+import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.map.VariableCase;
+import toritools.math.Vector2;
 
 /**
  * This will be the main class for a simple game that uses toritools.
@@ -215,7 +215,7 @@ public class Game_J2d {
 			e.onUpdate(level);
 	}
 
-	private static ImageFilter filter = new RGBImageFilter() {
+	private static ImageFilter lanternFilter = new RGBImageFilter() {
 		public int markerRGB = Color.WHITE.getRGB() | 0xFF000000;
 
 		public final int filterRGB(int x, int y, int rgb) {
@@ -241,8 +241,9 @@ public class Game_J2d {
 		lightLayer.setColor(Color.BLACK);
 		lightLayer.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
 		drawLanternAround(140, level.idMap.get("player").getMid(), lightLayer);
+		drawLanternAround(25, level.idMap.get("wolf").getMid(), lightLayer);
 		i = Toolkit.getDefaultToolkit().createImage(
-				new FilteredImageSource(i.getSource(), filter));
+				new FilteredImageSource(i.getSource(), lanternFilter));
 		canvas.drawImage(i, 0, 0, null);
 	}
 

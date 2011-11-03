@@ -1,9 +1,9 @@
-package samplegame.entity.sprite;
+package toritools.entity.sprite;
 
 import java.awt.Graphics;
 import java.awt.Image;
 
-import samplegame.math.Vector2;
+import toritools.math.Vector2;
 
 public class Sprite {
 	private int xSplit = 1, ySplit = 1, x = 0, y = 0, w, h;
@@ -31,6 +31,11 @@ public class Sprite {
 
 	public void setCylcle(final int cycle) {
 		y = cycle % ySplit;
+	}
+	
+	public void set(final int x, final int y){
+		this.x = x;
+		this.y = y;
 	}
 
 	public void draw(Graphics g, final Vector2 posO, final Vector2 dimO) {

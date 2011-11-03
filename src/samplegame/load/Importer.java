@@ -10,12 +10,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import samplegame.entity.Entity;
-import samplegame.entity.Level;
-import samplegame.entity.sprite.Sprite;
-import samplegame.math.Vector2;
+import toritools.entity.Entity;
+import toritools.entity.Level;
+import toritools.entity.sprite.Sprite;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
+import toritools.math.Vector2;
 import toritools.xml.ToriXML;
 
 public class Importer {

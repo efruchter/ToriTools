@@ -1,4 +1,4 @@
-package samplegame.math;
+package toritools.math;
 
 import java.awt.Point;
 

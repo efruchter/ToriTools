@@ -1,7 +1,7 @@
 package samplegame.scripting;
 
-import samplegame.entity.Entity;
-import samplegame.entity.Level;
+import toritools.entity.Entity;
+import toritools.entity.Level;
 
 /**
  * The scripts that entities load should implement this interface.
@@ -44,23 +44,11 @@ public interface EntityScript {
 	 * A Blank entity script.
 	 */
 	public static EntityScript BLANK = new EntityScript() {
-
 		@Override
-		public void onSpawn(Level level, Entity self) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void onSpawn(Level level, Entity self) {}
 		@Override
-		public void onUpdate(Level level, Entity self) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void onUpdate(Level level, Entity self) {}
 		@Override
-		public void onDeath(Level level, Entity self, boolean isRoomExit) {
-			// TODO Auto-generated method stub
-
-		}
+		public void onDeath(Level level, Entity self, boolean isRoomExit) {}
 	};
 }

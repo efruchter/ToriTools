@@ -1,14 +1,19 @@
-package samplegame.entity;
+package toritools.entity;
 
 import java.awt.Graphics;
+import java.util.HashMap;
 
-import samplegame.entity.sprite.Sprite;
-import samplegame.math.Vector2;
+import javax.swing.ImageIcon;
+
 import samplegame.scripting.EntityScript;
+import toritools.entity.sprite.Sprite;
 import toritools.map.VariableCase;
+import toritools.math.Vector2;
+
 
 /**
- * A scripted entity that exists in the game world.
+ * A scripted entity that exists in the game world. Designed to start with some
+ * basic settings. Be sure to set up the specific things you want!
  * 
  * @author toriscope
  * 
@@ -37,18 +42,26 @@ public class Entity {
 	public Sprite sprite, editor;
 
 	/**
+	 * Static vars for optimization.
+	 */
+	private static Vector2 BASE_VECT = new Vector2();
+	private static Sprite BASE_SPRITE = new Sprite(new ImageIcon(
+			"resources/nope.png").getImage(), 1, 1);
+
+	/**
 	 * This variable case will be passed in containing the additional data from
 	 * the xml level file, as well as entity data from the entity xml.
 	 * 
 	 * @param variables
 	 */
 	public Entity() {
-		this.script = EntityScript.BLANK;
-		this.pos = new Vector2();
-		this.dim = new Vector2();
-		this.solid = false;
-		this.title = "DEFAULT";
-		this.layer = 0;
+		script = EntityScript.BLANK;
+		pos = BASE_VECT;
+		dim = pos;
+		solid = false;
+		title = "DEFAULT";
+		layer = 0;
+		sprite = editor = BASE_SPRITE;
 	}
 
 	/*
@@ -148,5 +161,9 @@ public class Entity {
 
 	public static enum Orientation {
 		NORTH, SOUTH, WEST, EAST
+	}
+	
+	public void addVariables(final HashMap<String, String> variables){
+		this.variables.getVariables().putAll(variables);
 	}
 }

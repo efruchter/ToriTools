@@ -1,4 +1,4 @@
-package samplegame.entity;
+package toritools.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

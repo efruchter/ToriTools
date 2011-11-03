@@ -2,6 +2,11 @@ package toritools.map;
 
 import java.util.HashMap;
 
+/**
+ * A simple wrapper for a String,String hashmap to hold variables.
+ * @author toriscope
+ *
+ */
 public class VariableCase {
 	protected HashMap<String, String> variables = new HashMap<String, String>();
 
@@ -34,5 +39,17 @@ public class VariableCase {
 
 	public void setVariables(HashMap<String, String> variables) {
 		this.variables = variables;
+	}
+	
+	public void clear() {
+		variables.clear();
+	}
+	
+	public double getDouble(final String key){
+		return Double.parseDouble(variables.get(key));
+	}
+	
+	public double getInteger(final String key){
+		return Integer.parseInt(variables.get(key));
 	}
 }

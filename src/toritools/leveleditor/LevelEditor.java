@@ -48,6 +48,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import toritools.entity.Entity;
 import toritools.map.ToriMapIO;
 import toritools.xml.ToriXML;
 
@@ -692,8 +693,8 @@ public class LevelEditor {
 		Collections.sort(list,
 				new Comparator<Entry<Integer, ArrayList<Entity>>>() {
 					@Override
-					public int compare(Entry<Integer, ArrayList<Entity>> arg0,
-							Entry<Integer, ArrayList<Entity>> arg1) {
+					public int compare(Entry<Integer, ArrayList<LevelEntity>> arg0,
+							Entry<Integer, ArrayList<LevelEntity>> arg1) {
 						return arg0.getKey().compareTo(arg1.getKey()) * -1;
 					}
 				});
