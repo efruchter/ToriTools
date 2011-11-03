@@ -11,4 +11,10 @@ Create a blank java project in eclipse called ToriTools,
 and drag the git repo onto it and merge. Add all the jars 
 and their natives (if they have them) to the build path.
 
+ENABLE OPENGL YOU FOOOOL!
+
+As a VM argument, pass in:
+-Dsun.java2d.opengl=true
+This will make things runs nice and smooth.
+
 ~tori tori tori!
