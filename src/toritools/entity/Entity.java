@@ -1,6 +1,7 @@
 package toritools.entity;
 
 import java.awt.Graphics;
+import java.io.File;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -47,6 +48,13 @@ public class Entity {
 	private static Vector2 BASE_VECT = new Vector2();
 	private static Sprite BASE_SPRITE = new Sprite(new ImageIcon(
 			"resources/nope.png").getImage(), 1, 1);
+	
+	/*
+	 * Editor variables!
+	 */
+	public File file;
+
+	
 
 	/**
 	 * This variable case will be passed in containing the additional data from
@@ -165,5 +173,13 @@ public class Entity {
 	
 	public void addVariables(final HashMap<String, String> variables){
 		this.variables.getVariables().putAll(variables);
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 }

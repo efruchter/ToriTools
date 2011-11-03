@@ -49,7 +49,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import toritools.entity.Entity;
+import toritools.entity.sprite.Sprite;
 import toritools.map.ToriMapIO;
+import toritools.math.Vector2;
 import toritools.xml.ToriXML;
 
 /**
@@ -135,18 +137,18 @@ public class LevelEditor {
 		public void mouseClicked(MouseEvent arg0) {
 			frame.requestFocus();
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
-				selectOverlapping(arg0.getPoint());
+				selectOverlapping(new Vector2(arg0.getPoint()));
 				varEditor.setEntity(selected);
 				repaint();
 			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
 				if (current != null) {
-					Point p = (Point) arg0.getPoint().clone();
+					Vector2 p = new Vector2(arg0.getPoint());
 					deleteOverlapping(p);
-					p.setLocation((p.x / gridSize.width) * gridSize.width,
+					p.set((p.x / gridSize.width) * gridSize.width,
 							(p.y / gridSize.height) * gridSize.height);
-					Entity e = new Entity(current.getFile(),
-							current.getImage(), current.getDim());
-					e.setPos(p);
+					Entity e = new Entity();
+					e.setFile(current.getFile());
+					e.pos = p.clone();
 					addEntity(e, layerEditor.getCurrentLayer());
 				}
 			}
@@ -433,14 +435,15 @@ public class LevelEditor {
 	 * @param p
 	 *            the mouse location.
 	 */
-	public void selectOverlapping(final Point p) {
+	public void selectOverlapping(final Vector2 p) {
 		Entity selected = null;
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
 			if (layerEditor.isLayerVisible(entry.getKey()))
 				for (Entity e : entry.getValue()) {
-					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
-							.getY(), (int) e.getDim().getX(), (int) e.getDim()
-							.getY()).contains(p) && this.selected != e) {
+					if (new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
+							(int) e.dim.getX(), (int) e.dim.getY())
+							.contains(new Point((int) p.x, (int) p.y))
+							&& this.selected != e) {
 						selected = e;
 						break;
 					}
@@ -463,14 +466,14 @@ public class LevelEditor {
 	 * @param p
 	 *            the mouse point.
 	 */
-	public void deleteOverlapping(final Point p) {
+	public void deleteOverlapping(final Vector2 p) {
 		Entity deleteMe = null;
 		for (Entry<Integer, ArrayList<Entity>> entry : entities.entrySet())
 			if (layerEditor.getCurrentLayer() == entry.getKey())
 				for (Entity e : entry.getValue()) {
-					if (new Rectangle((int) e.getPos().getX(), (int) e.getPos()
-							.getY(), (int) e.getDim().getX(), (int) e.getDim()
-							.getY()).contains(p)) {
+					if (new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
+							(int) e.dim.getX(), (int) e.dim.getY())
+							.contains(new Point((int) p.x, (int) p.y))) {
 						deleteMe = e;
 						break;
 					}
@@ -553,8 +556,8 @@ public class LevelEditor {
 			for (Entity e : entry.getValue()) {
 
 				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("position.x", e.getPos().getX() + "");
-				map.put("position.y", e.getPos().getY() + "");
+				map.put("position.x", e.pos.getX() + "");
+				map.put("position.y", e.pos.getY() + "");
 				map.put("template",
 						e.getFile()
 								.getPath()
@@ -567,7 +570,7 @@ public class LevelEditor {
 												+ workingDirectory.getName()
 														.length()));
 				map.put("layer", entry.getKey() + "");
-				map.putAll(e.getVariables().getVariables());
+				map.putAll(e.variables.getVariables());
 				Element object = doc.createElement("entity");
 				object.setAttribute("map", ToriMapIO.writeMap(null, map));
 				objectsElements.appendChild(object);
@@ -600,13 +603,13 @@ public class LevelEditor {
 			HashMap<String, String> mapData = ToriMapIO.readMap(e
 					.getAttributes().getNamedItem("map").getNodeValue());
 			int layer = Integer.parseInt(mapData.get("layer"));
-			double x = Double.parseDouble(mapData.get("position.x"));
-			double y = Double.parseDouble(mapData.get("position.y"));
+			float x = Float.parseFloat(mapData.get("position.x"));
+			float y = Float.parseFloat(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
 			Entity ent = importEntity(f);
-			ent.setPos(new Point.Double(x, y));
+			ent.pos = new Vector2(x, y);
 			layerEditor.setLayerVisibility(layer, true);
-			ent.getVariables().getVariables().putAll(mapData);
+			ent.variables.getVariables().putAll(mapData);
 			addEntity(ent, layer);
 		}
 	}
@@ -638,15 +641,17 @@ public class LevelEditor {
 	private Entity importEntity(final File file) throws FileNotFoundException {
 		HashMap<String, String> data = ToriMapIO.readMap(file);
 
-		double width = Double.parseDouble(data.get("dimensions.x"));
-		double height = Double.parseDouble(data.get("dimensions.y"));
+		float width = Float.parseFloat(data.get("dimensions.x"));
+		float height = Float.parseFloat(data.get("dimensions.y"));
 		// Form the image
 		final ImageIcon i = new ImageIcon(file.getPath().replace(
 				file.getName(), "")
 				+ data.get("sprites.editor"));
 		i.setImage(i.getImage().getScaledInstance((int) width, (int) height, 0));
-		final Entity e = new Entity(file, i.getImage(), new Point.Double(width,
-				height));
+		final Entity e = new Entity();
+		e.setFile(file);
+		e.sprite = new Sprite(i.getImage(),1,1);
+		e.dim = new Vector2(width,height);
 		if (!objects.containsKey(file)) {
 			JButton b = new JButton(i);
 			b.setToolTipText(data.get("description"));
@@ -693,8 +698,9 @@ public class LevelEditor {
 		Collections.sort(list,
 				new Comparator<Entry<Integer, ArrayList<Entity>>>() {
 					@Override
-					public int compare(Entry<Integer, ArrayList<LevelEntity>> arg0,
-							Entry<Integer, ArrayList<LevelEntity>> arg1) {
+					public int compare(
+							Entry<Integer, ArrayList<Entity>> arg0,
+							Entry<Integer, ArrayList<Entity>> arg1) {
 						return arg0.getKey().compareTo(arg1.getKey()) * -1;
 					}
 				});
@@ -704,9 +710,9 @@ public class LevelEditor {
 					e.draw(g);
 					if (selected == e) {
 						g.setColor(Color.RED);
-						g.drawRect((int) e.getPos().getX(), (int) e.getPos()
-								.getY(), (int) e.getDim().getX(), (int) e
-								.getDim().getY());
+						g.drawRect((int) e.pos.getX(), (int) e.pos
+								.getY(), (int) e.dim.getX(), (int) e
+								.dim.getY());
 					}
 				}
 		g.setColor(Color.RED);
@@ -741,8 +747,8 @@ public class LevelEditor {
 		fileLabel.setText(levelFile.getName());
 		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "
 				+ (int) gridSize.getHeight());
-		levelSizeLabel.setText("Level Size: "+ (int) levelSize.getWidth() + " x "
-				+ (int) levelSize.getHeight());
+		levelSizeLabel.setText("Level Size: " + (int) levelSize.getWidth()
+				+ " x " + (int) levelSize.getHeight());
 		drawPanel.setPreferredSize(levelSize);
 		frame.invalidate();
 		frame.validate();

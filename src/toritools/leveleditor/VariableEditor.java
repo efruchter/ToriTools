@@ -58,7 +58,7 @@ public class VariableEditor extends JPanel {
 					return;
 				String s = JOptionPane.showInputDialog("New variable name?");
 				if (s != null && !s.isEmpty()) {
-					getEntity().getVariables().setVar(s, "DEFAULT");
+					getEntity().variables.setVar(s, "DEFAULT");
 					Entity e = getEntity();
 					clear();
 					setEntity(e);
@@ -81,7 +81,7 @@ public class VariableEditor extends JPanel {
 
 	private void loadVariables() {
 		if (entity != null)
-			for (Entry<String, String> s : entity.getVariables().getVariables()
+			for (Entry<String, String> s : entity.variables.getVariables()
 					.entrySet()) {
 				if (s.getKey().equals("layer")
 						|| s.getKey().startsWith("position.")
@@ -104,10 +104,10 @@ public class VariableEditor extends JPanel {
 			for (Entry<String, JTextField> s : keys.entrySet()) {
 				String data = s.getValue().getText();
 				if (!data.isEmpty()) {
-					entity.getVariables().getVariables()
+					entity.variables.getVariables()
 							.put(s.getKey(), s.getValue().getText());
 				} else {
-					entity.getVariables().getVariables().remove(s.getKey());
+					entity.variables.getVariables().remove(s.getKey());
 				}
 
 			}
