@@ -17,4 +17,4 @@ As a VM argument, pass in:
 -Dsun.java2d.opengl=true
 This will make things runs nice and smooth on OpenJDK. It seems to actually hurt performance on Windows 7, JVM7. WIERD.
 
-~tori tori tori!
+~eric
