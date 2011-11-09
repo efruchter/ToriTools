@@ -63,14 +63,7 @@ public class VariableCase {
 		}
 		System.exit(1);	
 	}
-	
-	/**
-	 * Return the string.
-	 * 
-	 * @param var
-	 *            the key to search.
-	 * @return the string value.
-	 */
+
 	public String getString(final String key) {
 		String s = variables.get(key);
 		if (s == null) {
