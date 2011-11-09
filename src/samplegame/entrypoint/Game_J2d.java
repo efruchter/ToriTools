@@ -185,8 +185,8 @@ public class Game_J2d {
 			e.onSpawn(level);
 		for (Entity e : level.solids)
 			e.onSpawn(level);
-		bg = new MP3("resources/creep.mp3");
-		bg.play();
+		//bg = new MP3("resources/creep.mp3");
+		//bg.play();
 	}
 
 	private static Timer timer;
