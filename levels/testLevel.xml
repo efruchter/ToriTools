@@ -1,0 +1,5 @@
+<level map="height = 1000;width = 1000;">
+<objects>
+<entity map="template = /objects/player/player.entity;position.y = 176.0;position.x = 299.0;layer = 0;"/>
+</objects>
+</level>

@@ -67,12 +67,6 @@ public class LevelEditor {
 	private File levelFile, workingDirectory;
 
 	/**
-	 * Maps for getting the docs out of files. Files are the basic way to
-	 * edentify unit type.
-	 */
-	private HashMap<File, HashMap<String, String>> objects = new HashMap<File, HashMap<String, String>>();
-
-	/**
 	 * Map of int layers to list of existing entities.
 	 */
 	private List<Entity> entities = new ArrayList<Entity>();
@@ -144,11 +138,13 @@ public class LevelEditor {
 				if (current != null) {
 					Vector2 p = new Vector2(arg0.getPoint());
 					deleteOverlapping(p);
-					p.set((p.x / gridSize.width) * gridSize.width,
-							(p.y / gridSize.height) * gridSize.height);
+					p.set(((int) p.x / (int) gridSize.width) * gridSize.width,
+							((int) p.y / (int) gridSize.height)
+									* gridSize.height);
 					Entity e = new Entity();
 					e.setFile(current.getFile());
 					e.pos = p.clone();
+					e.dim = current.dim.clone();
 					e.sprite = current.sprite;
 					e.editor = e.sprite;
 					e.layer = layerEditor.getCurrentLayer();
@@ -645,7 +641,7 @@ public class LevelEditor {
 		e.setFile(file);
 		e.sprite = new Sprite(i.getImage(), 1, 1);
 		e.dim = new Vector2(width, height);
-		if (!objects.containsKey(file)) {
+		if (!entityExists(e)) {
 			JButton b = new JButton(i);
 			b.setToolTipText(data.get("description"));
 			b.setSize(new Dimension((int) width, (int) height));
@@ -655,10 +651,17 @@ public class LevelEditor {
 				}
 			});
 			buttonPanel.add(b);
-			objects.put(file, data);
+			repaint();
 		}
-		// e.getVariables().setVariables(data);
 		return e;
+	}
+
+	private boolean entityExists(final Entity e) {
+		for (Entity e2 : entities) {
+			if (e2.file.equals(e.file))
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -709,7 +712,6 @@ public class LevelEditor {
 	 * Clear the GUI state.
 	 */
 	private void clear() {
-		objects.clear();
 		entities.clear();
 		current = null;
 		selected = null;
