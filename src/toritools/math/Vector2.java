@@ -46,8 +46,8 @@ public class Vector2 {
 	public void setY(final float y) {
 		this.y = y;
 	}
-	
-	public void set(final float x, final float y){
+
+	public void set(final float x, final float y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -55,6 +55,7 @@ public class Vector2 {
 	public Vector2 add(final Vector2 o) {
 		return new Vector2(this.x + o.getX(), this.y + o.getY());
 	}
+
 	public Vector2 add(final float add) {
 		return new Vector2(this.x + add, this.y + add);
 	}
@@ -62,7 +63,7 @@ public class Vector2 {
 	public Vector2 sub(final Vector2 o) {
 		return new Vector2(this.x - o.getX(), this.y - o.getY());
 	}
-	
+
 	public Vector2 sub(final float o) {
 		return new Vector2(this.x - o, this.y - o);
 	}
@@ -70,7 +71,7 @@ public class Vector2 {
 	public Vector2 scale(final float scalar) {
 		return new Vector2(this.x * scalar, this.y * scalar);
 	}
-	
+
 	public Vector2 scale(final float x, final Float y) {
 		return new Vector2(this.x * x, this.y * y);
 	}
@@ -92,13 +93,13 @@ public class Vector2 {
 	}
 
 	public static Vector2 min(final Vector2 a, final Vector2 b) {
-		return new Vector2(Math.min(a.getX(), b.getX()), Math.min(a.getY(), b
-				.getY()));
+		return new Vector2(Math.min(a.getX(), b.getX()), Math.min(a.getY(),
+				b.getY()));
 	}
 
 	public static Vector2 max(final Vector2 a, final Vector2 b) {
-		return new Vector2(Math.max(a.getX(), b.getX()), Math.max(a.getY(), b
-				.getY()));
+		return new Vector2(Math.max(a.getX(), b.getX()), Math.max(a.getY(),
+				b.getY()));
 	}
 
 	public String toString() {
@@ -148,5 +149,17 @@ public class Vector2 {
 	 */
 	public static Vector2 getDirectionTo(final Vector2 start, final Vector2 end) {
 		return end.sub(start).unit();
+	}
+
+	/**
+	 * Build a unit vector out of the direction.
+	 * 
+	 * @param direction
+	 *            direction in radians.
+	 * @return
+	 */
+	public static Vector2 buildVector(final float direction) {
+		return new Vector2((float) Math.cos(direction),
+				(float) Math.sin(direction)).unit();
 	}
 }

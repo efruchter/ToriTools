@@ -24,6 +24,8 @@ import samplegame.audio.MP3;
 import samplegame.controls.KeyHolder;
 import samplegame.load.Importer;
 import samplegame.scripting.EntityScript;
+import samplegame.scripting.ScriptUtils;
+import samplegame.scripting.ScriptUtils.Direction;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
@@ -39,7 +41,7 @@ public class Game_J2d {
 	/** Game title */
 	private static String GAME_TITLE = "SampleGame";
 
-	private static boolean lighting = false;
+	private static boolean lighting = false, debug = false;
 
 	private static final Vector2 VIEWPORT = new Vector2(800, 600);
 
@@ -111,43 +113,35 @@ public class Game_J2d {
 			}
 
 			public void onUpdate(Level level, Entity self) {
-				float x = self.pos.x, y = self.pos.y;
-
 				int speed = 3;
 				boolean walked = false;
+				Vector2 delta = new Vector2();
+
 				if (keys.isPressed(KeyEvent.VK_A)) {
 					walked = true;
-					self.pos.x -= speed;
+					delta.x -= speed;
 					self.sprite.setCylcle(1);
 				}
 				if (keys.isPressed(KeyEvent.VK_D)) {
 					walked = true;
-					self.pos.x += speed;
+					delta.x += speed;
 					self.sprite.setCylcle(2);
 				}
-				// Detect and correct for collisions
-				self.moveOutX(x, level.solids.toArray(new Entity[0]));
 
 				if (keys.isPressed(KeyEvent.VK_W)) {
 					walked = true;
-					self.pos.y -= speed;
+					delta.y -= speed;
 					self.sprite.setCylcle(3);
 				}
 
 				if (keys.isPressed(KeyEvent.VK_S)) {
 					walked = true;
-					self.pos.y += speed;
+					delta.y += speed;
 					self.sprite.setCylcle(0);
 				}
 
-				// Lighting control
-				if (keys.isPressed(KeyEvent.VK_K))
-					lighting = false;
-				if (keys.isPressed(KeyEvent.VK_L))
-					lighting = true;
-
-				// Detect and correct for y collisions
-				self.moveOutY(y, level.solids.toArray(new Entity[0]));
+				ScriptUtils.safeMove(self, delta,
+						level.solids.toArray(new Entity[0]));
 
 				if (walked)
 					self.sprite.nextFrame();
@@ -162,9 +156,10 @@ public class Game_J2d {
 			}
 
 			public void onUpdate(Level level, Entity self) {
-				self.moveOut(self.pos.x, null, level.idMap.get("player"));
-				self.moveOutX(self.pos.x, level.solids.toArray(new Entity[0]));
-				level.idMap.get("player").moveOutX(self.pos.x, self);
+				// self.moveOut(self.pos.x, null, level.idMap.get("player"));
+				// self.moveOutX(self.pos.x, level.solids.toArray(new
+				// Entity[0]));
+				// level.idMap.get("player").moveOutX(self.pos.x, self);
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
@@ -172,18 +167,47 @@ public class Game_J2d {
 		};
 		level.idMap.get("wolf").script = new EntityScript() {
 			private Random rand = new Random();
+			private float speed = 4;
+			private float direction = 0;
 
 			public void onSpawn(Level level, Entity self) {
+				newDirection();
 			}
 
 			public void onUpdate(Level level, Entity self) {
-				self.sprite.nextFrame();
-				if (Math.random() > .98d) {
-					self.sprite.setCylcle(rand.nextInt(4));
+				if (rand.nextDouble() > .99)
+					newDirection();
+				if (rand.nextDouble() > .8) {
+					ScriptUtils.safeMove(self, Vector2.buildVector(direction)
+							.scale(speed), level.solids.toArray(new Entity[0]));
+					self.sprite.nextFrame();
+				}
+
+				switch (Direction.findEnum(direction)) {
+				case DOWN:
+				case DOWN_RIGHT:
+				case DOWN_LEFT:
+					self.sprite.setCylcle(3);
+					break;
+				case UP:
+				case UP_RIGHT:
+				case UP_LEFT:
+					self.sprite.setCylcle(0);
+					break;
+				case RIGHT:
+					self.sprite.setCylcle(2);
+					break;
+				case LEFT:
+					self.sprite.setCylcle(1);
+					break;
 				}
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
+			}
+
+			private void newDirection() {
+				direction = rand.nextFloat() * 6.28f;
 			}
 		};
 
@@ -233,6 +257,17 @@ public class Game_J2d {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
+		// Lighting control
+		if (keys.isPressed(KeyEvent.VK_K))
+			lighting = false;
+		if (keys.isPressed(KeyEvent.VK_L))
+			lighting = true;
+		// debug control
+		if (keys.isPressed(KeyEvent.VK_9))
+			debug = false;
+		if (keys.isPressed(KeyEvent.VK_0))
+			debug = true;
+		// Escape
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
@@ -264,9 +299,16 @@ public class Game_J2d {
 			bufferGraphics.setColor(Color.BLACK);
 			bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 			for (int i = level.layers.size() - 1; i >= 0; i--)
-				for (Entity e : level.layers.get(i))
+				for (Entity e : level.layers.get(i)) {
+					if (debug) {
+						bufferGraphics.setColor(Color.RED);
+						bufferGraphics.drawRect((int) (e.pos.x + offset.x),
+								(int) (e.pos.y + offset.y), (int) e.dim.x,
+								(int) e.dim.y);
+					}
 					if (e.visible)
 						e.draw(bufferGraphics, offset);
+				}
 			Image i = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 					BufferedImage.TYPE_INT_RGB);
 			if (lighting) {
@@ -292,7 +334,7 @@ public class Game_J2d {
 			rootCanvas.setColor(Color.white);
 			String infoString = "[WASD] Move |" + " [K/L] Hard Lighting:"
 					+ (lighting ? "On" : "Off") + " |" + " [I/O] Zoom: "
-					+ zoom.x;
+					+ zoom.x + " | [9/0] Debug Mode: " + debug;
 
 			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 		} catch (Exception e) {

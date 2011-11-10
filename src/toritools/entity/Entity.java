@@ -11,7 +11,6 @@ import toritools.entity.sprite.Sprite;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
 
-
 /**
  * A scripted entity that exists in the game world. Designed to start with some
  * basic settings. Be sure to set up the specific things you want!
@@ -48,13 +47,11 @@ public class Entity {
 	private static Vector2 BASE_VECT = new Vector2();
 	private static Sprite BASE_SPRITE = new Sprite(new ImageIcon(
 			"resources/nope.png").getImage(), 1, 1);
-	
+
 	/*
 	 * Editor variables!
 	 */
 	public File file;
-
-	
 
 	/**
 	 * This variable case will be passed in containing the additional data from
@@ -117,45 +114,24 @@ public class Entity {
 		return true;
 	}
 
-	public void moveOutX(final Float oldX, final Entity... others) {
-		moveOut(oldX, null, others);
-	}
+	public void moveOut(final Entity... entities) {
+		Vector2 aMid = getMid();
+		for (Entity b : entities) {
+			if (this == b || !this.isColliding(b))
+				continue;
+			Vector2 bMid = b.getMid();
+			float xBridge = aMid.sub(bMid).x;
+			float yBridge = aMid.sub(bMid).y;			
+			
+			// X
+			float xSign = xBridge < 0 ? -1 : 1;
+			xBridge = xSign * (b.dim.x / 2 + this.dim.x / 2 + 1);
+			this.pos.x = bMid.x + xBridge - this.dim.x / 2;
 
-	public void moveOutY(final Float oldY, final Entity... others) {
-		moveOut(null, oldY, others);
-	}
-
-	public void moveOut(final Float oldX, final Float oldY,
-			final Entity... others) {
-		final Entity e = this.isCollidingWithSolid(others);
-		if (e != null && oldY != null) {
-			float y = this.pos.y;
-			float midY = y + this.dim.y / 2f;
-			float oMidY = e.pos.y + e.dim.y / 2f;
-			if (oMidY < midY) {
-				// this on bottom
-				y = e.pos.y + e.dim.y + 1;
-			} else if (oMidY > midY) {
-				// this on top
-				y = e.pos.y - this.dim.y - 1;
-			}
-			this.pos.y = y;
-		}
-		if (e == null)
-			return;
-		final Entity newE = this.isCollidingWithSolid(e);
-		if (newE != null && oldX != null) {
-			float x = this.pos.x;
-			float midX = x + this.dim.x / 2f;
-			float oMidX = e.pos.x + e.dim.x / 2f;
-			if (oMidX < midX) {
-				// this on right
-				x = newE.pos.x + newE.dim.x + 1;
-			} else if (oMidX > midX) {
-				// this on left
-				x = newE.pos.x - this.dim.x - 1;
-			}
-			this.pos.x = x;
+			// Y
+			float ySign = yBridge < 0 ? -1 : 1;
+			yBridge = ySign * (b.dim.y / 2 + this.dim.y / 2 + 1);
+			this.pos.y = bMid.y + xBridge - this.dim.y / 2;
 		}
 	}
 
@@ -167,11 +143,7 @@ public class Entity {
 		sprite.draw(g, pos.add(offset), dim);
 	}
 
-	public static enum Orientation {
-		NORTH, SOUTH, WEST, EAST
-	}
-	
-	public void addVariables(final HashMap<String, String> variables){
+	public void addVariables(final HashMap<String, String> variables) {
 		this.variables.getVariables().putAll(variables);
 	}
 

@@ -19,7 +19,6 @@
 <entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 256.0;layer = 1;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 256.0;layer = 1;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 224.0;layer = 1;"/>
-<entity map="id = player;template = /objects/player/player.entity;position.y = 192.0;position.x = 192.0;layer = 0;"/>
 <entity map="id = pushblock1;template = /objects/wall/littlewall.entity;position.y = 312.0;position.x = 328.0;layer = 0;"/>
 <entity map="id = wolf;template = /objects/player/wolf.entity;position.y = 285.0;position.x = 408.0;layer = 0;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 416.0;layer = 0;"/>
@@ -92,5 +91,6 @@
 <entity map="template = /objects/wall/XWall32.entity;position.y = 280.0;position.x = 608.0;layer = 0;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 280.0;position.x = 640.0;layer = 0;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 312.0;position.x = 480.0;layer = 0;"/>
+<entity map="id = player;template = /objects/player/player.entity;position.y = 352.0;position.x = 256.0;layer = 0;"/>
 </objects>
 </level>
