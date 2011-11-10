@@ -22,15 +22,8 @@ public class VariableCase {
 		variables.put(var, value);
 	}
 
-	/**
-	 * Return the variable if it exists, or null.
-	 * 
-	 * @param var
-	 *            the key to search.
-	 * @return the var or null.
-	 */
-	public String getVar(final String var) {
-		return variables.get(var);
+	public void getVar(final String key) {
+		return variables.get(key);
 	}
 
 	public HashMap<String, String> getVariables() {
@@ -44,16 +37,40 @@ public class VariableCase {
 	public void clear() {
 		variables.clear();
 	}
+
+	/*
+	 * The following methods will crash/error report on failure to fetch/parse.
+	 */
+
+	public float getFloat(final String key) {
+		try {
+			return Float.parseFloat(variables.get(key));
+		} catch (final NumberFormatException e) {
+			System.err.println("The variable with key " + key + " is not a valid float.");
+		} catch (final Exception e) {
+			System.err.println("No variable with key " + key + "found!");
+		}
+		System.exit(1);
+	}
 	
-	public double getDouble(final String key){
-		return Double.parseDouble(variables.get(key));
+	public double getInteger(final String key) {
+		try {
+			return Integer.parseInt(variables.get(key));
+		} catch (final NumberFormatException e) {
+			System.err.println("The variable with key " + key + " is not a valid integer.");
+		} catch (final Exception e) {
+			System.err.println("No variable with key " + key + "found!");
+		}
+		System.exit(1);	
 	}
 
-	public float getFloat(final String key){
-		return Float.parseFloat(variables.get(key));
-	}
-	
-	public double getInteger(final String key){
-		return Integer.parseInt(variables.get(key));
+	public String getString(final String key) {
+		String s = variables.get(key);
+		if (s == null) {
+			System.err.println("No variable with key " + key + "found!");
+			System.exit(1);
+		} else {
+			return s;
+		}
 	}
 }
