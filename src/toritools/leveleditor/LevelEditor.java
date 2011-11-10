@@ -723,11 +723,6 @@ public class LevelEditor {
 		current = e;
 	}
 
-	public static void main(String[] args) throws IOException,
-			ParserConfigurationException, TransformerException {
-		new LevelEditor();
-	}
-
 	/**
 	 * Forces repaint on frame and updates status bar.
 	 */

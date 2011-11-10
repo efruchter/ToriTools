@@ -114,7 +114,8 @@ public class Game_J2d {
 			public void onUpdate(Level level, Entity self) {
 				float x = self.pos.x, y = self.pos.y;
 
-				int speed = 2;
+				int speed = 5;
+				self.sprite.timeStretch = 1;
 				boolean walked = false;
 				if (keys.isPressed(KeyEvent.VK_A)) {
 					walked = true;
