@@ -22,7 +22,7 @@ public class VariableCase {
 		variables.put(var, value);
 	}
 
-	public void getVar(final String key) {
+	public String getVar(final String key) {
 		return variables.get(key);
 	}
 
@@ -51,6 +51,7 @@ public class VariableCase {
 			System.err.println("No variable with key " + key + "found!");
 		}
 		System.exit(1);
+		return 0;
 	}
 	
 	public double getInteger(final String key) {
@@ -61,7 +62,8 @@ public class VariableCase {
 		} catch (final Exception e) {
 			System.err.println("No variable with key " + key + "found!");
 		}
-		System.exit(1);	
+		System.exit(1);
+		return 0;	
 	}
 
 	public String getString(final String key) {
@@ -69,8 +71,7 @@ public class VariableCase {
 		if (s == null) {
 			System.err.println("No variable with key " + key + "found!");
 			System.exit(1);
-		} else {
-			return s;
 		}
+		return s;
 	}
 }
