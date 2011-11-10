@@ -163,8 +163,8 @@ public class Entity {
 		return new Vector2(pos.x + dim.x / 2, pos.y + dim.y / 2);
 	}
 
-	public void draw(final Graphics g) {
-		sprite.draw(g, pos, dim);
+	public void draw(final Graphics g, final Vector2 offset) {
+		sprite.draw(g, pos.add(offset), dim);
 	}
 
 	public static enum Orientation {

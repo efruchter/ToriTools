@@ -48,6 +48,10 @@ public class VariableCase {
 	public double getDouble(final String key){
 		return Double.parseDouble(variables.get(key));
 	}
+
+	public float getFloat(final String key){
+		return Float.parseFloat(variables.get(key));
+	}
 	
 	public double getInteger(final String key){
 		return Integer.parseInt(variables.get(key));

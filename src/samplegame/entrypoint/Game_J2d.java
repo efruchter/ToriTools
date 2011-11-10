@@ -26,7 +26,6 @@ import samplegame.load.Importer;
 import samplegame.scripting.EntityScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
-import toritools.map.VariableCase;
 import toritools.math.Vector2;
 
 /**
@@ -38,11 +37,12 @@ import toritools.math.Vector2;
 public class Game_J2d {
 
 	/** Game title */
-	public static final String GAME_TITLE = "USE WASD!";
+	private static String GAME_TITLE = "SampleGame";
+	private static String INFO = "WASD: Move | I/O -> Zoom %:";
 
-	public static final Vector2 BOUNDS = new Vector2(800, 600);
+	private static final Vector2 VIEWPORT = new Vector2(800, 600);
 
-	public static MP3 bg;
+	private static MP3 bg_music;
 
 	/**
 	 * The current working level.
@@ -75,7 +75,7 @@ public class Game_J2d {
 	@SuppressWarnings("serial")
 	public static JPanel panel = new JPanel() {
 		{
-			setPreferredSize(new Dimension((int) BOUNDS.x, (int) BOUNDS.y));
+			setPreferredSize(new Dimension((int) VIEWPORT.x, (int) VIEWPORT.y));
 		}
 
 		public void paintComponent(final Graphics g) {
@@ -102,10 +102,8 @@ public class Game_J2d {
 		/**
 		 * Create a blank level with size 1000x1000.
 		 */
-		VariableCase cas = new VariableCase();
-		cas.setVar("dimensions.x", 1000 + "");
-		cas.setVar("dimensions.y", 1000 + "");
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
+
 		level.idMap.get("player").script = new EntityScript() {
 			public void onSpawn(Level level, Entity self) {
 				System.out.println("The kid is spawned!");
@@ -114,8 +112,7 @@ public class Game_J2d {
 			public void onUpdate(Level level, Entity self) {
 				float x = self.pos.x, y = self.pos.y;
 
-				int speed = 5;
-				self.sprite.timeStretch = 1;
+				int speed = 3;
 				boolean walked = false;
 				if (keys.isPressed(KeyEvent.VK_A)) {
 					walked = true;
@@ -182,12 +179,16 @@ public class Game_J2d {
 			}
 		};
 
+		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
+				BufferedImage.TYPE_INT_RGB);
+		bufferGraphics = bufferImage.getGraphics();
+
 		for (Entity e : level.nonSolids)
 			e.onSpawn(level);
 		for (Entity e : level.solids)
 			e.onSpawn(level);
-		//bg = new MP3("resources/creep.mp3");
-		//bg.play();
+		bg_music = new MP3("resources/creep.mp3");
+		bg_music.play();
 	}
 
 	private static Timer timer;
@@ -214,6 +215,16 @@ public class Game_J2d {
 			e.onUpdate(level);
 		for (Entity e : level.nonSolids)
 			e.onUpdate(level);
+		if (keys.isPressed(KeyEvent.VK_I)) {
+			zoom.x += .01;
+			zoom.y += .01;
+		}
+		if (keys.isPressed(KeyEvent.VK_O)) {
+			zoom.x -= .01;
+			zoom.y -= .01;
+			if (zoom.x < 1)
+				zoom.set(1, 1);
+		}
 	}
 
 	private static ImageFilter lanternFilter = new RGBImageFilter() {
@@ -227,25 +238,49 @@ public class Game_J2d {
 			}
 		}
 	};
-	
 
-	private static void render(final Graphics canvas) {
-		canvas.setColor(Color.BLACK);
-		canvas.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
-		for (int i = level.layers.size() - 1; i >= 0; i--)
-			for (Entity e : level.layers.get(i))
-				if (e.visible)
-					e.draw(canvas);
-		Image i = new BufferedImage((int) BOUNDS.x, (int) BOUNDS.y,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics lightLayer = i.getGraphics();
-		lightLayer.setColor(Color.BLACK);
-		lightLayer.fillRect(0, 0, (int) BOUNDS.x, (int) BOUNDS.y);
-		drawLanternAround(140, level.idMap.get("player").getMid(), lightLayer);
-		drawLanternAround(25, level.idMap.get("wolf").getMid(), lightLayer);
-		i = Toolkit.getDefaultToolkit().createImage(
-				new FilteredImageSource(i.getSource(), lanternFilter));
-		canvas.drawImage(i, 0, 0, null);
+	final static Vector2 zoom = new Vector2(1, 1);
+
+	private static Image bufferImage;
+	private static Graphics bufferGraphics;
+
+	private static void render(final Graphics rootCanvas) {
+		try {
+			Vector2 playerPos = level.idMap.get("player").getMid();
+			Vector2 wolfPos = level.idMap.get("wolf").getMid();
+			Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
+
+			bufferGraphics.setColor(Color.BLACK);
+			bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+			for (int i = level.layers.size() - 1; i >= 0; i--)
+				for (Entity e : level.layers.get(i))
+					if (e.visible)
+						e.draw(bufferGraphics, offset);
+			Image i = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
+					BufferedImage.TYPE_INT_RGB);
+			Graphics lightLayer = i.getGraphics();
+			lightLayer.setColor(Color.BLACK);
+			lightLayer.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+			drawLanternAround(140, playerPos.add(offset), lightLayer);
+			drawLanternAround(25, wolfPos.add(offset), lightLayer);
+			i = Toolkit.getDefaultToolkit().createImage(
+					new FilteredImageSource(i.getSource(), lanternFilter));
+			bufferGraphics.drawImage(i, 0, 0, null);
+
+			/**
+			 * Draw to the actual screen, scaled.
+			 */
+			int xScalePix = (int) (zoom.x * VIEWPORT.x);
+			int yScalePix = (int) (zoom.y * VIEWPORT.y);
+			rootCanvas.drawImage(bufferImage,
+					-(int) ((xScalePix - VIEWPORT.x) / 2),
+					-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix,
+					yScalePix, null);
+			rootCanvas.setColor(Color.white);
+			rootCanvas.drawString(INFO + zoom.x, 5, (int) VIEWPORT.y - 5);
+		} catch (Exception e) {
+
+		}
 	}
 
 	public static void drawLanternAround(final int radius, final Vector2 pos,

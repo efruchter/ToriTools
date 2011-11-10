@@ -92,6 +92,8 @@ public class Importer {
 				.getElementsByTagName("level").item(0).getAttributes()
 				.getNamedItem("map").getNodeValue());
 		level.variables.setVariables(props);
+		level.dim.x = level.variables.getFloat("width");
+		level.dim.y = level.variables.getFloat("height");
 
 		// Extract level instance info
 		// levelSize.width = Integer.parseInt(props.get("width"));

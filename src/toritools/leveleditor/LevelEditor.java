@@ -697,7 +697,7 @@ public class LevelEditor {
 		});
 		for (Entity e : entities) {
 			if (layerEditor.isLayerVisible(e.layer))
-				e.draw(g);
+				e.draw(g, new Vector2());
 			if (selected == e) {
 				g.setColor(Color.RED);
 				g.drawRect((int) e.pos.getX(), (int) e.pos.getY(),
