@@ -38,7 +38,8 @@ public class Game_J2d {
 
 	/** Game title */
 	private static String GAME_TITLE = "SampleGame";
-	private static String INFO = "WASD: Move | I/O -> Zoom %:";
+
+	private static boolean lighting = false;
 
 	private static final Vector2 VIEWPORT = new Vector2(800, 600);
 
@@ -138,6 +139,13 @@ public class Game_J2d {
 					self.pos.y += speed;
 					self.sprite.setCylcle(0);
 				}
+
+				// Lighting control
+				if (keys.isPressed(KeyEvent.VK_K))
+					lighting = false;
+				if (keys.isPressed(KeyEvent.VK_L))
+					lighting = true;
+
 				// Detect and correct for y collisions
 				self.moveOutY(y, level.solids.toArray(new Entity[0]));
 
@@ -216,12 +224,12 @@ public class Game_J2d {
 		for (Entity e : level.nonSolids)
 			e.onUpdate(level);
 		if (keys.isPressed(KeyEvent.VK_I)) {
-			zoom.x += .01;
-			zoom.y += .01;
+			zoom.x += .1;
+			zoom.y += .1;
 		}
 		if (keys.isPressed(KeyEvent.VK_O)) {
-			zoom.x -= .01;
-			zoom.y -= .01;
+			zoom.x -= .1;
+			zoom.y -= .1;
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
@@ -261,14 +269,16 @@ public class Game_J2d {
 						e.draw(bufferGraphics, offset);
 			Image i = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 					BufferedImage.TYPE_INT_RGB);
-			Graphics lightLayer = i.getGraphics();
-			lightLayer.setColor(Color.BLACK);
-			lightLayer.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-			drawLanternAround(140, playerPos.add(offset), lightLayer);
-			drawLanternAround(25, wolfPos.add(offset), lightLayer);
-			i = Toolkit.getDefaultToolkit().createImage(
-					new FilteredImageSource(i.getSource(), lanternFilter));
-			bufferGraphics.drawImage(i, 0, 0, null);
+			if (lighting) {
+				Graphics lightLayer = i.getGraphics();
+				lightLayer.setColor(Color.BLACK);
+				lightLayer.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+				drawLanternAround(140, playerPos.add(offset), lightLayer);
+				drawLanternAround(100, wolfPos.add(offset), lightLayer);
+				i = Toolkit.getDefaultToolkit().createImage(
+						new FilteredImageSource(i.getSource(), lanternFilter));
+				bufferGraphics.drawImage(i, 0, 0, null);
+			}
 
 			/**
 			 * Draw to the actual screen, scaled.
@@ -280,7 +290,11 @@ public class Game_J2d {
 					-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix,
 					yScalePix, null);
 			rootCanvas.setColor(Color.white);
-			rootCanvas.drawString(INFO + zoom.x, 5, (int) VIEWPORT.y - 5);
+			String infoString = "[WASD] Move |" + " [K/L] Hard Lighting:"
+					+ (lighting ? "On" : "Off") + " |" + " [I/O] Zoom: "
+					+ zoom.x;
+
+			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 		} catch (Exception e) {
 
 		}
