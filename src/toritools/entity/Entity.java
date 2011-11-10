@@ -114,27 +114,6 @@ public class Entity {
 		return true;
 	}
 
-	public void moveOut(final Entity... entities) {
-		Vector2 aMid = getMid();
-		for (Entity b : entities) {
-			if (this == b || !this.isColliding(b))
-				continue;
-			Vector2 bMid = b.getMid();
-			float xBridge = aMid.sub(bMid).x;
-			float yBridge = aMid.sub(bMid).y;			
-			
-			// X
-			float xSign = xBridge < 0 ? -1 : 1;
-			xBridge = xSign * (b.dim.x / 2 + this.dim.x / 2 + 1);
-			this.pos.x = bMid.x + xBridge - this.dim.x / 2;
-
-			// Y
-			float ySign = yBridge < 0 ? -1 : 1;
-			yBridge = ySign * (b.dim.y / 2 + this.dim.y / 2 + 1);
-			this.pos.y = bMid.y + xBridge - this.dim.y / 2;
-		}
-	}
-
 	public Vector2 getMid() {
 		return new Vector2(pos.x + dim.x / 2, pos.y + dim.y / 2);
 	}
