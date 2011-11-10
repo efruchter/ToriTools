@@ -225,6 +225,9 @@ public class Game_J2d {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
+		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
+			System.exit(0);
+		}
 	}
 
 	private static ImageFilter lanternFilter = new RGBImageFilter() {

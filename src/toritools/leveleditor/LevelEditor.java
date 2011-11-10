@@ -467,7 +467,7 @@ public class LevelEditor {
 	public void deleteOverlapping(final Vector2 p) {
 		Entity selected = null;
 		for (Entity e : entities) {
-			if (e.visible
+			if (e.layer == layerEditor.getCurrentLayer()
 					&& new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
 							(int) e.dim.getX(), (int) e.dim.getY())
 							.contains(new Point((int) p.x, (int) p.y))
@@ -642,9 +642,10 @@ public class LevelEditor {
 		e.sprite = new Sprite(i.getImage(), 1, 1);
 		e.dim = new Vector2(width, height);
 		if (!entityExists(e)) {
-			JButton b = new JButton(i);
+			ImageIcon bI = new ImageIcon();
+			bI.setImage(i.getImage().getScaledInstance(32, 32, 0));
+			JButton b = new JButton(bI);
 			b.setToolTipText(data.get("description"));
-			b.setSize(new Dimension((int) width, (int) height));
 			b.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					setCurrent(e);
