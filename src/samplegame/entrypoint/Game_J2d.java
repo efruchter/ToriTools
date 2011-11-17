@@ -156,10 +156,8 @@ public class Game_J2d {
 			}
 
 			public void onUpdate(Level level, Entity self) {
-				// self.moveOut(self.pos.x, null, level.idMap.get("player"));
-				// self.moveOutX(self.pos.x, level.solids.toArray(new
-				// Entity[0]));
-				// level.idMap.get("player").moveOutX(self.pos.x, self);
+				ScriptUtils.moveOut(self, level.idMap.get("player"));
+				ScriptUtils.moveOut(self, level.solids.toArray(new Entity[0]));
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
