@@ -162,4 +162,11 @@ public class Vector2 {
 		return new Vector2((float) Math.cos(direction),
 				(float) Math.sin(direction)).unit();
 	}
+
+	/**
+	 * Get a unit vector angled from a to b.
+	 */
+	public static Vector2 toward(final Vector2 a, final Vector2 b) {
+		return b.sub(a).unit();
+	}
 }

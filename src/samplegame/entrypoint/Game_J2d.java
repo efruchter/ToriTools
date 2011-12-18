@@ -216,8 +216,12 @@ public class Game_J2d {
 				Graphics lightLayer = i.getGraphics();
 				lightLayer.setColor(Color.BLACK);
 				lightLayer.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-				drawLanternAround(140, playerPos.add(offset), lightLayer);
-				drawLanternAround(100, wolfPos.add(offset), lightLayer);
+				drawLanternAround(50, playerPos.add(offset), lightLayer);
+				drawLanternAround(50, wolfPos.add(offset), lightLayer);
+				Entity cross;
+				if ((cross = level.getIntityWithId("cross")) != null) {
+					drawLanternAround(100, cross.pos.add(offset), lightLayer);
+				}
 				i = Toolkit.getDefaultToolkit().createImage(
 						new FilteredImageSource(i.getSource(), lanternFilter));
 				bufferGraphics.drawImage(i, 0, 0, null);

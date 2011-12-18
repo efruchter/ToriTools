@@ -13,10 +13,19 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
 
+/**
+ * The script for the wolf. This shows how to spawn instances on the fly, as
+ * well as how to use the script to store state.
+ * 
+ * @author toriscope
+ * 
+ */
 public class WolfScript implements EntityScript {
 	private Random rand = new Random();
 	private float speed = 4;
 	private float direction = 0;
+
+	private Boolean canShoot = true;
 
 	public void onSpawn(Level level, Entity self) {
 		newDirection();
@@ -51,29 +60,36 @@ public class WolfScript implements EntityScript {
 			break;
 		}
 
-		if (ScriptUtils.isColliding(self, level.getIntityWithId("player"))) {
-			System.out.println("MUNCH!");
+		if (canShoot
+				&& ScriptUtils.isColliding(self,
+						level.getIntityWithId("player"))) {
+			System.out.println("BOOM!");
 			try {
 				Entity cross = Importer.importEntity(new File(
 						"levels/objects/wall/cross.entity"),
 						new HashMap<String, String>());
 				cross.pos = self.pos.clone();
 				cross.solid = false;
+				cross.variables.setVar("id", "cross");
 
 				cross.script = new EntityScript() {
 
 					int timer = 200;
+					Entity player;
 
 					@Override
 					public void onSpawn(Level level, Entity self) {
-
+						player = level.getIntityWithId("player");
+						canShoot = false;
 					}
 
 					@Override
 					public void onUpdate(Level level, Entity self) {
-						self.pos.x++;
+						self.pos = self.pos.add(Vector2.toward(self.pos,
+								player.pos).scale(1));
 						if (--timer == 0) {
 							level.killEntity(self);
+							canShoot = true;
 						}
 					}
 
@@ -87,7 +103,7 @@ public class WolfScript implements EntityScript {
 				level.spawnEntity(cross);
 
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				System.out.println("Tried to spawn a cross, but the entity file couldn't be found!");
 			}
 		}
 	}

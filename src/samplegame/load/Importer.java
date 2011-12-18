@@ -61,14 +61,17 @@ public class Importer {
 			// The key is sprite but not editor
 			String[] value = inGame.split(",");
 			// 0: file, 1: x tile, 2: y tile
-			e.sprite = new Sprite(new ImageIcon(file.getParent() + "/"
-					+ value[0].trim()).getImage(), Integer.parseInt(value[1]
-					.trim()), Integer.parseInt(value[2].trim()));
+			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
+			if (spriteFile.canRead()) {
+				e.sprite = new Sprite(new ImageIcon(
+						spriteFile.getAbsolutePath()).getImage(),
+						Integer.parseInt(value[1].trim()),
+						Integer.parseInt(value[2].trim()));
+			}
 			inGame = entityMap.getVar("sprites.timeScale");
 			if (inGame != null) {
 				e.sprite.timeStretch = Integer.parseInt(inGame.trim());
 			}
-			
 
 		} else {
 			e.sprite = e.editor;
@@ -79,7 +82,7 @@ public class Importer {
 		}
 		inGame = entityMap.getVar("visible");
 		if (inGame != null) {
-			e.visible= Boolean.parseBoolean(inGame.trim());
+			e.visible = Boolean.parseBoolean(inGame.trim());
 		}
 		return e;
 	}
