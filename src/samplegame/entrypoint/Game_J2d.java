@@ -14,7 +14,6 @@ import java.awt.image.ImageFilter;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.util.HashMap;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,10 +21,11 @@ import javax.swing.Timer;
 
 import samplegame.audio.MP3;
 import samplegame.controls.KeyHolder;
+import samplegame.entities.PlayerScript;
+import samplegame.entities.WolfScript;
 import samplegame.load.Importer;
 import samplegame.scripting.EntityScript;
 import samplegame.scripting.ScriptUtils;
-import samplegame.scripting.ScriptUtils.Direction;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
@@ -102,55 +102,9 @@ public class Game_J2d {
 		frame.addKeyListener(keys);
 		frame.setFocusable(true);
 
-		/**
-		 * Create a blank level with size 1000x1000.
-		 */
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 
-		level.idMap.get("player").script = new EntityScript() {
-			public void onSpawn(Level level, Entity self) {
-				System.out.println("The kid is spawned!");
-			}
-
-			public void onUpdate(Level level, Entity self) {
-				int speed = 3;
-				boolean walked = false;
-				Vector2 delta = new Vector2();
-
-				if (keys.isPressed(KeyEvent.VK_A)) {
-					walked = true;
-					delta.x -= speed;
-					self.sprite.setCylcle(1);
-				}
-				if (keys.isPressed(KeyEvent.VK_D)) {
-					walked = true;
-					delta.x += speed;
-					self.sprite.setCylcle(2);
-				}
-
-				if (keys.isPressed(KeyEvent.VK_W)) {
-					walked = true;
-					delta.y -= speed;
-					self.sprite.setCylcle(3);
-				}
-
-				if (keys.isPressed(KeyEvent.VK_S)) {
-					walked = true;
-					delta.y += speed;
-					self.sprite.setCylcle(0);
-				}
-
-				ScriptUtils.safeMove(self, delta,
-						level.solids.toArray(new Entity[0]));
-
-				if (walked)
-					self.sprite.nextFrame();
-			}
-
-			public void onDeath(Level level, Entity self, boolean isRoomExit) {
-			}
-
-		};
+		level.idMap.get("player").script = new PlayerScript();
 		level.idMap.get("pushblock1").script = new EntityScript() {
 			public void onSpawn(Level level, Entity self) {
 			}
@@ -158,57 +112,14 @@ public class Game_J2d {
 			public void onUpdate(Level level, Entity self) {
 				ScriptUtils.moveOut(self, level.idMap.get("player"));
 				ScriptUtils.moveOut(self, level.solids.toArray(new Entity[0]));
-				ScriptUtils.moveOut( level.idMap.get("player"), self);
+				ScriptUtils.moveOut(level.idMap.get("player"), self);
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
-		level.idMap.get("wolf").script = new EntityScript() {
-			private Random rand = new Random();
-			private float speed = 4;
-			private float direction = 0;
 
-			public void onSpawn(Level level, Entity self) {
-				newDirection();
-			}
-
-			public void onUpdate(Level level, Entity self) {
-				if (rand.nextDouble() > .99)
-					newDirection();
-				if (rand.nextDouble() > .8) {
-					ScriptUtils.safeMove(self, Vector2.buildVector(direction)
-							.scale(speed), level.solids.toArray(new Entity[0]));
-					self.sprite.nextFrame();
-				}
-
-				switch (Direction.findEnum(direction)) {
-				case DOWN:
-				case DOWN_RIGHT:
-				case DOWN_LEFT:
-					self.sprite.setCylcle(3);
-					break;
-				case UP:
-				case UP_RIGHT:
-				case UP_LEFT:
-					self.sprite.setCylcle(0);
-					break;
-				case RIGHT:
-					self.sprite.setCylcle(2);
-					break;
-				case LEFT:
-					self.sprite.setCylcle(1);
-					break;
-				}
-			}
-
-			public void onDeath(Level level, Entity self, boolean isRoomExit) {
-			}
-
-			private void newDirection() {
-				direction = rand.nextFloat() * 6.28f;
-			}
-		};
+		level.idMap.get("wolf").script = new WolfScript();
 
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 				BufferedImage.TYPE_INT_RGB);
