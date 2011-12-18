@@ -16,17 +16,10 @@ public class Level extends Entity {
 			nonSolids = new ArrayList<Entity>();
 	public List<Entity> allEntities = new ArrayList<Entity>();
 
-	public List<Entity> trash = new ArrayList<Entity>();
+	private List<Entity> trash = new ArrayList<Entity>();
+	private List<Entity> newEntities = new ArrayList<Entity>();
 
-	/**
-	 * Add an entity, and give it to a layer.
-	 * 
-	 * @param e
-	 *            the entity
-	 * @param layer
-	 *            the layer/depth.
-	 */
-	public void addEntity(final Entity e) {
+	private void addEntity(final Entity e) {
 		layers.get(e.layer).add(e);
 		allEntities.add(e);
 		if (e.solid) {
@@ -41,7 +34,7 @@ public class Level extends Entity {
 
 	}
 
-	public void removeEntityUnsafe(final Entity e) {
+	private void removeEntityUnsafe(final Entity e) {
 		layers.get(e.layer).remove(e);
 		allEntities.remove(e);
 		if (e.solid)
@@ -54,25 +47,56 @@ public class Level extends Entity {
 		}
 	}
 
-	public void killEntity(final Entity entity) {
-		trash.add(entity);
-		entity.onDeath(this, false);
+	public void spawnEntity(final Entity entity) {
+		newEntities.add(entity);
 	}
 
-	public void takeOutTrash() {
+	public void killEntity(final Entity entity) {
+		trash.add(entity);
+
+	}
+
+	private void spawnNewEntities() {
+		for (Entity e : newEntities) {
+			addEntity(e);
+		}
+		for (Entity e : newEntities) {
+			e.onSpawn(this);
+		}
+		newEntities.clear();
+	}
+
+	private void takeOutTrash() {
+		for (Entity e : trash) {
+			e.onDeath(this, false);
+		}
 		for (Entity e : trash) {
 			removeEntityUnsafe(e);
+			e.onDeath(this, false);
 		}
 		trash.clear();
 	}
 
-	/**
-	 * Call this each update cycle. WIll update all entities.
-	 */
+	public void onSpawn() {
+		onSpawn(this);
+	}
+
+	@Override
+	public void onSpawn(final Level level) {
+		spawnNewEntities();
+	}
+
 	public void onUpdate() {
+		onUpdate(this);
+	}
+
+	@Override
+	public void onUpdate(final Level level) {
+		spawnNewEntities();
 		for (Entity e : allEntities) {
-			e.onUpdate(this);
+			e.onUpdate(level);
 		}
+		takeOutTrash();
 	}
 
 	public Level() {

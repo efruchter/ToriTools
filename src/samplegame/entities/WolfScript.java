@@ -84,7 +84,7 @@ public class WolfScript implements EntityScript {
 					}
 				};
 
-				level.addEntity(cross);
+				level.spawnEntity(cross);
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

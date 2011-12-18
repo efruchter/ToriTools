@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.audio.MP3;
 import samplegame.controls.KeyHolder;
 import samplegame.entities.PlayerScript;
 import samplegame.entities.WolfScript;
@@ -44,8 +43,6 @@ public class Game_J2d {
 	private static boolean lighting = false, debug = false;
 
 	private static final Vector2 VIEWPORT = new Vector2(800, 600);
-
-	private static MP3 bg_music;
 
 	/**
 	 * The current working level.
@@ -104,6 +101,8 @@ public class Game_J2d {
 
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 
+		level.onSpawn();
+
 		level.getIntityWithId("player").script = new PlayerScript();
 
 		level.getIntityWithId("pushblock1").script = new EntityScript() {
@@ -125,13 +124,6 @@ public class Game_J2d {
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 				BufferedImage.TYPE_INT_RGB);
 		bufferGraphics = bufferImage.getGraphics();
-
-		for (Entity e : level.nonSolids)
-			e.onSpawn(level);
-		for (Entity e : level.solids)
-			e.onSpawn(level);
-		bg_music = new MP3("resources/creep.mp3");
-		bg_music.play();
 	}
 
 	private static Timer timer;
@@ -154,11 +146,8 @@ public class Game_J2d {
 	 * Do all calculations, handle input, etc.
 	 */
 	private static void logic() {
-		level.takeOutTrash();
-		for (Entity e : level.solids)
-			e.onUpdate(level);
-		for (Entity e : level.nonSolids)
-			e.onUpdate(level);
+		level.onUpdate();
+
 		if (keys.isPressed(KeyEvent.VK_I)) {
 			zoom.x += .1;
 			zoom.y += .1;

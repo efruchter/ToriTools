@@ -114,7 +114,7 @@ public class Importer {
 			ent.layer = Integer.parseInt(mapData.get("layer"));
 			// layerEditor.setLayerVisibility(layer, true);
 			ent.variables.getVariables().putAll(mapData);
-			level.addEntity(ent);
+			level.spawnEntity(ent);
 		}
 		return level;
 	}
