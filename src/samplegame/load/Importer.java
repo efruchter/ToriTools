@@ -115,8 +115,6 @@ public class Importer {
 			// layerEditor.setLayerVisibility(layer, true);
 			ent.variables.getVariables().putAll(mapData);
 			level.addEntity(ent);
-			if (mapData.containsKey("id"))
-				level.idMap.put(mapData.get("id"), ent);
 		}
 		return level;
 	}

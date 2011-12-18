@@ -46,6 +46,10 @@ public class WolfScript implements EntityScript {
 			self.sprite.setCylcle(1);
 			break;
 		}
+
+		if (ScriptUtils.isColliding(self, level.getIntityWithId("player"))) {
+			System.out.println("MUNCH!");
+		}
 	}
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {

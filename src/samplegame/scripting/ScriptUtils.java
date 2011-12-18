@@ -49,6 +49,27 @@ public class ScriptUtils {
 		}
 	}
 
+	public static boolean isColliding(final Entity a, final Entity b) {
+		// left of
+		if (a.pos.x + a.dim.x < b.pos.x) {
+			return false;
+		}
+		// below
+		else if (a.pos.y + a.dim.y < b.pos.y) {
+			return false;
+		}
+		// right
+		else if (b.pos.x + b.dim.x < a.pos.x) {
+			return false;
+		}
+		// above
+		else if (b.pos.y + b.dim.y < a.pos.y) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public static void safeMove(final Entity e, final Vector2 delta,
 			final Entity... opposing) {
 		e.pos = e.pos.add(delta);
@@ -56,27 +77,6 @@ public class ScriptUtils {
 	}
 
 	public static void moveOut(final Entity self, final Entity... entities) {
-		Vector2 aMid = self.getMid();
-		for (Entity b : entities) {
-			if (self == b || !self.isColliding(b))
-				continue;
-			Vector2 bMid = b.getMid();
-
-			float xBridge = aMid.sub(bMid).x;
-			float yBridge = aMid.sub(bMid).y;
-
-			float xSign = xBridge < 0 ? -1 : 1;
-			xBridge = xSign * (b.dim.x / 2 + self.dim.x / 2 + 1);
-
-			float ySign = yBridge < 0 ? -1 : 1;
-			yBridge = ySign * (b.dim.y / 2 + self.dim.y / 2 + 1);
-
-			if (Math.abs(xBridge) < Math.abs(yBridge)) {
-				self.pos.x = bMid.x + xBridge - self.dim.x / 2;
-			} else {
-				self.pos.y = bMid.y + yBridge - self.dim.y / 2;
-			}
-			break;
-		}
+		
 	}
 }

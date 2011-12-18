@@ -104,22 +104,23 @@ public class Game_J2d {
 
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 
-		level.idMap.get("player").script = new PlayerScript();
-		level.idMap.get("pushblock1").script = new EntityScript() {
+		level.getIntityWithId("player").script = new PlayerScript();
+
+		level.getIntityWithId("pushblock1").script = new EntityScript() {
 			public void onSpawn(Level level, Entity self) {
 			}
 
 			public void onUpdate(Level level, Entity self) {
-				ScriptUtils.moveOut(self, level.idMap.get("player"));
+				ScriptUtils.moveOut(self, level.getIntityWithId("player"));
 				ScriptUtils.moveOut(self, level.solids.toArray(new Entity[0]));
-				ScriptUtils.moveOut(level.idMap.get("player"), self);
+				ScriptUtils.moveOut(level.getIntityWithId("player"), self);
 			}
 
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
 
-		level.idMap.get("wolf").script = new WolfScript();
+		level.getIntityWithId("wolf").script = new WolfScript();
 
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 				BufferedImage.TYPE_INT_RGB);
@@ -202,8 +203,8 @@ public class Game_J2d {
 
 	private static void render(final Graphics rootCanvas) {
 		try {
-			Vector2 playerPos = level.idMap.get("player").getMid();
-			Vector2 wolfPos = level.idMap.get("wolf").getMid();
+			Vector2 playerPos = level.getIntityWithId("player").pos;
+			Vector2 wolfPos = level.getIntityWithId("wolf").pos;
 			Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
 			bufferGraphics.setColor(Color.BLACK);

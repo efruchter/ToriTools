@@ -85,39 +85,6 @@ public class Entity {
 		script.onDeath(world, this, isRoomExit);
 	}
 
-	public Entity isCollidingWithSolid(Entity... solids) {
-		for (Entity e : solids) {
-			if (e != this && this.isColliding(e))
-				return e;
-		}
-		return null;
-	}
-
-	public boolean isColliding(final Entity e) {
-		// left of
-		if (this.pos.x + this.dim.x < e.pos.x) {
-			return false;
-		}
-		// below
-		else if (this.pos.y + this.dim.y < e.pos.y) {
-			return false;
-		}
-		// right
-		else if (e.pos.x + e.dim.x < this.pos.x) {
-			return false;
-		}
-		// above
-		else if (e.pos.y + e.dim.y < this.pos.y) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public Vector2 getMid() {
-		return new Vector2(pos.x + dim.x / 2, pos.y + dim.y / 2);
-	}
-
 	public void draw(final Graphics g, final Vector2 offset) {
 		sprite.draw(g, pos.add(offset), dim);
 	}
