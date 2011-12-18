@@ -1,7 +1,11 @@
 package samplegame.entities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Random;
 
+import samplegame.load.Importer;
 import samplegame.scripting.EntityScript;
 import samplegame.scripting.ScriptUtils;
 import samplegame.scripting.ScriptUtils.Direction;
@@ -49,6 +53,42 @@ public class WolfScript implements EntityScript {
 
 		if (ScriptUtils.isColliding(self, level.getIntityWithId("player"))) {
 			System.out.println("MUNCH!");
+			try {
+				Entity cross = Importer.importEntity(new File(
+						"levels/objects/wall/cross.entity"),
+						new HashMap<String, String>());
+				cross.pos = self.pos.clone();
+				cross.solid = false;
+
+				cross.script = new EntityScript() {
+
+					int timer = 200;
+
+					@Override
+					public void onSpawn(Level level, Entity self) {
+
+					}
+
+					@Override
+					public void onUpdate(Level level, Entity self) {
+						self.pos.x++;
+						if (--timer == 0) {
+							level.killEntity(self);
+						}
+					}
+
+					@Override
+					public void onDeath(Level level, Entity self,
+							boolean isRoomExit) {
+
+					}
+				};
+
+				level.addEntity(cross);
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -16,6 +16,8 @@ public class Level extends Entity {
 			nonSolids = new ArrayList<Entity>();
 	public List<Entity> allEntities = new ArrayList<Entity>();
 
+	public List<Entity> trash = new ArrayList<Entity>();
+
 	/**
 	 * Add an entity, and give it to a layer.
 	 * 
@@ -39,17 +41,29 @@ public class Level extends Entity {
 
 	}
 
-	public void removeEntity(final Entity e) {
+	public void removeEntityUnsafe(final Entity e) {
 		layers.get(e.layer).remove(e);
 		allEntities.remove(e);
 		if (e.solid)
 			solids.remove(e);
 		else
-			nonSolids.remove(e);		
+			nonSolids.remove(e);
 		String id;
 		if ((id = e.variables.getVar("id")) != null) {
 			idMap.remove(id);
 		}
+	}
+
+	public void killEntity(final Entity entity) {
+		trash.add(entity);
+		entity.onDeath(this, false);
+	}
+
+	public void takeOutTrash() {
+		for (Entity e : trash) {
+			removeEntityUnsafe(e);
+		}
+		trash.clear();
 	}
 
 	/**

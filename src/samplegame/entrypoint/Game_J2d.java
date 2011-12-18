@@ -154,6 +154,7 @@ public class Game_J2d {
 	 * Do all calculations, handle input, etc.
 	 */
 	private static void logic() {
+		level.takeOutTrash();
 		for (Entity e : level.solids)
 			e.onUpdate(level);
 		for (Entity e : level.nonSolids)
