@@ -27,8 +27,54 @@ public class WolfScript implements EntityScript {
 
 	private Boolean canShoot = true;
 
+	private Entity bullet;
+
 	public void onSpawn(Level level, Entity self) {
 		newDirection();
+		try {
+			bullet = Importer.importEntity(new File(
+					"levels/objects/ground/barrel.entity"),
+					new HashMap<String, String>());
+		} catch (FileNotFoundException e) {
+			System.out.println("Cant find barrel.");
+			System.exit(0);
+		}
+
+		bullet.pos = self.pos.clone();
+		bullet.solid = false;
+		bullet.variables.setVar("id", "cross");
+
+		bullet.script = new EntityScript() {
+
+			int timer;
+			Entity player;
+
+			@Override
+			public void onSpawn(Level level, Entity self) {
+				if (player == null) {
+					player = level.getIntityWithId("player");
+				}
+				canShoot = false;
+				self.pos = player.pos.clone();
+				timer = 200;
+			}
+
+			@Override
+			public void onUpdate(Level level, Entity self) {
+				self.pos = self.pos.add(Vector2.toward(self.pos, player.pos)
+						.scale(1));
+				if (--timer == 0) {
+					level.killEntity(self);
+					canShoot = true;
+				}
+			}
+
+			@Override
+			public void onDeath(Level level, Entity self, boolean isRoomExit) {
+
+			}
+		};
+
 	}
 
 	public void onUpdate(Level level, Entity self) {
@@ -64,47 +110,7 @@ public class WolfScript implements EntityScript {
 				&& ScriptUtils.isColliding(self,
 						level.getIntityWithId("player"))) {
 			System.out.println("BOOM!");
-			try {
-				Entity cross = Importer.importEntity(new File(
-						"levels/objects/wall/cross.entity"),
-						new HashMap<String, String>());
-				cross.pos = self.pos.clone();
-				cross.solid = false;
-				cross.variables.setVar("id", "cross");
-
-				cross.script = new EntityScript() {
-
-					int timer = 200;
-					Entity player;
-
-					@Override
-					public void onSpawn(Level level, Entity self) {
-						player = level.getIntityWithId("player");
-						canShoot = false;
-					}
-
-					@Override
-					public void onUpdate(Level level, Entity self) {
-						self.pos = self.pos.add(Vector2.toward(self.pos,
-								player.pos).scale(1));
-						if (--timer == 0) {
-							level.killEntity(self);
-							canShoot = true;
-						}
-					}
-
-					@Override
-					public void onDeath(Level level, Entity self,
-							boolean isRoomExit) {
-
-					}
-				};
-
-				level.spawnEntity(cross);
-
-			} catch (FileNotFoundException e) {
-				System.out.println("Tried to spawn a cross, but the entity file couldn't be found!");
-			}
+			level.spawnEntity(bullet);
 		}
 	}
 

@@ -27,11 +27,6 @@ public class Level extends Entity {
 		} else {
 			nonSolids.add(e);
 		}
-		String id;
-		if ((id = e.variables.getVar("id")) != null) {
-			idMap.put(id, e);
-		}
-
 	}
 
 	private void removeEntityUnsafe(final Entity e) {
@@ -49,6 +44,10 @@ public class Level extends Entity {
 
 	public void spawnEntity(final Entity entity) {
 		newEntities.add(entity);
+		String id;
+		if ((id = entity.variables.getVar("id")) != null) {
+			idMap.put(id, entity);
+		}
 	}
 
 	public void killEntity(final Entity entity) {

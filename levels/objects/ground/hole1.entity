@@ -1,7 +1,0 @@
-title = hole1;
-description = a hole!;
-dimensions.x = 32;
-dimensions.y = 32;
-sprites.editor = hole1.png;
-solid = true;
-

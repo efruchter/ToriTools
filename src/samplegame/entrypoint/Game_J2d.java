@@ -101,8 +101,6 @@ public class Game_J2d {
 
 		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 
-		level.onSpawn();
-
 		level.getIntityWithId("player").script = new PlayerScript();
 
 		level.getIntityWithId("wolf").script = new WolfScript();
@@ -120,6 +118,8 @@ public class Game_J2d {
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
+		
+		level.onSpawn();
 
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 				BufferedImage.TYPE_INT_RGB);
