@@ -105,6 +105,8 @@ public class Game_J2d {
 
 		level.getIntityWithId("player").script = new PlayerScript();
 
+		level.getIntityWithId("wolf").script = new WolfScript();
+
 		level.getIntityWithId("pushblock1").script = new EntityScript() {
 			public void onSpawn(Level level, Entity self) {
 			}
@@ -118,8 +120,6 @@ public class Game_J2d {
 			public void onDeath(Level level, Entity self, boolean isRoomExit) {
 			}
 		};
-
-		level.getIntityWithId("wolf").script = new WolfScript();
 
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 				BufferedImage.TYPE_INT_RGB);
