@@ -2,7 +2,7 @@ title = wolf;
 description = The mysterious wolf;
 dimensions.x = 32;
 dimensions.y = 32;
-solid = true;
+solid = false;
 
 sprites.editor = editor_wolf.png;
 

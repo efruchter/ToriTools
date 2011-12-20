@@ -1,5 +1,7 @@
 package samplegame.scripting;
 
+import java.util.Arrays;
+
 import toritools.entity.Entity;
 import toritools.math.Vector2;
 
@@ -77,6 +79,22 @@ public class ScriptUtils {
 	}
 
 	public static void moveOut(final Entity self, final Entity... entities) {
-		
+		for (Entity entity : entities) {
+			if (self != entity && isColliding(entity, self)) {
+				self.pos = self.pos.add(findBestVectorOut(self, entity).scale(
+						1.1f));
+			}
+		}
+	}
+
+	public static Vector2 findBestVectorOut(final Entity toMove,
+			final Entity noMove) {
+		Vector2[] v = new Vector2[4];
+		v[0] = new Vector2(0, noMove.pos.y - (toMove.pos.y + toMove.dim.y));
+		v[1] = new Vector2(0, (toMove.pos.y - (noMove.pos.y + noMove.dim.y)) * -1);
+		v[2] = new Vector2(noMove.pos.x - (toMove.pos.x + toMove.dim.x), 0);
+		v[3] = new Vector2((toMove.pos.x - (noMove.pos.x + noMove.dim.x)) * -1, 0);
+		Arrays.sort(v);
+		return v[0];
 	}
 }

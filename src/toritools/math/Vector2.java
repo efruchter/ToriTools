@@ -8,7 +8,7 @@ import java.awt.Point;
  * @author efruchter
  * 
  */
-public class Vector2 {
+public class Vector2 implements Comparable<Vector2> {
 
 	public float x, y;
 
@@ -168,5 +168,10 @@ public class Vector2 {
 	 */
 	public static Vector2 toward(final Vector2 a, final Vector2 b) {
 		return b.sub(a).unit();
+	}
+
+	@Override
+	public int compareTo(Vector2 o) {
+		return new Float(this.mag()).compareTo(new Float(o.mag()));
 	}
 }

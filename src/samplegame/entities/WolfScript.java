@@ -25,7 +25,7 @@ public class WolfScript implements EntityScript {
 	private float speed = 4;
 	private float direction = 0;
 
-	private Boolean canShoot = true;
+	private boolean canShoot = true;
 
 	private Entity bullet;
 
