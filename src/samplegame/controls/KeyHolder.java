@@ -12,15 +12,8 @@ import java.util.HashMap;
  */
 public class KeyHolder implements KeyListener {
 	private HashMap<Integer, Boolean> keyBox = new HashMap<Integer, Boolean>();
-	private HashMap<Integer, Boolean> toggleableKeys = new HashMap<Integer, Boolean>();
-	
-	/**
-	 * All toggleable keys must be initially set to true.  Otherwise, the inceptive press does not register.
-	 */
-	public KeyHolder()
-	{
-		toggleableKeys.put(KeyEvent.VK_0, true);
-		toggleableKeys.put(KeyEvent.VK_L , true);
+
+	public KeyHolder() {
 	}
 
 	public HashMap<Integer, Boolean> getKeyBox() {
@@ -31,6 +24,13 @@ public class KeyHolder implements KeyListener {
 		this.keyBox = keyBox;
 	}
 
+	/**
+	 * Checks to see if a key is pressed.
+	 * 
+	 * @param key
+	 *            the key to poll for.
+	 * @return whether or not the key is being pressed.
+	 */
 	public boolean isPressed(int key) {
 		if (!keyBox.containsKey(key))
 			return false;
@@ -38,33 +38,37 @@ public class KeyHolder implements KeyListener {
 	}
 
 	/**
-	 * Triggered immediately when key is simply pressed upon. 
+	 * Imitates a normal keyPressed event, by returning the result of isPressed,
+	 * and if the key is currently being held down, releases it.
+	 * 
+	 * @param key
+	 *            the key to poll for.
+	 * @return whether or not the key is being pressed.
+	 */
+	public boolean isPressedThenRelease(int key) {
+		if (!keyBox.containsKey(key))
+			return false;
+		boolean k;
+		if (k = keyBox.get(key))
+			keyBox.put(key, false);
+		return k;
+	}
+
+	/**
+	 * Triggered immediately when key is simply pressed upon.
 	 */
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
-		if (!toggleableKeys.containsKey(keyEvent.getKeyCode()))
-		{
-			keyBox.put(keyEvent.getKeyCode(), true);
-		}
+		keyBox.put(keyEvent.getKeyCode(), true);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
-		if (!toggleableKeys.containsKey(keyEvent.getKeyCode()))
-		{
-			keyBox.put(keyEvent.getKeyCode(), false);
-		}
-		else
-		{
-			keyBox.put(keyEvent.getKeyCode(), toggleableKeys.get(keyEvent.getKeyCode()));
-			toggleableKeys.put(keyEvent.getKeyCode(), !toggleableKeys.get(keyEvent.getKeyCode()));
-		}
+		keyBox.put(keyEvent.getKeyCode(), false);
 	}
-	
-	
+
 	@Override
-	public void keyTyped(KeyEvent keyEvent)
-	{
-		//TODO maybe
+	public void keyTyped(KeyEvent keyEvent) {
+		// TODO maybe
 	}
 }

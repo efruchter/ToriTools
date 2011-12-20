@@ -158,8 +158,8 @@ public class Game_J2d {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		lighting = keys.isPressed(KeyEvent.VK_L) ? true : false; // Lighting control
-		debug = keys.isPressed(KeyEvent.VK_0) ? true : false; // debug control
+		lighting = keys.isPressedThenRelease(KeyEvent.VK_L) ? !lighting : lighting; // Lighting control
+		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug; // debug control
 		// Escape
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
@@ -232,7 +232,7 @@ public class Game_J2d {
 			String infoString = "[WASD] Move  | "
 					+ " [L] Hard Lighting:" + (lighting ? "On" : "Off") + "  | "
 					+ " [I/O] Zoom: " + zoom.x
-					+ "  |  [0] Debug Mode: " + debug;
+					+ "  |  [K] Debug Mode: " + debug;
 
 			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 		} catch (Exception e) {
