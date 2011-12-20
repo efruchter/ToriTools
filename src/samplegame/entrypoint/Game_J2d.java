@@ -40,7 +40,7 @@ public class Game_J2d {
 	/** Game title */
 	private static String GAME_TITLE = "SampleGame";
 
-	private static boolean lighting = false, debug = false;
+	public static boolean lighting = false, debug = false;
 
 	private static final Vector2 VIEWPORT = new Vector2(800, 600);
 
@@ -158,16 +158,8 @@ public class Game_J2d {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		// Lighting control
-		if (keys.isPressed(KeyEvent.VK_K))
-			lighting = false;
-		if (keys.isPressed(KeyEvent.VK_L))
-			lighting = true;
-		// debug control
-		if (keys.isPressed(KeyEvent.VK_9))
-			debug = false;
-		if (keys.isPressed(KeyEvent.VK_0))
-			debug = true;
+		lighting = keys.isPressed(KeyEvent.VK_L) ? true : false; // Lighting control
+		debug = keys.isPressed(KeyEvent.VK_0) ? true : false; // debug control
 		// Escape
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
@@ -237,9 +229,10 @@ public class Game_J2d {
 					-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix,
 					yScalePix, null);
 			rootCanvas.setColor(Color.white);
-			String infoString = "[WASD] Move |" + " [K/L] Hard Lighting:"
-					+ (lighting ? "On" : "Off") + " |" + " [I/O] Zoom: "
-					+ zoom.x + " | [9/0] Debug Mode: " + debug;
+			String infoString = "[WASD] Move  | "
+					+ " [K/L] Hard Lighting:" + (lighting ? "On" : "Off") + "  | "
+					+ " [I/O] Zoom: " + zoom.x
+					+ "  |  [0] Debug Mode: " + debug;
 
 			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 		} catch (Exception e) {
