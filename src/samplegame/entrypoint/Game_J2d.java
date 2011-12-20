@@ -230,7 +230,7 @@ public class Game_J2d {
 					yScalePix, null);
 			rootCanvas.setColor(Color.white);
 			String infoString = "[WASD] Move  | "
-					+ " [K/L] Hard Lighting:" + (lighting ? "On" : "Off") + "  | "
+					+ " [L] Hard Lighting:" + (lighting ? "On" : "Off") + "  | "
 					+ " [I/O] Zoom: " + zoom.x
 					+ "  |  [0] Debug Mode: " + debug;
 
