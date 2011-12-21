@@ -174,21 +174,21 @@ public class LevelEditor {
 			TransformerException {
 		/*
 		 * LOAD THE CONFIG FILE.
-		 */
-		Node configNode = ToriXML.parse(new File("config.xml"))
-				.getElementsByTagName("config").item(0);
-		Node recentNode = configNode.getAttributes().getNamedItem("recent");
-		if (recentNode != null) {
-			File f = new File(recentNode.getNodeValue());
-			try {
-				if (!f.exists())
+		 */try {
+			Node configNode = ToriXML.parse(new File("config.xml"))
+					.getElementsByTagName("config").item(0);
+			Node recentNode = configNode.getAttributes().getNamedItem("recent");
+			if (recentNode != null) {
+				File f;
+				if (!(f = new File(recentNode.getNodeValue())).exists())
 					throw new NullPointerException();
 				setLevelFile(f);
-			} catch (final Exception NullPointer) {
-				JOptionPane.showMessageDialog(null,
-						"There was an issue loading the recent level file!");
-				setLevelFile(importNewFileDialog());
+
 			}
+		} catch (final Exception NullPointer) {
+			JOptionPane.showMessageDialog(null,
+					"There was an issue loading the recent level file!");
+			setLevelFile(importNewFileDialog());
 		}
 
 		setupGUI();
