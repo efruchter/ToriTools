@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
@@ -40,7 +38,7 @@ public class Game_J2d {
 	/** Game title */
 	private static String GAME_TITLE = "SampleGame";
 
-	public static boolean lighting = false, debug = false;
+	public static boolean debug = false;
 
 	private static final Vector2 VIEWPORT = new Vector2(800, 600);
 
@@ -99,26 +97,40 @@ public class Game_J2d {
 		frame.addKeyListener(keys);
 		frame.setFocusable(true);
 
-		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
+		try {
+			ScriptUtils.loadProfileVariables();
+		} catch (Exception e) {
+			ScriptUtils.saveProfileVariables();
+		}
 
-		level.getIntityWithId("player").script = new PlayerScript();
+		level = Importer.importLevel(new File("levels/MoreLevel2.xml"));
 
-		level.getIntityWithId("wolf").script = new WolfScript();
+		level.getEntityWithId("player").script = new PlayerScript();
 
-		level.getIntityWithId("pushblock1").script = new EntityScript() {
-			public void onSpawn(Level level, Entity self) {
-			}
+		Entity temp = level.getEntityWithId("wolf");
+		if (temp != null)
+			temp.script = new WolfScript();
 
-			public void onUpdate(Level level, Entity self) {
-				ScriptUtils.moveOut(self, level.getIntityWithId("player"));
-				ScriptUtils.moveOut(self, level.solids.toArray(new Entity[0]));
-				ScriptUtils.moveOut(level.getIntityWithId("player"), self);
-			}
+		temp = level.getEntityWithId("pushblock1");
+		if (temp != null)
+			temp.script = new EntityScript() {
+				Entity player;
 
-			public void onDeath(Level level, Entity self, boolean isRoomExit) {
-			}
-		};
-		
+				public void onSpawn(Level level, Entity self) {
+					player = level.getEntityWithId("player");
+				}
+
+				public void onUpdate(Level level, Entity self) {
+					ScriptUtils.moveOut(self, player);
+					ScriptUtils.moveOut(self,
+							level.solids.toArray(new Entity[0]));
+					ScriptUtils.moveOut(player, self);
+				}
+
+				public void onDeath(Level level, Entity self, boolean isRoomExit) {
+				}
+			};
+
 		level.onSpawn();
 
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
@@ -158,25 +170,13 @@ public class Game_J2d {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		lighting = keys.isPressedThenRelease(KeyEvent.VK_L) ? !lighting : lighting; // Lighting control
-		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug; // debug control
+		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug; // debug
+																			// control
 		// Escape
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
 	}
-
-	private static ImageFilter lanternFilter = new RGBImageFilter() {
-		public int markerRGB = Color.WHITE.getRGB() | 0xFF000000;
-
-		public final int filterRGB(int x, int y, int rgb) {
-			if ((rgb | 0xFF000000) == markerRGB) {
-				return 0x00FFFFFF & rgb;
-			} else {
-				return 0xFE000000 & rgb;
-			}
-		}
-	};
 
 	final static Vector2 zoom = new Vector2(1, 1);
 
@@ -185,8 +185,7 @@ public class Game_J2d {
 
 	private static void render(final Graphics rootCanvas) {
 		try {
-			Vector2 playerPos = level.getIntityWithId("player").pos;
-			Vector2 wolfPos = level.getIntityWithId("wolf").pos;
+			Vector2 playerPos = level.getEntityWithId("player").pos;
 			Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
 			bufferGraphics.setColor(Color.BLACK);
@@ -202,23 +201,6 @@ public class Game_J2d {
 					if (e.visible)
 						e.draw(bufferGraphics, offset);
 				}
-			Image i = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
-					BufferedImage.TYPE_INT_RGB);
-			if (lighting) {
-				Graphics lightLayer = i.getGraphics();
-				lightLayer.setColor(Color.BLACK);
-				lightLayer.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-				drawLanternAround(50, playerPos.add(offset), lightLayer);
-				drawLanternAround(50, wolfPos.add(offset), lightLayer);
-				Entity cross;
-				if ((cross = level.getIntityWithId("cross")) != null) {
-					drawLanternAround(100, cross.pos.add(offset), lightLayer);
-				}
-				i = Toolkit.getDefaultToolkit().createImage(
-						new FilteredImageSource(i.getSource(), lanternFilter));
-				bufferGraphics.drawImage(i, 0, 0, null);
-			}
-
 			/**
 			 * Draw to the actual screen, scaled.
 			 */
@@ -229,22 +211,12 @@ public class Game_J2d {
 					-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix,
 					yScalePix, null);
 			rootCanvas.setColor(Color.white);
-			String infoString = "[WASD] Move  | "
-					+ " [L] Hard Lighting:" + (lighting ? "On" : "Off") + "  | "
-					+ " [I/O] Zoom: " + zoom.x
+			String infoString = "[WASD] Move  | " + " [I/O] Zoom: " + zoom.x
 					+ "  |  [K] Debug Mode: " + debug;
 
 			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
-	}
-
-	public static void drawLanternAround(final int radius, final Vector2 pos,
-			final Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillOval((int) pos.x - radius, (int) pos.y - radius, 2 * radius,
-				2 * radius);
-
 	}
 }

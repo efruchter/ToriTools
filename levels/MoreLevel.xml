@@ -1,7 +1,6 @@
 <level map="height = 600;width = 2000;">
 <objects>
 <entity map="template = /objects/prefabs/basementPrefab_1.entity;position.y = 160.0;position.x = 160.0;layer = 4;"/>
-<entity map="template = /objects/prefabs/basementPrefab_1.entity;position.y = 160.0;position.x = 1024.0;layer = 4;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 176.0;position.x = 385.0;layer = 2;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 225.0;position.x = 319.0;layer = 2;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 192.0;layer = 1;"/>
@@ -148,5 +147,13 @@
 <entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1184.0;layer = 0;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1152.0;layer = 0;"/>
 <entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1120.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 192.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 288.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 320.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 352.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 384.0;position.x = 992.0;layer = 0;"/>
+<entity map="template = /objects/wall/XWall32.entity;position.y = 416.0;position.x = 992.0;layer = 0;"/>
 </objects>
 </level>

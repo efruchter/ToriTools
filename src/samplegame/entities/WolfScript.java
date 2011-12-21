@@ -27,9 +27,10 @@ public class WolfScript implements EntityScript {
 
 	private boolean canShoot = true;
 
-	private Entity bullet;
+	private Entity bullet, player;
 
 	public void onSpawn(Level level, Entity self) {
+		player = level.getEntityWithId("player");
 		newDirection();
 		try {
 			bullet = Importer.importEntity(new File(
@@ -52,7 +53,7 @@ public class WolfScript implements EntityScript {
 			@Override
 			public void onSpawn(Level level, Entity self) {
 				if (player == null) {
-					player = level.getIntityWithId("player");
+					player = level.getEntityWithId("player");
 				}
 				canShoot = false;
 				self.pos = player.pos.clone();
@@ -106,9 +107,7 @@ public class WolfScript implements EntityScript {
 			break;
 		}
 
-		if (canShoot
-				&& ScriptUtils.isColliding(self,
-						level.getIntityWithId("player"))) {
+		if (canShoot && ScriptUtils.isColliding(self, player)) {
 			System.out.println("BOOM!");
 			level.spawnEntity(bullet);
 		}

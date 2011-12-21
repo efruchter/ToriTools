@@ -1,6 +1,12 @@
 package samplegame.scripting;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import toritools.entity.Entity;
+import toritools.map.ToriMapIO;
+import toritools.map.VariableCase;
 import toritools.math.Vector2;
 
 /**
@@ -11,6 +17,25 @@ import toritools.math.Vector2;
  * 
  */
 public class ScriptUtils {
+
+	private static VariableCase profileVariables = new VariableCase();
+	private final static File PROFILE = new File("profile.save");
+
+	public static String getVar(final String key) {
+		return profileVariables.getVar(key);
+	}
+
+	public static void setVar(final String key, final String value) {
+		profileVariables.setVar(key, value);
+	}
+
+	public static void saveProfileVariables() throws IOException {
+		ToriMapIO.writeMap(PROFILE, profileVariables.getVariables());
+	}
+
+	public static void loadProfileVariables() throws FileNotFoundException {
+		profileVariables = new VariableCase(ToriMapIO.readMap(PROFILE));
+	}
 
 	/**
 	 * Represents the 8 directions. Use the getDirection method to grab an enum
@@ -88,17 +113,20 @@ public class ScriptUtils {
 	public static Vector2 findBestVectorOut(final Entity toMove,
 			final Entity noMove) {
 		Vector2 test;
-		Vector2 best = new Vector2(0, noMove.pos.y - (toMove.pos.y + toMove.dim.y));
-		
-		test = new Vector2(0, (toMove.pos.y - (noMove.pos.y + noMove.dim.y)) * -1);
+		Vector2 best = new Vector2(0, noMove.pos.y
+				- (toMove.pos.y + toMove.dim.y));
+
+		test = new Vector2(0, (toMove.pos.y - (noMove.pos.y + noMove.dim.y))
+				* -1);
 		if (test.mag() < best.mag())
 			best = test;
-		
+
 		test = new Vector2(noMove.pos.x - (toMove.pos.x + toMove.dim.x), 0);
 		if (test.mag() < best.mag())
 			best = test;
-		
-		test = new Vector2((toMove.pos.x - (noMove.pos.x + noMove.dim.x)) * -1, 0);
+
+		test = new Vector2((toMove.pos.x - (noMove.pos.x + noMove.dim.x)) * -1,
+				0);
 		if (test.mag() < best.mag())
 			best = test;
 

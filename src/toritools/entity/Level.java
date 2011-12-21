@@ -105,7 +105,7 @@ public class Level extends Entity {
 		}
 	}
 
-	public Entity getIntityWithId(final String id) {
+	public Entity getEntityWithId(final String id) {
 		return idMap.get(id);
 	}
 }
