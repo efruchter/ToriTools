@@ -1,6 +1,8 @@
 <level map="height = 600;width = 2000;">
 <objects>
 <entity map="template = /objects/prefabs/basementPrefab_1.entity;position.y = 224.0;position.x = 576.0;layer = 4;"/>
+<entity map="template = /objects/portal/worldPortal.entity;position.y = 224.0;level = levels/MoreLevel.xml;position.x = 800.0;layer = 3;warpTo = ladderExit;"/>
+<entity map="id = ladderExit;template = /objects/portal/worldPortal.entity;position.y = 288.0;position.x = 800.0;layer = 3;"/>
 <entity map="id = player;template = /objects/player/player.entity;position.y = 192.0;position.x = 256.0;layer = 0;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 288.0;position.x = 256.0;layer = 0;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 288.0;position.x = 320.0;layer = 0;"/>
@@ -75,7 +77,6 @@
 <entity map="template = /objects/wall/wall.entity;position.y = 160.0;position.x = 1344.0;layer = 0;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 160.0;position.x = 1440.0;layer = 0;"/>
 <entity map="template = /objects/ground/barrel.entity;position.y = 320.0;position.x = 576.0;layer = 0;"/>
-<entity map="id = aPortal;template = /objects/portal/worldPortal.entity;position.y = 128.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/portal/worldPortal.entity;position.y = 224.0;level = levels/MoreLevel.xml;position.x = 800.0;layer = 0;warpTo = aPortal;"/>
+<entity map="id = fallExit;template = /objects/portal/worldPortal.entity;position.y = 128.0;position.x = 256.0;layer = 0;"/>
 </objects>
 </level>

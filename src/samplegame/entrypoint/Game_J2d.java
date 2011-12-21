@@ -101,7 +101,7 @@ public class Game_J2d {
 			ScriptUtils.saveProfileVariables();
 		}
 
-		level = Importer.importLevel(new File("levels/MoreLevel2.xml"));
+		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 
 		setupLevel();
 

@@ -17,6 +17,7 @@ public class PlayerScript implements EntityScript {
 			Entity portal;
 			if ((portal = level.getEntityWithId(warpTo)) != null) {
 				self.pos = portal.pos.clone();
+				ScriptUtils.setVar("warpTo", null);
 			} else {
 				System.out.println("Could not warp player to " + warpTo + "!");
 			}

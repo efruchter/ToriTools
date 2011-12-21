@@ -135,6 +135,12 @@ public class ScriptUtils {
 		return best;
 	}
 
+	/**
+	 * Change to a new level.
+	 * 
+	 * @param levelPath relative path to level file.
+	 * @throws FileNotFoundException
+	 */
 	public static void changeLevel(final String levelPath)
 			throws FileNotFoundException {
 		Game_J2d.warpToLevel(Importer.importLevel(new File(levelPath)));
