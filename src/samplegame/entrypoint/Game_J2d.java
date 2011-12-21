@@ -43,7 +43,7 @@ public class Game_J2d {
 	/**
 	 * The current working level.
 	 */
-	private static Level level;
+	private static Level level, newLevel;
 
 	/**
 	 * Application init
@@ -157,8 +157,8 @@ public class Game_J2d {
 			System.exit(0);
 		}
 	}
-
-	final static Vector2 zoom = new Vector2(1, 1);
+	
+	final public static Vector2 zoom = new Vector2(1, 1);
 
 	private static Image bufferImage;
 	private static Graphics bufferGraphics;
@@ -199,8 +199,6 @@ public class Game_J2d {
 			e.printStackTrace();
 		}
 	}
-
-	public static Level newLevel = null;
 
 	public static void warpToLevel(final Level newLevel) {
 		Game_J2d.newLevel = newLevel;
