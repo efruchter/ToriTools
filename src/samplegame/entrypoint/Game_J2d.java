@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageFilter;
-import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.util.HashMap;
 
@@ -105,33 +103,7 @@ public class Game_J2d {
 
 		level = Importer.importLevel(new File("levels/MoreLevel2.xml"));
 
-		level.getEntityWithId("player").script = new PlayerScript();
-
-		Entity temp = level.getEntityWithId("wolf");
-		if (temp != null)
-			temp.script = new WolfScript();
-
-		temp = level.getEntityWithId("pushblock1");
-		if (temp != null)
-			temp.script = new EntityScript() {
-				Entity player;
-
-				public void onSpawn(Level level, Entity self) {
-					player = level.getEntityWithId("player");
-				}
-
-				public void onUpdate(Level level, Entity self) {
-					ScriptUtils.moveOut(self, player);
-					ScriptUtils.moveOut(self,
-							level.solids.toArray(new Entity[0]));
-					ScriptUtils.moveOut(player, self);
-				}
-
-				public void onDeath(Level level, Entity self, boolean isRoomExit) {
-				}
-			};
-
-		level.onSpawn();
+		setupLevel();
 
 		bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
 				BufferedImage.TYPE_INT_RGB);
@@ -158,6 +130,14 @@ public class Game_J2d {
 	 * Do all calculations, handle input, etc.
 	 */
 	private static void logic() {
+
+		if (newLevel != null) {
+			level.onDeath(level, true);
+			level = newLevel;
+			setupLevel();
+			newLevel = null;
+		}
+
 		level.onUpdate();
 
 		if (keys.isPressed(KeyEvent.VK_I)) {
@@ -218,5 +198,41 @@ public class Game_J2d {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static Level newLevel = null;
+
+	public static void warpToLevel(final Level newLevel) {
+		Game_J2d.newLevel = newLevel;
+	}
+
+	private static void setupLevel() {
+		level.getEntityWithId("player").script = new PlayerScript();
+
+		Entity temp = level.getEntityWithId("wolf");
+		if (temp != null)
+			temp.script = new WolfScript();
+
+		temp = level.getEntityWithId("pushblock1");
+		if (temp != null)
+			temp.script = new EntityScript() {
+				Entity player;
+
+				public void onSpawn(Level level, Entity self) {
+					player = level.getEntityWithId("player");
+				}
+
+				public void onUpdate(Level level, Entity self) {
+					ScriptUtils.moveOut(self, player);
+					ScriptUtils.moveOut(self,
+							level.solids.toArray(new Entity[0]));
+					ScriptUtils.moveOut(player, self);
+				}
+
+				public void onDeath(Level level, Entity self, boolean isRoomExit) {
+				}
+			};
+
+		level.onSpawn();
 	}
 }

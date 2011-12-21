@@ -9,9 +9,18 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
 
-public class PlayerScript implements EntityScript{
+public class PlayerScript implements EntityScript {
 	public void onSpawn(Level level, Entity self) {
 		System.out.println("The kid is spawned!");
+		String warpTo;
+		if ((warpTo = ScriptUtils.getVar("warpTo")) != null) {
+			Entity portal;
+			if ((portal = level.getEntityWithId(warpTo)) != null) {
+				self.pos = portal.pos.clone();
+			} else {
+				System.out.println("Could not warp player to " + warpTo + "!");
+			}
+		}
 	}
 
 	public void onUpdate(Level level, Entity self) {

@@ -16,6 +16,7 @@ import toritools.entity.sprite.Sprite;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
+import toritools.portal.WorldPortal;
 import toritools.xml.ToriXML;
 
 public class Importer {
@@ -32,6 +33,9 @@ public class Importer {
 		VariableCase entityMap = ToriMapIO.readVariables(file);
 		entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
+		if(entityMap.getVar("title").equals("worldPortal")){
+			e = new WorldPortal();
+		}
 
 		/**
 		 * Extract the basic template data.

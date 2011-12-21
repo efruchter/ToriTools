@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import samplegame.entrypoint.Game_J2d;
+import samplegame.load.Importer;
 import toritools.entity.Entity;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
@@ -131,5 +133,10 @@ public class ScriptUtils {
 			best = test;
 
 		return best;
+	}
+
+	public static void changeLevel(final String levelPath)
+			throws FileNotFoundException {
+		Game_J2d.warpToLevel(Importer.importLevel(new File(levelPath)));
 	}
 }

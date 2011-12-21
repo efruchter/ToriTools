@@ -75,5 +75,7 @@
 <entity map="template = /objects/wall/wall.entity;position.y = 160.0;position.x = 1344.0;layer = 0;"/>
 <entity map="template = /objects/wall/wall.entity;position.y = 160.0;position.x = 1440.0;layer = 0;"/>
 <entity map="template = /objects/ground/barrel.entity;position.y = 320.0;position.x = 576.0;layer = 0;"/>
+<entity map="id = aPortal;template = /objects/portal/worldPortal.entity;position.y = 128.0;position.x = 256.0;layer = 0;"/>
+<entity map="template = /objects/portal/worldPortal.entity;position.y = 224.0;level = levels/MoreLevel.xml;position.x = 800.0;layer = 0;warpTo = aPortal;"/>
 </objects>
 </level>
