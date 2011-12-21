@@ -396,6 +396,7 @@ public class LevelEditor {
 			public void actionPerformed(ActionEvent arg0) {
 				makeWall = true;
 				makingWall = false;
+				selected = null;
 				repaint();
 			}
 		});
