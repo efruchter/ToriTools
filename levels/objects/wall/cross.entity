@@ -7,6 +7,6 @@ dimensions.y = 26;
 
 sprites.editor = cross.png;
 
-solid = true;
+solid = false;
 
 sprites.sizeOffset = 1;

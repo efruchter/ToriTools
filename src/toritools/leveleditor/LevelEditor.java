@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -35,6 +36,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -122,13 +124,48 @@ public class LevelEditor {
 	private JLabel fileLabel = new JLabel("FILE LABEL");
 	private JLabel gridLabel = new JLabel("GRID LABEL");
 	private JLabel levelSizeLabel = new JLabel("WORLD SIZE LABEL");
+	private JLabel editModeLabel = new JLabel("EDITMODE");
+
+	private Vector2 wallStart, wallEnd;
+	private boolean makeWall = false, makingWall = false;
 
 	/**
 	 * Mouse controller.
 	 */
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
+
+		@Override
+		public void mousePressed(MouseEvent m) {
+			if (makeWall) {
+				wallStart = wallEnd = getClosestGridPoint(new Vector2(
+						m.getPoint()));
+				makingWall = true;
+			}
+			repaint();
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent m) {
+			if (makeWall && makingWall) {
+				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
+			}
+			repaint();
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent m) {
+			if (makeWall && makingWall) {
+				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
+				makeWall(wallStart, wallEnd.sub(wallStart));
+				makingWall = makeWall = false;
+			}
+			repaint();
+		}
+
+		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			frame.requestFocus();
+			makeWall = makingWall = false;
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
 				selectOverlapping(new Vector2(arg0.getPoint()));
 				varEditor.setEntity(selected);
@@ -138,9 +175,7 @@ public class LevelEditor {
 				if (current != null) {
 					Vector2 p = new Vector2(arg0.getPoint());
 					deleteOverlapping(p);
-					p.set(((int) p.x / (int) gridSize.width) * gridSize.width,
-							((int) p.y / (int) gridSize.height)
-									* gridSize.height);
+					p.set(getClosestGridPoint(p));
 					Entity e = new Entity();
 					e.setFile(current.getFile());
 					e.pos = p.clone();
@@ -163,6 +198,9 @@ public class LevelEditor {
 		{
 			setPreferredSize(new Dimension(640, 480));
 			this.addMouseListener(mouseAdapter);
+			this.addMouseMotionListener(mouseAdapter);
+
+			this.setFocusable(true);
 		}
 
 		public void paintComponent(Graphics g) {
@@ -292,6 +330,7 @@ public class LevelEditor {
 		dummyPanel.add(new JLabel("|"));
 		dummyPanel.add(levelSizeLabel);
 		dummyPanel.add(new JLabel("|"));
+		dummyPanel.add(editModeLabel);
 
 		frame.add(dummyPanel, BorderLayout.NORTH);
 
@@ -309,6 +348,8 @@ public class LevelEditor {
 
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem open = new JMenuItem("Open");
+		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+				Event.CTRL_MASK));
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				File f = importNewFileDialog();
@@ -334,7 +375,10 @@ public class LevelEditor {
 				}
 			}
 		});
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				Event.CTRL_MASK));
 		fileMenu.add(save);
+		
 		JMenuItem close = new JMenuItem("Close");
 		close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -346,6 +390,19 @@ public class LevelEditor {
 
 		// Entity Menu
 		JMenu entityMenu = new JMenu("Entities");
+
+		JMenuItem makeWallEntry = new JMenuItem("Make Wall");
+		makeWallEntry.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				makeWall = true;
+				makingWall = false;
+				repaint();
+			}
+		});
+		entityMenu.add(makeWallEntry);
+		makeWallEntry.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
+				Event.CTRL_MASK));
+
 		JMenuItem importXml = new JMenuItem("Import XML Entity");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -360,6 +417,9 @@ public class LevelEditor {
 			}
 		});
 		entityMenu.add(importXml);
+		importXml.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
+				Event.CTRL_MASK));
+
 		JMenuItem deleteAll = new JMenuItem("Delete All");
 		deleteAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -596,6 +656,11 @@ public class LevelEditor {
 			File f = new File(workingDirectory + mapData.get("template"));
 			Entity ent = importEntity(f);
 			ent.pos = new Vector2(x, y);
+			try {
+				ent.dim.x = Float.parseFloat(mapData.get("dimensions.x"));
+				ent.dim.y = Float.parseFloat(mapData.get("dimensions.y"));
+			} catch (NullPointerException exc) {
+			}
 			layerEditor.setLayerVisibility(layer, true);
 			ent.variables.getVariables().putAll(mapData);
 			ent.layer = layer;
@@ -707,6 +772,11 @@ public class LevelEditor {
 		}
 		g.setColor(Color.RED);
 		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
+
+		if (makingWall) {
+			g.drawRect((int) wallStart.x, (int) wallStart.y, (int) wallEnd.x
+					- (int) wallStart.x, (int) wallEnd.y - (int) wallStart.y);
+		}
 	}
 
 	/**
@@ -733,9 +803,38 @@ public class LevelEditor {
 				+ (int) gridSize.getHeight());
 		levelSizeLabel.setText("Level Size: " + (int) levelSize.getWidth()
 				+ " x " + (int) levelSize.getHeight());
+		if (selected != null) {
+			editModeLabel.setText("Editing Single Entity");
+		} else if (makeWall) {
+			editModeLabel.setText("Click and Drag to Draw Wall");
+		} else {
+			editModeLabel.setText("Click to Place Entity");
+		}
 		drawPanel.setPreferredSize(levelSize);
 		frame.invalidate();
 		frame.validate();
 		frame.repaint();
+	}
+
+	public void makeWall(final Vector2 pos, final Vector2 dim) {
+		try {
+			if (dim.x == 0 || dim.y == 0)
+				return;
+			Entity wall = this.importEntity(new File(
+					"levels/objects/wall/wall.entity"));
+			wall.pos = pos.clone();
+			wall.dim = dim.clone();
+			wall.variables.setVar("dimensions.x", dim.x + "");
+			wall.variables.setVar("dimensions.y", dim.y + "");
+			this.addEntity(wall);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Vector2 getClosestGridPoint(final Vector2 p) {
+		return new Vector2(((int) p.x / (int) gridSize.width) * gridSize.width,
+				((int) p.y / (int) gridSize.height) * gridSize.height);
 	}
 }

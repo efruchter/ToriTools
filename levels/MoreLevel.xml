@@ -3,158 +3,21 @@
 <entity map="template = /objects/prefabs/basementPrefab_1.entity;position.y = 160.0;position.x = 160.0;layer = 4;"/>
 <entity map="template = /objects/portal/worldPortal.entity;position.y = 168.0;level = levels/MoreLevel2.xml;position.x = 384.0;layer = 3;warpTo = ladderExit;"/>
 <entity map="id = ladderExit;template = /objects/portal/worldPortal.entity;position.y = 216.0;position.x = 384.0;layer = 3;"/>
-<entity map="template = /objects/portal/worldPortal.entity;position.y = 224.0;level = levels/MoreLevel2.xml;position.x = 320.0;layer = 3;warpTo = fallExit;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 192.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 192.0;position.x = 128.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 128.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 128.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 288.0;position.x = 128.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 320.0;position.x = 128.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 384.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 352.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 320.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 288.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 192.0;position.x = 256.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 192.0;position.x = 224.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 224.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 256.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 256.0;layer = 1;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 224.0;layer = 1;"/>
 <entity map="id = pushblock1;template = /objects/wall/littlewall.entity;position.y = 312.0;position.x = 328.0;layer = 0;"/>
 <entity map="id = wolf;template = /objects/player/wolf.entity;position.y = 285.0;position.x = 408.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 416.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 352.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 384.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 416.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 160.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 192.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 224.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 288.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 320.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 352.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 384.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 416.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 448.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 480.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 608.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 672.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 704.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 736.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 800.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 832.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 864.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 896.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 896.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 736.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 704.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 672.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 608.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 448.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 285.0;position.x = 730.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 285.0;position.x = 760.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 176.0;position.x = 480.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 176.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 176.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 184.0;position.x = 776.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 184.0;position.x = 808.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 184.0;position.x = 840.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 184.0;position.x = 872.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 328.0;position.x = 872.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 320.0;position.x = 872.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 328.0;position.x = 864.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 320.0;position.x = 864.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 160.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 248.0;position.x = 608.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 248.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 280.0;position.x = 608.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 280.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 312.0;position.x = 480.0;layer = 0;"/>
 <entity map="id = player;template = /objects/player/player.entity;position.y = 352.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1024.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1056.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1088.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1024.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1056.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1088.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1184.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1216.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1248.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1280.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1312.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1344.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1440.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1472.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1504.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1536.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1568.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1600.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1632.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1664.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1696.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1728.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1760.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1792.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1824.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 448.0;position.x = 1856.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 416.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 384.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 352.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 320.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 288.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 192.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1888.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1824.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1856.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1792.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1760.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1728.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1696.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1664.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1632.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1600.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1568.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1536.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1504.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1472.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1440.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1344.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1312.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1280.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1248.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1216.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1184.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 160.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 192.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 224.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 256.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 288.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 320.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 352.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 384.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/wall/XWall32.entity;position.y = 416.0;position.x = 992.0;layer = 0;"/>
+<entity map="dimensions.y = 256.0;template = /objects/wall/wall.entity;position.y = 192.0;position.x = 128.0;layer = 0;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;template = /objects/wall/wall.entity;position.y = 160.0;position.x = 160.0;layer = 0;dimensions.x = 864.0;"/>
+<entity map="dimensions.y = 256.0;template = /objects/wall/wall.entity;position.y = 192.0;position.x = 1024.0;layer = 0;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;template = /objects/wall/wall.entity;position.y = 448.0;position.x = 160.0;layer = 0;dimensions.x = 864.0;"/>
+<entity map="dimensions.y = 96.0;template = /objects/wall/wall.entity;position.y = 194.0;position.x = 226.0;layer = 0;dimensions.x = 62.0;"/>
+<entity map="dimensions.y = 22.0;template = /objects/wall/wall.entity;position.y = 228.0;position.x = 320.0;layer = 0;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 28.0;template = /objects/wall/wall.entity;position.y = 320.0;position.x = 480.0;layer = 0;dimensions.x = 30.0;"/>
+<entity map="dimensions.y = 30.0;template = /objects/wall/wall.entity;position.y = 180.0;position.x = 478.0;layer = 0;dimensions.x = 94.0;"/>
+<entity map="dimensions.y = 14.0;template = /objects/wall/wall.entity;position.y = 182.0;position.x = 418.0;layer = 0;dimensions.x = 30.0;"/>
+<entity map="dimensions.y = 30.0;template = /objects/wall/wall.entity;position.y = 286.0;position.x = 736.0;layer = 0;dimensions.x = 50.0;"/>
+<entity map="dimensions.y = 38.0;template = /objects/wall/wall.entity;position.y = 324.0;position.x = 864.0;layer = 0;dimensions.x = 42.0;"/>
+<entity map="dimensions.y = 24.0;template = /objects/wall/wall.entity;position.y = 188.0;position.x = 774.0;layer = 0;dimensions.x = 126.0;"/>
+<entity map="dimensions.y = 68.0;template = /objects/wall/wall.entity;position.y = 248.0;position.x = 604.0;layer = 0;dimensions.x = 68.0;"/>
 </objects>
 </level>

@@ -174,4 +174,9 @@ public class Vector2 implements Comparable<Vector2> {
 	public int compareTo(Vector2 o) {
 		return new Float(this.mag()).compareTo(new Float(o.mag()));
 	}
+
+	public void set(Vector2 o) {
+		x = o.x;
+		y = o.y;
+	}
 }

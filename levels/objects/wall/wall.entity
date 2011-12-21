@@ -1,11 +1,12 @@
 title = wall;
 
-description = A gnarly wall!;
+description = A generic solid wall!;
 
 dimensions.x = 64;
 dimensions.y = 64;
 
-sprites.editor = editor.jpg;
+sprites.editor = standard.png;
 
 solid = true;
+visible = false;
 
