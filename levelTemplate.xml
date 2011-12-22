@@ -1,4 +1,5 @@
 <level map="height = 600;width = 800;">
 <objects>
+<entity map="dimensions.y = 224.0;template = bjects/wall/wall.entity;position.y = 64.0;position.x = 96.0;layer = 0;dimensions.x = 288.0;"/>
 </objects>
 </level>

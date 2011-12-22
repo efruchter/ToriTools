@@ -497,8 +497,7 @@ public class LevelEditor {
 	public void selectOverlapping(final Vector2 p) {
 		Entity selected = null;
 		for (Entity e : entities) {
-			if (e.visible
-					&& new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
+			if (new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
 							(int) e.dim.getX(), (int) e.dim.getY())
 							.contains(new Point((int) p.x, (int) p.y))
 					&& this.selected != e) {
@@ -801,7 +800,7 @@ public class LevelEditor {
 		levelSizeLabel.setText("Level Size: " + (int) levelSize.getWidth()
 				+ " x " + (int) levelSize.getHeight());
 		if (selected != null) {
-			editModeLabel.setText("Editing Single Entity");
+			editModeLabel.setText("Editing Single Entity: " + selected.type);
 		} else if (makeWall) {
 			editModeLabel.setText("Click and Drag to Draw Wall");
 		} else {
@@ -823,7 +822,8 @@ public class LevelEditor {
 			wall.dim = dim.clone();
 			wall.variables.setVar("dimensions.x", dim.x + "");
 			wall.variables.setVar("dimensions.y", dim.y + "");
-			this.addEntity(wall);
+			wall.layer =layerEditor.getCurrentLayer();
+			addEntity(wall);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
