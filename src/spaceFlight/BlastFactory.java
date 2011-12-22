@@ -3,11 +3,11 @@ package spaceFlight;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import samplegame.scripting.EntityScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.Sprite;
 import toritools.math.Vector2;
+import toritools.scripting.EntityScript;
 
 public class BlastFactory {
 	public static Entity getShipBlast() {
