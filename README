@@ -1,12 +1,11 @@
-A tiled xml level editor and Jython scripting interface.
-
-See the Downloads Tab for the latest working version and a sample map.
+A tiled xml level editor and set of classes to make 2D game-making easier.
 
 The top level packages are 
-1) toritools, the level editor and jython module.
-2) samplegame, the tiny zelda clone that will be built alongside toritools to flesh out the features. Uses lwjgl.
+1) toritools, the level editor and all the supporting classes for levels and entities.
+2) samplegame, the tiny zelda clone that will be built alongside toritools to flesh out the features.
+3) SpaceFlight, a schmup I'm making with ToriTools to give me something tinier to fiddle around with.
 
-HOW-TO INSTALL:
+HOW-TO INSTALL for development:
 Create a blank java project in eclipse called ToriTools, 
 and drag the git repo onto it and merge. Add all the jars 
 and their natives (if they have them) to the build path.
@@ -17,4 +16,6 @@ As a VM argument, pass in:
 -Dsun.java2d.opengl=true
 This will make things runs nice and smooth on OpenJDK. It seems to actually hurt performance on Windows 7, JVM7. WIERD.
 
-~eric
+Just peek into the top level classes for each of the sample games to see how setting up entities and their behavior is done.
+
+~toriscope
