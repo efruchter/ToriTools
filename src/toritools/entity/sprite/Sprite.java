@@ -26,7 +26,7 @@ public class Sprite {
 	}
 
 	public void setFrame(final int frame) {
-		y = frame % ySplit;
+		x = frame % xSplit;
 	}
 
 	public void setCylcle(final int cycle) {
