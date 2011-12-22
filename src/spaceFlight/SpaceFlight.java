@@ -35,8 +35,6 @@ public class SpaceFlight {
 	/** Game title */
 	private static String GAME_TITLE = "Space Flight by toriscope";
 
-	public static boolean debug = false;
-
 	private static final Vector2 VIEWPORT = new Vector2(800, 600);
 
 	/**
@@ -131,18 +129,6 @@ public class SpaceFlight {
 
 		level.onUpdate();
 
-		if (keys.isPressed(KeyEvent.VK_I)) {
-			zoom.x += .1;
-			zoom.y += .1;
-		}
-		if (keys.isPressed(KeyEvent.VK_O)) {
-			zoom.x -= .1;
-			zoom.y -= .1;
-			if (zoom.x < 1)
-				zoom.set(1, 1);
-		}
-		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug; // debug
-																			// control
 		// Escape
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
@@ -155,39 +141,23 @@ public class SpaceFlight {
 	private static Graphics bufferGraphics;
 
 	private static void render(final Graphics rootCanvas) {
-		try {
-			Vector2 offset = new Vector2();
-
-			bufferGraphics.setColor(Color.BLACK);
-			bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-			for (int i = level.layers.size() - 1; i >= 0; i--)
-				for (Entity e : level.layers.get(i)) {
-					if (debug) {
-						bufferGraphics.setColor(Color.RED);
-						bufferGraphics.drawRect((int) (e.pos.x + offset.x),
-								(int) (e.pos.y + offset.y), (int) e.dim.x,
-								(int) e.dim.y);
-					}
-					if (e.visible)
-						e.draw(bufferGraphics, offset);
-				}
-			/**
-			 * Draw to the actual screen, scaled.
-			 */
-			int xScalePix = (int) (zoom.x * VIEWPORT.x);
-			int yScalePix = (int) (zoom.y * VIEWPORT.y);
-			rootCanvas.drawImage(bufferImage,
-					-(int) ((xScalePix - VIEWPORT.x) / 2),
-					-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix,
-					yScalePix, null);
-			rootCanvas.setColor(Color.white);
-			String infoString = "[WASD] Move  | " + " [I/O] Zoom: " + zoom.x
-					+ "  |  [K] Debug Mode: " + debug;
-
-			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Vector2 offset = new Vector2();
+		bufferGraphics.setColor(Color.BLACK);
+		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+		for (int i = level.layers.size() - 1; i >= 0; i--)
+			for (Entity e : level.layers.get(i)) {
+				if (e.visible)
+					e.draw(bufferGraphics, offset);
+			}
+		/**
+		 * Draw to the actual screen, scaled.
+		 */
+		int xScalePix = (int) (zoom.x * VIEWPORT.x);
+		int yScalePix = (int) (zoom.y * VIEWPORT.y);
+		rootCanvas.drawImage(bufferImage,
+				-(int) ((xScalePix - VIEWPORT.x) / 2),
+				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
+				null);
 	}
 
 	private static void setupLevel() {
@@ -254,14 +224,26 @@ public class SpaceFlight {
 				sprite = new Sprite() {
 					final Rectangle healthBar = new Rectangle(0, 0, 200, 30);
 					final Rectangle armorBar = new Rectangle(0, 30, 200, 30);
-					public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+
+					public void draw(Graphics g, final Vector2 pos,
+							final Vector2 dim) {
 						g.setColor(Color.WHITE);
-						g.fillRect(healthBar.x, healthBar.y, healthBar.width, healthBar.height);
-						g.fillRect(armorBar.x, armorBar.y, armorBar.width, armorBar.height);
+						g.fillRect(healthBar.x, healthBar.y, healthBar.width,
+								healthBar.height);
+						g.fillRect(armorBar.x, armorBar.y, armorBar.width,
+								armorBar.height);
 						g.setColor(Color.RED);
-						g.fillRect(healthBar.x, healthBar.y, (int) (healthBar.width * ((float) PlayerData.playerHealth / PlayerData.maxHealth)), healthBar.height);
+						g.fillRect(
+								healthBar.x,
+								healthBar.y,
+								(int) (healthBar.width * ((float) PlayerData.playerHealth / PlayerData.maxHealth)),
+								healthBar.height);
 						g.setColor(Color.BLUE);
-						g.fillRect(armorBar.x, armorBar.y, (int) (armorBar.width * ((float) PlayerData.playerArmor / PlayerData.maxArmor)), armorBar.height);
+						g.fillRect(
+								armorBar.x,
+								armorBar.y,
+								(int) (armorBar.width * ((float) PlayerData.playerArmor / PlayerData.maxArmor)),
+								armorBar.height);
 					}
 				};
 			}
