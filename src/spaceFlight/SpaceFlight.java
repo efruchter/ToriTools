@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,7 @@ import samplegame.load.Importer;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.entity.sprite.Sprite;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -40,7 +42,15 @@ public class SpaceFlight {
 	/**
 	 * The current working level.
 	 */
-	private static Level level, newLevel;
+	private static Level level;
+
+	/**
+	 * Player Data
+	 */
+	static class PlayerData {
+		public static int maxHealth = 100, maxArmor = 100;
+		public static int playerHealth = 75, playerArmor = 25;
+	}
 
 	/**
 	 * Application init
@@ -118,13 +128,6 @@ public class SpaceFlight {
 	 */
 	private static void logic() {
 
-		if (newLevel != null) {
-			level.onDeath(level, true);
-			level = newLevel;
-			setupLevel();
-			newLevel = null;
-		}
-
 		level.onUpdate();
 
 		if (keys.isPressed(KeyEvent.VK_I)) {
@@ -186,15 +189,11 @@ public class SpaceFlight {
 		}
 	}
 
-	public static void warpToLevel(final Level newLevel) {
-		SpaceFlight.newLevel = newLevel;
-	}
-
 	private static void setupLevel() {
 		level.getEntityWithId("player").script = new EntityScript() {
 
 			int shootTimer = 0;
-			
+
 			@Override
 			public void onSpawn(Level level, Entity self) {
 				self.sprite.setFrame(2);
@@ -225,14 +224,14 @@ public class SpaceFlight {
 					self.pos.y += speed;
 					moved = true;
 				}
-				
+
 				if (shootTimer <= 0 && keys.isPressed(KeyEvent.VK_SPACE)) {
 					Entity e = BlastFactory.getShipBlast();
 					e.pos = self.pos.clone();
 					level.spawnEntity(e);
 					shootTimer = 10;
 				}
-				
+
 				if (!moved) {
 					self.sprite.setFrame(1);
 				}
@@ -245,6 +244,27 @@ public class SpaceFlight {
 			}
 
 		};
+
+		/**
+		 * Draw the health bars for the ship.
+		 */
+		level.spawnEntity(new Entity() {
+			{
+				sprite = new Sprite() {
+					final Rectangle healthBar = new Rectangle(0, 0, 200, 30);
+					final Rectangle armorBar = new Rectangle(0, 30, 200, 30);
+					public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+						g.setColor(Color.WHITE);
+						g.fillRect(healthBar.x, healthBar.y, healthBar.width, healthBar.height);
+						g.fillRect(armorBar.x, armorBar.y, armorBar.width, armorBar.height);
+						g.setColor(Color.RED);
+						g.fillRect(healthBar.x, healthBar.y, (int) (healthBar.width * ((float) PlayerData.playerHealth / PlayerData.maxHealth)), healthBar.height);
+						g.setColor(Color.BLUE);
+						g.fillRect(armorBar.x, armorBar.y, (int) (armorBar.width * ((float) PlayerData.playerArmor / PlayerData.maxArmor)), armorBar.height);
+					}
+				};
+			}
+		});
 
 		level.onSpawn();
 	}
