@@ -156,7 +156,9 @@ public class LevelEditor {
 		public void mouseReleased(MouseEvent m) {
 			if (makeWall && makingWall) {
 				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
-				makeWall(wallStart, wallEnd.sub(wallStart));
+				Vector2 wallDim = wallEnd.sub(wallStart);
+				if(wallDim.x != 0 && wallDim.y != 0)
+					addEntity(Importer.makeWall(wallStart, wallEnd.sub(wallStart)));
 				makingWall = makeWall = false;
 			}
 			repaint();
@@ -607,15 +609,16 @@ public class LevelEditor {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("position.x", e.pos.getX() + "");
 			map.put("position.y", e.pos.getY() + "");
-			map.put("template",
-					e.getFile()
-							.getPath()
-							.substring(
-									e.getFile()
-											.getPath()
-											.indexOf(workingDirectory.getName())
-											+ workingDirectory.getName()
-													.length()));
+			if(e.getFile() != null)
+				map.put("template",
+						e.getFile()
+								.getPath()
+								.substring(
+										e.getFile()
+												.getPath()
+												.indexOf(workingDirectory.getName())
+												+ workingDirectory.getName()
+														.length()));
 			map.put("layer", e.layer + "");
 			map.putAll(e.variables.getVariables());
 			Element object = doc.createElement("entity");
@@ -653,7 +656,15 @@ public class LevelEditor {
 			float x = Float.parseFloat(mapData.get("position.x"));
 			float y = Float.parseFloat(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
-			Entity ent = importEntity(f);
+			Entity ent = null;
+			if(f.canRead()) {
+				ent = importEntity(f);
+			} else  if (mapData.get("type").equals("WALL")) {
+				ent = Importer.makeWall(new Vector2(), new Vector2());
+			} else {
+				System.out.println("FAILED TO PROCESS ENTITY " + mapData.get("type"));
+				break;
+			}
 			ent.pos = new Vector2(x, y);
 			try {
 				ent.dim.x = Float.parseFloat(mapData.get("dimensions.x"));
@@ -810,24 +821,6 @@ public class LevelEditor {
 		frame.invalidate();
 		frame.validate();
 		frame.repaint();
-	}
-
-	public void makeWall(final Vector2 pos, final Vector2 dim) {
-		try {
-			if (dim.x == 0 || dim.y == 0)
-				return;
-			Entity wall = this.importEntity(new File(
-					"levels/objects/wall/wall.entity"));
-			wall.pos = pos.clone();
-			wall.dim = dim.clone();
-			wall.variables.setVar("dimensions.x", dim.x + "");
-			wall.variables.setVar("dimensions.y", dim.y + "");
-			wall.layer =layerEditor.getCurrentLayer();
-			addEntity(wall);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public Vector2 getClosestGridPoint(final Vector2 p) {

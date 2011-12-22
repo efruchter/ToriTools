@@ -6,18 +6,18 @@
 <entity map="id = pushblock1;template = /objects/wall/littlewall.entity;position.y = 312.0;position.x = 328.0;layer = 0;"/>
 <entity map="id = wolf;template = /objects/player/wolf.entity;position.y = 285.0;position.x = 408.0;layer = 0;"/>
 <entity map="id = player;template = /objects/player/player.entity;position.y = 352.0;position.x = 256.0;layer = 0;"/>
-<entity map="dimensions.y = 256.0;template = /objects/wall/wall.entity;position.y = 192.0;position.x = 128.0;layer = 0;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;template = /objects/wall/wall.entity;position.y = 160.0;position.x = 160.0;layer = 0;dimensions.x = 864.0;"/>
-<entity map="dimensions.y = 256.0;template = /objects/wall/wall.entity;position.y = 192.0;position.x = 1024.0;layer = 0;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;template = /objects/wall/wall.entity;position.y = 448.0;position.x = 160.0;layer = 0;dimensions.x = 864.0;"/>
-<entity map="dimensions.y = 96.0;template = /objects/wall/wall.entity;position.y = 194.0;position.x = 226.0;layer = 0;dimensions.x = 62.0;"/>
-<entity map="dimensions.y = 22.0;template = /objects/wall/wall.entity;position.y = 228.0;position.x = 320.0;layer = 0;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 28.0;template = /objects/wall/wall.entity;position.y = 320.0;position.x = 480.0;layer = 0;dimensions.x = 30.0;"/>
-<entity map="dimensions.y = 30.0;template = /objects/wall/wall.entity;position.y = 180.0;position.x = 478.0;layer = 0;dimensions.x = 94.0;"/>
-<entity map="dimensions.y = 14.0;template = /objects/wall/wall.entity;position.y = 182.0;position.x = 418.0;layer = 0;dimensions.x = 30.0;"/>
-<entity map="dimensions.y = 30.0;template = /objects/wall/wall.entity;position.y = 286.0;position.x = 736.0;layer = 0;dimensions.x = 50.0;"/>
-<entity map="dimensions.y = 38.0;template = /objects/wall/wall.entity;position.y = 324.0;position.x = 864.0;layer = 0;dimensions.x = 42.0;"/>
-<entity map="dimensions.y = 24.0;template = /objects/wall/wall.entity;position.y = 188.0;position.x = 774.0;layer = 0;dimensions.x = 126.0;"/>
-<entity map="dimensions.y = 68.0;template = /objects/wall/wall.entity;position.y = 248.0;position.x = 604.0;layer = 0;dimensions.x = 68.0;"/>
+<entity map="dimensions.y = 256.0;solid = true;position.y = 192.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 160.0;visible = false;position.x = 160.0;layer = 0;type = WALL;dimensions.x = 864.0;"/>
+<entity map="dimensions.y = 256.0;solid = true;position.y = 192.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 896.0;"/>
+<entity map="dimensions.y = 96.0;solid = true;position.y = 192.0;visible = false;position.x = 224.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 224.0;visible = false;position.x = 320.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 16.0;solid = true;position.y = 192.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 8.0;solid = true;position.y = 192.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 248.0;visible = false;position.x = 608.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 40.0;solid = true;position.y = 320.0;visible = false;position.x = 864.0;layer = 0;type = WALL;dimensions.x = 40.0;"/>
+<entity map="dimensions.y = 16.0;solid = true;position.y = 192.0;visible = false;position.x = 776.0;layer = 0;type = WALL;dimensions.x = 120.0;"/>
+<entity map="dimensions.y = 40.0;solid = true;position.y = 280.0;visible = false;position.x = 728.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 320.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
 </objects>
 </level>

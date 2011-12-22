@@ -1,5 +1,7 @@
 package toritools.io;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -9,7 +11,6 @@ import javax.swing.ImageIcon;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -31,7 +32,7 @@ public class Importer {
 			final HashMap<String, String> instanceMap)
 			throws FileNotFoundException {
 		VariableCase entityMap = ToriMapIO.readVariables(file);
-		if(instanceMap != null)
+		if (instanceMap != null)
 			entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
 
@@ -71,8 +72,9 @@ public class Importer {
 			// 0: file, 1: x tile, 2: y tile
 			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
 			if (spriteFile.canRead()) {
-				e.sprite = new Sprite(new ImageIcon(spriteFile.getAbsolutePath()).getImage(), x, y);
-						
+				e.sprite = new Sprite(new ImageIcon(
+						spriteFile.getAbsolutePath()).getImage(), x, y);
+
 			}
 			inGame = entityMap.getVar("sprite.timeScale");
 			if (inGame != null) {
@@ -113,16 +115,53 @@ public class Importer {
 			HashMap<String, String> mapData = ToriMapIO.readMap(e
 					.getAttributes().getNamedItem("map").getNodeValue());
 			// int layer = Integer.parseInt(mapData.get("layer"));
-			double x = Double.parseDouble(mapData.get("position.x"));
-			double y = Double.parseDouble(mapData.get("position.y"));
-			File f = new File(workingDirectory + mapData.get("template"));
-			Entity ent = importEntity(f, mapData);
-			ent.pos = new Vector2((float) x, (float) y);
-			ent.layer = Integer.parseInt(mapData.get("layer"));
-			// layerEditor.setLayerVisibility(layer, true);
-			ent.variables.getVariables().putAll(mapData);
-			level.spawnEntity(ent);
+			float x = Float.parseFloat(mapData.get("position.x"));
+			float y = Float.parseFloat(mapData.get("position.y"));
+			if (mapData.get("type") != null && mapData.get("type").equals("WALL")) {
+				float w = Float.parseFloat(mapData.get("dimensions.x"));
+				float h = Float.parseFloat(mapData.get("dimensions.y"));
+				Entity wall = makeWall(new Vector2(x, y), new Vector2(w, h));
+				wall.layer = Integer.parseInt(mapData.get("layer"));
+				wall.variables.getVariables().putAll(mapData);
+				level.spawnEntity(wall);
+				continue;
+			} else {
+				File f = new File(workingDirectory + mapData.get("template"));
+				Entity ent = importEntity(f, mapData);
+				ent.pos = new Vector2((float) x, (float) y);
+				ent.layer = Integer.parseInt(mapData.get("layer"));
+				// layerEditor.setLayerVisibility(layer, true);
+				ent.variables.getVariables().putAll(mapData);
+				level.spawnEntity(ent);
+			}
 		}
 		return level;
+	}
+
+	public static Entity makeWall(final Vector2 pos, final Vector2 dim) {
+		Entity wall = new Entity();
+		wall.pos = pos.clone();
+		wall.dim = dim.clone();
+		wall.variables.setVar("dimensions.x", dim.x + "");
+		wall.variables.setVar("dimensions.y", dim.y + "");
+		wall.solid = true;
+		wall.variables.setVar("solid", "true");
+		wall.type = "WALL";
+		wall.variables.setVar("type", "WALL");
+		wall.visible = false;
+		wall.variables.setVar("visible", "false");
+		wall.sprite = new Sprite() {
+			@Override
+			public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+				g.setColor(Color.RED);
+				g.drawLine((int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
+						(int) pos.y + (int) dim.y);
+				g.drawLine((int) pos.x, (int) pos.y + (int) dim.y, (int) pos.x
+						+ (int) dim.x, (int) pos.y);
+				g.draw3DRect((int) pos.x, (int) pos.y, (int) dim.x,
+						(int) dim.y, true);
+			}
+		};
+		return wall;
 	}
 }
