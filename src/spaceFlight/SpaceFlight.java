@@ -193,6 +193,8 @@ public class SpaceFlight {
 	private static void setupLevel() {
 		level.getEntityWithId("player").script = new EntityScript() {
 
+			int shootTimer = 0;
+			
 			@Override
 			public void onSpawn(Level level, Entity self) {
 				self.sprite.setFrame(2);
@@ -201,6 +203,7 @@ public class SpaceFlight {
 			@Override
 			public void onUpdate(Level level, Entity self) {
 				int speed = 3;
+				shootTimer--;
 
 				boolean moved = false;
 
@@ -222,6 +225,14 @@ public class SpaceFlight {
 					self.pos.y += speed;
 					moved = true;
 				}
+				
+				if (shootTimer <= 0 && keys.isPressed(KeyEvent.VK_SPACE)) {
+					Entity e = BlastFactory.getShipBlast();
+					e.pos = self.pos.clone();
+					level.spawnEntity(e);
+					shootTimer = 10;
+				}
+				
 				if (!moved) {
 					self.sprite.setFrame(1);
 				}
