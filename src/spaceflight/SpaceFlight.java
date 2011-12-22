@@ -1,4 +1,4 @@
-package spaceFlight;
+package spaceflight;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import spaceFlight.customScripts.BlastFactory;
+import spaceflight.customScripts.BlastFactory;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;

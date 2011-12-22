@@ -1,4 +1,4 @@
-package spaceFlight.customScripts;
+package spaceflight.customScripts;
 
 import java.awt.Color;
 import java.awt.Graphics;
