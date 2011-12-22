@@ -85,6 +85,7 @@ public class SpaceFlight {
 	 */
 	private static void init() throws Exception {
 		frame = new JFrame(GAME_TITLE);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(panel);
 		frame.pack();
