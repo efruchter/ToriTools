@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Random;
 
 import samplegame.load.Importer;
-import samplegame.scripting.EntityScript;
-import samplegame.scripting.ScriptUtils;
-import samplegame.scripting.ScriptUtils.Direction;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
+import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
+import toritools.scripting.ScriptUtils.Direction;
 
 /**
  * The script for the wolf. This shows how to spawn instances on the fly, as

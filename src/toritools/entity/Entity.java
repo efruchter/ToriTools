@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import samplegame.scripting.EntityScript;
 import toritools.entity.sprite.Sprite;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
+import toritools.scripting.EntityScript;
 
 /**
  * A scripted entity that exists in the game world. Designed to start with some

@@ -1,4 +1,4 @@
-package samplegame.controls;
+package toritools.controls;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

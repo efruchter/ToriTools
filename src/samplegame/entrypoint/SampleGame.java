@@ -15,15 +15,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.controls.KeyHolder;
 import samplegame.entities.PlayerScript;
 import samplegame.entities.WolfScript;
 import samplegame.load.Importer;
-import samplegame.scripting.EntityScript;
-import samplegame.scripting.ScriptUtils;
+import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
+import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
 
 /**
  * This will be the main class for a simple game that uses toritools.
@@ -31,7 +31,7 @@ import toritools.math.Vector2;
  * @author toriscope
  * 
  */
-public class Game_J2d {
+public class SampleGame {
 
 	/** Game title */
 	private static String GAME_TITLE = "SampleGame";
@@ -201,7 +201,7 @@ public class Game_J2d {
 	}
 
 	public static void warpToLevel(final Level newLevel) {
-		Game_J2d.newLevel = newLevel;
+		SampleGame.newLevel = newLevel;
 	}
 
 	private static void setupLevel() {

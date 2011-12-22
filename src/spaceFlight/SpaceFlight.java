@@ -14,13 +14,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.controls.KeyHolder;
 import samplegame.load.Importer;
-import samplegame.scripting.EntityScript;
-import samplegame.scripting.ScriptUtils;
+import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
+import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
 
 /**
  * This will be the main class for a simple game that uses toritools.

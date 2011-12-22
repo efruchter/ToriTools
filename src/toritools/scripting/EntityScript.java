@@ -1,4 +1,4 @@
-package samplegame.scripting;
+package toritools.scripting;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;

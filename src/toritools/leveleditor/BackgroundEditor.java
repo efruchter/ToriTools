@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import toritools.entity.sprite.Sprite;
 
+@SuppressWarnings("serial")
 public class BackgroundEditor extends JPanel {
 	Sprite currentImage = new Sprite(null, 1, 1);
 
@@ -50,7 +51,7 @@ public class BackgroundEditor extends JPanel {
 	public void selectTile(final Point p) {
 
 	}
-	
+
 	public void paintComponent(Graphics g) {
 
 	}

@@ -1,12 +1,14 @@
-package toritools.portal;
+package samplegame.entities;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
-import samplegame.entrypoint.Game_J2d;
-import samplegame.scripting.EntityScript;
-import samplegame.scripting.ScriptUtils;
+import samplegame.entrypoint.SampleGame;
+import samplegame.load.Importer;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
 
 /**
  * A level portal! To use it in the editor, set teh following two instance
@@ -32,11 +34,11 @@ public class WorldPortal extends Entity {
 
 			@Override
 			public void onUpdate(Level level, Entity self) {
-				visible = Game_J2d.debug;
+				visible = SampleGame.debug;
 				if (isWarp && ScriptUtils.isColliding(self, player)) {
 					ScriptUtils.setVar("warpTo", variables.getVar("warpTo"));
 					try {
-						ScriptUtils.changeLevel(variables.getVar("level"));
+						SampleGame.warpToLevel(Importer.importLevel(new File(variables.getVar("level"))));
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
