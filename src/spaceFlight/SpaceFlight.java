@@ -46,8 +46,10 @@ public class SpaceFlight {
 	 * Player Data
 	 */
 	static class PlayerData {
-		public static int maxHealth = 100, maxArmor = 100;
-		public static int playerHealth = 75, playerArmor = 25;
+		public static int maxHealth = 100, maxEnergy = 100;
+		public static int health = 75, energy = 25;
+
+		public static int energyRechargeRate = 5;
 	}
 
 	/**
@@ -163,6 +165,12 @@ public class SpaceFlight {
 	private static void setupLevel() {
 		level.getEntityWithId("player").script = new EntityScript() {
 
+			void rechargeArmor() {
+				PlayerData.energy += PlayerData.energyRechargeRate;
+				if (PlayerData.energy > PlayerData.maxEnergy)
+					PlayerData.energy = PlayerData.maxEnergy;
+			}
+
 			int shootTimer = 0;
 
 			@Override
@@ -196,16 +204,23 @@ public class SpaceFlight {
 					moved = true;
 				}
 
-				if (shootTimer <= 0 && keys.isPressed(KeyEvent.VK_SPACE)) {
+				if (shootTimer <= 0 && PlayerData.energy >= 10 && keys.isPressed(KeyEvent.VK_SPACE)) {
 					Entity e = BlastFactory.getShipBlast();
 					e.pos = self.pos.clone();
 					level.spawnEntity(e);
 					shootTimer = 10;
+					PlayerData.energy -= 10;
 				}
+
+				if (shootTimer <= 0)
+					rechargeArmor();
 
 				if (!moved) {
 					self.sprite.setFrame(1);
 				}
+
+				if (PlayerData.energy <= 0)
+					PlayerData.energy = 0;
 			}
 
 			@Override
@@ -223,27 +238,16 @@ public class SpaceFlight {
 			{
 				sprite = new Sprite() {
 					final Rectangle healthBar = new Rectangle(0, 0, 200, 30);
-					final Rectangle armorBar = new Rectangle(0, 30, 200, 30);
-
+					final Rectangle energyBar = new Rectangle(0, 30, 200, 30);
 					public void draw(Graphics g, final Vector2 pos,
 							final Vector2 dim) {
 						g.setColor(Color.WHITE);
-						g.fillRect(healthBar.x, healthBar.y, healthBar.width,
-								healthBar.height);
-						g.fillRect(armorBar.x, armorBar.y, armorBar.width,
-								armorBar.height);
+						g.fillRect(healthBar.x, healthBar.y, healthBar.width, healthBar.height);
+						g.fillRect(energyBar.x, energyBar.y, energyBar.width, energyBar.height);
 						g.setColor(Color.RED);
-						g.fillRect(
-								healthBar.x,
-								healthBar.y,
-								(int) (healthBar.width * ((float) PlayerData.playerHealth / PlayerData.maxHealth)),
-								healthBar.height);
+						g.fillRect(	healthBar.x, healthBar.y, (int) (healthBar.width * ((float) PlayerData.health / PlayerData.maxHealth)), healthBar.height);
 						g.setColor(Color.BLUE);
-						g.fillRect(
-								armorBar.x,
-								armorBar.y,
-								(int) (armorBar.width * ((float) PlayerData.playerArmor / PlayerData.maxArmor)),
-								armorBar.height);
+						g.fillRect(energyBar.x, energyBar.y, (int) (energyBar.width * ((float) PlayerData.energy / PlayerData.maxEnergy)), energyBar.height);
 					}
 				};
 			}
