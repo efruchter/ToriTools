@@ -165,7 +165,13 @@ public class SampleGame {
 	private static Graphics bufferGraphics;
 
 	private static void render(final Graphics rootCanvas) {
-		try {
+			if(level == null) {
+				rootCanvas.clearRect(0, 0, (int)VIEWPORT.x, (int)VIEWPORT.y);
+				rootCanvas.setColor(Color.BLACK);
+				rootCanvas.drawString("Loading...", (int) VIEWPORT.x/2, (int) VIEWPORT.y/2);
+				return;
+			}
+			
 			Vector2 playerPos = level.getEntityWithId("player").pos;
 			Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
@@ -198,9 +204,6 @@ public class SampleGame {
 					+ "  |  [K] Debug Mode: " + debug;
 
 			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static void warpToLevel(final Level newLevel) {
