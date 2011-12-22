@@ -106,6 +106,20 @@ public class Level extends Entity {
 		}
 		takeOutTrash();
 	}
+	
+	public void onDeath(final boolean isRoomExit) {
+		onDeath(this, isRoomExit);
+	}
+	
+	@Override
+	public void onDeath(final Level level, final boolean isRoomExit){
+		for(Entity e: solids) {
+			e.onDeath(level, isRoomExit);
+		}
+		for(Entity e: nonSolids) {
+			e.onDeath(level, isRoomExit);
+		}
+	}
 
 	public Level() {
 		super();

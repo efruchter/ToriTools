@@ -59,5 +59,7 @@ public class PlayerScript implements EntityScript {
 	}
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
+		if (isRoomExit)
+			System.out.println("The kid has been lost forever (room closed).");
 	}
 }
