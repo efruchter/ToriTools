@@ -35,7 +35,7 @@ public class Entity {
 	 */
 	public Vector2 pos, dim;
 	public boolean solid;
-	public String title;
+	public String type;
 	public int layer;
 	public boolean visible = true;
 
@@ -64,7 +64,7 @@ public class Entity {
 		pos = BASE_VECT;
 		dim = pos;
 		solid = false;
-		title = "DEFAULT";
+		type = "DEFAULT";
 		layer = 0;
 		sprite = editor = BASE_SPRITE;
 	}

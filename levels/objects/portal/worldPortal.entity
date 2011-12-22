@@ -1,4 +1,4 @@
-title = worldPortal;
+type = worldPortal;
 
 description = teleport the player to somewhere;
 

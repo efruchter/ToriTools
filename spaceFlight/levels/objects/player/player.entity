@@ -1,4 +1,4 @@
-title = player;
+type = player;
 description = The dude you move.;
 dimensions.x = 40;
 dimensions.y = 40;

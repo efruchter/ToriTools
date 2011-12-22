@@ -52,8 +52,9 @@ public class Importer {
 			e.solid = false;
 		}
 		// TITLE
-		e.title = entityMap.getVar("title");
-		e.title = e.title != null ? e.title : "DEFAULT";
+		e.type = entityMap.getVar("type");
+		if (e.type == null)
+			e.type = "DEFAULT";
 
 		e.editor = new Sprite(new ImageIcon(file.getParent() + "/"
 				+ entityMap.getVar("sprites.editor")).getImage(), 1, 1);

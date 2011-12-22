@@ -235,9 +235,9 @@ public class SampleGame {
 			};
 		}
 
-		// Set up world portals. THIS IS WHY WE HAVE TITLES.
+		// Set up world portals.
 		for (Entity e : level.allEntities) {
-			if (e.title.equals("worldPortal")) {
+			if (e.type.equals("worldPortal")) {
 				e.script = new WorldPortalScript();
 			}
 		}

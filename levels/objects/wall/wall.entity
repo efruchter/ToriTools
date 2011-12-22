@@ -1,4 +1,4 @@
-title = wall;
+type = wall;
 
 description = A generic solid wall!;
 

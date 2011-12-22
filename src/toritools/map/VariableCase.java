@@ -4,8 +4,9 @@ import java.util.HashMap;
 
 /**
  * A simple wrapper for a String,String hashmap to hold variables.
+ * 
  * @author toriscope
- *
+ * 
  */
 public class VariableCase {
 	protected HashMap<String, String> variables = new HashMap<String, String>();
@@ -22,6 +23,10 @@ public class VariableCase {
 		variables.put(var, value);
 	}
 
+	/**
+	 * Unlike the more specific getters, this wont crash the game on fail, it
+	 * will only return null.
+	 */
 	public String getVar(final String key) {
 		return variables.get(key);
 	}
@@ -33,7 +38,7 @@ public class VariableCase {
 	public void setVariables(HashMap<String, String> variables) {
 		this.variables = variables;
 	}
-	
+
 	public void clear() {
 		variables.clear();
 	}
@@ -46,24 +51,26 @@ public class VariableCase {
 		try {
 			return Float.parseFloat(variables.get(key));
 		} catch (final NumberFormatException e) {
-			System.err.println("The variable with key " + key + " is not a valid float.");
+			System.err.println("The variable with key " + key
+					+ " is not a valid float.");
 		} catch (final Exception e) {
 			System.err.println("No variable with key " + key + "found!");
 		}
 		System.exit(1);
 		return 0;
 	}
-	
+
 	public double getInteger(final String key) {
 		try {
 			return Integer.parseInt(variables.get(key));
 		} catch (final NumberFormatException e) {
-			System.err.println("The variable with key " + key + " is not a valid integer.");
+			System.err.println("The variable with key " + key
+					+ " is not a valid integer.");
 		} catch (final Exception e) {
 			System.err.println("No variable with key " + key + "found!");
 		}
 		System.exit(1);
-		return 0;	
+		return 0;
 	}
 
 	public String getString(final String key) {

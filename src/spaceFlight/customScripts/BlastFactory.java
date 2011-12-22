@@ -14,7 +14,7 @@ public class BlastFactory {
 		final Entity blast = new Entity();
 		blast.dim = new Vector2(30, 30);
 		blast.variables.setVar("damage", "20");
-		blast.variables.setVar("title", "goodBlast");
+		blast.type = "goodBlast";
 		blast.solid = true;
 		blast.sprite = new Sprite() {
 			public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
