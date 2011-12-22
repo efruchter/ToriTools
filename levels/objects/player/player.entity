@@ -4,10 +4,8 @@ dimensions.x = 25;
 dimensions.y = 25;
 solid = false;
 
-sprites.editor = editor.png;
-
-sprites.inGame = playersheet.png, 4, 4;
-sprites.timeScale = 5;
-sprites.sizeOffset = 4;
+sprite.sheet = playersheet.png, 4, 4;
+sprite.timeScale = 5;
+sprite.sizeOffset = 4;
 
 

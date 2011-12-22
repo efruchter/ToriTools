@@ -4,5 +4,5 @@ dimensions.x = 40;
 dimensions.y = 40;
 solid = false;
 
-sprites.inGame = player.png, 3, 1;
-sprites.editor = playerEditor.png;
+sprite.sheet = player.png, 3, 1;
+sprite.editor = 1, 0;

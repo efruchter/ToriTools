@@ -4,10 +4,8 @@ dimensions.x = 32;
 dimensions.y = 32;
 solid = false;
 
-sprites.editor = editor_wolf.png;
-
-sprites.inGame = wolfsheet.png, 4, 4;
-sprites.timeScale = 2;
-sprites.sizeOffset = 4;
+sprite.sheet = wolfsheet.png, 4, 4;
+sprite.timeScale = 2;
+sprite.sizeOffset = 4;
 
 

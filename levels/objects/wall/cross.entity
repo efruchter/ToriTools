@@ -5,8 +5,8 @@ description = a solemn cross!;
 dimensions.x = 26;
 dimensions.y = 26;
 
-sprites.editor = cross.png;
+sprite.sheet = cross.png;
 
 solid = false;
 
-sprites.sizeOffset = 1;
+sprite.sizeOffset = 1;

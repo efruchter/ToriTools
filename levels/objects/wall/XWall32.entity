@@ -5,7 +5,7 @@ description = An invisible wall object!;
 dimensions.x = 32;
 dimensions.y = 32;
 
-sprites.editor = standard.png;
+sprite.sheet = standard.png;
 
 solid = true;
 visible = false;

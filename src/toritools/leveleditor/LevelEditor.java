@@ -50,7 +50,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import toritools.entity.Entity;
-import toritools.entity.sprite.Sprite;
+import toritools.io.Importer;
 import toritools.map.ToriMapIO;
 import toritools.math.Vector2;
 import toritools.xml.ToriXML;
@@ -181,7 +181,6 @@ public class LevelEditor {
 					e.pos = p.clone();
 					e.dim = current.dim.clone();
 					e.sprite = current.sprite;
-					e.editor = e.sprite;
 					e.layer = layerEditor.getCurrentLayer();
 					addEntity(e);
 				}
@@ -695,21 +694,18 @@ public class LevelEditor {
 	 */
 	private Entity importEntity(final File file) throws FileNotFoundException {
 		HashMap<String, String> data = ToriMapIO.readMap(file);
-
-		float width = Float.parseFloat(data.get("dimensions.x"));
-		float height = Float.parseFloat(data.get("dimensions.y"));
-		// Form the image
-		final ImageIcon i = new ImageIcon(file.getPath().replace(
-				file.getName(), "")
-				+ data.get("sprites.editor"));
-		i.setImage(i.getImage().getScaledInstance((int) width, (int) height, 0));
-		final Entity e = new Entity();
-		e.setFile(file);
-		e.sprite = new Sprite(i.getImage(), 1, 1);
-		e.dim = new Vector2(width, height);
+		
+		final Entity e = Importer.importEntity(file, null);
+		try {
+			String[] s = data.get("sprite.editor").split(",");
+			e.sprite.set(Integer.parseInt(s[0].trim()), Integer.parseInt(s[1].trim()));
+		} catch(final Exception exc) {
+			//The sprite remains at 1,1;
+		}
+		
 		if (!entityExists(e)) {
 			ImageIcon bI = new ImageIcon();
-			bI.setImage(i.getImage().getScaledInstance(32, 32, 0));
+			bI.setImage(e.sprite.getImage().getScaledInstance(32, 32, 0));
 			JButton b = new JButton(bI);
 			b.setToolTipText(data.get("description"));
 			b.addActionListener(new ActionListener() {

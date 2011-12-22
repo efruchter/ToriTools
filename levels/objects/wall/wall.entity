@@ -5,7 +5,7 @@ description = A generic solid wall!;
 dimensions.x = 64;
 dimensions.y = 64;
 
-sprites.editor = standard.png;
+sprite.sheet = standard.png;
 
 solid = true;
 visible = false;

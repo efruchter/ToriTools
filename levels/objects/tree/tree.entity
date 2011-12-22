@@ -5,7 +5,7 @@ description = A pretty solid tree.;
 dimensions.x = 64;
 dimensions.y = 64;
 
-sprites.editor = editor.png;
+sprite.sheet = editor.png;
 
 solid = false;
 

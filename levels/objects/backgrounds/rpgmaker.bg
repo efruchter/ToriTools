@@ -1,4 +1,4 @@
 title = rpgmakerbg;
 description = The massive sprite sheet for RPG Maker;
-sprites.editor = rpgmaker.png;
+sprite.sheet = rpgmaker.png;
 

@@ -31,8 +31,11 @@ public class Importer {
 			final HashMap<String, String> instanceMap)
 			throws FileNotFoundException {
 		VariableCase entityMap = ToriMapIO.readVariables(file);
-		entityMap.getVariables().putAll(instanceMap);
+		if(instanceMap != null)
+			entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
+
+		e.file = file;
 
 		/**
 		 * Extract the basic template data.
@@ -56,29 +59,28 @@ public class Importer {
 		if (e.type == null)
 			e.type = "DEFAULT";
 
-		e.editor = new Sprite(new ImageIcon(file.getParent() + "/"
-				+ entityMap.getVar("sprites.editor")).getImage(), 1, 1);
-		String inGame = entityMap.getVar("sprites.inGame");
+		String inGame = entityMap.getVar("sprite.sheet");
 		if (inGame != null) {
 			// The key is sprite but not editor
 			String[] value = inGame.split(",");
+			int x = 1, y = 1;
+			if (value.length != 1) {
+				x = Integer.parseInt(value[1].trim());
+				y = Integer.parseInt(value[2].trim());
+			}
 			// 0: file, 1: x tile, 2: y tile
 			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
 			if (spriteFile.canRead()) {
-				e.sprite = new Sprite(new ImageIcon(
-						spriteFile.getAbsolutePath()).getImage(),
-						Integer.parseInt(value[1].trim()),
-						Integer.parseInt(value[2].trim()));
+				e.sprite = new Sprite(new ImageIcon(spriteFile.getAbsolutePath()).getImage(), x, y);
+						
 			}
-			inGame = entityMap.getVar("sprites.timeScale");
+			inGame = entityMap.getVar("sprite.timeScale");
 			if (inGame != null) {
 				e.sprite.timeStretch = Integer.parseInt(inGame.trim());
 			}
 
-		} else {
-			e.sprite = e.editor;
 		}
-		inGame = entityMap.getVar("sprites.sizeOffset");
+		inGame = entityMap.getVar("sprite.sizeOffset");
 		if (inGame != null) {
 			e.sprite.sizeOffset = Integer.parseInt(inGame.trim());
 		}

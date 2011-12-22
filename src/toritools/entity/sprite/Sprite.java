@@ -1,13 +1,15 @@
 package toritools.entity.sprite;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import toritools.math.Vector2;
 
 public class Sprite {
-	private int xSplit = 1, ySplit = 1, x = 0, y = 0, w, h;
-	public Image image;
+	private int xSplit = 1, ySplit = 1, x = 0, y = 0;// w, h;
+	private Image image;
+
 	private Vector2 bRight;
 	public int timeStretch = 1;
 	public float sizeOffset = 0;
@@ -26,9 +28,7 @@ public class Sprite {
 		this.image = image;
 		this.xSplit = xTiles;
 		this.ySplit = yTiles;
-		w = image.getWidth(null);
-		h = image.getHeight(null);
-		bRight = new Vector2(w / xSplit, h / ySplit);
+		bRight = new Vector2(image.getWidth(null) / xSplit, image.getHeight(null) / ySplit);
 	}
 
 	/**
@@ -66,4 +66,11 @@ public class Sprite {
 				y * (int) bRight.y + (int) bRight.y, null);
 	}
 
+	public Image getImage() {
+		return image;
+	}
+	
+	public Dimension getTileDimension() {
+		return new Dimension(x, y);
+	}
 }

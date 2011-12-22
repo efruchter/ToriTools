@@ -39,7 +39,7 @@ public class Entity {
 	public int layer;
 	public boolean visible = true;
 
-	public Sprite sprite, editor;
+	public Sprite sprite;
 
 	/**
 	 * Static vars for optimization.
@@ -66,7 +66,7 @@ public class Entity {
 		solid = false;
 		type = "DEFAULT";
 		layer = 0;
-		sprite = editor = BASE_SPRITE;
+		sprite = BASE_SPRITE;
 	}
 
 	/*

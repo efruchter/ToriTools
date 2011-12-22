@@ -5,7 +5,7 @@ description = A little brick thing!;
 dimensions.x = 32;
 dimensions.y = 32;
 
-sprites.editor = dirtyBox.jpg;
+sprite.sheet = dirtyBox.jpg;
 
 solid = false;
 
