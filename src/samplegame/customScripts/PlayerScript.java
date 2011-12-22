@@ -1,8 +1,8 @@
-package samplegame.entities;
+package samplegame.customScripts;
 
 import java.awt.event.KeyEvent;
 
-import samplegame.entrypoint.SampleGame;
+import samplegame.SampleGame;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;

@@ -1,13 +1,13 @@
-package samplegame.entities;
+package samplegame.customScripts;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Random;
 
-import samplegame.load.Importer;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;

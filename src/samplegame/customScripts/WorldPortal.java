@@ -1,12 +1,12 @@
-package samplegame.entities;
+package samplegame.customScripts;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import samplegame.entrypoint.SampleGame;
-import samplegame.load.Importer;
+import samplegame.SampleGame;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.io.Importer;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 

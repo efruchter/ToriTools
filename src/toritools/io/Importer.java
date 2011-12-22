@@ -1,4 +1,4 @@
-package samplegame.load;
+package toritools.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import samplegame.entities.WorldPortal;
+import samplegame.customScripts.WorldPortal;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.Sprite;

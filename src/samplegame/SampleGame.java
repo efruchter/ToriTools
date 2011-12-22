@@ -1,4 +1,4 @@
-package samplegame.entrypoint;
+package samplegame;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,12 +15,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.entities.PlayerScript;
-import samplegame.entities.WolfScript;
-import samplegame.load.Importer;
+import samplegame.customScripts.PlayerScript;
+import samplegame.customScripts.WolfScript;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
