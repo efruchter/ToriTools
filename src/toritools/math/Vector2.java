@@ -52,6 +52,11 @@ public class Vector2 implements Comparable<Vector2> {
 		this.y = y;
 	}
 
+	public void set(final Vector2 o) {
+		x = o.x;
+		y = o.y;
+	}
+
 	public Vector2 add(final Vector2 o) {
 		return new Vector2(this.x + o.getX(), this.y + o.getY());
 	}
@@ -173,10 +178,5 @@ public class Vector2 implements Comparable<Vector2> {
 	@Override
 	public int compareTo(Vector2 o) {
 		return new Float(this.mag()).compareTo(new Float(o.mag()));
-	}
-
-	public void set(Vector2 o) {
-		x = o.x;
-		y = o.y;
 	}
 }
