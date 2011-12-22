@@ -12,6 +12,16 @@ public class Sprite {
 	public int timeStretch = 1;
 	public float sizeOffset = 0;
 
+	/**
+	 * Create a sprite with given image;
+	 * 
+	 * @param image
+	 *            an image
+	 * @param xTiles
+	 *            tiles win x direction
+	 * @param yTiles
+	 *            tiles in y direction
+	 */
 	public Sprite(final Image image, final int xTiles, final int yTiles) {
 		this.image = image;
 		this.xSplit = xTiles;
@@ -19,6 +29,14 @@ public class Sprite {
 		w = image.getWidth(null);
 		h = image.getHeight(null);
 		bRight = new Vector2(w / xSplit, h / ySplit);
+	}
+
+	/**
+	 * Use this constructor if you plan on overriding draw(); Everything will be
+	 * null.
+	 */
+	public Sprite() {
+
 	}
 
 	public void nextFrame() {
@@ -32,8 +50,8 @@ public class Sprite {
 	public void setCylcle(final int cycle) {
 		y = cycle % ySplit;
 	}
-	
-	public void set(final int x, final int y){
+
+	public void set(final int x, final int y) {
 		this.x = x;
 		this.y = y;
 	}
