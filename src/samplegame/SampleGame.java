@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 import samplegame.customScripts.PlayerScript;
 import samplegame.customScripts.WolfScript;
+import samplegame.customScripts.WorldPortalScript;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -157,7 +158,7 @@ public class SampleGame {
 			System.exit(0);
 		}
 	}
-	
+
 	final public static Vector2 zoom = new Vector2(1, 1);
 
 	private static Image bufferImage;
@@ -187,9 +188,11 @@ public class SampleGame {
 			int xScalePix = (int) (zoom.x * VIEWPORT.x);
 			int yScalePix = (int) (zoom.y * VIEWPORT.y);
 			rootCanvas.drawImage(bufferImage,
-					-(int) ((xScalePix - VIEWPORT.x) / 2),
-					-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix,
-					yScalePix, null);
+								-(int) ((xScalePix - VIEWPORT.x) / 2),
+								-(int) ((yScalePix - VIEWPORT.y) / 2),
+								xScalePix,
+								yScalePix,
+								null);
 			rootCanvas.setColor(Color.white);
 			String infoString = "[WASD] Move  | " + " [I/O] Zoom: " + zoom.x
 					+ "  |  [K] Debug Mode: " + debug;
@@ -205,6 +208,7 @@ public class SampleGame {
 	}
 
 	private static void setupLevel() {
+
 		level.getEntityWithId("player").script = new PlayerScript();
 
 		Entity temp = level.getEntityWithId("wolf");
@@ -212,7 +216,7 @@ public class SampleGame {
 			temp.script = new WolfScript();
 
 		temp = level.getEntityWithId("pushblock1");
-		if (temp != null)
+		if (temp != null) {
 			temp.script = new EntityScript() {
 				Entity player;
 
@@ -222,14 +226,21 @@ public class SampleGame {
 
 				public void onUpdate(Level level, Entity self) {
 					ScriptUtils.moveOut(self, player);
-					ScriptUtils.moveOut(self,
-							level.solids.toArray(new Entity[0]));
+					ScriptUtils.moveOut(self, level.solids.toArray(new Entity[0]));
 					ScriptUtils.moveOut(player, self);
 				}
 
 				public void onDeath(Level level, Entity self, boolean isRoomExit) {
 				}
 			};
+		}
+
+		// Set up world portals. THIS IS WHY WE HAVE TITLES.
+		for (Entity e : level.allEntities) {
+			if (e.title.equals("worldPortal")) {
+				e.script = new WorldPortalScript();
+			}
+		}
 
 		level.onSpawn();
 	}

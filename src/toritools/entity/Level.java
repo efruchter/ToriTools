@@ -14,6 +14,10 @@ public class Level extends Entity {
 	 */
 	public List<Entity> solids = new ArrayList<Entity>(),
 			nonSolids = new ArrayList<Entity>();
+
+	/**
+	 * This list is modified the moment something is staged for add/removal.
+	 */
 	public List<Entity> allEntities = new ArrayList<Entity>();
 
 	private List<Entity> trash = new ArrayList<Entity>();
@@ -48,10 +52,12 @@ public class Level extends Entity {
 		if ((id = entity.variables.getVar("id")) != null) {
 			idMap.put(id, entity);
 		}
+		allEntities.add(entity);
 	}
 
 	public void killEntity(final Entity entity) {
 		trash.add(entity);
+		allEntities.remove(entity);
 
 	}
 
@@ -92,7 +98,10 @@ public class Level extends Entity {
 	@Override
 	public void onUpdate(final Level level) {
 		spawnNewEntities();
-		for (Entity e : allEntities) {
+		for (Entity e : solids) {
+			e.onUpdate(level);
+		}
+		for (Entity e : nonSolids) {
 			e.onUpdate(level);
 		}
 		takeOutTrash();

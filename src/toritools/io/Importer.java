@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import samplegame.customScripts.WorldPortal;
+
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.Sprite;
@@ -33,9 +33,6 @@ public class Importer {
 		VariableCase entityMap = ToriMapIO.readVariables(file);
 		entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
-		if(entityMap.getVar("title").equals("worldPortal")){
-			e = new WorldPortal();
-		}
 
 		/**
 		 * Extract the basic template data.
@@ -55,7 +52,7 @@ public class Importer {
 			e.solid = false;
 		}
 		// TITLE
-		e.title = entityMap.getVar("solid");
+		e.title = entityMap.getVar("title");
 		e.title = e.title != null ? e.title : "DEFAULT";
 
 		e.editor = new Sprite(new ImageIcon(file.getParent() + "/"
