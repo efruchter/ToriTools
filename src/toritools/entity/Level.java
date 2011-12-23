@@ -62,24 +62,25 @@ public class Level extends Entity {
 	}
 
 	private void spawnNewEntities() {
-		for (Entity e : newEntities) {
+		List<Entity> tempList = new ArrayList<Entity>(newEntities);
+		newEntities.clear();
+		for (Entity e : tempList) {
 			addEntity(e);
 		}
-		for (Entity e : newEntities) {
+		for (Entity e : tempList) {
 			e.onSpawn(this);
 		}
-		newEntities.clear();
 	}
 
 	private void takeOutTrash() {
-		for (Entity e : trash) {
-			e.onDeath(this, false);
-		}
-		for (Entity e : trash) {
-			removeEntityUnsafe(e);
-			e.onDeath(this, false);
-		}
+		List<Entity> tempList = new ArrayList<Entity>(trash);
 		trash.clear();
+		for (Entity e : tempList) {
+			removeEntityUnsafe(e);
+		}
+		for (Entity e : tempList) {
+			e.onDeath(this, false);
+		}
 	}
 
 	public void onSpawn() {
@@ -106,17 +107,17 @@ public class Level extends Entity {
 		}
 		takeOutTrash();
 	}
-	
+
 	public void onDeath(final boolean isRoomExit) {
 		onDeath(this, isRoomExit);
 	}
-	
+
 	@Override
-	public void onDeath(final Level level, final boolean isRoomExit){
-		for(Entity e: solids) {
+	public void onDeath(final Level level, final boolean isRoomExit) {
+		for (Entity e : solids) {
 			e.onDeath(level, isRoomExit);
 		}
-		for(Entity e: nonSolids) {
+		for (Entity e : nonSolids) {
 			e.onDeath(level, isRoomExit);
 		}
 	}

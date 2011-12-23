@@ -68,6 +68,11 @@ public class Entity {
 		layer = 0;
 		sprite = BASE_SPRITE;
 	}
+	
+	public Entity(final EntityScript script) {
+		this();
+		this.script = script;
+	}
 
 	/*
 	 * CONTROL METHODS
