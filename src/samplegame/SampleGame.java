@@ -1,28 +1,28 @@
-package samplegame;
-
 /**
  * This will be the main class for a simple game that uses toritools.
  * 
  * Full screen currently runs by default.  I have yet to implement windowed mode.
  * 
- * Note the Graphics class is Graphics2D, not Graphics3D.
- * This inconsistency is not yet corrected in current versions of Java, so we must check the superclass.
+ * Note the Graphics class is Graphics2D, not Graphics3D.  This inconsistency is not yet
+ * corrected in current versions of Java, so we must check the superclass.
  * Exempli gratia:
- * 		if (g instanceof Graphics2D)
- {
+ * 		if (g instanceof Graphics2D) {
  Graphics2D g2 = (Graphics2D)g;
  g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
  }g.drawString("abcdefghijklmnopqrstuvwxyz.", 200, 200);
  * 
  * @author toriscope
  */
+package samplegame;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.DisplayMode;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -90,7 +90,10 @@ public class SampleGame {
 			render(g);
 		}
 	};
-
+	Cursor hiddenCursor = Toolkit.getDefaultToolkit()
+			.createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
+					new Point(0, 0), "Hidden Cursor");
+	
 	/**
 	 * Initialize the game
 	 * 
@@ -102,6 +105,7 @@ public class SampleGame {
 				.getLocalGraphicsEnvironment();
 		gd = graphicsEnvironment.getDefaultScreenDevice();
 
+		frame.setCursor(hiddenCursor); // Hide cursor by default
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(panel);
 		frame.addKeyListener(keys);
@@ -163,12 +167,13 @@ public class SampleGame {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug; // debug
+		debug = keys.isPressedThenReleased(KeyEvent.VK_K) ? !debug : debug; // debug
 																			// control
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) // escape key. Potentially to be
 												// used for menu access.
 		{
 			setFullScreen(false);
+			frame.setCursor(null); // Restore cursor for menu
 			System.exit(0);
 		}
 	}
@@ -216,7 +221,7 @@ public class SampleGame {
 	}
 
 	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,
-			(int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);;
+			(int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);
 	private Graphics bufferGraphics = bufferImage.getGraphics();
 
 	private void render(final Graphics rootCanvas) {
@@ -261,8 +266,8 @@ public class SampleGame {
 	/**
 	 * Display mode of user's monitor. 32-bit color depth is used.
 	 */
-	private DisplayMode displayMode = new DisplayMode(resolutionWidth,
-			resolutionHeight, 32, DisplayMode.REFRESH_RATE_UNKNOWN);
+	private DisplayMode displayMode = new DisplayMode(resolutionWidth, resolutionHeight,
+			32, DisplayMode.REFRESH_RATE_UNKNOWN);
 
 	/**
 	 * Sets full screen or reverts screen to normal. In the future, this method

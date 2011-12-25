@@ -45,7 +45,7 @@ public class KeyHolder implements KeyListener {
 	 *            the key to poll for.
 	 * @return whether or not the key is being pressed.
 	 */
-	public boolean isPressedThenRelease(int key) {
+	public boolean isPressedThenReleased(int key) {
 		if (!keyBox.containsKey(key))
 			return false;
 		boolean k;
