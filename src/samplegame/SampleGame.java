@@ -1,14 +1,15 @@
 /**
  * This will be the main class for a simple game that uses toritools.
  * 
- * Full screen currently runs by default.  I have yet to implement windowed mode.
+ * Windowed mode does not yet work as intended.  Issue with VIEWPORT and render()
  * 
  * Note the Graphics class is Graphics2D, not Graphics3D.  This inconsistency is not yet
  * corrected in current versions of Java, so we must check the superclass.
  * Exempli gratia:
  * 		if (g instanceof Graphics2D) {
  Graphics2D g2 = (Graphics2D)g;
- g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+ g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+ RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
  }g.drawString("abcdefghijklmnopqrstuvwxyz.", 200, 200);
  * 
  * @author toriscope
@@ -17,6 +18,7 @@ package samplegame;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
@@ -107,6 +109,7 @@ public class SampleGame {
 
 		frame.setCursor(hiddenCursor); // Hide cursor by default
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(800, 600)); //Default windowed dimensions
 		frame.add(panel);
 		frame.addKeyListener(keys);
 		frame.setFocusable(true);
@@ -167,12 +170,16 @@ public class SampleGame {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
+		if (keys.isPressedThenReleased(KeyEvent.VK_L)) {
+			setFullScreen(!isInFullScreen);
+		}
 		debug = keys.isPressedThenReleased(KeyEvent.VK_K) ? !debug : debug; // debug
 																			// control
-		if (keys.isPressed(KeyEvent.VK_ESCAPE)) // escape key. Potentially to be
-												// used for menu access.
+		/*
+		 * Escape key.  To be potentially used for menu access.
+		 */
+		if (keys.isPressed(KeyEvent.VK_ESCAPE))
 		{
-			setFullScreen(false);
 			frame.setCursor(null); // Restore cursor for menu
 			System.exit(0);
 		}
@@ -257,17 +264,21 @@ public class SampleGame {
 				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
 				null);
 		rootCanvas.setColor(Color.white);
-		String infoString = "[WASD] Move  | " + " [I/O] Zoom: " + zoom.x
-				+ "  |  [K] Debug Mode: " + debug + "  |  [Esc] Quit";
+		String infoString = "[WASD] Move"
+				+ "  |  [I/O] Zoom: " + zoom.x
+				+ "  |  [K] Debug Mode: " + debug
+				+ "  |  [L] Full Screen: " + isInFullScreen
+				+ "  |  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 	}
 
 	/**
-	 * Display mode of user's monitor. 32-bit color depth is used.
+	 * Display mode of user's monitor.  Uses 32-bit color depth.
 	 */
 	private DisplayMode displayMode = new DisplayMode(resolutionWidth, resolutionHeight,
 			32, DisplayMode.REFRESH_RATE_UNKNOWN);
+	private boolean isInFullScreen;
 
 	/**
 	 * Sets full screen or reverts screen to normal. In the future, this method
@@ -277,13 +288,15 @@ public class SampleGame {
 	 * other monitors to test with.
 	 * 
 	 * @param isFullScreen
-	 *            Enable (true) or disable (false) full screen mode?
+	 *            Enable (true) or disable (false) full screen mode
 	 */
 	public void setFullScreen(boolean isFullScreen) {
 		if (isFullScreen) {
+			frame.dispose(); // Without disposing first, the frame remains displayed. 
 			frame.setUndecorated(true);
-			frame.setResizable(false);
-			gd.setFullScreenWindow(frame);
+			frame.setResizable(false); // Safety check
+			gd.setFullScreenWindow(frame); // This must be placed after setUndecorated.
+			isInFullScreen = true;
 
 			if (displayMode != null && gd.isDisplayChangeSupported()) {
 				try {
@@ -296,9 +309,14 @@ public class SampleGame {
 			Window window = gd.getFullScreenWindow();
 
 			if (window != null) {
-				window.dispose(); // dispose resources when closed
+				window.dispose(); // Dispose resources when closed.
 			}
-			gd.setFullScreenWindow(null); // actual reverting of window
+			frame.setUndecorated(false);
+			frame.setResizable(true);
+			frame.pack();
+			frame.setVisible(true);
+			gd.setFullScreenWindow(null); // Actual revert of window
+			isInFullScreen = false;
 		}
 	}
 
