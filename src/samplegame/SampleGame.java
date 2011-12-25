@@ -1,22 +1,5 @@
 package samplegame;
 
-/**
- * This will be the main class for a simple game that uses toritools.
- * 
- * Full screen currently runs by default.  I have yet to implement windowed mode.
- * 
- * Note the Graphics class is Graphics2D, not Graphics3D.
- * This inconsistency is not yet corrected in current versions of Java, so we must check the superclass.
- * Exempli gratia:
- * 		if (g instanceof Graphics2D)
-		{
-			Graphics2D g2 = (Graphics2D)g;
-			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		}g.drawString("abcdefghijklmnopqrstuvwxyz.", 200, 200);
- * 
- * @author toriscope
- */
-
 import java.awt.Color;
 import java.awt.DisplayMode;
 import java.awt.Graphics;
@@ -50,8 +33,28 @@ import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
+/**
+ * This will be the main class for a simple game that uses toritools.
+ * 
+ * Full screen currently runs by default.  I have yet to implement windowed mode.
+ * 
+ * Note the Graphics class is Graphics2D, not Graphics3D.
+ * This inconsistency is not yet corrected in current versions of Java, so we must check the superclass.
+ * Exempli gratia:
+ * 		if (g instanceof Graphics2D)
+		{
+			Graphics2D g2 = (Graphics2D)g;
+			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		}g.drawString("abcdefghijklmnopqrstuvwxyz.", 200, 200);
+ * 
+ * @author toriscope
+ */
 public class SampleGame
 {
+	/**
+	 * Interface to video card/chip for hardware acceleration
+	 */
+	private GraphicsDevice gd;
 	private int
 		resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
 		resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -81,11 +84,6 @@ public class SampleGame
 	}
 	
 	/**
-	 * Interface to video card/chip for hardware acceleration
-	 */
-	private GraphicsDevice gd;
-	
-	/**
 	 * JFrame with game title
 	 */
 	private JFrame frame = new JFrame("SampleGame");
@@ -95,7 +93,6 @@ public class SampleGame
 			render(g);
 		}
 	};
-	
 	/**
 	 * Initialize the game
 	 * 
@@ -118,12 +115,10 @@ public class SampleGame
 		}
 		level = Importer.importLevel(new File("levels/MoreLevel.xml")); //first level to import
 		setupLevel();
-		
 		setFullScreen(true);
 	}
 	
 	private Timer timer;
-	
 	/**
 	 * Runs the game (the "main loop")
 	 */
@@ -148,7 +143,6 @@ public class SampleGame
 			setupLevel();
 			newLevel = null;
 		}
-		
 		level.onUpdate();
 		
 		if (keys.isPressed(KeyEvent.VK_I)) {
@@ -161,9 +155,9 @@ public class SampleGame
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug; // debug
+		debug = keys.isPressedThenReleased(KeyEvent.VK_K) ? !debug : debug; // debug
 																			// control
-		if (keys.isPressed(KeyEvent.VK_ESCAPE)) //escape key.  Potentially to be used for menu access.
+		if (keys.isPressed(KeyEvent.VK_ESCAPE)) //escape key.  Potentially used for menu access.
 		{
 			setFullScreen(false);
 			System.exit(0);
@@ -203,11 +197,10 @@ public class SampleGame
 				e.script = new WorldPortalScript();
 			}
 		}
-		
 		level.onSpawn();
 	}
 	
-	private Image bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);;
+	private Image bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);
 	private Graphics bufferGraphics = bufferImage.getGraphics();
 	
 	private void render(final Graphics rootCanvas) {
@@ -217,9 +210,8 @@ public class SampleGame
 			rootCanvas.drawString("Loading...", (int) VIEWPORT.x/2, (int) VIEWPORT.y/2);
 			return;
 		}
-		
 		Vector2 playerPos = level.getEntityWithId("player").pos;
-		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
+		Vector2 offset = VIEWPORT.scale(0.5f).sub(playerPos);
 		
 		bufferGraphics.setColor(Color.BLACK);
 		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
@@ -244,19 +236,18 @@ public class SampleGame
 							yScalePix,
 							null);
 		rootCanvas.setColor(Color.white);
-		String infoString = "[WASD] Move  | " + " [I/O] Zoom: " + zoom.x
+		String infoString = "[WASD] Move"
+				+ "  |  [I/O] Zoom: "+ zoom.x
 				+ "  |  [K] Debug Mode: " + debug
 				+ "  |  [Esc] Quit";
-		
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 	}
 	
 	/**
 	 * Display mode of user's monitor.
-	 * 32-bit color depth is used.
+	 * Uses 32-bit color depth.
 	 */
-	private DisplayMode displayMode = new DisplayMode(
-			resolutionWidth, resolutionHeight,
+	private DisplayMode displayMode = new DisplayMode(resolutionWidth, resolutionHeight,
 			32, DisplayMode.REFRESH_RATE_UNKNOWN);
 	
 	/**
