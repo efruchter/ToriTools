@@ -63,6 +63,7 @@ public class SampleGame {
     public Vector2 zoom = new Vector2(1, 1);
     public static KeyHolder keys = new KeyHolder();
     public static boolean inDialog = false;
+    private static String displayString = "";
 
     /**
      * Application initiation
@@ -151,6 +152,9 @@ public class SampleGame {
      * Do all calculations, handle input, etc.
      */
     private void logic() {
+
+        displayString = null;
+
         if (newLevel != null) {
             level.onDeath(level, true);
             level = newLevel;
@@ -261,6 +265,10 @@ public class SampleGame {
                 + debug + "  |  [L] Full Screen: " + isInFullScreen + "  |  [Esc] Quit";
 
         rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
+
+        if (displayString != null) {
+            rootCanvas.drawString(displayString, (int) VIEWPORT.x / 2, (int) VIEWPORT.y / 2 + 64);
+        }
     }
 
     /**
@@ -320,5 +328,15 @@ public class SampleGame {
      */
     public static void warpToLevel(final Level newLevel) {
         SampleGame.newLevel = newLevel;
+    }
+
+    /**
+     * Set a string to be displayed in a prompt on screen for 1 frame.
+     * 
+     * @param s
+     *            the string to set.
+     */
+    public static void setDisplayPrompt(final String s) {
+        displayString = s;
     }
 }
