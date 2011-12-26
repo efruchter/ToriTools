@@ -16,7 +16,7 @@ public class DialogNode {
 	private final DialogAction action;
 
 	public DialogNode(final String sentence, final DialogAction action) {
-		this.sentences = DialogSplitterUtility.lineParser(sentence, 30);
+		this.sentences = DialogSplitterUtility.lineParser(sentence, 70);
 		this.action = action;
 	}
 

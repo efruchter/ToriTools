@@ -62,6 +62,7 @@ public class SampleGame {
     public static boolean debug = false;
     public Vector2 zoom = new Vector2(1, 1);
     public static KeyHolder keys = new KeyHolder();
+    public static boolean inDialog = false;
 
     /**
      * Application initiation

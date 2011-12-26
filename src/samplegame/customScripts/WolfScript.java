@@ -112,10 +112,11 @@ public class WolfScript implements EntityScript {
             level.spawnEntity(bullet);
         }
 
-        if (SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)
+        if (!SampleGame.inDialog && SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)
                 && ScriptUtils.isColliding(self, player)) {
-            level.spawnEntity(new DialogEntity(new DialogNode(
-                    "A lovely littel cat! Based on a novel by edgar allen poe.")));
+            level.spawnEntity(new DialogEntity(
+                    new DialogNode(
+                            "The 1689 Boston revolt was a popular uprising against the rule of Sir Edmund Andros (pictured), governor of the Dominion of New England that followed the Glorious Revolution deposing James II of England, who had appointed Andros. During the revolt, on April 18, 1689, a well-organized body of Puritan citizens and militiamen entered the dominion capital of Boston and arrested officials of the dominion, a colonial entity composed of present-day Maine, New Hampshire, Vermont, Massachusetts, Rhode Island, Connecticut, New York, and New Jersey. The rebellion was inspired by actions taken by Andros and dominion administrators, including promoting the Church of England, invalidating land titles, and famously attempting to seize the colonial charter of Connecticut.")));
         }
     }
 

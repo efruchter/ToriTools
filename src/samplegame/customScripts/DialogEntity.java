@@ -31,7 +31,7 @@ public class DialogEntity extends Entity {
 
             @Override
             public void onSpawn(Level level, Entity self) {
-
+                SampleGame.inDialog = true;
             }
 
             @Override
@@ -49,6 +49,7 @@ public class DialogEntity extends Entity {
 
             @Override
             public void onDeath(Level level, Entity self, boolean isRoomExit) {
+                SampleGame.inDialog = false;
                 dialogNode.doAction(level);
             }
 

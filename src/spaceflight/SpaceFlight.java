@@ -240,7 +240,8 @@ public class SpaceFlight {
 				sprite = new Sprite() {
 					final Rectangle healthBar = new Rectangle(0, 0, 200, 30);
 					final Rectangle energyBar = new Rectangle(0, 30, 200, 30);
-					public void draw(Graphics g, final Vector2 pos,
+					@Override
+					public void draw(final Graphics g, final Entity entity, final Vector2 pos,
 							final Vector2 dim) {
 						g.setColor(Color.WHITE);
 						g.fillRect(healthBar.x, healthBar.y, healthBar.width, healthBar.height);
