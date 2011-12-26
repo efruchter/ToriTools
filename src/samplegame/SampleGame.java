@@ -50,283 +50,274 @@ import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
 public class SampleGame {
-	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
-			resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private final Vector2 VIEWPORT = new Vector2(resolutionWidth,
-			resolutionHeight);
-	/**
-	 * The current working level.
-	 */
-	private Level level;
-	public static Level newLevel;
-	public static boolean debug = false;
-	public Vector2 zoom = new Vector2(1, 1);
-	public static KeyHolder keys = new KeyHolder();
 
-	/**
-	 * Application initiation
-	 * 
-	 * @param args
-	 *            Commandline arguments
-	 * @throws Exception
-	 */
-	public static void main(String[] args) throws Exception {
-		SampleGame sampleGame = new SampleGame();
+    private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
+            resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private final Vector2 VIEWPORT = new Vector2(resolutionWidth, resolutionHeight);
+    /**
+     * The current working level.
+     */
+    private Level level;
+    public static Level newLevel;
+    public static boolean debug = false;
+    public Vector2 zoom = new Vector2(1, 1);
+    public static KeyHolder keys = new KeyHolder();
 
-		sampleGame.init();
-		sampleGame.run();
-	}
+    /**
+     * Application initiation
+     * 
+     * @param args
+     *            Commandline arguments
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        SampleGame sampleGame = new SampleGame();
 
-	/**
-	 * Interface to video card/chip for hardware acceleration
-	 */
-	private GraphicsDevice gd;
+        sampleGame.init();
+        sampleGame.run();
+    }
 
-	/**
-	 * JFrame with game title
-	 */
-	private JFrame frame = new JFrame("SampleGame");
-	@SuppressWarnings("serial")
-	private JPanel panel = new JPanel() {
-		public void paintComponent(final Graphics g) {
-			render(g);
-		}
-	};
-	Cursor hiddenCursor = Toolkit.getDefaultToolkit()
-			.createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
-					new Point(0, 0), "Hidden Cursor");
-	
-	/**
-	 * Initialize the game
-	 * 
-	 * @throws Exception
-	 *             if init fails
-	 */
-	public void init() throws IOException {
-		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		gd = graphicsEnvironment.getDefaultScreenDevice();
+    /**
+     * Interface to video card/chip for hardware acceleration
+     */
+    private GraphicsDevice gd;
 
-		frame.setCursor(hiddenCursor); // Hide cursor by default
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(800, 600)); //Default windowed dimensions
-		frame.add(panel);
-		frame.addKeyListener(keys);
-		frame.setFocusable(true);
+    /**
+     * JFrame with game title
+     */
+    private JFrame frame = new JFrame("SampleGame");
+    @SuppressWarnings("serial")
+    private JPanel panel = new JPanel() {
+        public void paintComponent(final Graphics g) {
+            render(g);
+        }
+    };
+    Cursor hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "Hidden Cursor");
 
-		try {
-			ScriptUtils.loadProfileVariables();
-		} catch (Exception e) {
-			ScriptUtils.saveProfileVariables();
-		}
+    /**
+     * Initialize the game
+     * 
+     * @throws Exception
+     *             if init fails
+     */
+    public void init() throws IOException {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        gd = graphicsEnvironment.getDefaultScreenDevice();
 
-		// First level to load.
-		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
+        frame.setCursor(hiddenCursor); // Hide cursor by default
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(800, 600)); // Default windowed
+                                                         // dimensions
+        frame.add(panel);
+        frame.addKeyListener(keys);
+        frame.setFocusable(true);
 
-		setupLevel();
+        try {
+            ScriptUtils.loadProfileVariables();
+        } catch (Exception e) {
+            ScriptUtils.saveProfileVariables();
+        }
 
-		setFullScreen(true);
-	}
+        // First level to load.
+        level = Importer.importLevel(new File("levels/MoreLevel.xml"));
 
-	private Timer timer;
+        setupLevel();
 
-	/**
-	 * Runs the game (the "main loop")
-	 */
-	private void run() {
-		/*
-		 * This is not 60 fps, but really close!
-		 */
-		timer = new Timer(17, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				logic();
-				frame.repaint();
-			}
-		});
-		timer.start();
-	}
+        setFullScreen(true);
+    }
 
-	/**
-	 * Do all calculations, handle input, etc.
-	 */
-	private void logic() {
-		if (newLevel != null) {
-			level.onDeath(level, true);
-			level = newLevel;
-			setupLevel();
-			newLevel = null;
-		}
+    private Timer timer;
 
-		level.onUpdate();
+    /**
+     * Runs the game (the "main loop")
+     */
+    private void run() {
+        /*
+         * This is not 60 fps, but really close!
+         */
+        timer = new Timer(17, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logic();
+                frame.repaint();
+            }
+        });
+        timer.start();
+    }
 
-		if (keys.isPressed(KeyEvent.VK_I)) {
-			zoom.x += .1;
-			zoom.y += .1;
-		}
-		if (keys.isPressed(KeyEvent.VK_O)) {
-			zoom.x -= .1;
-			zoom.y -= .1;
-			if (zoom.x < 1)
-				zoom.set(1, 1);
-		}
-		if (keys.isPressedThenReleased(KeyEvent.VK_L)) {
-			setFullScreen(!isInFullScreen);
-		}
-		debug = keys.isPressedThenReleased(KeyEvent.VK_K) ? !debug : debug; // debug
-																			// control
-		/*
-		 * Escape key.  To be potentially used for menu access.
-		 */
-		if (keys.isPressed(KeyEvent.VK_ESCAPE))
-		{
-			frame.setCursor(null); // Restore cursor for menu
-			System.exit(0);
-		}
-	}
+    /**
+     * Do all calculations, handle input, etc.
+     */
+    private void logic() {
+        if (newLevel != null) {
+            level.onDeath(level, true);
+            level = newLevel;
+            setupLevel();
+            newLevel = null;
+        }
 
-	private void setupLevel() {
-		/*
-		 * This custom script attaching for player, wolf and block will soon by
-		 * nullified by a the Rhino module.
-		 */
-		level.getEntityWithId("player").script = new PlayerScript();
+        level.onUpdate();
 
-		Entity temp = level.getEntityWithId("wolf");
-		if (temp != null)
-			temp.script = new WolfScript();
+        if (keys.isPressed(KeyEvent.VK_I)) {
+            zoom.x += .1;
+            zoom.y += .1;
+        }
+        if (keys.isPressed(KeyEvent.VK_O)) {
+            zoom.x -= .1;
+            zoom.y -= .1;
+            if (zoom.x < 1)
+                zoom.set(1, 1);
+        }
+        if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
+            setFullScreen(!isInFullScreen);
+        }
+        debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug;
 
-		temp = level.getEntityWithId("pushblock1");
-		if (temp != null) {
-			temp.script = new EntityScript() {
-				Entity player;
+        if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
+            frame.setCursor(null); // Restore cursor for menu
+            System.exit(0);
+        }
 
-				public void onSpawn(Level level, Entity self) {
-					player = level.getEntityWithId("player");
-				}
+        keys.freeQueuedKeys();
+    }
 
-				public void onUpdate(Level level, Entity self) {
-					ScriptUtils.moveOut(self, player);
-					ScriptUtils.moveOut(self,
-							level.solids.toArray(new Entity[0]));
-					ScriptUtils.moveOut(player, self);
-				}
+    private void setupLevel() {
+        /*
+         * This custom script attaching for player, wolf and block will soon by
+         * nullified by a the Rhino module.
+         */
+        level.getEntityWithId("player").script = new PlayerScript();
 
-				public void onDeath(Level level, Entity self, boolean isRoomExit) {
-				}
-			};
-		}
+        Entity temp = level.getEntityWithId("wolf");
+        if (temp != null)
+            temp.script = new WolfScript();
 
-		// Set up world portals.
-		for (Entity e : level.allEntities) {
-			if (e.type.equals("worldPortal")) {
-				e.script = new WorldPortalScript();
-			}
-		}
+        temp = level.getEntityWithId("pushblock1");
+        if (temp != null) {
+            temp.script = new EntityScript() {
+                Entity player;
 
-		level.onSpawn();
-	}
+                public void onSpawn(Level level, Entity self) {
+                    player = level.getEntityWithId("player");
+                }
 
-	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,
-			(int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);
-	private Graphics bufferGraphics = bufferImage.getGraphics();
+                public void onUpdate(Level level, Entity self) {
+                    ScriptUtils.moveOut(self, player);
+                    ScriptUtils.moveOut(self, level.solids.toArray(new Entity[0]));
+                    ScriptUtils.moveOut(player, self);
+                }
 
-	private void render(final Graphics rootCanvas) {
-		if (level == null) {
-			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
-					(int) VIEWPORT.y / 2);
-			return;
-		}
+                public void onDeath(Level level, Entity self, boolean isRoomExit) {
+                }
+            };
+        }
 
-		Vector2 playerPos = level.getEntityWithId("player").pos;
-		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
+        // Set up world portals.
+        for (Entity e : level.allEntities) {
+            if (e.type.equals("worldPortal")) {
+                e.script = new WorldPortalScript();
+            }
+        }
 
-		bufferGraphics.setColor(Color.BLACK);
-		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-		for (int i = level.layers.size() - 1; i >= 0; i--)
-			for (Entity e : level.layers.get(i)) {
-				if (debug) {
-					bufferGraphics.setColor(Color.RED);
-					bufferGraphics.drawRect((int) (e.pos.x + offset.x),
-							(int) (e.pos.y + offset.y), (int) e.dim.x,
-							(int) e.dim.y);
-				}
-				if (e.visible)
-					e.draw(bufferGraphics, offset);
-			}
-		// Draw to the actual screen, scaled.
-		int xScalePix = (int) (zoom.x * VIEWPORT.x);
-		int yScalePix = (int) (zoom.y * VIEWPORT.y);
-		rootCanvas.drawImage(bufferImage,
-				-(int) ((xScalePix - VIEWPORT.x) / 2),
-				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
-				null);
-		rootCanvas.setColor(Color.white);
-		String infoString = "[WASD] Move"
-				+ "  |  [I/O] Zoom: " + zoom.x
-				+ "  |  [K] Debug Mode: " + debug
-				+ "  |  [L] Full Screen: " + isInFullScreen
-				+ "  |  [Esc] Quit";
+        level.onSpawn();
+    }
 
-		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
-	}
+    private Image bufferImage = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
+            BufferedImage.TYPE_INT_RGB);
+    private Graphics bufferGraphics = bufferImage.getGraphics();
 
-	/**
-	 * Display mode of user's monitor.  Uses 32-bit color depth.
-	 */
-	private DisplayMode displayMode = new DisplayMode(resolutionWidth, resolutionHeight,
-			32, DisplayMode.REFRESH_RATE_UNKNOWN);
-	private boolean isInFullScreen;
+    private void render(final Graphics rootCanvas) {
+        if (level == null) {
+            rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+            rootCanvas.setColor(Color.BLACK);
+            rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2, (int) VIEWPORT.y / 2);
+            return;
+        }
 
-	/**
-	 * Sets full screen or reverts screen to normal. In the future, this method
-	 * will be able to restore to windowed mode and not simply hide it.
-	 * 
-	 * To my knowledge, full screen only supports one monitor, for I have no
-	 * other monitors to test with.
-	 * 
-	 * @param isFullScreen
-	 *            Enable (true) or disable (false) full screen mode
-	 */
-	public void setFullScreen(boolean isFullScreen) {
-		if (isFullScreen) {
-			frame.dispose(); // Without disposing first, the frame remains displayed. 
-			frame.setUndecorated(true);
-			frame.setResizable(false); // Safety check
-			gd.setFullScreenWindow(frame); // This must be placed after setUndecorated.
-			isInFullScreen = true;
+        Vector2 playerPos = level.getEntityWithId("player").pos;
+        Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
-			if (displayMode != null && gd.isDisplayChangeSupported()) {
-				try {
-					gd.setDisplayMode(displayMode);
-				} catch (Exception e) {
-					System.out.println("Error: Could not set display mode!");
-				}
-			}
-		} else {
-			Window window = gd.getFullScreenWindow();
+        bufferGraphics.setColor(Color.BLACK);
+        bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+        for (int i = level.layers.size() - 1; i >= 0; i--)
+            for (Entity e : level.layers.get(i)) {
+                if (debug) {
+                    bufferGraphics.setColor(Color.RED);
+                    bufferGraphics.drawRect((int) (e.pos.x + offset.x), (int) (e.pos.y + offset.y),
+                            (int) e.dim.x, (int) e.dim.y);
+                }
+                if (e.visible)
+                    e.draw(bufferGraphics, offset);
+            }
+        // Draw to the actual screen, scaled.
+        int xScalePix = (int) (zoom.x * VIEWPORT.x);
+        int yScalePix = (int) (zoom.y * VIEWPORT.y);
+        rootCanvas.drawImage(bufferImage, -(int) ((xScalePix - VIEWPORT.x) / 2),
+                -(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix, null);
+        rootCanvas.setColor(Color.white);
+        String infoString = "[WASD] Move" + "  |  [I/O] Zoom: " + zoom.x + "  |  [K] Debug Mode: "
+                + debug + "  |  [L] Full Screen: " + isInFullScreen + "  |  [Esc] Quit";
 
-			if (window != null) {
-				window.dispose(); // Dispose resources when closed.
-			}
-			frame.setUndecorated(false);
-			frame.setResizable(true);
-			frame.pack();
-			frame.setVisible(true);
-			gd.setFullScreenWindow(null); // Actual revert of window
-			isInFullScreen = false;
-		}
-	}
+        rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
+    }
 
-	/**
-	 * On next update, switch to a new level.
-	 * 
-	 * @param newLevel
-	 *            the level to switch to.
-	 */
-	public static void warpToLevel(final Level newLevel) {
-		SampleGame.newLevel = newLevel;
-	}
+    /**
+     * Display mode of user's monitor. Uses 32-bit color depth.
+     */
+    private DisplayMode displayMode = new DisplayMode(resolutionWidth, resolutionHeight, 32,
+            DisplayMode.REFRESH_RATE_UNKNOWN);
+    private boolean isInFullScreen;
+
+    /**
+     * Sets full screen or reverts screen to normal. In the future, this method
+     * will be able to restore to windowed mode and not simply hide it.
+     * 
+     * To my knowledge, full screen only supports one monitor, for I have no
+     * other monitors to test with.
+     * 
+     * @param isFullScreen
+     *            Enable (true) or disable (false) full screen mode
+     */
+    public void setFullScreen(boolean isFullScreen) {
+        if (isFullScreen) {
+            frame.dispose(); // Without disposing first, the frame remains
+                             // displayed.
+            frame.setUndecorated(true);
+            frame.setResizable(false); // Safety check
+            gd.setFullScreenWindow(frame); // This must be placed after
+                                           // setUndecorated.
+            isInFullScreen = true;
+
+            if (displayMode != null && gd.isDisplayChangeSupported()) {
+                try {
+                    gd.setDisplayMode(displayMode);
+                } catch (Exception e) {
+                    System.out.println("Error: Could not set display mode!");
+                }
+            }
+        } else {
+            Window window = gd.getFullScreenWindow();
+
+            if (window != null) {
+                window.dispose(); // Dispose resources when closed.
+            }
+            frame.setUndecorated(false);
+            frame.setResizable(true);
+            frame.pack();
+            frame.setVisible(true);
+            gd.setFullScreenWindow(null); // Actual revert of window
+            isInFullScreen = false;
+        }
+    }
+
+    /**
+     * On next update, switch to a new level.
+     * 
+     * @param newLevel
+     *            the level to switch to.
+     */
+    public static void warpToLevel(final Level newLevel) {
+        SampleGame.newLevel = newLevel;
+    }
 }

@@ -1,8 +1,10 @@
 package toritools.controls;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Mechanism for detecting if a key is pressed.
@@ -10,65 +12,66 @@ import java.util.HashMap;
  * @author toriscope
  * 
  */
-public class KeyHolder implements KeyListener {
-	private HashMap<Integer, Boolean> keyBox = new HashMap<Integer, Boolean>();
+public class KeyHolder extends KeyAdapter {
+    private HashMap<Integer, Boolean> keyBox = new HashMap<Integer, Boolean>();
+    private List<Integer> freeQueue = new ArrayList<Integer>();
 
-	public KeyHolder() {
-	}
+    public KeyHolder() {
+    }
 
-	public HashMap<Integer, Boolean> getKeyBox() {
-		return keyBox;
-	}
+    public void clearKeys() {
+        keyBox.clear();
+    }
 
-	public void setKeyBox(HashMap<Integer, Boolean> keyBox) {
-		this.keyBox = keyBox;
-	}
+    /**
+     * Checks to see if a key is pressed.
+     * 
+     * @param key
+     *            the key to poll for.
+     * @return whether or not the key is being pressed.
+     */
+    public boolean isPressed(int key) {
+        if (!keyBox.containsKey(key))
+            return false;
+        return keyBox.get(key);
+    }
 
-	/**
-	 * Checks to see if a key is pressed.
-	 * 
-	 * @param key
-	 *            the key to poll for.
-	 * @return whether or not the key is being pressed.
-	 */
-	public boolean isPressed(int key) {
-		if (!keyBox.containsKey(key))
-			return false;
-		return keyBox.get(key);
-	}
+    /**
+     * Imitates a normal keyPressed event, by returning the result of isPressed,
+     * and if the key is currently being held down, releases it when
+     * freeQueuedKeys() is called.
+     * 
+     * @param key
+     *            the key to poll for.
+     * @return whether or not the key is being pressed.
+     */
+    public boolean isPressedThenRelease(int key) {
+        if (!keyBox.containsKey(key))
+            return false;
+        freeQueue.add(key);
+        return keyBox.get(key);
+    }
 
-	/**
-	 * Imitates a normal keyPressed event, by returning the result of isPressed,
-	 * and if the key is currently being held down, releases it.
-	 * 
-	 * @param key
-	 *            the key to poll for.
-	 * @return whether or not the key is being pressed.
-	 */
-	public boolean isPressedThenReleased(int key) {
-		if (!keyBox.containsKey(key))
-			return false;
-		boolean k;
-		if (k = keyBox.get(key))
-			keyBox.put(key, false);
-		return k;
-	}
+    /**
+     * Triggered immediately when key is simply pressed upon.
+     */
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        keyBox.put(keyEvent.getKeyCode(), true);
+    }
 
-	/**
-	 * Triggered immediately when key is simply pressed upon.
-	 */
-	@Override
-	public void keyPressed(KeyEvent keyEvent) {
-		keyBox.put(keyEvent.getKeyCode(), true);
-	}
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+        keyBox.put(keyEvent.getKeyCode(), false);
+    }
 
-	@Override
-	public void keyReleased(KeyEvent keyEvent) {
-		keyBox.put(keyEvent.getKeyCode(), false);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent keyEvent) {
-		// TODO maybe
-	}
+    /**
+     * Free the current keys that are queued for freeing.
+     */
+    public void freeQueuedKeys() {
+        for (Integer key : freeQueue) {
+            keyBox.remove(key);
+        }
+        freeQueue.clear();
+    }
 }
