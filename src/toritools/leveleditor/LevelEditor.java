@@ -730,8 +730,8 @@ public class LevelEditor {
 	}
 
 	private boolean entityExists(final Entity e) {
-		for (Entity e2 : entities) {
-			if (e2.file.equals(e.file))
+		for (Entity existingEntity : entities) {
+			if (e.file.equals(existingEntity.file))
 				return true;
 		}
 		return false;
