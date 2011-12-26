@@ -5,6 +5,7 @@ import java.util.Random;
 
 import samplegame.SampleGame;
 import toritools.dialog.DialogNode;
+import toritools.dialog.DialogNode.DialogAction;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
@@ -31,7 +32,9 @@ public class WolfScript implements EntityScript {
         newDirection();
     }
 
-    public void onUpdate(Level level, Entity self) {
+    public void onUpdate(final Level level, final Entity self) {
+        if (SampleGame.inDialog)
+            return;
         if (rand.nextDouble() > .99)
             newDirection();
         if (rand.nextDouble() > .8) {
@@ -60,13 +63,25 @@ public class WolfScript implements EntityScript {
         }
 
         if (!SampleGame.inDialog && ScriptUtils.isColliding(self, player)) {
-            
+
             SampleGame.setDisplayPrompt("Talk <SPACE>");
 
+            /*
+             * This spawns a dialog entity, and attaches a DialogNode with a
+             * lengthy saying. It then attaches an action to that dialogNode, one
+             * that adds a new DialogEntity to the level. This is one way to
+             * chain dialog, or give the player items, etc..
+             */
             if (SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)) {
                 level.spawnEntity(new DialogEntity(
                         new DialogNode(
-                                "The 1689 Boston revolt was a popular uprising against the rule of Sir Edmund Andros (pictured), governor of the Dominion of New England that followed the Glorious Revolution deposing James II of England, who had appointed Andros. During the revolt, on April 18, 1689, a well-organized body of Puritan citizens and militiamen entered the dominion capital of Boston and arrested officials of the dominion, a colonial entity composed of present-day Maine, New Hampshire, Vermont, Massachusetts, Rhode Island, Connecticut, New York, and New Jersey. The rebellion was inspired by actions taken by Andros and dominion administrators, including promoting the Church of England, invalidating land titles, and famously attempting to seize the colonial charter of Connecticut.")));
+                                "The 1689 Boston revolt was a popular uprising against the rule of Sir Edmund Andros (pictured), governor of the Dominion of New England that followed the Glorious Revolution deposing James II of England, who had appointed Andros. During the revolt, on April 18, 1689, a well-organized body of Puritan citizens and militiamen entered the dominion capital of Boston and arrested officials of the dominion, a colonial entity composed of present-day Maine, New Hampshire, Vermont, Massachusetts, Rhode Island, Connecticut, New York, and New Jersey. The rebellion was inspired by actions taken by Andros and dominion administrators, including promoting the Church of England, invalidating land titles, and famously attempting to seize the colonial charter of Connecticut.",
+                                new DialogAction() {
+                                    public void action(final Level level) {
+                                        level.spawnEntity(new DialogEntity(new DialogNode(
+                                                "Did you get all that?"), self));
+                                    }
+                                }), self));
             }
         }
     }
