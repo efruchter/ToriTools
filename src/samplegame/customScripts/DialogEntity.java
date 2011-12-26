@@ -39,7 +39,6 @@ public class DialogEntity extends Entity {
                 if (getCurrentDisplay() == null
                         || SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)) {
                     setCurrentDisplay(dialogNode.getNextLines(3));
-                    System.err.println("SentencesLeft: " + getCurrentDisplay().size());
                     if (getCurrentDisplay().isEmpty()) {
                         level.killEntity(self);
                     }
