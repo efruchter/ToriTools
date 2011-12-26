@@ -91,7 +91,7 @@ public class Entity {
 	}
 
 	public void draw(final Graphics g, final Vector2 offset) {
-		sprite.draw(g, pos.add(offset), dim);
+		sprite.draw(g, this, pos.add(offset), dim);
 	}
 
 	public void addVariables(final HashMap<String, String> variables) {

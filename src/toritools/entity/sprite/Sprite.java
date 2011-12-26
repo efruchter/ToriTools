@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import toritools.entity.Entity;
 import toritools.math.Vector2;
 
 public class Sprite {
@@ -56,10 +57,17 @@ public class Sprite {
 		this.y = y;
 	}
 
-	public void draw(Graphics g, final Vector2 posO, final Vector2 dimO) {
+	/**
+	 * Override this to implement your own drawing mechanism!
+	 * @param g
+	 * @param self
+	 * @param position
+	 * @param dimension
+	 */
+	public void draw(final Graphics g, final Entity self, final Vector2 position, final Vector2 dimension) {
 		int x = this.x / timeStretch;
-		Vector2 dim = dimO.add(sizeOffset * 2);
-		Vector2 pos = posO.sub(sizeOffset);
+		Vector2 dim = dimension.add(sizeOffset * 2);
+		Vector2 pos = position.sub(sizeOffset);
 		g.drawImage(image, (int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
 				(int) pos.y + (int) dim.y, x * (int) bRight.x, y
 						* (int) bRight.y, x * (int) bRight.x + (int) bRight.x,

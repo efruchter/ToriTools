@@ -117,7 +117,8 @@ public class Importer {
 			// int layer = Integer.parseInt(mapData.get("layer"));
 			float x = Float.parseFloat(mapData.get("position.x"));
 			float y = Float.parseFloat(mapData.get("position.y"));
-			if (mapData.get("type") != null && mapData.get("type").equals("WALL")) {
+			if (mapData.get("type") != null
+					&& mapData.get("type").equals("WALL")) {
 				float w = Float.parseFloat(mapData.get("dimensions.x"));
 				float h = Float.parseFloat(mapData.get("dimensions.y"));
 				Entity wall = makeWall(new Vector2(x, y), new Vector2(w, h));
@@ -152,7 +153,8 @@ public class Importer {
 		wall.variables.setVar("visible", "false");
 		wall.sprite = new Sprite() {
 			@Override
-			public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+			public void draw(final Graphics g, final Entity self,
+					final Vector2 pos, final Vector2 dim) {
 				g.setColor(Color.RED);
 				g.drawLine((int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
 						(int) pos.y + (int) dim.y);

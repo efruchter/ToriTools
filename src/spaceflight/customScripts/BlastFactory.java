@@ -17,7 +17,9 @@ public class BlastFactory {
 		blast.type = "goodBlast";
 		blast.solid = true;
 		blast.sprite = new Sprite() {
-			public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+			@Override
+			public void draw(final Graphics g, final Entity self,
+					final Vector2 pos, final Vector2 dim) {
 				g.setColor(Color.CYAN);
 				g.drawOval((int) pos.x, (int) pos.y, (int) dim.x, (int) dim.y);
 			}
@@ -55,7 +57,10 @@ public class BlastFactory {
 
 		blast.sprite = new Sprite() {
 			int time = 0;
-			public void draw(Graphics g, final Vector2 pos, final Vector2 dim) {
+
+			@Override
+			public void draw(final Graphics g, final Entity self,
+					final Vector2 pos, final Vector2 dim) {
 				g.setColor(Color.red);
 				g.drawOval((int) pos.x, (int) pos.y, ++time, time);
 			}
