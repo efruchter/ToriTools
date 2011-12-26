@@ -1,8 +1,0 @@
-type = player;
-description = The dude you move.;
-dimensions.x = 40;
-dimensions.y = 40;
-solid = false;
-
-sprite.sheet = player.png, 3, 1;
-sprite.editor = 1, 0;
