@@ -1,4 +1,4 @@
-package samplegame.customScripts;
+package samplegame.customscripts;
 
 import java.awt.Color;
 import java.awt.Graphics;

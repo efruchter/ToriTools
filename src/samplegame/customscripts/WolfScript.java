@@ -1,4 +1,4 @@
-package samplegame.customScripts;
+package samplegame.customscripts;
 
 import java.awt.event.KeyEvent;
 import java.util.Random;

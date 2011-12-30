@@ -38,9 +38,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.customScripts.PlayerScript;
-import samplegame.customScripts.WolfScript;
-import samplegame.customScripts.WorldPortalScript;
+import samplegame.customscripts.PlayerScript;
+import samplegame.customscripts.WolfScript;
+import samplegame.customscripts.WorldPortalScript;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
