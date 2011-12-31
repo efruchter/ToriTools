@@ -19,7 +19,7 @@ import toritools.math.Vector2;
 public class ScriptUtils {
 
 	private static VariableCase profileVariables = new VariableCase();
-	private final static File PROFILE = new File("profile.save");
+	private final static String PROFILE = "profile.save";
 
 	public static String getVar(final String key) {
 		return profileVariables.getVar(key);
@@ -29,12 +29,12 @@ public class ScriptUtils {
 		profileVariables.setVar(key, value);
 	}
 
-	public static void saveProfileVariables() throws IOException {
-		ToriMapIO.writeMap(PROFILE, profileVariables.getVariables());
+	public static void saveProfileVariables(final String prefix) throws IOException {
+		ToriMapIO.writeMap(new File(prefix + "_" + PROFILE), profileVariables.getVariables());
 	}
 
-	public static void loadProfileVariables() throws FileNotFoundException {
-		profileVariables = new VariableCase(ToriMapIO.readMap(PROFILE));
+	public static void loadProfileVariables(final String prefix) throws FileNotFoundException {
+		profileVariables = new VariableCase(ToriMapIO.readMap(new File(prefix + "_" + PROFILE)));
 	}
 
 	/**

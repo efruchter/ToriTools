@@ -64,6 +64,8 @@ import toritools.xml.ToriXML;
  * 
  */
 public class LevelEditor {
+	
+	private final String configFile = "editor.conf";
 
 	/**
 	 * The current level file being edited.
@@ -227,7 +229,7 @@ public class LevelEditor {
 		/*
 		 * LOAD THE CONFIG FILE.
 		 */try {
-			Node configNode = ToriXML.parse(new File("config.xml"))
+			Node configNode = ToriXML.parse(new File(configFile))
 					.getElementsByTagName("config").item(0);
 			Node recentNode = configNode.getAttributes().getNamedItem("recent");
 			if (recentNode != null) {
@@ -312,7 +314,7 @@ public class LevelEditor {
 
 		configElement.setAttribute("recent", levelFile.getPath());
 
-		ToriXML.saveXMLDoc(new File("config.xml"), doc);
+		ToriXML.saveXMLDoc(new File(configFile), doc);
 	}
 
 	/**

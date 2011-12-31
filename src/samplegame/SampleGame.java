@@ -50,6 +50,8 @@ import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
 public class SampleGame {
+	
+	public static String savePrefix = "secondchance";
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
 			resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -118,9 +120,9 @@ public class SampleGame {
 		frame.setFocusable(true);
 
 		try {
-			ScriptUtils.loadProfileVariables();
+			ScriptUtils.loadProfileVariables(savePrefix);
 		} catch (Exception e) {
-			ScriptUtils.saveProfileVariables();
+			ScriptUtils.saveProfileVariables(savePrefix);
 		}
 
 		// First level to load.

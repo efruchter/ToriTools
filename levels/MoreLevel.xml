@@ -1,11 +1,11 @@
 <level map="height = 600;width = 2000;">
 <objects>
-<entity map="template = /objects/prefabs/basementPrefab_1.entity;position.y = 160.0;position.x = 160.0;layer = 4;"/>
-<entity map="template = /objects/portal/worldPortal.entity;position.y = 168.0;level = levels/MoreLevel2.xml;position.x = 384.0;layer = 3;warpTo = ladderExit;"/>
-<entity map="id = ladderExit;template = /objects/portal/worldPortal.entity;position.y = 216.0;position.x = 384.0;layer = 3;"/>
-<entity map="id = pushblock1;template = /objects/player/pushBlock1.entity;position.y = 312.0;position.x = 328.0;layer = 0;"/>
-<entity map="id = wolf;template = /objects/player/wolf.entity;position.y = 285.0;position.x = 408.0;layer = 0;"/>
-<entity map="id = player;template = /objects/player/player.entity;position.y = 352.0;position.x = 256.0;layer = 0;"/>
+<entity map="dimensions.y = 288;template = /objects/prefabs/basementPrefab_1.entity;solid = false;title = prefab1;position.y = 160.0;sprite.sheet = basemanet1.jpg;position.x = 160.0;description = A basement scene;layer = 4;dimensions.x = 864;"/>
+<entity map="template = /objects/portal/worldPortal.entity;position.y = 168.0;visible = true;position.x = 384.0;layer = 3;type = worldPortal;dimensions.y = 32;solid = false;level = levels/MoreLevel2.xml;sprite.sheet = worldPortal.png;description = teleport the player to somewhere;warpTo = ladderExit;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;id = ladderExit;template = /objects/portal/worldPortal.entity;solid = false;position.y = 216.0;visible = true;sprite.sheet = worldPortal.png;position.x = 384.0;description = teleport the player to somewhere;layer = 3;type = worldPortal;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;id = pushblock1;template = /objects/player/pushBlock1.entity;solid = false;title = pushblock;position.y = 312.0;sprite.sheet = dirtyBox.jpg;position.x = 328.0;description = A little brick thing!;layer = 0;dimensions.x = 32;"/>
+<entity map="sprite.sizeOffset = 4;template = /objects/player/wolf.entity;position.y = 285.0;sprite.timeScale = 5;position.x = 408.0;layer = 0;id = wolf;dimensions.y = 32;solid = false;title = wolf;sprite.sheet = wolfsheet.png, 4, 4;description = The mysterious wolf;dimensions.x = 32;"/>
+<entity map="sprite.sizeOffset = 4;template = /objects/player/player.entity;position.y = 352.0;sprite.timeScale = 5;position.x = 256.0;layer = 0;type = player;id = player;dimensions.y = 25;solid = false;sprite.sheet = playersheet.png, 4, 4;description = The dude you move.;dimensions.x = 25;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 192.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 160.0;visible = false;position.x = 160.0;layer = 0;type = WALL;dimensions.x = 864.0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 192.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>

@@ -47,6 +47,8 @@ import toritools.scripting.ScriptUtils;
 import burd.customscripts.BurdScript;
 
 public class BurdGame {
+	
+	public static String savePrefix = "burd2";
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
 			resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -117,9 +119,9 @@ public class BurdGame {
 		frame.setFocusable(true);
 
 		try {
-			ScriptUtils.loadProfileVariables();
+			ScriptUtils.loadProfileVariables(savePrefix);
 		} catch (Exception e) {
-			ScriptUtils.saveProfileVariables();
+			ScriptUtils.saveProfileVariables(savePrefix);
 		}
 
 		// First level to load.
