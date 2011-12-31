@@ -1,7 +1,9 @@
 package toritools.io;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -187,6 +189,7 @@ public class Importer {
 			@Override
 			public void draw(final Graphics g, final Entity self,
 					final Vector2 pos, final Vector2 dim) {
+				((Graphics2D) g).setStroke(new BasicStroke(2));
 				g.setColor(Color.RED);
 				g.drawLine((int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
 						(int) pos.y + (int) dim.y);

@@ -1,5 +1,6 @@
 package toritools.leveleditor;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -7,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -148,6 +150,16 @@ public class LevelEditor {
 		public void mouseDragged(MouseEvent m) {
 			if (makeWall && makingWall) {
 				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
+				if (wallEnd.x < wallStart.x) {
+					float temp = wallStart.x;
+					wallStart.x = wallEnd.x;
+					wallEnd.x = temp;
+				}
+				if (wallEnd.y < wallStart.y) {
+					float temp = wallStart.y;
+					wallStart.y = wallEnd.y;
+					wallEnd.y = temp;
+				}
 			}
 			repaint();
 		}
@@ -155,10 +167,11 @@ public class LevelEditor {
 		@Override
 		public void mouseReleased(MouseEvent m) {
 			if (makeWall && makingWall) {
-				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
+				mouseDragged(m);
 				Vector2 wallDim = wallEnd.sub(wallStart);
-				if(wallDim.x != 0 && wallDim.y != 0)
-					addEntity(Importer.makeWall(wallStart, wallEnd.sub(wallStart)));
+				if (wallDim.x != 0 && wallDim.y != 0)
+					addEntity(Importer.makeWall(wallStart,
+							wallEnd.sub(wallStart)));
 				makingWall = makeWall = false;
 			}
 			repaint();
@@ -379,7 +392,7 @@ public class LevelEditor {
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Event.CTRL_MASK));
 		fileMenu.add(save);
-		
+
 		JMenuItem close = new JMenuItem("Close");
 		close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -500,8 +513,8 @@ public class LevelEditor {
 		Entity selected = null;
 		for (Entity e : entities) {
 			if (new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
-							(int) e.dim.getX(), (int) e.dim.getY())
-							.contains(new Point((int) p.x, (int) p.y))
+					(int) e.dim.getX(), (int) e.dim.getY()).contains(new Point(
+					(int) p.x, (int) p.y))
 					&& this.selected != e) {
 				selected = e;
 				break;
@@ -609,14 +622,16 @@ public class LevelEditor {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("position.x", e.pos.getX() + "");
 			map.put("position.y", e.pos.getY() + "");
-			if(e.getFile() != null)
+			if (e.getFile() != null)
 				map.put("template",
 						e.getFile()
 								.getPath()
 								.substring(
 										e.getFile()
 												.getPath()
-												.indexOf(workingDirectory.getName())
+												.indexOf(
+														workingDirectory
+																.getName())
 												+ workingDirectory.getName()
 														.length()));
 			map.put("layer", e.layer + "");
@@ -657,12 +672,13 @@ public class LevelEditor {
 			float y = Float.parseFloat(mapData.get("position.y"));
 			File f = new File(workingDirectory + mapData.get("template"));
 			Entity ent = null;
-			if(f.canRead()) {
+			if (f.canRead()) {
 				ent = importEntity(f);
-			} else  if (mapData.get("type").equals("WALL")) {
+			} else if (mapData.get("type").equals("WALL")) {
 				ent = Importer.makeWall(new Vector2(), new Vector2());
 			} else {
-				System.out.println("FAILED TO PROCESS ENTITY " + mapData.get("type"));
+				System.out.println("FAILED TO PROCESS ENTITY "
+						+ mapData.get("type"));
 				break;
 			}
 			ent.pos = new Vector2(x, y);
@@ -704,15 +720,16 @@ public class LevelEditor {
 	 */
 	private Entity importEntity(final File file) throws FileNotFoundException {
 		HashMap<String, String> data = ToriMapIO.readMap(file);
-		
+
 		final Entity e = Importer.importEntity(file, null);
 		try {
 			String[] s = data.get("sprite.editor").split(",");
-			e.sprite.set(Integer.parseInt(s[0].trim()), Integer.parseInt(s[1].trim()));
-		} catch(final Exception exc) {
-			//The sprite remains at 1,1;
+			e.sprite.set(Integer.parseInt(s[0].trim()),
+					Integer.parseInt(s[1].trim()));
+		} catch (final Exception exc) {
+			// The sprite remains at 1,1;
 		}
-		
+
 		if (!entityExists(e)) {
 			ImageIcon bI = new ImageIcon();
 			bI.setImage(e.sprite.getImage().getScaledInstance(32, 32, 0));
@@ -751,6 +768,7 @@ public class LevelEditor {
 		 * DRAW THE GRID
 		 */
 		if (gridSize.width > 1) {
+			((Graphics2D) g).setStroke(new BasicStroke(1));
 			g.setColor(Color.BLACK);
 			for (int x = 0; x < levelSize.width; x += gridSize.width)
 				g.drawLine(x, 0, x, levelSize.height);
@@ -781,8 +799,10 @@ public class LevelEditor {
 		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
 
 		if (makingWall) {
+			((Graphics2D) g).setStroke(new BasicStroke(2));
 			g.drawRect((int) wallStart.x, (int) wallStart.y, (int) wallEnd.x
 					- (int) wallStart.x, (int) wallEnd.y - (int) wallStart.y);
+			((Graphics2D) g).setStroke(new BasicStroke(1));
 		}
 	}
 

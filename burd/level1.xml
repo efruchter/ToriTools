@@ -1,135 +1,135 @@
 <level map="height = 5000;width = 5000;">
 <objects>
-<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 0.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 384.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 384.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 32.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 64.0;position.x = 896.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1024.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 352.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 224.0;position.x = 1024.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 32.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 128.0;position.x = 0.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 256.0;position.x = 32.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 384.0;position.x = 0.0;layer = 0;"/>
-<entity map="id = player;template = /objects/player.entity;position.y = 352.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 256.0;position.x = 512.0;layer = 0;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 384.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 640.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 256.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 384.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 640.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 32.0;sprite.sheet = block.png;position.x = 768.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 64.0;sprite.sheet = block.png;position.x = 896.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1024.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 768.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 352.0;sprite.sheet = block.png;position.x = 992.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 224.0;sprite.sheet = block.png;position.x = 1024.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 128.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 32.0;sprite.sheet = block.png;position.x = 256.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 128.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 256.0;sprite.sheet = block.png;position.x = 32.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 384.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 352.0;sprite.timeScale = 3;position.x = 256.0;layer = 0;type = player;hSpeed = .2;id = player;dimensions.y = 30;solid = false;sprite.sheet = burd.png, 3, 4;description = an burd;vSpeed = .4f;dimensions.x = 30;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 256.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 128.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 256.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 224.0;solid = true;position.y = 384.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 128.0;layer = 0;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 128.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 128.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 256.0;visible = false;position.x = 512.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 128.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 160.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="template = /objects/block128.entity;position.y = 480.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 608.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 608.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 736.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 736.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 864.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 992.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 384.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1248.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1376.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 896.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 1024.0;layer = 0;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 480.0;sprite.sheet = block.png;position.x = 992.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 608.0;sprite.sheet = block.png;position.x = 992.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 608.0;sprite.sheet = block.png;position.x = 768.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 736.0;sprite.sheet = block.png;position.x = 768.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 736.0;sprite.sheet = block.png;position.x = 992.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 864.0;sprite.sheet = block.png;position.x = 992.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 992.0;sprite.sheet = block.png;position.x = 960.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 256.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 384.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 640.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 768.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1120.0;sprite.sheet = block.png;position.x = 960.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1248.0;sprite.sheet = block.png;position.x = 960.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1376.0;sprite.sheet = block.png;position.x = 960.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 896.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 1024.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 480.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 608.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1504.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 736.0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 224.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 224.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 896.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 832.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 864.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 800.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 736.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 704.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 672.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 608.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 448.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 480.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 416.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 384.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 352.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 320.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 288.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 384.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 384.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 192.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 192.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 160.0;position.x = 832.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 160.0;position.x = 800.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 832.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 320.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 1152.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1248.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1760.0;position.x = 192.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1760.0;position.x = 320.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 448.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1760.0;position.x = 576.0;layer = 0;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 224.0;sprite.sheet = spikeUp.png;position.x = 544.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 224.0;sprite.sheet = spikeUp.png;position.x = 576.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 928.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 896.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 832.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 864.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 800.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 768.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 736.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 704.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 672.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 640.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 608.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 576.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 544.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 512.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 448.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 480.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 416.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 384.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 352.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 320.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeUp.png;position.x = 288.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 384.0;sprite.sheet = spikeDown.png;position.x = 544.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 384.0;sprite.sheet = spikeDown.png;position.x = 576.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 192.0;sprite.sheet = spikeDown.png;position.x = 960.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 192.0;sprite.sheet = spikeDown.png;position.x = 928.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 160.0;sprite.sheet = spikeDown.png;position.x = 832.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 160.0;sprite.sheet = spikeDown.png;position.x = 800.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 448.0;sprite.sheet = spikeUp.png;position.x = 832.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 320.0;sprite.sheet = spikeRight.png;position.x = 640.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1152.0;sprite.sheet = spikeLeft.png;position.x = 928.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1120.0;sprite.sheet = block.png;position.x = 256.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1248.0;sprite.sheet = block.png;position.x = 256.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1760.0;sprite.sheet = block.png;position.x = 192.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1760.0;sprite.sheet = block.png;position.x = 320.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 448.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1760.0;sprite.sheet = block.png;position.x = 576.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 1120.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="template = /objects/block128.entity;position.y = 608.0;position.x = 96.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 736.0;position.x = 96.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 864.0;position.x = 0.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 992.0;position.x = 0.0;layer = 0;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 608.0;sprite.sheet = block.png;position.x = 96.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 736.0;sprite.sheet = block.png;position.x = 96.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 864.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 992.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1760.0;visible = false;position.x = 192.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1728.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1760.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 608.0;visible = false;position.x = 96.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 0.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1248.0;position.x = 0.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1376.0;position.x = 0.0;layer = 0;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1120.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1248.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1376.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 640.0;solid = true;position.y = 864.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 608.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 640.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 672.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 416.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 384.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 352.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 704.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 832.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 960.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 1088.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 1216.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1280.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1536.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1664.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 320.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 448.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 576.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 704.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 832.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 960.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1088.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1216.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1344.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1472.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1600.0;position.x = 1408.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 1344.0;layer = 0;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 576.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 608.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 640.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 672.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 416.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 384.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 352.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 704.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 832.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 960.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 1088.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 1216.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1152.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1280.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1536.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1664.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 320.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 448.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 576.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 704.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 832.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 960.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1088.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1216.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1344.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1472.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1600.0;sprite.sheet = block.png;position.x = 1408.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1728.0;sprite.sheet = block.png;position.x = 1344.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1728.0;visible = false;position.x = 704.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1504.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
 <entity map="dimensions.y = 512.0;solid = true;position.y = 992.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
@@ -137,77 +137,77 @@
 <entity map="dimensions.y = 256.0;solid = true;position.y = 96.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 768.0;solid = true;position.y = 960.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 640.0;solid = true;position.y = 320.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 1088.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 1216.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 1248.0;position.x = 1280.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 1248.0;position.x = 1248.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 1568.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 1536.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 1408.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 1504.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 1536.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 608.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 640.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 768.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 736.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 864.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 896.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 512.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 480.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 384.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 352.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 800.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 768.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 672.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 640.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 544.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 512.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 416.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 384.0;position.x = 1120.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 288.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 256.0;position.x = 1152.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 224.0;position.x = 1216.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 224.0;position.x = 1184.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 320.0;position.x = 1536.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 320.0;position.x = 1664.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1792.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 224.0;position.x = 1792.0;layer = 0;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1120.0;sprite.sheet = block.png;position.x = 1088.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 1120.0;sprite.sheet = block.png;position.x = 1216.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 1248.0;sprite.sheet = spikeDown.png;position.x = 1280.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 1248.0;sprite.sheet = spikeDown.png;position.x = 1248.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 1568.0;sprite.sheet = spikeRight.png;position.x = 1152.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 1536.0;sprite.sheet = spikeRight.png;position.x = 1152.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1408.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1504.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1536.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 608.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 640.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 768.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 736.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 864.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 896.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 512.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 480.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 384.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 352.0;sprite.sheet = spikeLeft.png;position.x = 1376.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 800.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 768.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 672.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 640.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 544.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 512.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 416.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 384.0;sprite.sheet = spikeRight.png;position.x = 1120.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 288.0;sprite.sheet = spikeRight.png;position.x = 1152.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 256.0;sprite.sheet = spikeRight.png;position.x = 1152.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 224.0;sprite.sheet = spikeDown.png;position.x = 1216.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 224.0;sprite.sheet = spikeDown.png;position.x = 1184.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 320.0;sprite.sheet = block.png;position.x = 1536.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 320.0;sprite.sheet = block.png;position.x = 1664.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1792.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
+<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 224.0;sprite.sheet = block.png;position.x = 1792.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 96.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 640.0;"/>
 <entity map="dimensions.y = 96.0;solid = true;position.y = 224.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1120.0;visible = false;position.x = 1088.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
-<entity map="template = /objects/flag.entity;position.y = 928.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/flag.entity;position.y = 1664.0;position.x = 992.0;layer = 0;"/>
-<entity map="template = /objects/flag.entity;position.y = 1056.0;position.x = 1216.0;layer = 0;"/>
-<entity map="template = /objects/flag.entity;position.y = 256.0;position.x = 1728.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 416.0;position.x = 736.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 352.0;position.x = 736.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 928.0;sprite.sheet = flag.png;position.x = 928.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 1664.0;sprite.sheet = flag.png;position.x = 992.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 1056.0;sprite.sheet = flag.png;position.x = 1216.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 256.0;sprite.sheet = flag.png;position.x = 1728.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 416.0;sprite.sheet = block.png;position.x = 736.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 352.0;sprite.sheet = block.png;position.x = 736.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 352.0;visible = false;position.x = 736.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="template = /objects/block64.entity;position.y = 992.0;position.x = 896.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 992.0;position.x = 832.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 992.0;position.x = 768.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 992.0;sprite.sheet = block.png;position.x = 896.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 992.0;sprite.sheet = block.png;position.x = 832.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 992.0;sprite.sheet = block.png;position.x = 768.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 992.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="template = /objects/block64.entity;position.y = 896.0;position.x = 480.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 1056.0;position.x = 288.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 1072.0;position.x = 352.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 1072.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/spikeLeft.entity;position.y = 912.0;position.x = 448.0;layer = 0;"/>
-<entity map="template = /objects/spikeRight.entity;position.y = 912.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 864.0;position.x = 488.0;layer = 0;"/>
-<entity map="template = /objects/spikeDown.entity;position.y = 960.0;position.x = 504.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 896.0;sprite.sheet = block.png;position.x = 480.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1056.0;sprite.sheet = block.png;position.x = 288.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 1072.0;sprite.sheet = spikeRight.png;position.x = 352.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1072.0;sprite.sheet = spikeLeft.png;position.x = 256.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 912.0;sprite.sheet = spikeLeft.png;position.x = 448.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 912.0;sprite.sheet = spikeRight.png;position.x = 544.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 864.0;sprite.sheet = spikeUp.png;position.x = 488.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 960.0;sprite.sheet = spikeDown.png;position.x = 504.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 896.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 1056.0;visible = false;position.x = 288.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="template = /objects/block64.entity;position.y = 1504.0;position.x = 88.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 1568.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 1632.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 1696.0;position.x = 136.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 1760.0;position.x = 128.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1504.0;sprite.sheet = block.png;position.x = 88.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1568.0;sprite.sheet = block.png;position.x = 128.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1632.0;sprite.sheet = block.png;position.x = 128.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1696.0;sprite.sheet = block.png;position.x = 136.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1760.0;sprite.sheet = block.png;position.x = 128.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 1696.0;visible = false;position.x = 136.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1568.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 1504.0;visible = false;position.x = 88.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="template = /objects/block64.entity;position.y = 672.0;position.x = 1352.0;layer = 0;"/>
-<entity map="template = /objects/block64.entity;position.y = 672.0;position.x = 1288.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 672.0;sprite.sheet = block.png;position.x = 1352.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 672.0;sprite.sheet = block.png;position.x = 1288.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 672.0;visible = false;position.x = 1288.0;layer = 0;type = WALL;dimensions.x = 120.0;"/>
-<entity map="template = /objects/block64.entity;position.y = 352.0;position.x = 1792.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 352.0;sprite.sheet = block.png;position.x = 1792.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 </objects>
 </level>
