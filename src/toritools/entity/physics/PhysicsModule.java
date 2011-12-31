@@ -69,4 +69,12 @@ public class PhysicsModule {
 	public void clearVelocity() {
 		prePos = self.pos.clone();
 	}
+	
+	public void clearXVelocity() {
+		prePos.x = self.pos.x;
+	}
+	
+	public void clearYVelocity() {
+		prePos.y = self.pos.y;
+	}
 }

@@ -11,9 +11,7 @@ import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
-public class BloodScript implements EntityScript {
-	
-	private static File entityFile = new File("burd/objects/blood.entity");
+public class ValcanoParticleScript implements EntityScript {
 	
 	int timer = 200;
 
@@ -45,8 +43,8 @@ public class BloodScript implements EntityScript {
 	
 	public static Entity getBlood() {
 		try {
-			Entity e = Importer.importEntity(entityFile, null);
-			e.script = new BloodScript();
+			Entity e = Importer.importEntity(new File("burd/objects/blood.entity"), null);
+			e.script = new ValcanoParticleScript();
 			return e;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
