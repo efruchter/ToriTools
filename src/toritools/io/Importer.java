@@ -2,6 +2,7 @@ package toritools.io;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -21,6 +22,27 @@ import toritools.math.Vector2;
 import toritools.xml.ToriXML;
 
 public class Importer {
+
+	private static HashMap<File, Image> imageCache = new HashMap<File, Image>();
+
+	/**
+	 * Check to see if an image is cached, and get the reference.
+	 * 
+	 * @param file
+	 *            file of image
+	 * @param image
+	 *            the image reference.
+	 * @return the image reference if cached.
+	 */
+	private static Image cacheImage(final File file, final Image image) {
+		if (imageCache.containsKey(file)) {
+			return imageCache.get(file);
+		} else {
+			imageCache.put(file, image);
+			return image;
+		}
+	}
+
 	/**
 	 * Imports the entity template. Sets basic template stuff.
 	 * 
@@ -55,13 +77,13 @@ public class Importer {
 		} catch (Exception er) {
 			e.solid = false;
 		}
-		
-		//ID
+
+		// ID
 		String id;
 		if ((id = entityMap.getVar("id")) != null) {
 			e.variables.setVar("id", id);
 		}
-		
+
 		// TITLE
 		e.type = entityMap.getVar("type");
 		if (e.type == null)
@@ -79,8 +101,9 @@ public class Importer {
 			// 0: file, 1: x tile, 2: y tile
 			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
 			if (spriteFile.canRead()) {
-				e.sprite = new Sprite(new ImageIcon(
-						spriteFile.getAbsolutePath()).getImage(), x, y);
+				e.sprite = new Sprite(cacheImage(
+						new File(spriteFile.getAbsolutePath()), new ImageIcon(
+								spriteFile.getAbsolutePath()).getImage()), x, y);
 
 			}
 			inGame = entityMap.getVar("sprite.timeScale");

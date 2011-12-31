@@ -14,7 +14,7 @@
  * 
  * @author toriscope
  */
-package samplegame;
+package burd;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -38,18 +38,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.customscripts.PlayerScript;
-import samplegame.customscripts.WolfScript;
 import samplegame.customscripts.WorldPortalScript;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.math.Vector2;
-import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
+import burd.customscripts.BurdScript;
 
-public class SampleGame {
+public class BurdGame {
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
 			resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -74,7 +72,7 @@ public class SampleGame {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		SampleGame sampleGame = new SampleGame();
+		BurdGame sampleGame = new BurdGame();
 
 		sampleGame.init();
 		sampleGame.run();
@@ -88,13 +86,14 @@ public class SampleGame {
 	/**
 	 * JFrame with game title
 	 */
-	private JFrame frame = new JFrame("SampleGame");
+	private JFrame frame = new JFrame("burd");
 	@SuppressWarnings("serial")
 	private JPanel panel = new JPanel() {
 		public void paintComponent(final Graphics g) {
 			render(g);
 		}
 	};
+
 	Cursor hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 			new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
 			new Point(0, 0), "Hidden Cursor");
@@ -112,7 +111,8 @@ public class SampleGame {
 
 		frame.setCursor(hiddenCursor); // Hide cursor by default
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.setPreferredSize(new Dimension(800, 600)); // Default windowed
+															// dimensions
 		frame.add(panel);
 		frame.addKeyListener(keys);
 		frame.setFocusable(true);
@@ -124,12 +124,11 @@ public class SampleGame {
 		}
 
 		// First level to load.
-		level = Importer.importLevel(new File("levels/MoreLevel.xml"));
+		level = Importer.importLevel(new File("burd/level1.xml"));
 
 		setupLevel();
 
 		setFullScreen(true);
-
 		frame.requestFocusInWindow();
 	}
 
@@ -178,9 +177,7 @@ public class SampleGame {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
-			setFullScreen(!isInFullScreen);
-		}
+
 		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug;
 
 		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
@@ -192,41 +189,13 @@ public class SampleGame {
 	}
 
 	private void setupLevel() {
-		/*
-		 * This custom script attaching for player, wolf and block will soon by
-		 * nullified by a the Rhino module.
-		 */
-		level.getEntityWithId("player").script = new PlayerScript();
-
-		Entity temp = level.getEntityWithId("wolf");
-		if (temp != null)
-			temp.script = new WolfScript();
-
-		temp = level.getEntityWithId("pushblock1");
-		if (temp != null) {
-			temp.script = new EntityScript() {
-				Entity player;
-
-				public void onSpawn(Level level, Entity self) {
-					player = level.getEntityWithId("player");
-				}
-
-				public void onUpdate(Level level, Entity self) {
-					ScriptUtils.moveOut(self, player);
-					ScriptUtils.moveOut(self,
-							level.solids.toArray(new Entity[0]));
-					ScriptUtils.moveOut(player, self);
-				}
-
-				public void onDeath(Level level, Entity self, boolean isRoomExit) {
-				}
-			};
-		}
 
 		// Set up world portals.
 		for (Entity e : level.allEntities) {
 			if (e.type.equals("worldPortal")) {
 				e.script = new WorldPortalScript();
+			} else if (e.type.equals("player")) {
+				e.script = new BurdScript();
 			}
 		}
 
@@ -249,7 +218,7 @@ public class SampleGame {
 		Vector2 playerPos = level.getEntityWithId("player").pos;
 		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
-		bufferGraphics.setColor(Color.BLACK);
+		bufferGraphics.setColor(Color.GRAY);
 		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
@@ -323,8 +292,7 @@ public class SampleGame {
 				window.dispose(); // Dispose resources when closed.
 			}
 			frame.setUndecorated(false);
-			frame.setResizable(false);
-			frame.setPreferredSize(new Dimension(800, 600));
+			frame.setResizable(true);
 			frame.pack();
 			frame.setVisible(true);
 			gd.setFullScreenWindow(null); // Actual revert of window
@@ -339,7 +307,7 @@ public class SampleGame {
 	 *            the level to switch to.
 	 */
 	public static void warpToLevel(final Level newLevel) {
-		SampleGame.newLevel = newLevel;
+		BurdGame.newLevel = newLevel;
 	}
 
 	/**
