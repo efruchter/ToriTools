@@ -64,7 +64,7 @@ import toritools.xml.ToriXML;
  * 
  */
 public class LevelEditor {
-	
+
 	private final String configFile = "editor.conf";
 
 	/**
@@ -132,6 +132,7 @@ public class LevelEditor {
 
 	private Vector2 wallStart, wallEnd;
 	private boolean makeWall = false, makingWall = false;
+	private Entity moving;
 
 	/**
 	 * Mouse controller.
@@ -144,6 +145,15 @@ public class LevelEditor {
 				wallStart = wallEnd = getClosestGridPoint(new Vector2(
 						m.getPoint()));
 				makingWall = true;
+			} else {
+				if (m.getButton() == MouseEvent.BUTTON1)
+					for (Entity ent : entities) {
+						if (new Rectangle.Float(ent.pos.x, ent.pos.y,
+								ent.dim.x, ent.dim.y).contains(m.getPoint())) {
+							moving = ent;
+							break;
+						}
+					}
 			}
 			repaint();
 		}
@@ -162,6 +172,8 @@ public class LevelEditor {
 					wallStart.y = wallEnd.y;
 					wallEnd.y = temp;
 				}
+			} else if (moving != null) {
+				moving.pos = getClosestGridPoint(new Vector2(m.getPoint()));
 			}
 			repaint();
 		}
@@ -175,6 +187,9 @@ public class LevelEditor {
 					addEntity(Importer.makeWall(wallStart,
 							wallEnd.sub(wallStart)));
 				makingWall = makeWall = false;
+			} else if (moving != null) {
+				mouseDragged(m);
+				moving = null;
 			}
 			repaint();
 		}
@@ -622,8 +637,6 @@ public class LevelEditor {
 		levelElement.appendChild(objectsElements);
 		for (Entity e : entities) {
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("position.x", e.pos.getX() + "");
-			map.put("position.y", e.pos.getY() + "");
 			if (e.getFile() != null)
 				map.put("template",
 						e.getFile()
@@ -638,6 +651,8 @@ public class LevelEditor {
 														.length()));
 			map.put("layer", e.layer + "");
 			map.putAll(e.variables.getVariables());
+			map.put("position.x", e.pos.getX() + "");
+			map.put("position.y", e.pos.getY() + "");
 			Element object = doc.createElement("entity");
 			object.setAttribute("map", ToriMapIO.writeMap(null, map));
 			objectsElements.appendChild(object);
