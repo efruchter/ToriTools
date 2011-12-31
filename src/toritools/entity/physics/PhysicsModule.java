@@ -65,4 +65,8 @@ public class PhysicsModule {
 	public void addVelocity(final Vector2 vel) {
 		prePos = prePos.sub(vel);
 	}
+	
+	public void clearVelocity() {
+		prePos = self.pos.clone();
+	}
 }

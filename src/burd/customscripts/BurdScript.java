@@ -18,7 +18,7 @@ public class BurdScript implements EntityScript {
 	private final Vector2 leftVect = new Vector2(-.5f, -.5f),
 			rightVect = new Vector2(.5f, -.5f);
 
-	private List<Entity> walls;
+	private List<Entity> spikes, flags;
 
 	private Vector2 startPos;
 
@@ -42,7 +42,8 @@ public class BurdScript implements EntityScript {
 
 		physicsModule.onStart();
 
-		walls = level.getEntityWithType("spike");
+		spikes = level.getEntityWithType("spike");
+		flags = level.getEntityWithType("flag");
 	}
 
 	public void onUpdate(Level level, Entity self) {
@@ -70,11 +71,23 @@ public class BurdScript implements EntityScript {
 		ScriptUtils.safeMove(self, physicsModule.onUpdate(),
 				level.solids.toArray(new Entity[0]));
 
-		for (Entity spikes : walls) {
-			if (ScriptUtils.isColliding(spikes, self)) {
+		for (Entity spike : spikes) {
+			if (ScriptUtils.isColliding(spike, self)) {
+				for (int i = 0; i < 10; i++) {
+					Entity blood = BloodScript.getBlood();
+					blood.pos = self.pos.clone();
+					level.spawnEntity(blood);
+				}
 				self.pos = startPos.clone();
+				physicsModule.clearVelocity();
 			}
 		}
+
+		for (Entity flag : flags)
+			if (ScriptUtils.isColliding(flag, self)) {
+				startPos = flag.pos.clone();
+				level.killEntity(flag);
+			}
 
 	}
 
