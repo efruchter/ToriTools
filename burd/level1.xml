@@ -67,5 +67,41 @@
 <entity map="dimensions.y = 672.0;solid = true;position.y = 608.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 352.0;solid = true;position.y = 1280.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1504.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 736.0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 224.0;position.x = 544.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 224.0;position.x = 576.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 544.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 576.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 928.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 896.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 832.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 864.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 800.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 768.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 736.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 704.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 672.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 640.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 608.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 576.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 544.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 512.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 448.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 480.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 416.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 384.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 352.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 320.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 256.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 288.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 384.0;position.x = 544.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 384.0;position.x = 576.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 192.0;position.x = 960.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 192.0;position.x = 928.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 160.0;position.x = 832.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 160.0;position.x = 800.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 672.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 832.0;layer = 0;"/>
+<entity map="template = /objects/spikeRight.entity;position.y = 320.0;position.x = 640.0;layer = 0;"/>
+<entity map="template = /objects/spikeLeft.entity;position.y = 1152.0;position.x = 928.0;layer = 0;"/>
 </objects>
 </level>

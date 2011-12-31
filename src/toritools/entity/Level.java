@@ -132,4 +132,14 @@ public class Level extends Entity {
 	public Entity getEntityWithId(final String id) {
 		return idMap.get(id);
 	}
+
+	public List<Entity> getEntityWithType(final String type) {
+		List<Entity> ents = new ArrayList<Entity>();
+		for (Entity e : allEntities) {
+			if (type.equals(e.type)) {
+				ents.add(e);
+			}
+		}
+		return ents;
+	}
 }
