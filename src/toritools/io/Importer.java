@@ -55,6 +55,13 @@ public class Importer {
 		} catch (Exception er) {
 			e.solid = false;
 		}
+		
+		//ID
+		String id;
+		if ((id = entityMap.getVar("id")) != null) {
+			e.variables.setVar("id", id);
+		}
+		
 		// TITLE
 		e.type = entityMap.getVar("type");
 		if (e.type == null)

@@ -127,6 +127,8 @@ public class SampleGame {
         setupLevel();
 
         setFullScreen(true);
+        
+        frame.requestFocus();
     }
 
     private Timer timer;
