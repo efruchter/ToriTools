@@ -14,11 +14,18 @@ public class BurdScript implements EntityScript {
 
 	PhysicsModule physicsModule;
 
-	private final float hSpeed = .5f, vSpeed = .5f;
+	/**
+	 * defaults overwritten by player.entity settings.
+	 */
+	private float hSpeed = .2f, vSpeed = .4f;
 
 	private Vector2 startPos;
 
 	public void onSpawn(Level level, Entity self) {
+
+		hSpeed = self.variables.getFloat("hSpeed");
+
+		vSpeed = self.variables.getFloat("vSpeed");
 
 		startPos = self.pos.clone();
 
@@ -46,7 +53,7 @@ public class BurdScript implements EntityScript {
 		boolean moved = false;
 
 		if (rightKey && leftKey) {
-			physicsModule.addVelocity(new Vector2(0, vSpeed));
+			physicsModule.addVelocity(new Vector2(0, vSpeed / 2));
 			self.sprite.setCylcle(0);
 			moved = true;
 		} else if (leftKey) {

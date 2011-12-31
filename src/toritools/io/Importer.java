@@ -58,6 +58,8 @@ public class Importer {
 			entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
 
+		e.variables.getVariables().putAll(entityMap.getVariables());
+
 		e.file = file;
 
 		/**

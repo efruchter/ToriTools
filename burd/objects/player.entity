@@ -8,3 +8,6 @@ solid = false;
 sprite.sheet = burd.png, 3, 4;
 sprite.timeScale = 3;
 sprite.sizeOffset = 10;
+
+hSpeed = .2;
+vSpeed = .4f;
