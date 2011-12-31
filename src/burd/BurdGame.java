@@ -38,7 +38,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import samplegame.customscripts.WorldPortalScript;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -189,15 +188,8 @@ public class BurdGame {
 	}
 
 	private void setupLevel() {
-
-		// Set up world portals.
-		for (Entity e : level.allEntities) {
-			if (e.type.equals("worldPortal")) {
-				e.script = new WorldPortalScript();
-			} else if (e.type.equals("player")) {
-				e.script = new BurdScript();
-			}
-		}
+		
+		level.getEntityWithId("player").script = new BurdScript();
 
 		level.onSpawn();
 	}
@@ -239,9 +231,10 @@ public class BurdGame {
 				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
 				null);
 		rootCanvas.setColor(Color.white);
-		String infoString = "[WASD] Move" + "  |  [I/O] Zoom: " + zoom.x
-				+ "  |  [K] Debug Mode: " + debug + "  |  [L] Full Screen: "
-				+ isInFullScreen + "  |  [Esc] Quit";
+		String infoString = "[Z/M] Flap Each Wing  |  [ZM] Dive"
+				+ "  |  [I/O] Zoom: " + zoom.x + "  |  [K] Debug Mode: "
+				+ debug + "  |  [L] Full Screen: " + isInFullScreen
+				+ "  |  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 

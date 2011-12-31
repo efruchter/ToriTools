@@ -34,7 +34,6 @@
 <entity map="template = /objects/block128.entity;position.y = 608.0;position.x = 992.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 608.0;position.x = 768.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 736.0;position.x = 768.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 864.0;position.x = 736.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 736.0;position.x = 992.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 864.0;position.x = 992.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 992.0;position.x = 960.0;layer = 0;"/>
@@ -50,12 +49,9 @@
 <entity map="template = /objects/block128.entity;position.y = 1504.0;position.x = 1024.0;layer = 0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 480.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 608.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 864.0;visible = false;position.x = 736.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1504.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 736.0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 224.0;position.x = 544.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 224.0;position.x = 576.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 576.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 928.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 896.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 1472.0;position.x = 832.0;layer = 0;"/>
@@ -83,27 +79,20 @@
 <entity map="template = /objects/spikeDown.entity;position.y = 192.0;position.x = 928.0;layer = 0;"/>
 <entity map="template = /objects/spikeDown.entity;position.y = 160.0;position.x = 832.0;layer = 0;"/>
 <entity map="template = /objects/spikeDown.entity;position.y = 160.0;position.x = 800.0;layer = 0;"/>
-<entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 672.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 448.0;position.x = 832.0;layer = 0;"/>
 <entity map="template = /objects/spikeRight.entity;position.y = 320.0;position.x = 640.0;layer = 0;"/>
 <entity map="template = /objects/spikeLeft.entity;position.y = 1152.0;position.x = 928.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 992.0;position.x = 224.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 256.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1248.0;position.x = 256.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1536.0;position.x = 64.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1664.0;position.x = 64.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1760.0;position.x = 192.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 1792.0;position.x = 64.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1760.0;position.x = 320.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1728.0;position.x = 448.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1760.0;position.x = 576.0;layer = 0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 1120.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 992.0;visible = false;position.x = 224.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="template = /objects/block128.entity;position.y = 608.0;position.x = 96.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 736.0;position.x = 96.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 864.0;position.x = 0.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 992.0;position.x = 0.0;layer = 0;"/>
-<entity map="dimensions.y = 384.0;solid = true;position.y = 1536.0;visible = false;position.x = 64.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1760.0;visible = false;position.x = 192.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1728.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1760.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
@@ -111,9 +100,7 @@
 <entity map="template = /objects/block128.entity;position.y = 1120.0;position.x = 0.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1248.0;position.x = 0.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 1376.0;position.x = 0.0;layer = 0;"/>
-<entity map="dimensions.y = 32;template = /objects/block128.entity;position.y = 1504.0;position.x = 64.0;layer = 0;dimension.y = 32;"/>
 <entity map="dimensions.y = 640.0;solid = true;position.y = 864.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1504.0;visible = false;position.x = 64.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 576.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 608.0;layer = 0;"/>
 <entity map="template = /objects/spikeUp.entity;position.y = 1728.0;position.x = 640.0;layer = 0;"/>
@@ -185,7 +172,6 @@
 <entity map="template = /objects/block128.entity;position.y = 320.0;position.x = 1664.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 96.0;position.x = 1792.0;layer = 0;"/>
 <entity map="template = /objects/block128.entity;position.y = 224.0;position.x = 1792.0;layer = 0;"/>
-<entity map="template = /objects/block128.entity;position.y = 352.0;position.x = 1792.0;layer = 0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 96.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 640.0;"/>
 <entity map="dimensions.y = 96.0;solid = true;position.y = 224.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
@@ -194,5 +180,34 @@
 <entity map="template = /objects/flag.entity;position.y = 1664.0;position.x = 992.0;layer = 0;"/>
 <entity map="template = /objects/flag.entity;position.y = 1056.0;position.x = 1216.0;layer = 0;"/>
 <entity map="template = /objects/flag.entity;position.y = 256.0;position.x = 1728.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 416.0;position.x = 736.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 352.0;position.x = 736.0;layer = 0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 352.0;visible = false;position.x = 736.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="template = /objects/block64.entity;position.y = 992.0;position.x = 896.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 992.0;position.x = 832.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 992.0;position.x = 768.0;layer = 0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 992.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="template = /objects/block64.entity;position.y = 896.0;position.x = 480.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 1056.0;position.x = 288.0;layer = 0;"/>
+<entity map="template = /objects/spikeRight.entity;position.y = 1072.0;position.x = 352.0;layer = 0;"/>
+<entity map="template = /objects/spikeLeft.entity;position.y = 1072.0;position.x = 256.0;layer = 0;"/>
+<entity map="template = /objects/spikeLeft.entity;position.y = 912.0;position.x = 448.0;layer = 0;"/>
+<entity map="template = /objects/spikeRight.entity;position.y = 912.0;position.x = 544.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 864.0;position.x = 488.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 960.0;position.x = 504.0;layer = 0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 896.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1056.0;visible = false;position.x = 288.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="template = /objects/block64.entity;position.y = 1504.0;position.x = 88.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 1568.0;position.x = 128.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 1632.0;position.x = 128.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 1696.0;position.x = 136.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 1760.0;position.x = 128.0;layer = 0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1696.0;visible = false;position.x = 136.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 1568.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1504.0;visible = false;position.x = 88.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="template = /objects/block64.entity;position.y = 672.0;position.x = 1352.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 672.0;position.x = 1288.0;layer = 0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 672.0;visible = false;position.x = 1288.0;layer = 0;type = WALL;dimensions.x = 120.0;"/>
+<entity map="template = /objects/block64.entity;position.y = 352.0;position.x = 1792.0;layer = 0;"/>
 </objects>
 </level>

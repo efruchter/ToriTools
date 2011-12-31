@@ -223,14 +223,13 @@ public class SampleGame {
 			};
 		}
 
-		// Set up world portals.
-		for (Entity e : level.allEntities) {
-			if (e.type.equals("worldPortal")) {
-				e.script = new WorldPortalScript();
-			}
-		}
-
 		level.onSpawn();
+		
+		// Set up world portals.
+		for (Entity e : level.getEntitiesWithType("worldPortal")) {
+			e.script = new WorldPortalScript();
+			e.onSpawn(level);
+		}
 	}
 
 	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,

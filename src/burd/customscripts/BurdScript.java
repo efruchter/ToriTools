@@ -1,7 +1,6 @@
 package burd.customscripts;
 
 import java.awt.event.KeyEvent;
-import java.util.List;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -15,10 +14,7 @@ public class BurdScript implements EntityScript {
 
 	PhysicsModule physicsModule;
 
-	private final Vector2 leftVect = new Vector2(-.5f, -.5f),
-			rightVect = new Vector2(.5f, -.5f);
-
-	private List<Entity> spikes, flags;
+	private final float hSpeed = .5f, vSpeed = .5f;
 
 	private Vector2 startPos;
 
@@ -41,26 +37,25 @@ public class BurdScript implements EntityScript {
 		}
 
 		physicsModule.onStart();
-
-		spikes = level.getEntityWithType("spike");
-		flags = level.getEntityWithType("flag");
 	}
 
 	public void onUpdate(Level level, Entity self) {
-		boolean leftKey = BurdGame.keys.isPressed(KeyEvent.VK_A);
-		boolean rightKey = BurdGame.keys.isPressed(KeyEvent.VK_D);
+		boolean leftKey = BurdGame.keys.isPressed(KeyEvent.VK_Z);
+		boolean rightKey = BurdGame.keys.isPressed(KeyEvent.VK_M);
 
 		boolean moved = false;
 
-		if (leftKey) {
-			physicsModule.addVelocity(leftVect);
+		if (rightKey && leftKey) {
+			physicsModule.addVelocity(new Vector2(0, vSpeed));
+			self.sprite.setCylcle(0);
+			moved = true;
+		} else if (leftKey) {
+			physicsModule.addVelocity(new Vector2(-hSpeed, -vSpeed));
 			self.sprite.setCylcle(1);
 			moved = true;
-		}
-
-		if (rightKey) {
-			physicsModule.addVelocity(rightVect);
-			self.sprite.setCylcle(0);
+		} else if (rightKey) {
+			physicsModule.addVelocity(new Vector2(hSpeed, -vSpeed));
+			self.sprite.setCylcle(2);
 			moved = true;
 		}
 
@@ -71,7 +66,7 @@ public class BurdScript implements EntityScript {
 		ScriptUtils.safeMove(self, physicsModule.onUpdate(),
 				level.solids.toArray(new Entity[0]));
 
-		for (Entity spike : spikes) {
+		for (Entity spike : level.getEntitiesWithType("spike")) {
 			if (ScriptUtils.isColliding(spike, self)) {
 				for (int i = 0; i < 10; i++) {
 					Entity blood = BloodScript.getBlood();
@@ -83,7 +78,7 @@ public class BurdScript implements EntityScript {
 			}
 		}
 
-		for (Entity flag : flags)
+		for (Entity flag : level.getEntitiesWithType("flag"))
 			if (ScriptUtils.isColliding(flag, self)) {
 				startPos = flag.pos.clone();
 				level.killEntity(flag);

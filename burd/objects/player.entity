@@ -1,10 +1,10 @@
 type = player;
 id = player;
 description = an burd;
-dimensions.x = 50;
-dimensions.y = 50;
+dimensions.x = 30;
+dimensions.y = 30;
 solid = false;
 
-sprite.sheet = burd.png, 2, 2;
+sprite.sheet = burd.png, 3, 4;
 sprite.timeScale = 3;
 sprite.sizeOffset = 10;

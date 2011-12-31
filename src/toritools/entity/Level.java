@@ -16,26 +16,28 @@ public class Level extends Entity {
 			nonSolids = new ArrayList<Entity>();
 
 	/**
-	 * This list is modified the moment something is staged for add/removal.
+	 * The type map
 	 */
-	public List<Entity> allEntities = new ArrayList<Entity>();
+	private HashMap<String, List<Entity>> typeMap = new HashMap<String, List<Entity>>();
 
 	private List<Entity> trash = new ArrayList<Entity>();
 	private List<Entity> newEntities = new ArrayList<Entity>();
 
 	private void addEntity(final Entity e) {
 		layers.get(e.layer).add(e);
-		allEntities.add(e);
 		if (e.solid) {
 			solids.add(e);
 		} else {
 			nonSolids.add(e);
 		}
+		if (!typeMap.containsKey(e.type)) {
+			typeMap.put(e.type, new ArrayList<Entity>());
+		}
+		typeMap.get(e.type).add(e);
 	}
 
 	private void removeEntityUnsafe(final Entity e) {
 		layers.get(e.layer).remove(e);
-		allEntities.remove(e);
 		if (e.solid)
 			solids.remove(e);
 		else
@@ -44,6 +46,7 @@ public class Level extends Entity {
 		if ((id = e.variables.getVar("id")) != null) {
 			idMap.remove(id);
 		}
+		typeMap.get(e.type).remove(e);
 	}
 
 	public void spawnEntity(final Entity entity) {
@@ -52,13 +55,10 @@ public class Level extends Entity {
 		if ((id = entity.variables.getVar("id")) != null) {
 			idMap.put(id, entity);
 		}
-		allEntities.add(entity);
 	}
 
 	public void killEntity(final Entity entity) {
 		trash.add(entity);
-		allEntities.remove(entity);
-
 	}
 
 	private void spawnNewEntities() {
@@ -133,13 +133,7 @@ public class Level extends Entity {
 		return idMap.get(id);
 	}
 
-	public List<Entity> getEntityWithType(final String type) {
-		List<Entity> ents = new ArrayList<Entity>();
-		for (Entity e : allEntities) {
-			if (type.equals(e.type)) {
-				ents.add(e);
-			}
-		}
-		return ents;
+	public List<Entity> getEntitiesWithType(final String type) {
+		return typeMap.get(type);
 	}
 }
