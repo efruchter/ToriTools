@@ -1,0 +1,7 @@
+type = tutorial;
+description = describe the controls;
+dimensions.x = 240;
+dimensions.y = 83;
+solid = false;
+
+sprite.sheet = howTo.png;

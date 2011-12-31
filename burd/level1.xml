@@ -1,5 +1,6 @@
 <level map="height = 5000;width = 5000;">
 <objects>
+<entity map="template = /objects/howTo.entity;position.y = 224.0;position.x = 192.0;layer = 4;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 384.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>

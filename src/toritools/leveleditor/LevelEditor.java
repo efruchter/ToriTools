@@ -39,7 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -257,7 +257,7 @@ public class LevelEditor {
 		} catch (final Exception NullPointer) {
 			JOptionPane.showMessageDialog(null,
 					"There was an issue loading the recent level file!");
-			setLevelFile(importNewFileDialog());
+			setLevelFile(importNewFileDialog("Open Level file", "xml files", ".xml"));
 		}
 
 		setupGUI();
@@ -383,7 +383,7 @@ public class LevelEditor {
 				Event.CTRL_MASK));
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File f = importNewFileDialog();
+				File f = importNewFileDialog("Open Level file", "xml files", ".xml");
 				if (f != null) {
 					setLevelFile(f);
 					try {
@@ -435,10 +435,10 @@ public class LevelEditor {
 		makeWallEntry.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
 				Event.CTRL_MASK));
 
-		JMenuItem importXml = new JMenuItem("Import XML Entity");
+		JMenuItem importXml = new JMenuItem("Import Entity Template");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File f = importNewFileDialog();
+				File f = importNewFileDialog("Load New Entity Template", "entity files", ".entity");
 				if (f != null)
 					try {
 						importEntity(f);
@@ -714,12 +714,21 @@ public class LevelEditor {
 	/**
 	 * Bring up a file picker to import a new item.
 	 */
-	private File importNewFileDialog() {
+	private File importNewFileDialog(final String title, final String description, final String filter) {
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(
-				"xml files", "xml"));
+		fileChooser.addChoosableFileFilter(new FileFilter(){
+			@Override
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().endsWith(filter);
+			}
+
+			@Override
+			public String getDescription() {
+				return description;
+			}			
+		});
 		fileChooser.setCurrentDirectory(workingDirectory);
-		int ret = fileChooser.showDialog(null, "Import an xml file");
+		int ret = fileChooser.showDialog(null, title);
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			return fileChooser.getSelectedFile();
 		}
