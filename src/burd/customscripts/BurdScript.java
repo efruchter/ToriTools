@@ -39,13 +39,23 @@ public class BurdScript implements EntityScript {
 	public void onUpdate(Level level, Entity self) {
 		boolean leftKey = BurdGame.keys.isPressed(KeyEvent.VK_A);
 		boolean rightKey = BurdGame.keys.isPressed(KeyEvent.VK_D);
-
+		
+		boolean moved = false;
+		
 		if (leftKey) {
 			physicsModule.addVelocity(leftVect);
+			self.sprite.setCylcle(1);
+			moved = true;
 		}
 
 		if (rightKey) {
 			physicsModule.addVelocity(rightVect);
+			self.sprite.setCylcle(0);
+			moved = true;
+		}
+		
+		if (moved) {
+			self.sprite.nextFrame();
 		}
 
 		ScriptUtils.safeMove(self, physicsModule.onUpdate(),
