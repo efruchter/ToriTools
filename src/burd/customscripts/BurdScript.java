@@ -54,6 +54,7 @@ public class BurdScript implements EntityScript {
 
 		if (rightKey && leftKey) {
 			physicsModule.addVelocity(new Vector2(0, vSpeed / 2));
+			physicsModule.clearXVelocity();
 			self.sprite.setCylcle(0);
 			moved = true;
 		} else if (leftKey) {
@@ -76,7 +77,7 @@ public class BurdScript implements EntityScript {
 		for (Entity spike : level.getEntitiesWithType("spike")) {
 			if (ScriptUtils.isColliding(spike, self)) {
 				for (int i = 0; i < 10; i++) {
-					Entity blood = BloodScript.getBlood();
+					Entity blood = ValcanoParticleScript.getBlood();
 					blood.pos = self.pos.clone();
 					level.spawnEntity(blood);
 				}
