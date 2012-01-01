@@ -1,6 +1,6 @@
 <level map="height = 5000;width = 5000;">
 <objects>
-<entity map="dimensions.y = 166;template = /objects/howTo.entity;solid = false;position.y = 192.0;sprite.sheet = howTo.png;position.x = 192.0;description = describe the controls;layer = 4;type = tutorial;dimensions.x = 240;"/>
+<entity map="dimensions.y = 166;template = /objects/howTo.entity;solid = false;position.y = 208.0;sprite.sheet = howTo.png;position.x = 192.0;description = describe the controls;layer = 4;type = tutorial;dimensions.x = 240;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 384.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
@@ -241,6 +241,8 @@
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 800.0;sprite.sheet = bread.png;position.x = 1344.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 576.0;sprite.sheet = bread.png;position.x = 1312.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 288.0;sprite.sheet = bread.png;position.x = 1984.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
-<entity map="template = /objects/player.entity;position.y = 384.0;position.x = 256.0;layer = 0;"/>
+<entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 384.0;sprite.timeScale = 3;position.x = 256.0;layer = 0;type = player;hSpeed = .2;id = player;dimensions.y = 20;solid = false;sprite.sheet = burd.png, 3, 4;description = an burd;vSpeed = .4f;dimensions.x = 20;"/>
+<entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 320.0;sprite.sheet = bread.png;position.x = 352.0;description = a delicious bread;layer = 1;type = DEFAULT;dimensions.x = 32;"/>
+<entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 320.0;sprite.timeScale = 3;position.x = 240.0;layer = 1;type = DEFAULT;hSpeed = .2;id = DEFAULT;dimensions.y = 20;solid = false;sprite.sheet = burd.png, 3, 4;description = an burd;vSpeed = .4f;dimensions.x = 20;"/>
 </objects>
 </level>
