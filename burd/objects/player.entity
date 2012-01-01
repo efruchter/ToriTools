@@ -1,8 +1,8 @@
 type = player;
 id = player;
 description = an burd;
-dimensions.x = 30;
-dimensions.y = 30;
+dimensions.x = 20;
+dimensions.y = 20;
 solid = false;
 
 sprite.sheet = burd.png, 3, 4;

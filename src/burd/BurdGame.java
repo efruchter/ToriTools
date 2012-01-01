@@ -44,6 +44,7 @@ import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.io.Importer;
+import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 import burd.customscripts.BurdScript;
@@ -59,6 +60,9 @@ public class BurdGame {
 			resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private final Vector2 VIEWPORT = new Vector2(resolutionWidth,
 			resolutionHeight);
+
+	private MidpointChain camera = new MidpointChain(new Vector2(),
+			new Vector2(), 10);
 	/**
 	 * The current working level.
 	 */
@@ -172,7 +176,6 @@ public class BurdGame {
 		}
 
 		level.onUpdate();
-		
 
 		if (keys.isPressed(KeyEvent.VK_P)) {
 			nextLevel();
@@ -197,6 +200,9 @@ public class BurdGame {
 		}
 
 		keys.freeQueuedKeys();
+		
+		camera.setA(level.getEntityWithId("player").pos.clone());
+		camera.smoothTowardA();
 	}
 
 	private void setupLevel() {
@@ -219,8 +225,7 @@ public class BurdGame {
 			return;
 		}
 
-		Vector2 playerPos = level.getEntityWithId("player").pos;
-		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
+		Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
 
 		bufferGraphics.setColor(Color.GRAY);
 		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);

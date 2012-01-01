@@ -1,27 +1,27 @@
 package toritools.entity;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Level extends Entity {
 
 	private HashMap<String, Entity> idMap = new HashMap<String, Entity>();
-	public List<List<Entity>> layers = new LinkedList<List<Entity>>();
+	public List<List<Entity>> layers = new ArrayList<List<Entity>>();
 
 	/**
 	 * The entity lists.
 	 */
-	public List<Entity> solids = new LinkedList<Entity>(),
-			nonSolids = new LinkedList<Entity>();
+	public List<Entity> solids = new ArrayList<Entity>(),
+			nonSolids = new ArrayList<Entity>();
 
 	/**
 	 * The type map
 	 */
 	private HashMap<String, List<Entity>> typeMap = new HashMap<String, List<Entity>>();
 
-	private List<Entity> trash = new LinkedList<Entity>();
-	private List<Entity> newEntities = new LinkedList<Entity>();
+	private List<Entity> trash = new ArrayList<Entity>();
+	private List<Entity> newEntities = new ArrayList<Entity>();
 
 	private void addEntity(final Entity e) {
 		layers.get(e.layer).add(e);
@@ -31,7 +31,7 @@ public class Level extends Entity {
 			nonSolids.add(e);
 		}
 		if (!typeMap.containsKey(e.type)) {
-			typeMap.put(e.type, new LinkedList<Entity>());
+			typeMap.put(e.type, new ArrayList<Entity>());
 		}
 		typeMap.get(e.type).add(e);
 	}
@@ -62,7 +62,7 @@ public class Level extends Entity {
 	}
 
 	private void spawnNewEntities() {
-		List<Entity> tempList = new LinkedList<Entity>(newEntities);
+		List<Entity> tempList = new ArrayList<Entity>(newEntities);
 		newEntities.clear();
 		for (Entity e : tempList) {
 			addEntity(e);
@@ -73,7 +73,7 @@ public class Level extends Entity {
 	}
 
 	private void takeOutTrash() {
-		List<Entity> tempList = new LinkedList<Entity>(trash);
+		List<Entity> tempList = new ArrayList<Entity>(trash);
 		trash.clear();
 		for (Entity e : tempList) {
 			removeEntityUnsafe(e);
@@ -125,7 +125,7 @@ public class Level extends Entity {
 	public Level() {
 		super();
 		for (int i = 0; i < 10; i++) {
-			layers.add(new LinkedList<Entity>());
+			layers.add(new ArrayList<Entity>());
 		}
 	}
 
@@ -136,7 +136,7 @@ public class Level extends Entity {
 	public List<Entity> getEntitiesWithType(final String type) {
 		List<Entity> ents = typeMap.get(type);
 		if(ents == null) {
-			ents = new LinkedList<Entity>();
+			ents = new ArrayList<Entity>();
 		}
 		return ents;
 	}

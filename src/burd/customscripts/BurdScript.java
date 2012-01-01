@@ -1,6 +1,7 @@
 package burd.customscripts;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import toritools.entity.Entity;
@@ -21,6 +22,8 @@ public class BurdScript implements EntityScript {
 	private float hSpeed = .2f, vSpeed = .4f;
 
 	private Vector2 startPos;
+
+	private List<Entity> breadsEaten = new ArrayList<Entity>();
 
 	public void onSpawn(Level level, Entity self) {
 
@@ -84,12 +87,22 @@ public class BurdScript implements EntityScript {
 				}
 				self.pos = startPos.clone();
 				physicsModule.clearVelocity();
+				if (!breadsEaten.isEmpty()) {
+					for (Entity bread : breadsEaten) {
+						level.spawnEntity(bread);
+					}
+					breadsEaten.clear();
+				}
 			}
+
 		}
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
-			if (ScriptUtils.isColliding(flag, self) && flag != latestFlag) {
+			if (ScriptUtils.isColliding(flag, self)
+					&& (flag != latestFlag || !breadsEaten.isEmpty())) {
 				latestFlag = flag;
+				if (!breadsEaten.isEmpty())
+					breadsEaten.clear();
 				startPos = flag.pos.clone();
 				for (int i = 0; i < 10; i++) {
 					Entity sparkle = VolcanoParticleScript.getSparkle();
@@ -105,6 +118,7 @@ public class BurdScript implements EntityScript {
 			for (Entity bread : breads) {
 				if (ScriptUtils.isColliding(bread, self)) {
 					level.killEntity(bread);
+					breadsEaten.add(bread);
 					for (int i = 0; i < 5; i++) {
 						Entity crumb = VolcanoParticleScript.getBreadCrumb();
 						crumb.pos = self.pos.clone();
