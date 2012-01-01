@@ -50,6 +50,9 @@ import burd.customscripts.BurdScript;
 
 public class BurdGame {
 
+	private static String[] levels = new String[] { "burd/level1.xml",
+			"burd/level2.xml" };
+
 	public static String savePrefix = "burd2";
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
@@ -169,6 +172,11 @@ public class BurdGame {
 		}
 
 		level.onUpdate();
+		
+
+		if (keys.isPressed(KeyEvent.VK_P)) {
+			nextLevel();
+		}
 
 		if (keys.isPressed(KeyEvent.VK_I)) {
 			zoom.x += .1;
@@ -234,11 +242,10 @@ public class BurdGame {
 				-(int) ((xScalePix - VIEWPORT.x) / 2),
 				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
 				null);
-		rootCanvas.setColor(Color.white);
+		rootCanvas.setColor(Color.BLACK);
 		String infoString = "[Z/M] Flap Each Wing  |  [ZM] Dive"
 				+ "  |  [I/O] Zoom: " + zoom.x + "  |  [K] Debug Mode: "
-				+ debug + "  |  [L] Full Screen: " + isInFullScreen
-				+ "  |  [Esc] Quit";
+				+ debug + "  |  [P] Next Level  |  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 
@@ -253,6 +260,7 @@ public class BurdGame {
 	 */
 	private DisplayMode displayMode = new DisplayMode(resolutionWidth,
 			resolutionHeight, 32, DisplayMode.REFRESH_RATE_UNKNOWN);
+	@SuppressWarnings("unused")
 	private boolean isInFullScreen;
 
 	/**
@@ -317,13 +325,6 @@ public class BurdGame {
 	public static void setDisplayPrompt(final String s) {
 		displayString = s;
 	}
-
-	/**
-	 * LEVEL STUFF HERE FOR NOW.
-	 */
-
-	private static String[] levels = new String[] { "burd/level1.xml",
-			"burd/level2.xml" };
 
 	private static int currLevel = 0;
 
