@@ -11,18 +11,24 @@ import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
-public class ValcanoParticleScript implements EntityScript {
+public class VolcanoParticleScript implements EntityScript {
 	
 	int timer = 200;
 
 	PhysicsModule physicsModule;
+	
+	int dir = -1;
+	
+	public VolcanoParticleScript(final boolean up) {
+		this.dir = up ? -1 : 1;
+	}
 
 	public void onSpawn(Level level, Entity self) {
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
 
 		physicsModule.onStart();
-		float y = (float) ( Math.random() * -20);
+		float y = (float) ( Math.random() * 20 * dir);
 		float x = (float) (-10 + Math.random() * 20);
 		physicsModule.addVelocity(new Vector2(x, y));
 	}
@@ -44,7 +50,7 @@ public class ValcanoParticleScript implements EntityScript {
 	public static Entity getBlood() {
 		try {
 			Entity e = Importer.importEntity(new File("burd/objects/blood.entity"), null);
-			e.script = new ValcanoParticleScript();
+			e.script = new VolcanoParticleScript(true);
 			return e;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -55,7 +61,18 @@ public class ValcanoParticleScript implements EntityScript {
 	public static Entity getSparkle() {
 		try {
 			Entity e = Importer.importEntity(new File("burd/objects/sparkle.entity"), null);
-			e.script = new ValcanoParticleScript();
+			e.script = new VolcanoParticleScript(true);
+			return e;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Entity getBreadCrumb() {
+		try {
+			Entity e = Importer.importEntity(new File("burd/objects/crumb.entity"), null);
+			e.script = new VolcanoParticleScript(true);
 			return e;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
