@@ -332,7 +332,6 @@ public class BurdGame {
 	private static int currLevel = 0;
 
 	public static void nextLevel() {
-		JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
 		try {
 			File levelFile = new File("burd/level" + ++currLevel + ".xml");
 			if (levelFile.canRead()) {
