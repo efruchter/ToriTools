@@ -51,9 +51,6 @@ import burd.customscripts.BurdScript;
 
 public class BurdGame {
 
-	private static String[] levels = new String[] { "burd/level1.xml",
-			"burd/level2.xml" };
-
 	public static String savePrefix = "burd2";
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
@@ -133,9 +130,8 @@ public class BurdGame {
 			ScriptUtils.saveProfileVariables(savePrefix);
 		}
 
-		// First level to load.
-		level = Importer.importLevel(new File(levels[0]));
-
+		level = Importer.importLevel(new File("burd/level" + ++currLevel + ".xml"));
+		
 		setupLevel();
 
 		setFullScreen(true);
@@ -200,7 +196,7 @@ public class BurdGame {
 		}
 
 		keys.freeQueuedKeys();
-		
+
 		camera.setA(level.getEntityWithId("player").pos.clone());
 		camera.smoothTowardA();
 	}
@@ -334,17 +330,18 @@ public class BurdGame {
 	private static int currLevel = 0;
 
 	public static void nextLevel() {
-		if (++currLevel >= levels.length) {
-			JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
-			System.exit(0);
-		} else {
-			JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
-			try {
-				warpToLevel(Importer.importLevel(new File(levels[currLevel])));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+		JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
+		try {
+			File levelFile = new File("burd/level" + ++currLevel + ".xml");
+			if(levelFile.canRead()){
+			warpToLevel(Importer.importLevel(levelFile));}
+			else {
+				JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
 				System.exit(0);
 			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 }

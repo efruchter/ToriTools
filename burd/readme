@@ -1,0 +1,6 @@
+How to add new levels:
+
+Burd will automatically load levels based on simple rules!
+First, the first level to be loaded is level1.xml.
+Then, every level after that is loaded in order, level#.xml.
+When there are no more level files in thei format, the game is over.
