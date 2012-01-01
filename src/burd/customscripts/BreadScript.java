@@ -22,7 +22,7 @@ public class BreadScript implements EntityScript {
 			origPos = self.pos.clone();
 		}
 
-		chain = new MidpointChain(playerPos, origPos, 30);
+		chain = new MidpointChain(playerPos, origPos, 90);
 
 		self.pos = chain.getA().clone();
 
