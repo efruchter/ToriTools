@@ -216,7 +216,6 @@
 <entity map="dimensions.y = 64.0;solid = true;position.y = 768.0;visible = false;position.x = 64.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 640.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 384.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 352.0;solid = true;position.y = 384.0;visible = false;position.x = 320.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 448.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 704.0;solid = true;position.y = 352.0;visible = false;position.x = 512.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1760.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 120.0;"/>
@@ -239,6 +238,7 @@
 <entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 1696.0;sprite.sheet = spikeDown.png;position.x = 448.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 1696.0;sprite.sheet = block.png;position.x = 736.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 1696.0;visible = false;position.x = 736.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="template = /objects/player.entity;position.y = 192.0;position.x = 192.0;layer = 0;"/>
+<entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 192.0;sprite.timeScale = 3;position.x = 192.0;layer = 0;type = player;hSpeed = .2;id = player;dimensions.y = 20;solid = false;sprite.sheet = burd.png, 3, 4;description = an burd;vSpeed = .4f;dimensions.x = 20;"/>
+<entity map="dimensions.y = 384.0;solid = true;position.y = 384.0;visible = false;position.x = 320.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 </objects>
 </level>
