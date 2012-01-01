@@ -116,7 +116,7 @@ public class BurdScript implements EntityScript {
 			BurdGame.nextLevel();
 		} else {
 			for (Entity bread : breads) {
-				if (ScriptUtils.isColliding(bread, self)) {
+				if (bread.active && ScriptUtils.isColliding(bread, self)) {
 					level.killEntity(bread);
 					breadsEaten.add(bread);
 					for (int i = 0; i < 5; i++) {

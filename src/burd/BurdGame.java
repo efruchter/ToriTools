@@ -47,6 +47,7 @@ import toritools.io.Importer;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
+import burd.customscripts.BreadScript;
 import burd.customscripts.BurdScript;
 
 public class BurdGame {
@@ -207,6 +208,15 @@ public class BurdGame {
 		level.getEntityWithId("player").script = new BurdScript();
 
 		level.onSpawn();
+		
+		/*
+		 * Special spawns, will be fixed.
+		 */
+		
+		for (Entity e: level.getEntitiesWithType("bread")) {
+			e.script = new BreadScript();
+			e.onSpawn(level);
+		}
 	}
 
 	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,

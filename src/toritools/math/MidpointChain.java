@@ -12,7 +12,8 @@ public class MidpointChain {
 	private Vector2[] chain;
 
 	/**
-	 * Initialize a chain
+	 * Initialize a chain. Every link will be set to A, initially, except for
+	 * the very end link, which is set to B.
 	 * 
 	 * @param a
 	 *            one anchor end
@@ -23,10 +24,10 @@ public class MidpointChain {
 	 */
 	public MidpointChain(final Vector2 a, final Vector2 b, final int size) {
 		this.chain = new Vector2[size];
-		for (int i = 0; i < this.chain.length - 1; i++) {
+		for (int i = 0; i < this.chain.length; i++) {
 			this.chain[i] = a.clone();
 		}
-		chain[chain.length - 1] = b;
+		this.chain[chain.length - 1] = b;
 	}
 
 	/**

@@ -38,6 +38,7 @@ public class Entity {
 	public String type;
 	public int layer;
 	public boolean visible = true;
+	public boolean active = true;
 
 	public Sprite sprite;
 
