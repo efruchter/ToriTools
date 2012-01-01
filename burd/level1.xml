@@ -1,6 +1,6 @@
 <level map="height = 5000;width = 5000;">
 <objects>
-<entity map="template = /objects/howTo.entity;position.y = 224.0;position.x = 192.0;layer = 4;"/>
+<entity map="dimensions.y = 83;template = /objects/howTo.entity;solid = false;position.y = 224.0;sprite.sheet = howTo.png;position.x = 192.0;description = describe the controls;layer = 4;type = tutorial;dimensions.x = 240;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 0.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 384.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 0.0;sprite.sheet = block.png;position.x = 512.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
@@ -172,9 +172,7 @@
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 320.0;sprite.sheet = block.png;position.x = 1536.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 320.0;sprite.sheet = block.png;position.x = 1664.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 96.0;sprite.sheet = block.png;position.x = 1792.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
-<entity map="dimensions.y = 128;template = /objects/block128.entity;solid = false;position.y = 224.0;sprite.sheet = block.png;position.x = 1792.0;description = 128;layer = 0;type = block128;dimensions.x = 128;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 96.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 640.0;"/>
-<entity map="dimensions.y = 96.0;solid = true;position.y = 224.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1120.0;visible = false;position.x = 1088.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
 <entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 928.0;sprite.sheet = flag.png;position.x = 928.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
@@ -210,5 +208,29 @@
 <entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 672.0;sprite.sheet = block.png;position.x = 1288.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 672.0;visible = false;position.x = 1288.0;layer = 0;type = WALL;dimensions.x = 120.0;"/>
 <entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 352.0;sprite.sheet = block.png;position.x = 1792.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
+<entity map="template = /objects/block64.entity;position.y = 1088.0;position.x = 576.0;layer = 0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 1056.0;position.x = 600.0;layer = 0;"/>
+<entity map="template = /objects/spikeRight.entity;position.y = 1096.0;position.x = 640.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 696.0;position.x = 472.0;layer = 0;"/>
+<entity map="template = /objects/spikeDown.entity;position.y = 760.0;position.x = 496.0;layer = 0;"/>
+<entity map="template = /objects/spikeRight.entity;position.y = 712.0;position.x = 536.0;layer = 0;"/>
+<entity map="template = /objects/spikeLeft.entity;position.y = 720.0;position.x = 440.0;layer = 0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 696.0;visible = false;position.x = 472.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1088.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="template = /objects/spikeUp.entity;position.y = 640.0;position.x = 1296.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 352.0;position.x = 1856.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 168.0;position.x = 1920.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 360.0;position.x = 1920.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 176.0;position.x = 1984.0;layer = 0;"/>
+<entity map="template = /objects/block64.entity;position.y = 368.0;position.x = 1984.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 296.0;position.x = 2048.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 176.0;position.x = 2048.0;layer = 0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 96.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 168.0;visible = false;position.x = 1920.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 56.0;solid = true;position.y = 184.0;visible = false;position.x = 1984.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 224.0;solid = true;position.y = 176.0;visible = false;position.x = 2048.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 352.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 360.0;visible = false;position.x = 1920.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 368.0;visible = false;position.x = 1984.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 </objects>
 </level>

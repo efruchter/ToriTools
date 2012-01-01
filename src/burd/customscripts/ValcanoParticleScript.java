@@ -52,4 +52,15 @@ public class ValcanoParticleScript implements EntityScript {
 		return null;
 	}
 	
+	public static Entity getSparkle() {
+		try {
+			Entity e = Importer.importEntity(new File("burd/objects/sparkle.entity"), null);
+			e.script = new ValcanoParticleScript();
+			return e;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

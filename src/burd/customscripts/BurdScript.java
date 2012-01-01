@@ -87,12 +87,19 @@ public class BurdScript implements EntityScript {
 		}
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
-			if (ScriptUtils.isColliding(flag, self)) {
+			if (ScriptUtils.isColliding(flag, self) && flag != latestFlag) {
+				latestFlag = flag;
 				startPos = flag.pos.clone();
-				level.killEntity(flag);
+				for (int i = 0; i < 10; i++) {
+					Entity sparkle = ValcanoParticleScript.getSparkle();
+					sparkle.pos = self.pos.clone();
+					level.spawnEntity(sparkle);
+				}
 			}
 
 	}
+
+	private Entity latestFlag;
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
 		if (isRoomExit)
