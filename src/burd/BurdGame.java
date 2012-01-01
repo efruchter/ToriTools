@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -126,7 +127,7 @@ public class BurdGame {
 		}
 
 		// First level to load.
-		level = Importer.importLevel(new File("burd/level1.xml"));
+		level = Importer.importLevel(new File(levels[0]));
 
 		setupLevel();
 
@@ -304,6 +305,7 @@ public class BurdGame {
 	 */
 	public static void warpToLevel(final Level newLevel) {
 		BurdGame.newLevel = newLevel;
+		keys.clearKeys();
 	}
 
 	/**
@@ -316,8 +318,27 @@ public class BurdGame {
 		displayString = s;
 	}
 
+	/**
+	 * LEVEL STUFF HERE FOR NOW.
+	 */
+
+	private static String[] levels = new String[] { "burd/level1.xml",
+			"burd/level2.xml" };
+
+	private static int currLevel = 0;
+
 	public static void nextLevel() {
-		JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
-		System.exit(0);
+		if (++currLevel >= levels.length) {
+			JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
+			System.exit(0);
+		} else {
+			JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
+			try {
+				warpToLevel(Importer.importLevel(new File(levels[currLevel])));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
 	}
 }

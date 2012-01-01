@@ -1,0 +1,22 @@
+<level map="height = 5000;width = 5000;">
+<objects>
+<entity map="template = /objects/player.entity;position.y = 160.0;position.x = 160.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 0.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 128.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 128.0;position.x = 0.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 256.0;position.x = 0.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 256.0;position.x = 128.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 0.0;position.x = 256.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 256.0;position.x = 256.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 224.0;position.x = 384.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 32.0;position.x = 384.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 224.0;position.x = 512.0;layer = 0;"/>
+<entity map="template = /objects/block128.entity;position.y = 32.0;position.x = 512.0;layer = 0;"/>
+<entity map="template = /objects/bread.entity;position.y = 160.0;position.x = 640.0;layer = 0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 384.0;"/>
+<entity map="dimensions.y = 256.0;solid = true;position.y = 128.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 256.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 224.0;visible = false;position.x = 384.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 32.0;visible = false;position.x = 384.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
+</objects>
+</level>

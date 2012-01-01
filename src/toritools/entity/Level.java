@@ -134,6 +134,10 @@ public class Level extends Entity {
 	}
 
 	public List<Entity> getEntitiesWithType(final String type) {
-		return typeMap.get(type);
+		List<Entity> ents = typeMap.get(type);
+		if(ents == null) {
+			ents = new LinkedList<Entity>();
+		}
+		return ents;
 	}
 }
