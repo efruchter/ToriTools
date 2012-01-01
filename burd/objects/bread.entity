@@ -1,0 +1,7 @@
+type = bread;
+description = a delicious bread;
+dimensions.x = 32;
+dimensions.y = 32;
+solid = false;
+
+sprite.sheet = bread.png;

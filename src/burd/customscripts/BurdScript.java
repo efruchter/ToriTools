@@ -1,6 +1,7 @@
 package burd.customscripts;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -97,6 +98,21 @@ public class BurdScript implements EntityScript {
 				}
 			}
 
+		List<Entity> breads = level.getEntitiesWithType("bread");
+		if (breads == null || breads.isEmpty()) {
+			BurdGame.nextLevel();
+		} else {
+			for (Entity bread : breads) {
+				if (ScriptUtils.isColliding(bread, self)) {
+					level.killEntity(bread);
+					for (int i = 0; i < 10; i++) {
+						Entity sparkle = ValcanoParticleScript.getSparkle();
+						sparkle.pos = self.pos.clone();
+						level.spawnEntity(sparkle);
+					}
+				}
+			}
+		}
 	}
 
 	private Entity latestFlag;

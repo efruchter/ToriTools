@@ -47,7 +47,7 @@ import toritools.scripting.ScriptUtils;
 import burd.customscripts.BurdScript;
 
 public class BurdGame {
-	
+
 	public static String savePrefix = "burd2";
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
@@ -190,7 +190,7 @@ public class BurdGame {
 	}
 
 	private void setupLevel() {
-		
+
 		level.getEntityWithId("player").script = new BurdScript();
 
 		level.onSpawn();
@@ -313,5 +313,10 @@ public class BurdGame {
 	 */
 	public static void setDisplayPrompt(final String s) {
 		displayString = s;
+	}
+
+	public static void nextLevel() {
+		System.out.println("YOU WIN");
+		System.exit(0);
 	}
 }
