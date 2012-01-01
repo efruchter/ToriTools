@@ -130,8 +130,9 @@ public class BurdGame {
 			ScriptUtils.saveProfileVariables(savePrefix);
 		}
 
-		level = Importer.importLevel(new File("burd/level" + ++currLevel + ".xml"));
-		
+		level = Importer.importLevel(new File("burd/level" + ++currLevel
+				+ ".xml"));
+
 		setupLevel();
 
 		setFullScreen(true);
@@ -236,6 +237,7 @@ public class BurdGame {
 				if (e.visible)
 					e.draw(bufferGraphics, offset);
 			}
+
 		// Draw to the actual screen, scaled.
 		int xScalePix = (int) (zoom.x * VIEWPORT.x);
 		int yScalePix = (int) (zoom.y * VIEWPORT.y);
@@ -333,15 +335,25 @@ public class BurdGame {
 		JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
 		try {
 			File levelFile = new File("burd/level" + ++currLevel + ".xml");
-			if(levelFile.canRead()){
-			warpToLevel(Importer.importLevel(levelFile));}
-			else {
+			if (levelFile.canRead()) {
+				warpToLevel(Importer.importLevel(levelFile));
+			} else {
 				JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
 				System.exit(0);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(0);
+		}
+	}
+
+	public void drawChain(final Vector2[] chain, final Vector2 offset,
+			final Graphics g) {
+		for (int i = 1; i < chain.length; i++) {
+			g.drawLine((int) (chain[i - 1].x + offset.x),
+					(int) (chain[i - 1].y + offset.y),
+					(int) (chain[i].x + offset.x),
+					(int) (chain[i].y + offset.y));
 		}
 	}
 }
