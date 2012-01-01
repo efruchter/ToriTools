@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -316,7 +317,7 @@ public class BurdGame {
 	}
 
 	public static void nextLevel() {
-		System.out.println("YOU WIN");
+		JOptionPane.showMessageDialog(null, "YOU ATE ALL THE BREAD!");
 		System.exit(0);
 	}
 }
