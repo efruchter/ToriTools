@@ -413,9 +413,9 @@ public class LevelEditor {
 				Event.CTRL_MASK));
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File f = importNewFileDialog("Open Level File", "XML file (*.xml)", "xml");
-				if (f != null) {
-					setLevelFile(f);
+				File[] files = importNewFileDialog("Open Level File", "XML file (*.xml)", "xml");
+				if (files.length != 0) {
+					setLevelFile(files[0]);
 					try {
 						reloadLevel();
 						repaint();
@@ -470,14 +470,16 @@ public class LevelEditor {
 		JMenuItem importXml = new JMenuItem("Import Entity Template");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File f = importNewFileDialog("Load New Entity Template", "Entity files (*.entity)", "entity");
-				if (f != null)
-					try {
-						importEntity(f);
-						repaint();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
+				for (File f : importNewFileDialog("Load New Entity Template", "Entity files (*.entity)", "entity")) {
+					if (f != null) {
+						try {
+							importEntity(f);
+							repaint();
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						}
 					}
+				}
 			}
 		});
 		entityMenu.add(importXml);
@@ -695,9 +697,9 @@ public class LevelEditor {
 			ToriXML.saveXMLDoc(levelFile, doc);
 			return true;
 		} else {
-			File file = importNewFileDialog("Save New Level File", "XML file (*.xml)", "xml");
-			if (file != null) {				
-				setLevelFile(file);
+			File[] files = importNewFileDialog("Save New Level File", "XML file (*.xml)", "xml");
+			if (files.length != 0) {				
+				setLevelFile(files[0]);
 				ToriXML.saveXMLDoc(levelFile, doc);
 				repaint();
 				return true;
@@ -758,25 +760,33 @@ public class LevelEditor {
 	}
 
 	/**
-	 * Bring up a file picker to import a new item.
+	 * Brings up a file chooser
+	 * @param title The title of the window.
+	 * @param description the file type description.
+	 * @param extension the file extension to filter for.
+	 * @return a list of selected files.
 	 */
-	private File importNewFileDialog(final String title, final String description, final String extension) {
+	private File[] importNewFileDialog(final String title, final String description, final String extension) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(workingDirectory);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(description, extension);
 	    fileChooser.setFileFilter(filter);
+	    fileChooser.setMultiSelectionEnabled(true);
 	    fileChooser.setAcceptAllFileFilterUsed(false);
 		int ret = fileChooser.showDialog(null, title);
 		if (ret == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			String path = file.getAbsolutePath();		
-			String ext = "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];		
-			if(!path.endsWith(ext)) {
-				file = new File(path + ext);
+			File[] files = fileChooser.getSelectedFiles();
+			for (int i = 0; i < files.length; i++ ) {
+				String path = files[i].getAbsolutePath();		
+				String ext = "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];		
+				if(!path.endsWith(ext)) {
+					files[i] = new File(path + ext);
+				}
 			}
-			return file;
+			
+			return files;
 		}
-		return null;
+		return new File[0];
 	}
 
 	/**
