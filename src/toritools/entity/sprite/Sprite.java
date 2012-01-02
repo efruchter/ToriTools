@@ -45,7 +45,7 @@ public class Sprite {
 	}
 
 	public void setFrame(final int frame) {
-		x = frame % xSplit;
+		x = frame * timeStretch % (xSplit * timeStretch);
 	}
 
 	public void setCycle(final int cycle) {

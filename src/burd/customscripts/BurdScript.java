@@ -40,11 +40,14 @@ public class BurdScript implements EntityScript {
 
 	public void onUpdate(Level level, Entity self) {
 
+		boolean flapped = false;
+
 		self.sprite.setCycle(0);
 		if (BurdGame.keys.isPressed(KeyEvent.VK_SPACE)) {
 			physicsModule.addVelocity(new Vector2(0, -vSpeed));
-			self.sprite.nextFrame();
+			flapped = true;
 		}
+
 		if (BurdGame.keys.isPressed(KeyEvent.VK_A)) {
 			physicsModule.addVelocity(new Vector2(-hSpeed, 0));
 			self.sprite.setCycle(1);
@@ -54,8 +57,23 @@ public class BurdScript implements EntityScript {
 			self.sprite.setCycle(2);
 		}
 
-		ScriptUtils.safeMove(self, physicsModule.onUpdate(),
-				level.solids.toArray(new Entity[0]));
+		Vector2 delta = physicsModule.onUpdate();
+
+		ScriptUtils.safeMove(self, delta, level.solids.toArray(new Entity[0]));
+
+		if (flapped) {
+			self.sprite.nextFrame();
+		} else {
+			// make the wing match the motion
+			if (Math.abs(delta.y) < 5)
+				self.sprite.setFrame(1);
+			else if (delta.y < 0)
+				self.sprite.setFrame(2);
+			else
+				self.sprite.setFrame(0);
+		}
+		
+		BurdGame.setDisplayPrompt(delta.y + "");
 
 		for (Entity spike : level.getEntitiesWithType("spike")) {
 			if (ScriptUtils.isColliding(spike, self)) {
