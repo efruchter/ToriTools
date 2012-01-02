@@ -72,8 +72,6 @@ public class BurdScript implements EntityScript {
 			else
 				self.sprite.setFrame(0);
 		}
-		
-		BurdGame.setDisplayPrompt(delta.y + "");
 
 		for (Entity spike : level.getEntitiesWithType("spike")) {
 			if (ScriptUtils.isColliding(spike, self)) {
