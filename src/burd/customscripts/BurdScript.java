@@ -59,7 +59,10 @@ public class BurdScript implements EntityScript {
 
 		Vector2 delta = physicsModule.onUpdate();
 
-		ScriptUtils.safeMove(self, delta, level.solids.toArray(new Entity[0]));
+		Vector2 collisionDelta = ScriptUtils.safeMove(self, delta,
+				level.solids.toArray(new Entity[0]));
+		
+		physicsModule.addVelocity(physicsModule.getCurrentVelocity().unit().scale(-collisionDelta.mag() / 3));
 
 		if (flapped) {
 			self.sprite.nextFrame();

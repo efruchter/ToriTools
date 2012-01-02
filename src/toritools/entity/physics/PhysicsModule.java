@@ -66,6 +66,10 @@ public class PhysicsModule {
 		prePos = prePos.sub(vel);
 	}
 	
+	public Vector2 getCurrentVelocity() {
+		return self.pos.sub(prePos);
+	}
+	
 	public void clearVelocity() {
 		prePos = self.pos.clone();
 	}

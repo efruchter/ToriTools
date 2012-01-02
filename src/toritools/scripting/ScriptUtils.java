@@ -29,12 +29,16 @@ public class ScriptUtils {
 		profileVariables.setVar(key, value);
 	}
 
-	public static void saveProfileVariables(final String prefix) throws IOException {
-		ToriMapIO.writeMap(new File(prefix + "_" + PROFILE), profileVariables.getVariables());
+	public static void saveProfileVariables(final String prefix)
+			throws IOException {
+		ToriMapIO.writeMap(new File(prefix + "_" + PROFILE),
+				profileVariables.getVariables());
 	}
 
-	public static void loadProfileVariables(final String prefix) throws FileNotFoundException {
-		profileVariables = new VariableCase(ToriMapIO.readMap(new File(prefix + "_" + PROFILE)));
+	public static void loadProfileVariables(final String prefix)
+			throws FileNotFoundException {
+		profileVariables = new VariableCase(ToriMapIO.readMap(new File(prefix
+				+ "_" + PROFILE)));
 	}
 
 	/**
@@ -95,19 +99,21 @@ public class ScriptUtils {
 		return true;
 	}
 
-	public static void safeMove(final Entity e, final Vector2 delta,
+	public static Vector2 safeMove(final Entity e, final Vector2 delta,
 			final Entity... opposing) {
 		e.pos = e.pos.add(delta);
-		moveOut(e, opposing);
+		return moveOut(e, opposing);
 	}
 
-	public static void moveOut(final Entity self, final Entity... entities) {
+	public static Vector2 moveOut(final Entity self, final Entity... entities) {
+		Vector2 delta = new Vector2();
 		for (Entity entity : entities) {
 			if (self != entity && isColliding(entity, self)) {
-				self.pos = self.pos.add(findBestVectorOut(self, entity).scale(
-						1.1f));
+				self.pos = self.pos.add(delta = findBestVectorOut(self, entity)
+						.scale(1.1f));
 			}
 		}
+		return delta;
 	}
 
 	public static Vector2 findBestVectorOut(final Entity toMove,
