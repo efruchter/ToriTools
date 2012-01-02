@@ -42,7 +42,6 @@ public class BurdScript implements EntityScript {
 
 		boolean flapped = false;
 
-		self.sprite.setCycle(0);
 		if (BurdGame.keys.isPressed(KeyEvent.VK_SPACE)) {
 			physicsModule.addVelocity(new Vector2(0, -vSpeed));
 			flapped = true;
@@ -50,24 +49,30 @@ public class BurdScript implements EntityScript {
 
 		if (BurdGame.keys.isPressed(KeyEvent.VK_A)) {
 			physicsModule.addVelocity(new Vector2(-hSpeed, 0));
-			self.sprite.setCycle(1);
 		}
 		if (BurdGame.keys.isPressed(KeyEvent.VK_D)) {
 			physicsModule.addVelocity(new Vector2(hSpeed, 0));
-			self.sprite.setCycle(2);
+
 		}
 
 		Vector2 delta = physicsModule.onUpdate();
 
-		float normalForce = ScriptUtils.safeMove(self, delta,
-				level.solids.toArray(new Entity[0])).mag();
+		boolean onGround = ScriptUtils.safeMove(self, delta,
+				level.solids.toArray(new Entity[0])).mag() != 0;
 
-		if (normalForce != 0)
+		if (onGround)
 			physicsModule.setgDrag(.95f);
 		else
 			physicsModule.setgDrag(1f);
 
-		if (flapped) {
+		if (Math.abs(delta.x) < 1)
+			self.sprite.setCycle(0);
+		else if (delta.x < 0)
+			self.sprite.setCycle(1);
+		else
+			self.sprite.setCycle(2);
+
+		if (flapped || (onGround && Math.abs(delta.x) > 1)) {
 			self.sprite.nextFrame();
 		} else {
 			// make the wing match the motion
