@@ -20,7 +20,7 @@ public class PhysicsModule {
 	 */
 	private final Vector2 g;
 
-	private final float gDrag;
+	private float gDrag;
 
 	private final Entity self;
 
@@ -53,12 +53,14 @@ public class PhysicsModule {
 		Vector2 velocity = self.pos.sub(prePos).add(acc);
 
 		// cap the speed
-		velocity = velocity.unit().scale(Math.min(velocity.mag(), 25) * gDrag);
+		velocity = velocity.unit().scale(velocity.mag());
+		
+		velocity = velocity.unit().scale(velocity.mag() * getgDrag());
 
 		prePos = self.pos.clone();
 
 		acc.clear();
-
+		
 		return velocity;
 	}
 
@@ -80,5 +82,21 @@ public class PhysicsModule {
 	
 	public void clearYVelocity() {
 		prePos.y = self.pos.y;
+	}
+	
+	public void addAcceleration(final Vector2 a) {
+		acc = acc.add(a);
+	}
+	
+	public float getMass() {
+		return 1f;
+	}
+	
+	public void setgDrag(final float drag) {
+		gDrag = drag;
+	}
+
+	public float getgDrag() {
+		return gDrag;
 	}
 }

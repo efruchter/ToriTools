@@ -240,6 +240,6 @@
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 800.0;sprite.sheet = bread.png;position.x = 1344.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 576.0;sprite.sheet = bread.png;position.x = 1312.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 288.0;sprite.sheet = bread.png;position.x = 1984.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
-<entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 384.0;sprite.timeScale = 3;position.x = 256.0;layer = 0;type = player;hSpeed = .2;id = player;dimensions.y = 20;solid = false;sprite.sheet = burd.png, 3, 4;description = an burd;vSpeed = .4f;dimensions.x = 20;"/>
+<entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 384.0;sprite.timeScale = 3;position.x = 256.0;layer = 0;type = player;hSpeed = .2;id = player;dimensions.y = 20;solid = false;sprite.sheet = burd.png, 4, 4;description = an burd;vSpeed = .4f;dimensions.x = 20;"/>
 </objects>
 </level>
