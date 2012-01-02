@@ -854,18 +854,30 @@ public class LevelEditor {
 		Collections.sort(entities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity a, Entity b) {
-				return new Integer(b.layer).compareTo(new Integer(a.layer));
+				int ret = new Integer(b.layer).compareTo(new Integer(a.layer));
+				if (ret == 0){
+					if ("WALL".equals(a.type))
+						return 1;
+					else if ("WALL".equals(b.type))
+						return -1;
+					else
+						return 0;
+				} else {
+					return ret;
+				}
 			}
 		});
 		for (Entity e : entities) {
 			if (layerEditor.isLayerVisible(e.layer))
 				e.draw(g, new Vector2());
-			if (selected == e) {
-				g.setColor(Color.RED);
-				g.drawRect((int) e.pos.getX(), (int) e.pos.getY(),
-						(int) e.dim.getX(), (int) e.dim.getY());
-			}
 		}
+		
+		if (selected != null) {
+			g.setColor(Color.GREEN);
+			g.drawRect((int) selected.pos.getX(), (int) selected.pos.getY(),
+					   (int) selected.dim.getX(), (int) selected.dim.getY());
+		}
+		
 		g.setColor(Color.RED);
 		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
 
