@@ -206,7 +206,12 @@ public class BurdGame {
 
 	private void setupLevel() {
 
-		level.getEntityWithId("player").script = new BurdScript();
+		try {
+			level.getEntityWithId("player").script = new BurdScript();
+		} catch(final NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "This level is missing a Burd (player.entity)!");
+			System.exit(0);
+		}
 
 		level.onSpawn();
 		
