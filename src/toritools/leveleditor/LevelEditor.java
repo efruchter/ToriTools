@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -249,15 +250,11 @@ public class LevelEditor {
 			Node recentNode = configNode.getAttributes().getNamedItem("recent");
 			if (recentNode != null) {
 				File f;
-				if (!(f = new File(recentNode.getNodeValue())).exists())
-					throw new NullPointerException();
-				setLevelFile(f);
-
+				if ((f = new File(recentNode.getNodeValue())).exists())
+					setLevelFile(f);
 			}
 		} catch (final Exception NullPointer) {
-			JOptionPane.showMessageDialog(null,
-					"There was an issue loading the recent level file!");
-			setLevelFile(importNewFileDialog("Open Level file", "xml files", ".xml"));
+			//Do nothing
 		}
 
 		setupGUI();
@@ -299,6 +296,10 @@ public class LevelEditor {
 			ParserConfigurationException, TransformerException {
 		// Create the essential level.xml file
 		clear();
+		
+		if (levelFile == null)
+			return;
+		
 		if (levelFile.exists()) {
 			Document doc = ToriXML.parse(levelFile);
 			loadLevel(doc);
@@ -378,16 +379,47 @@ public class LevelEditor {
 		 */
 
 		JMenu fileMenu = new JMenu("File");
+		JMenuItem newLevel = new JMenuItem("New");
+		newLevel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+		newLevel.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String levelName;
+				if (levelFile != null)
+					levelName = levelFile.getName().substring(0, levelFile.getName().lastIndexOf("."));
+				else
+					levelName = "new level";
+				int ret = JOptionPane.showConfirmDialog(null, "Do you want to save changes you made to " + levelName + "?");
+				if (ret == JOptionPane.YES_OPTION) {
+					try {
+						if (!saveLevel())
+							return;
+						else
+							saveConfig();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else if (ret == JOptionPane.CANCEL_OPTION) {
+					return;
+				}
+				clear();
+				levelFile = null;
+				repaint();
+			}
+		});
+		fileMenu.add(newLevel);
+		
 		JMenuItem open = new JMenuItem("Open");
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				Event.CTRL_MASK));
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File f = importNewFileDialog("Open Level file", "xml files", ".xml");
+				File f = importNewFileDialog("Open Level File", "XML file (*.xml)", "xml");
 				if (f != null) {
 					setLevelFile(f);
 					try {
 						reloadLevel();
+						repaint();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -395,12 +427,13 @@ public class LevelEditor {
 			}
 		});
 		fileMenu.add(open);
+		
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					saveLevel();
-					JOptionPane.showMessageDialog(null, "Level Saved!");
+					if (saveLevel())
+						JOptionPane.showMessageDialog(null, "Level Saved!");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -438,7 +471,7 @@ public class LevelEditor {
 		JMenuItem importXml = new JMenuItem("Import Entity Template");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File f = importNewFileDialog("Load New Entity Template", "entity files", ".entity");
+				File f = importNewFileDialog("Load New Entity Template", "Entity files (*.entity)", "entity");
 				if (f != null)
 					try {
 						importEntity(f);
@@ -611,12 +644,13 @@ public class LevelEditor {
 	/**
 	 * Save level.xml.
 	 * 
+	 * @return true if the save was successful; false otherwise
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 * @throws IOException
 	 * @throws DOMException
 	 */
-	public void saveLevel() throws ParserConfigurationException,
+	public boolean saveLevel() throws ParserConfigurationException,
 			TransformerException, DOMException, IOException {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -658,7 +692,20 @@ public class LevelEditor {
 			objectsElements.appendChild(object);
 		}
 
-		ToriXML.saveXMLDoc(levelFile, doc);
+		if (levelFile != null) {
+			ToriXML.saveXMLDoc(levelFile, doc);
+			return true;
+		} else {
+			File file = importNewFileDialog("Save New Level File", "XML file (*.xml)", "xml");
+			if (file != null) {				
+				setLevelFile(file);
+				ToriXML.saveXMLDoc(levelFile, doc);
+				repaint();
+				return true;
+			} else {
+				return false;
+			}			
+		}
 	}
 
 	/**
@@ -714,23 +761,21 @@ public class LevelEditor {
 	/**
 	 * Bring up a file picker to import a new item.
 	 */
-	private File importNewFileDialog(final String title, final String description, final String filter) {
+	private File importNewFileDialog(final String title, final String description, final String extension) {
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.addChoosableFileFilter(new FileFilter(){
-			@Override
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().endsWith(filter);
-			}
-
-			@Override
-			public String getDescription() {
-				return description;
-			}			
-		});
 		fileChooser.setCurrentDirectory(workingDirectory);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(description, extension);
+	    fileChooser.setFileFilter(filter);
+	    fileChooser.setAcceptAllFileFilterUsed(false);
 		int ret = fileChooser.showDialog(null, title);
 		if (ret == JFileChooser.APPROVE_OPTION) {
-			return fileChooser.getSelectedFile();
+			File file = fileChooser.getSelectedFile();
+			String path = file.getAbsolutePath();		
+			String ext = "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];		
+			if(!path.endsWith(ext)) {
+				file = new File(path + ext);
+			}
+			return file;
 		}
 		return null;
 	}
@@ -851,7 +896,10 @@ public class LevelEditor {
 	 * Forces repaint on frame and updates status bar.
 	 */
 	public void repaint() {
-		fileLabel.setText(levelFile.getName());
+		if (levelFile != null)
+			fileLabel.setText(levelFile.getName().substring(0, levelFile.getName().lastIndexOf(".")));
+		else
+			fileLabel.setText("new level");
 		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "
 				+ (int) gridSize.getHeight());
 		levelSizeLabel.setText("Level Size: " + (int) levelSize.getWidth()
