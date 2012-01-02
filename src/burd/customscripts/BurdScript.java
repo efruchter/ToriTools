@@ -19,7 +19,7 @@ public class BurdScript implements EntityScript {
 	/**
 	 * defaults overwritten by player.entity settings.
 	 */
-	private float hSpeed = .2f, vSpeed = .4f;
+	private float hSpeed = .1f, vSpeed = .3f;
 
 	private Vector2 startPos;
 
@@ -27,25 +27,13 @@ public class BurdScript implements EntityScript {
 
 	public void onSpawn(Level level, Entity self) {
 
-		hSpeed = self.variables.getFloat("hSpeed");
-
-		vSpeed = self.variables.getFloat("vSpeed");
+//		hSpeed = self.variables.getFloat("hSpeed");
+//
+//		vSpeed = self.variables.getFloat("vSpeed");
 
 		startPos = self.pos.clone();
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
-
-		System.out.println("The burd is spawned!");
-		String warpTo;
-		if ((warpTo = ScriptUtils.getVar("warpTo")) != null) {
-			Entity portal;
-			if ((portal = level.getEntityWithId(warpTo)) != null) {
-				self.pos = portal.pos.clone();
-				ScriptUtils.setVar("warpTo", null);
-			} else {
-				System.out.println("Could not warp burd to " + warpTo + "!");
-			}
-		}
 
 		physicsModule.onStart();
 	}
@@ -57,7 +45,7 @@ public class BurdScript implements EntityScript {
 		boolean moved = false;
 
 		if (rightKey && leftKey) {
-			physicsModule.addVelocity(new Vector2(0, vSpeed / 2));
+			physicsModule.addVelocity(new Vector2(0, vSpeed / 4));
 			physicsModule.clearXVelocity();
 			self.sprite.setCylcle(0);
 			moved = true;
@@ -85,14 +73,16 @@ public class BurdScript implements EntityScript {
 					blood.pos = self.pos.clone();
 					level.spawnEntity(blood);
 				}
-				self.pos = startPos.clone();
-				physicsModule.clearVelocity();
 				if (!breadsEaten.isEmpty()) {
 					for (Entity bread : breadsEaten) {
+						bread.pos = self.pos.clone();
 						level.spawnEntity(bread);
 					}
 					breadsEaten.clear();
 				}
+				self.pos = startPos.clone();
+				physicsModule.clearVelocity();
+				break;
 			}
 
 		}
@@ -127,7 +117,5 @@ public class BurdScript implements EntityScript {
 	private Entity latestFlag;
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
-		if (isRoomExit)
-			System.out.println("Goodbye burd.");
 	}
 }

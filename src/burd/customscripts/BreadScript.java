@@ -15,16 +15,12 @@ public class BreadScript implements EntityScript {
 	@Override
 	public void onSpawn(Level level, Entity self) {
 
-		Vector2 playerPos = level.getEntityWithId("player").pos;
-
 		// First spawn
 		if (origPos == null) {
 			origPos = self.pos.clone();
 		}
 
-		chain = new MidpointChain(playerPos, origPos, 90);
-
-		self.pos = chain.getA().clone();
+		chain = new MidpointChain(self.pos.clone(), origPos, 20);
 
 		self.active = false;
 	}

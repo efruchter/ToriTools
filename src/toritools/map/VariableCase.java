@@ -60,6 +60,19 @@ public class VariableCase {
 		return 0;
 	}
 
+	public float getFloatOrDefault(final String key, final float defaultFloat) {
+		String f = variables.get(key);
+		if (f == null) {
+			return defaultFloat;
+		} else {
+			try {
+				return Float.parseFloat(f);
+			} catch (final NumberFormatException e) {
+				return defaultFloat;
+			}
+		}
+	}
+
 	public double getInteger(final String key) {
 		try {
 			return Integer.parseInt(variables.get(key));

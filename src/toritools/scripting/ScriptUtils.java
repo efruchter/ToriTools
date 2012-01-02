@@ -76,19 +76,19 @@ public class ScriptUtils {
 
 	public static boolean isColliding(final Entity a, final Entity b) {
 		// left of
-		if (a.pos.x + a.dim.x < b.pos.x) {
+		if (a.pos.x + a.dim.x <= b.pos.x) {
 			return false;
 		}
 		// below
-		else if (a.pos.y + a.dim.y < b.pos.y) {
+		else if (a.pos.y + a.dim.y <= b.pos.y) {
 			return false;
 		}
 		// right
-		else if (b.pos.x + b.dim.x < a.pos.x) {
+		else if (b.pos.x + b.dim.x <= a.pos.x) {
 			return false;
 		}
 		// above
-		else if (b.pos.y + b.dim.y < a.pos.y) {
+		else if (b.pos.y + b.dim.y <= a.pos.y) {
 			return false;
 		}
 

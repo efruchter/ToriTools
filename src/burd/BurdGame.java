@@ -49,6 +49,7 @@ import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 import burd.customscripts.BreadScript;
 import burd.customscripts.BurdScript;
+import burd.customscripts.ScrollScript;
 
 public class BurdGame {
 
@@ -217,6 +218,16 @@ public class BurdGame {
 			e.script = new BreadScript();
 			e.onSpawn(level);
 		}
+		
+		for (Entity e: level.getEntitiesWithType("hScroll")) {
+			e.script = new ScrollScript(true);
+			e.onSpawn(level);
+		}
+		
+		for (Entity e: level.getEntitiesWithType("vScroll")) {
+			e.script = new ScrollScript(false);
+			e.onSpawn(level);
+		}
 	}
 
 	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,
@@ -345,6 +356,7 @@ public class BurdGame {
 		try {
 			File levelFile = new File("burd/level" + ++currLevel + ".xml");
 			if (levelFile.canRead()) {
+				System.out.println(currLevel);
 				warpToLevel(Importer.importLevel(levelFile));
 			} else {
 				JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
