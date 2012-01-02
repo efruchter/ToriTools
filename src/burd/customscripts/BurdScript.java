@@ -119,11 +119,6 @@ public class BurdScript implements EntityScript {
 				if (bread.active && ScriptUtils.isColliding(bread, self)) {
 					level.killEntity(bread);
 					breadsEaten.add(bread);
-					for (int i = 0; i < 5; i++) {
-						Entity crumb = VolcanoParticleScript.getBreadCrumb();
-						crumb.pos = self.pos.clone();
-						level.spawnEntity(crumb);
-					}
 				}
 			}
 		}

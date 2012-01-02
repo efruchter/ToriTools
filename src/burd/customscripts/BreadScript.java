@@ -41,8 +41,11 @@ public class BreadScript implements EntityScript {
 
 	@Override
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < 5; i++) {
+			Entity crumb = VolcanoParticleScript.getBreadCrumb();
+			crumb.pos = self.pos.clone();
+			level.spawnEntity(crumb);
+		}
 	}
 
 }
