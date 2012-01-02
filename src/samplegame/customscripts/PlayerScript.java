@@ -32,24 +32,24 @@ public class PlayerScript implements EntityScript {
 		if (SampleGame.keys.isPressed(KeyEvent.VK_A)) {
 			walked = true;
 			delta.x -= speed;
-			self.sprite.setCylcle(1);
+			self.sprite.setCycle(1);
 		}
 		if (SampleGame.keys.isPressed(KeyEvent.VK_D)) {
 			walked = true;
 			delta.x += speed;
-			self.sprite.setCylcle(2);
+			self.sprite.setCycle(2);
 		}
 
 		if (SampleGame.keys.isPressed(KeyEvent.VK_W)) {
 			walked = true;
 			delta.y -= speed;
-			self.sprite.setCylcle(3);
+			self.sprite.setCycle(3);
 		}
 
 		if (SampleGame.keys.isPressed(KeyEvent.VK_S)) {
 			walked = true;
 			delta.y += speed;
-			self.sprite.setCylcle(0);
+			self.sprite.setCycle(0);
 		}
 
 		ScriptUtils.safeMove(self, delta, level.solids.toArray(new Entity[0]));

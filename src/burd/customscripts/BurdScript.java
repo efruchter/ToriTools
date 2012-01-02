@@ -19,7 +19,7 @@ public class BurdScript implements EntityScript {
 	/**
 	 * defaults overwritten by player.entity settings.
 	 */
-	private float hSpeed = .1f, vSpeed = .3f;
+	private float hSpeed = .2f, vSpeed = .5f;
 
 	private Vector2 startPos;
 
@@ -27,9 +27,9 @@ public class BurdScript implements EntityScript {
 
 	public void onSpawn(Level level, Entity self) {
 
-//		hSpeed = self.variables.getFloat("hSpeed");
-//
-//		vSpeed = self.variables.getFloat("vSpeed");
+		// hSpeed = self.variables.getFloat("hSpeed");
+		//
+		// vSpeed = self.variables.getFloat("vSpeed");
 
 		startPos = self.pos.clone();
 
@@ -39,28 +39,19 @@ public class BurdScript implements EntityScript {
 	}
 
 	public void onUpdate(Level level, Entity self) {
-		boolean leftKey = BurdGame.keys.isPressed(KeyEvent.VK_Z);
-		boolean rightKey = BurdGame.keys.isPressed(KeyEvent.VK_M);
 
-		boolean moved = false;
-
-		if (rightKey && leftKey) {
-			physicsModule.addVelocity(new Vector2(0, vSpeed / 4));
-			physicsModule.clearXVelocity();
-			self.sprite.setCylcle(0);
-			moved = true;
-		} else if (leftKey) {
-			physicsModule.addVelocity(new Vector2(-hSpeed, -vSpeed));
-			self.sprite.setCylcle(1);
-			moved = true;
-		} else if (rightKey) {
-			physicsModule.addVelocity(new Vector2(hSpeed, -vSpeed));
-			self.sprite.setCylcle(2);
-			moved = true;
-		}
-
-		if (moved) {
+		self.sprite.setCycle(0);
+		if (BurdGame.keys.isPressed(KeyEvent.VK_SPACE)) {
+			physicsModule.addVelocity(new Vector2(0, -vSpeed));
 			self.sprite.nextFrame();
+		}
+		if (BurdGame.keys.isPressed(KeyEvent.VK_A)) {
+			physicsModule.addVelocity(new Vector2(-hSpeed, 0));
+			self.sprite.setCycle(1);
+		}
+		if (BurdGame.keys.isPressed(KeyEvent.VK_D)) {
+			physicsModule.addVelocity(new Vector2(hSpeed, 0));
+			self.sprite.setCycle(2);
 		}
 
 		ScriptUtils.safeMove(self, physicsModule.onUpdate(),

@@ -48,7 +48,7 @@ public class Sprite {
 		x = frame % xSplit;
 	}
 
-	public void setCylcle(final int cycle) {
+	public void setCycle(final int cycle) {
 		y = cycle % ySplit;
 	}
 

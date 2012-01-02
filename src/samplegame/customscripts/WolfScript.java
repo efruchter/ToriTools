@@ -47,18 +47,18 @@ public class WolfScript implements EntityScript {
         case DOWN:
         case DOWN_RIGHT:
         case DOWN_LEFT:
-            self.sprite.setCylcle(3);
+            self.sprite.setCycle(3);
             break;
         case UP:
         case UP_RIGHT:
         case UP_LEFT:
-            self.sprite.setCylcle(0);
+            self.sprite.setCycle(0);
             break;
         case RIGHT:
-            self.sprite.setCylcle(2);
+            self.sprite.setCycle(2);
             break;
         case LEFT:
-            self.sprite.setCylcle(1);
+            self.sprite.setCycle(1);
             break;
         }
 

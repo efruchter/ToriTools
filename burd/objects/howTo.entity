@@ -1,6 +1,6 @@
 type = tutorial;
 description = describe the controls;
-dimensions.x = 240;
+dimensions.x = 360;
 dimensions.y = 166;
 solid = false;
 
