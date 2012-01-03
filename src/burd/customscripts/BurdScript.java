@@ -82,6 +82,9 @@ public class BurdScript implements EntityScript {
 
 		for (Entity spike : level.getEntitiesWithType("spike")) {
 			if (ScriptUtils.isColliding(spike, self)) {
+				for (Entity bread : level.getEntitiesWithType("bread")) {
+					bread.active = true;
+				}
 				for (int i = 0; i < 15; i++) {
 					Entity blood = VolcanoParticleScript.getBlood();
 					blood.pos = self.pos.clone();
@@ -95,8 +98,7 @@ public class BurdScript implements EntityScript {
 		}
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
-			if (ScriptUtils.isColliding(flag, self)
-					&& (flag != latestFlag)) {
+			if (ScriptUtils.isColliding(flag, self) && (flag != latestFlag)) {
 				if (latestFlag != null)
 					latestFlag.sprite.setFrame(0);
 				latestFlag = flag;
