@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -43,15 +44,21 @@ import javax.swing.Timer;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.io.FontLoader;
 import toritools.io.Importer;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
+import toritools.timing.StopWatch;
 import burd.customscripts.BreadScript;
 import burd.customscripts.BurdScript;
 import burd.customscripts.ScrollScript;
 
 public class BurdGame {
+
+	{
+		FontLoader.loadFonts(new File("burd/fonts"));
+	}
 
 	public static String savePrefix = "burd2";
 
@@ -72,6 +79,7 @@ public class BurdGame {
 	public static KeyHolder keys = new KeyHolder();
 	public static boolean inDialog = false;
 	private static String displayString = "";
+	private static StopWatch stopWatch = new StopWatch();
 
 	/**
 	 * Application initiation
@@ -206,6 +214,8 @@ public class BurdGame {
 
 	private void setupLevel() {
 
+		stopWatch.start();
+
 		try {
 			level.getEntityWithId("player").script = new BurdScript();
 		} catch (final NullPointerException e) {
@@ -241,6 +251,8 @@ public class BurdGame {
 	private Graphics bufferGraphics = bufferImage.getGraphics();
 
 	private void render(final Graphics rootCanvas) {
+		rootCanvas
+				.setFont(new Font("Earth's Mightiest", Font.TRUETYPE_FONT, 40));
 		if (level == null) {
 			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 			rootCanvas.setColor(Color.BLACK);
@@ -273,16 +285,21 @@ public class BurdGame {
 				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
 				null);
 		rootCanvas.setColor(Color.BLACK);
-		String infoString = "[Z/M] Flap Each Wing  |  [ZM] Dive"
-				+ "  |  [I/O] Zoom: " + zoom.x + "  |  [K] Debug Mode: "
-				+ debug + "  |  [P] Next Level  |  [Esc] Quit";
+		String infoString = "[I/O] Zoom: " + zoom.x + "    [K] Debug Mode: "
+				+ debug + "    [P] Next Level    [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 
+		/*
+		 * HUD
+		 */
+		rootCanvas.drawString("Time: " + stopWatch.getElapsedTimeSecs(),
+				(int) 20, 40);
+
 		int xIndex = 0;
 		for (Entity bread : level.getEntitiesWithType("bread")) {
-			bread.sprite.draw(rootCanvas, bread, new Vector2(bread.dim.y
-					+ xIndex++ * bread.dim.x * 1.5f, bread.dim.y), bread.dim);
+			bread.sprite.draw(rootCanvas, bread, new Vector2(20 + xIndex++
+					* bread.dim.x * 1.5f, 50), bread.dim);
 		}
 
 		if (displayString != null) {
@@ -380,8 +397,9 @@ public class BurdGame {
 		}
 	}
 
-	public void drawChain(final Vector2[] chain, final Vector2 offset,
-			final Graphics g) {
+	@SuppressWarnings("unused")
+	private void drawChain(final Graphics g, final Vector2[] chain,
+			final Vector2 offset) {
 		for (int i = 1; i < chain.length; i++) {
 			g.drawLine((int) (chain[i - 1].x + offset.x),
 					(int) (chain[i - 1].y + offset.y),
