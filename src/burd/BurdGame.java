@@ -189,29 +189,33 @@ public class BurdGame {
 
 		level.onUpdate();
 
-		if (keys.isPressed(KeyEvent.VK_P)) {
-			nextLevel();
-		}
+		if (debug) {
 
-		if (keys.isPressed(KeyEvent.VK_I)) {
-			zoom.x += .1;
-			zoom.y += .1;
-		}
-		if (keys.isPressed(KeyEvent.VK_O)) {
-			zoom.x -= .1;
-			zoom.y -= .1;
-			if (zoom.x < 1)
-				zoom.set(1, 1);
-		}
-		
-		if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
-			try {
-				Entity e = Importer.importEntity(new File("burd/objects/bread.entity"), null);
-				e.pos = level.getEntityWithId("player").pos.clone();
-				e.script = new BreadScript();
-				level.spawnEntity(e);
-			} catch (final Exception w) {
-				w.printStackTrace();
+			if (keys.isPressed(KeyEvent.VK_P)) {
+				nextLevel();
+			}
+
+			if (keys.isPressed(KeyEvent.VK_I)) {
+				zoom.x += .1;
+				zoom.y += .1;
+			}
+			if (keys.isPressed(KeyEvent.VK_O)) {
+				zoom.x -= .1;
+				zoom.y -= .1;
+				if (zoom.x < 1)
+					zoom.set(1, 1);
+			}
+
+			if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
+				try {
+					Entity e = Importer.importEntity(new File(
+							"burd/objects/bread.entity"), null);
+					e.pos = level.getEntityWithId("player").pos.clone();
+					e.script = new BreadScript();
+					level.spawnEntity(e);
+				} catch (final Exception w) {
+					w.printStackTrace();
+				}
 			}
 		}
 
@@ -302,10 +306,12 @@ public class BurdGame {
 				-(int) ((xScalePix - VIEWPORT.x) / 2),
 				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
 				null);
-		rootCanvas.setColor(Color.BLACK);
-		String infoString = "[I/O] Zoom: " + zoom.x + "    [K] Debug Mode: "
-				+ debug + "    [P] Next Level  [L] SPAWN EGGS  [Esc] Quit";
 
+		rootCanvas.setColor(Color.BLACK);
+		String infoString = "[Esc] Quit  [K] Debug Mode: " + debug;
+		if (debug)
+			infoString = infoString + "  [I/O] Zoom: " + zoom.x
+					+ "  [P] Next Level  [L] SPAWN EGGS";
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 
 		/*
