@@ -208,28 +208,29 @@ public class BurdGame {
 
 		try {
 			level.getEntityWithId("player").script = new BurdScript();
-		} catch(final NullPointerException e) {
-			JOptionPane.showMessageDialog(null, "This level is missing a Burd (player.entity)!");
+		} catch (final NullPointerException e) {
+			JOptionPane.showMessageDialog(null,
+					"This level is missing a Burd (player.entity)!");
 			System.exit(0);
 		}
 
 		level.onSpawn();
-		
+
 		/*
 		 * Special spawns, will be fixed.
 		 */
-		
-		for (Entity e: level.getEntitiesWithType("bread")) {
+
+		for (Entity e : level.getEntitiesWithType("bread")) {
 			e.script = new BreadScript();
 			e.onSpawn(level);
 		}
-		
-		for (Entity e: level.getEntitiesWithType("hScroll")) {
+
+		for (Entity e : level.getEntitiesWithType("hScroll")) {
 			e.script = new ScrollScript(true);
 			e.onSpawn(level);
 		}
-		
-		for (Entity e: level.getEntitiesWithType("vScroll")) {
+
+		for (Entity e : level.getEntitiesWithType("vScroll")) {
 			e.script = new ScrollScript(false);
 			e.onSpawn(level);
 		}
@@ -277,6 +278,12 @@ public class BurdGame {
 				+ debug + "  |  [P] Next Level  |  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
+
+		int xIndex = 0;
+		for (Entity bread : level.getEntitiesWithType("bread")) {
+			bread.sprite.draw(rootCanvas, bread, new Vector2(bread.dim.y
+					+ xIndex++ * bread.dim.x * 1.5f, bread.dim.y), bread.dim);
+		}
 
 		if (displayString != null) {
 			rootCanvas.drawString(displayString, (int) VIEWPORT.x / 2,
