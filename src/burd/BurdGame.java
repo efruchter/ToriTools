@@ -203,6 +203,17 @@ public class BurdGame {
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
+		
+		if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
+			try {
+				Entity e = Importer.importEntity(new File("burd/objects/bread.entity"), null);
+				e.pos = level.getEntityWithId("player").pos.clone();
+				e.script = new BreadScript();
+				level.spawnEntity(e);
+			} catch (final Exception w) {
+				w.printStackTrace();
+			}
+		}
 
 		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug;
 
@@ -293,7 +304,7 @@ public class BurdGame {
 				null);
 		rootCanvas.setColor(Color.BLACK);
 		String infoString = "[I/O] Zoom: " + zoom.x + "    [K] Debug Mode: "
-				+ debug + "    [P] Next Level    [Esc] Quit";
+				+ debug + "    [P] Next Level  [L] SPAWN EGGS  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 

@@ -42,9 +42,10 @@ public class BreadScript implements EntityScript {
 
 	@Override
 	public void onUpdate(Level level, Entity self) {
+		boolean grabeable = Vector2.dist(chain.getA(), chain.getB()) < 10;
 		if (self.active) {
 			chain.setB(origPos);
-			if (ScriptUtils.isColliding(self, player)) {
+			if (grabeable && ScriptUtils.isColliding(self, player)) {
 				self.active = false;
 				trailBread = trailingQueue.isEmpty() ? player : trailingQueue
 						.get(trailingQueue.size() - 1);
@@ -60,7 +61,7 @@ public class BreadScript implements EntityScript {
 				trailBread = index == 0 ? player : trailingQueue.get(index - 1);
 			}
 		}
-		if (Vector2.dist(chain.getA(), chain.getB()) > 10)
+		if (!grabeable)
 			chain.smoothTowardB();
 		self.pos = chain.getA();
 
