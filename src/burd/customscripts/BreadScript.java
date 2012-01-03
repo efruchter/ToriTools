@@ -78,6 +78,7 @@ public class BreadScript implements EntityScript {
 	@Override
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
 		trailingQueue.remove(self);
+		remainingList.remove(self);
 		for (int i = 0; i < 5; i++) {
 			Entity blood = VolcanoParticleScript.getSparkle();
 			blood.pos = self.pos.clone();
