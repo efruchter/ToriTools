@@ -1,0 +1,9 @@
+type = nest;
+description = Drag eggs here to win!;
+dimensions.x = 128;
+dimensions.y = 64;
+solid = false;
+
+sprite.sheet = nest.png;
+
+

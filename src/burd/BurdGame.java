@@ -173,6 +173,11 @@ public class BurdGame {
 	 */
 	private void logic() {
 
+		// Win condition
+		if (level.getEntitiesWithType("bread").isEmpty()) {
+			nextLevel();
+		}
+
 		displayString = null;
 
 		if (newLevel != null) {
@@ -218,6 +223,7 @@ public class BurdGame {
 
 		try {
 			level.getEntityWithId("player").script = new BurdScript();
+			level.getEntityWithId("player").visible = false;
 		} catch (final NullPointerException e) {
 			JOptionPane.showMessageDialog(null,
 					"This level is missing a Burd (player.entity)!");
@@ -276,6 +282,7 @@ public class BurdGame {
 				if (e.visible)
 					e.draw(bufferGraphics, offset);
 			}
+		level.getEntityWithId("player").draw(bufferGraphics, offset);
 
 		// Draw to the actual screen, scaled.
 		int xScalePix = (int) (zoom.x * VIEWPORT.x);
@@ -296,10 +303,19 @@ public class BurdGame {
 		rootCanvas.drawString("Time: " + stopWatch.getElapsedTimeSecs(),
 				(int) 20, 40);
 
-		int xIndex = 0;
-		for (Entity bread : level.getEntitiesWithType("bread")) {
-			bread.sprite.draw(rootCanvas, bread, new Vector2(20 + xIndex++
-					* bread.dim.x * 1.5f, 50), bread.dim);
+		if (!BreadScript.remainingList.isEmpty()) {
+			int xIndex = 0;
+			for (Entity bread : BreadScript.remainingList) {
+				bread.sprite.draw(rootCanvas, bread, new Vector2(20 + xIndex++
+						* bread.dim.x * 1.5f, 50), bread.dim);
+			}
+		} else {
+			int xIndex = 0;
+			for (Entity nest : level.getEntitiesWithType("nest")) {
+				level.getEntitiesWithType("nest").get(0).sprite.draw(
+						rootCanvas, nest, new Vector2(20 + xIndex++
+								* nest.dim.x * 1.5f, 50), nest.dim);
+			}
 		}
 
 		if (displayString != null) {

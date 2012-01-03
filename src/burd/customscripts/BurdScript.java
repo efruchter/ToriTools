@@ -1,8 +1,6 @@
 package burd.customscripts;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -22,8 +20,6 @@ public class BurdScript implements EntityScript {
 	private float hSpeed = .2f, vSpeed = .5f;
 
 	private Vector2 startPos;
-
-	private List<Entity> breadsEaten = new ArrayList<Entity>();
 
 	public void onSpawn(Level level, Entity self) {
 
@@ -86,17 +82,10 @@ public class BurdScript implements EntityScript {
 
 		for (Entity spike : level.getEntitiesWithType("spike")) {
 			if (ScriptUtils.isColliding(spike, self)) {
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < 15; i++) {
 					Entity blood = VolcanoParticleScript.getBlood();
 					blood.pos = self.pos.clone();
 					level.spawnEntity(blood);
-				}
-				if (!breadsEaten.isEmpty()) {
-					for (Entity bread : breadsEaten) {
-						bread.pos = self.pos.clone();
-						level.spawnEntity(bread);
-					}
-					breadsEaten.clear();
 				}
 				self.pos = startPos.clone();
 				physicsModule.clearVelocity();
@@ -107,29 +96,13 @@ public class BurdScript implements EntityScript {
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
 			if (ScriptUtils.isColliding(flag, self)
-					&& (flag != latestFlag || !breadsEaten.isEmpty())) {
+					&& (flag != latestFlag)) {
+				if (latestFlag != null)
+					latestFlag.sprite.setFrame(0);
 				latestFlag = flag;
-				if (!breadsEaten.isEmpty())
-					breadsEaten.clear();
+				latestFlag.sprite.setFrame(1);
 				startPos = flag.pos.clone();
-				for (int i = 0; i < 10; i++) {
-					Entity sparkle = VolcanoParticleScript.getSparkle();
-					sparkle.pos = self.pos.clone();
-					level.spawnEntity(sparkle);
-				}
 			}
-
-		List<Entity> breads = level.getEntitiesWithType("bread");
-		if (breads == null || breads.isEmpty()) {
-			BurdGame.nextLevel();
-		} else {
-			for (Entity bread : breads) {
-				if (bread.active && ScriptUtils.isColliding(bread, self)) {
-					level.killEntity(bread);
-					breadsEaten.add(bread);
-				}
-			}
-		}
 	}
 
 	private Entity latestFlag;

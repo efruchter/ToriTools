@@ -4,4 +4,4 @@ dimensions.x = 64;
 dimensions.y = 64;
 solid = false;
 
-sprite.sheet = flag.png;
+sprite.sheet = flag.png , 2, 1;
