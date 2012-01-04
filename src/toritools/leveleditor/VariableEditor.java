@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -20,7 +21,8 @@ import toritools.entity.Entity;
 
 @SuppressWarnings("serial")
 public class VariableEditor extends JPanel {
-	private JButton addVarButton = new JButton(" + ");
+	private JButton addVarButton = new JButton(" + "),
+			resetVarButton = new JButton("Reset All");
 	private JPanel buttonPanel = new JPanel();
 	private Entity entity;
 	private HashMap<String, JTextField> keys = new HashMap<String, JTextField>();
@@ -49,6 +51,7 @@ public class VariableEditor extends JPanel {
 		p.setBackground(Color.cyan);
 		p.add(addVarButton);
 		p.add(saveButton);
+		p.add(resetVarButton);
 		add(p);
 		add(new JScrollPane(buttonPanel));
 		this.editor = editor;
@@ -62,6 +65,23 @@ public class VariableEditor extends JPanel {
 					Entity e = getEntity();
 					clear();
 					setEntity(e);
+				}
+			}
+		});
+		resetVarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (getEntity() == null)
+					return;
+				try {
+					getEntity().variables.clear();
+					getEntity().variables.setVariables(editor
+							.importEntity(getEntity().file).variables
+							.getVariables());
+					setEntity(getEntity());
+					JOptionPane.showMessageDialog(null,
+							"Instance variables reset and saved to entity!");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
 				}
 			}
 		});
@@ -104,8 +124,8 @@ public class VariableEditor extends JPanel {
 			for (Entry<String, JTextField> s : keys.entrySet()) {
 				String data = s.getValue().getText();
 				if (!data.isEmpty()) {
-					entity.variables.getVariables()
-							.put(s.getKey(), s.getValue().getText());
+					entity.variables.getVariables().put(s.getKey(),
+							s.getValue().getText());
 				} else {
 					entity.variables.getVariables().remove(s.getKey());
 				}

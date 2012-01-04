@@ -798,7 +798,7 @@ public class LevelEditor {
 	 * @return the generated entity.
 	 * @throws FileNotFoundException
 	 */
-	private Entity importEntity(final File file) throws FileNotFoundException {
+	public Entity importEntity(final File file) throws FileNotFoundException {
 		HashMap<String, String> data = ToriMapIO.readMap(file);
 
 		final Entity e = Importer.importEntity(file, null);
