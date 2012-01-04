@@ -12,20 +12,15 @@ import burd.BurdGame;
 
 public class BurdScript implements EntityScript {
 
-	PhysicsModule physicsModule;
-
-	/**
-	 * defaults overwritten by player.entity settings.
-	 */
+	private PhysicsModule physicsModule;
+	
+	private Entity latestFlag;
+	
 	private float hSpeed = .2f, vSpeed = .5f;
 
 	private Vector2 startPos;
 
 	public void onSpawn(Level level, Entity self) {
-
-		// hSpeed = self.variables.getFloat("hSpeed");
-		//
-		// vSpeed = self.variables.getFloat("vSpeed");
 
 		startPos = self.pos.clone();
 
@@ -108,8 +103,6 @@ public class BurdScript implements EntityScript {
 				startPos = flag.pos.clone();
 			}
 	}
-
-	private Entity latestFlag;
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
 	}
