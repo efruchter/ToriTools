@@ -1,7 +1,7 @@
 type = sparkle;
 description = sparkle!;
-dimensions.x = 16;
-dimensions.y = 16;
+dimensions.x = 25;
+dimensions.y = 25;
 solid = false;
 
 sprite.sheet = sparkle.png;
