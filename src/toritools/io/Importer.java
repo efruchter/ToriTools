@@ -28,7 +28,8 @@ public class Importer {
 	private static HashMap<File, Image> imageCache = new HashMap<File, Image>();
 
 	/**
-	 * Check to see if an image is cached, and get the reference.
+	 * Check to see if an image is cached, and get the reference if it is.
+	 * Otherwise, cache it.
 	 * 
 	 * @param file
 	 *            file of image
@@ -36,7 +37,7 @@ public class Importer {
 	 *            the image reference.
 	 * @return the image reference if cached.
 	 */
-	private static Image cacheImage(final File file, final Image image) {
+	public static Image cacheImage(final File file, final Image image) {
 		if (imageCache.containsKey(file)) {
 			return imageCache.get(file);
 		} else {
@@ -159,7 +160,27 @@ public class Importer {
 				wall.layer = Integer.parseInt(mapData.get("layer"));
 				wall.variables.getVariables().putAll(mapData);
 				level.spawnEntity(wall);
-				continue;
+			} else if (mapData.get("type") != null
+					&& mapData.get("type").equals("BACKGROUND")) {
+				float w = Float.parseFloat(mapData.get("dimensions.x"));
+				float h = Float.parseFloat(mapData.get("dimensions.y"));
+
+				File imageFile = new File(mapData.get("image"));
+
+				Image image = cacheImage(new File(imageFile.getAbsolutePath()),
+						new ImageIcon(imageFile.getAbsolutePath()).getImage());
+
+				int xTile = Integer.parseInt(mapData.get("xTile"));
+				int yTile = Integer.parseInt(mapData.get("yTile"));
+
+				int xTiles = Integer.parseInt(mapData.get("xTiles"));
+				int yTiles = Integer.parseInt(mapData.get("yTiles"));
+
+				Entity background = makeBackground(new Vector2(x, y),
+						new Vector2(w, h), image, xTile, yTile, xTiles, yTiles);
+				background.layer = Integer.parseInt(mapData.get("layer"));
+				background.variables.getVariables().putAll(mapData);
+				level.spawnEntity(background);
 			} else {
 				File f = new File(workingDirectory + mapData.get("template"));
 				Entity ent = importEntity(f, mapData);
@@ -171,6 +192,22 @@ public class Importer {
 			}
 		}
 		return level;
+	}
+
+	public static Entity makeBackground(final Vector2 pos, final Vector2 dim,
+			final Image image, final int x, final int y, final int xTiles,
+			final int yTiles) {
+		Entity bg = new Entity();
+		bg.pos = pos.clone();
+		bg.dim = dim.clone();
+		bg.variables.setVar("dimensions.x", dim.x + "");
+		bg.variables.setVar("dimensions.y", dim.y + "");
+		bg.type = "BACKGROUND";
+		bg.variables.setVar("type", bg.type);
+		bg.sprite = new Sprite(image, xTiles, yTiles);
+		bg.sprite.setFrame(x);
+		bg.sprite.setCycle(y);
+		return bg;
 	}
 
 	public static Entity makeWall(final Vector2 pos, final Vector2 dim) {
