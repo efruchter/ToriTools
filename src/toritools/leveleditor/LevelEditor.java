@@ -70,7 +70,9 @@ public class LevelEditor {
 	/**
 	 * The current level file being edited.
 	 */
-	private File levelFile, workingDirectory;
+	private File levelFile;
+
+	File workingDirectory;
 
 	/**
 	 * Map of int layers to list of existing entities.
@@ -120,6 +122,11 @@ public class LevelEditor {
 	 * This object handles instance variables.
 	 */
 	private VariableEditor varEditor = new VariableEditor(this);
+	
+	/**
+	 * This object handles instance variables.
+	 */
+	private BackgroundEditor bgEditor = new BackgroundEditor(this);
 
 	/**
 	 * The text of this is where you can set some neat data to display to the
@@ -253,7 +260,7 @@ public class LevelEditor {
 					setLevelFile(f);
 			}
 		} catch (final Exception NullPointer) {
-			//Do nothing
+			// Do nothing
 		}
 
 		setupGUI();
@@ -295,10 +302,10 @@ public class LevelEditor {
 			ParserConfigurationException, TransformerException {
 		// Create the essential level.xml file
 		clear();
-		
+
 		if (levelFile == null)
 			return;
-		
+
 		if (levelFile.exists()) {
 			Document doc = ToriXML.parse(levelFile);
 			loadLevel(doc);
@@ -344,6 +351,7 @@ public class LevelEditor {
 		frame.add(new JScrollPane(drawPanel), BorderLayout.CENTER);
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
 		dummyPanel.setLayout(new BoxLayout(dummyPanel, BoxLayout.Y_AXIS));
+		dummyPanel.add(new JScrollPane(bgEditor));
 		dummyPanel.add(layerEditor);
 		dummyPanel.add(varEditor);
 		frame.add(dummyPanel, BorderLayout.WEST);
@@ -379,16 +387,20 @@ public class LevelEditor {
 
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem newLevel = new JMenuItem("New");
-		newLevel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
-		newLevel.addActionListener(new ActionListener() {			
+		newLevel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+				Event.CTRL_MASK));
+		newLevel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String levelName;
 				if (levelFile != null)
-					levelName = levelFile.getName().substring(0, levelFile.getName().lastIndexOf("."));
+					levelName = levelFile.getName().substring(0,
+							levelFile.getName().lastIndexOf("."));
 				else
 					levelName = "new level";
-				int ret = JOptionPane.showConfirmDialog(null, "Do you want to save changes you made to " + levelName + "?");
+				int ret = JOptionPane.showConfirmDialog(null,
+						"Do you want to save changes you made to " + levelName
+								+ "?");
 				if (ret == JOptionPane.YES_OPTION) {
 					try {
 						if (!saveLevel())
@@ -407,13 +419,14 @@ public class LevelEditor {
 			}
 		});
 		fileMenu.add(newLevel);
-		
+
 		JMenuItem open = new JMenuItem("Open");
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				Event.CTRL_MASK));
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File[] files = importNewFileDialog("Open Level File", "XML file (*.xml)", "xml");
+				File[] files = importNewFileDialog("Open Level File",
+						"XML file (*.xml)", "xml");
 				if (files.length != 0) {
 					setLevelFile(files[0]);
 					try {
@@ -426,7 +439,7 @@ public class LevelEditor {
 			}
 		});
 		fileMenu.add(open);
-		
+
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -470,7 +483,8 @@ public class LevelEditor {
 		JMenuItem importXml = new JMenuItem("Import Entity Template");
 		importXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for (File f : importNewFileDialog("Load New Entity Template", "Entity files (*.entity)", "entity")) {
+				for (File f : importNewFileDialog("Load New Entity Template",
+						"Entity files (*.entity)", "entity")) {
 					if (f != null) {
 						try {
 							importEntity(f);
@@ -534,20 +548,25 @@ public class LevelEditor {
 		settingsMenu.add(levelSizeItem);
 		menuBar.add(settingsMenu);
 
-		/**
-		 * HELP MENU
-		 */
-		JMenuItem item = new JMenuItem("Help");
-		item.addActionListener(new ActionListener() {
+		JMenu bgMenu = new JMenu("Background");
+		JMenuItem selectBg = new JMenuItem("Select New BG");
+		selectBg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"Everything is still in progress!\n ~tori"
-										+ "\n\nLeft click to place the latest selected object!\nRight click to select!\nDELETE to delete selected object!");
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(workingDirectory);
+				int ret = fileChooser.showDialog(null, "Select Image File");
+				if (ret == JFileChooser.APPROVE_OPTION) {
+					bgEditor.setImageFile(fileChooser.getSelectedFile());
+					repaint();
+					frame.pack();
+					System.out.println("Found image "
+							+ fileChooser.getSelectedFile().getPath());
+				}
 			}
 		});
-		menuBar.add(item);
+		bgMenu.add(selectBg);
+
+		menuBar.add(bgMenu);	
 
 		frame.setJMenuBar(menuBar);
 		frame.pack();
@@ -697,15 +716,16 @@ public class LevelEditor {
 			ToriXML.saveXMLDoc(levelFile, doc);
 			return true;
 		} else {
-			File[] files = importNewFileDialog("Save New Level File", "XML file (*.xml)", "xml");
-			if (files.length != 0) {				
+			File[] files = importNewFileDialog("Save New Level File",
+					"XML file (*.xml)", "xml");
+			if (files.length != 0) {
 				setLevelFile(files[0]);
 				ToriXML.saveXMLDoc(levelFile, doc);
 				repaint();
 				return true;
 			} else {
 				return false;
-			}			
+			}
 		}
 	}
 
@@ -761,29 +781,37 @@ public class LevelEditor {
 
 	/**
 	 * Brings up a file chooser
-	 * @param title The title of the window.
-	 * @param description the file type description.
-	 * @param extension the file extension to filter for.
+	 * 
+	 * @param title
+	 *            The title of the window.
+	 * @param description
+	 *            the file type description.
+	 * @param extension
+	 *            the file extension to filter for.
 	 * @return a list of selected files.
 	 */
-	private File[] importNewFileDialog(final String title, final String description, final String extension) {
+	public File[] importNewFileDialog(final String title,
+			final String description, final String extension) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(workingDirectory);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(description, extension);
-	    fileChooser.setFileFilter(filter);
-	    fileChooser.setMultiSelectionEnabled(true);
-	    fileChooser.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				description, extension);
+		fileChooser.setFileFilter(filter);
+		fileChooser.setMultiSelectionEnabled(true);
+		fileChooser.setAcceptAllFileFilterUsed(false);
 		int ret = fileChooser.showDialog(null, title);
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File[] files = fileChooser.getSelectedFiles();
-			for (int i = 0; i < files.length; i++ ) {
-				String path = files[i].getAbsolutePath();		
-				String ext = "." + ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];		
-				if(!path.endsWith(ext)) {
+			for (int i = 0; i < files.length; i++) {
+				String path = files[i].getAbsolutePath();
+				String ext = "."
+						+ ((FileNameExtensionFilter) fileChooser
+								.getFileFilter()).getExtensions()[0];
+				if (!path.endsWith(ext)) {
 					files[i] = new File(path + ext);
 				}
 			}
-			
+
 			return files;
 		}
 		return new File[0];
@@ -864,7 +892,7 @@ public class LevelEditor {
 			@Override
 			public int compare(Entity a, Entity b) {
 				int ret = new Integer(b.layer).compareTo(new Integer(a.layer));
-				if (ret == 0){
+				if (ret == 0) {
 					if ("WALL".equals(a.type))
 						return 1;
 					else if ("WALL".equals(b.type))
@@ -880,13 +908,13 @@ public class LevelEditor {
 			if (layerEditor.isLayerVisible(e.layer))
 				e.draw(g, new Vector2());
 		}
-		
+
 		if (selected != null) {
 			g.setColor(Color.GREEN);
 			g.drawRect((int) selected.pos.getX(), (int) selected.pos.getY(),
-					   (int) selected.dim.getX(), (int) selected.dim.getY());
+					(int) selected.dim.getX(), (int) selected.dim.getY());
 		}
-		
+
 		g.setColor(Color.RED);
 		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
 
@@ -918,7 +946,8 @@ public class LevelEditor {
 	 */
 	public void repaint() {
 		if (levelFile != null)
-			fileLabel.setText(levelFile.getName().substring(0, levelFile.getName().lastIndexOf(".")));
+			fileLabel.setText(levelFile.getName().substring(0,
+					levelFile.getName().lastIndexOf(".")));
 		else
 			fileLabel.setText("new level");
 		gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x "

@@ -1,58 +1,35 @@
 package toritools.leveleditor;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
-import toritools.entity.sprite.Sprite;
 
 @SuppressWarnings("serial")
 public class BackgroundEditor extends JPanel {
-	Sprite currentImage = new Sprite(null, 1, 1);
 
-	public BackgroundEditor() {
+	File imageFile;
 
-		this.addMouseListener(new MouseListener() {
+	LevelEditor editor;
 
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				selectTile(arg0.getPoint());
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-	}
-
-	public void selectTile(final Point p) {
-
+	public BackgroundEditor(final LevelEditor editor) {
+		this.editor = editor;
 	}
 
 	public void paintComponent(Graphics g) {
+		if (imageFile != null) {
+			ImageIcon icon;
+			g.drawImage((icon = new ImageIcon(imageFile.getPath())).getImage(),
+					0, 0, null);
+			setPreferredSize(new Dimension(icon.getIconWidth(),
+					icon.getIconHeight()));
+		}
+	}
 
+	public void setImageFile(final File file) {
+		this.imageFile = file;
+		repaint();
 	}
 }
