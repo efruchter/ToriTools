@@ -2,7 +2,10 @@ package toritools.entity.sprite;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import toritools.entity.Entity;
 import toritools.math.Vector2;
@@ -29,7 +32,8 @@ public class Sprite {
 		this.image = image;
 		this.xSplit = xTiles;
 		this.ySplit = yTiles;
-		bRight = new Vector2(image.getWidth(null) / xSplit, image.getHeight(null) / ySplit);
+		bRight = new Vector2(image.getWidth(null) / xSplit,
+				image.getHeight(null) / ySplit);
 	}
 
 	/**
@@ -59,25 +63,46 @@ public class Sprite {
 
 	/**
 	 * Override this to implement your own drawing mechanism!
+	 * 
 	 * @param g
 	 * @param self
 	 * @param position
 	 * @param dimension
 	 */
-	public void draw(final Graphics g, final Entity self, final Vector2 position, final Vector2 dimension) {
+	public void draw(final Graphics g, final Entity self,
+			final Vector2 position, final Vector2 dimension) {
 		int x = this.x / timeStretch;
 		Vector2 dim = dimension.add(sizeOffset * 2);
 		Vector2 pos = position.sub(sizeOffset);
-		g.drawImage(image, (int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x,
-				(int) pos.y + (int) dim.y, x * (int) bRight.x, y
-						* (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
-				y * (int) bRight.y + (int) bRight.y, null);
+
+		if (self.direction != 0) {
+			BufferedImage bimage = new BufferedImage((int) dim.x, (int) dim.y,
+					BufferedImage.TYPE_INT_ARGB);
+
+			bimage.getGraphics().drawImage(image, (int) 0, (int) 0,
+					(int) dim.x, (int) dim.y, x * (int) bRight.x,
+					y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
+					y * (int) bRight.y + (int) bRight.y, null);
+
+			AffineTransform affineTransform = new AffineTransform();
+			// rotate with the anchor point as the mid of the image
+			affineTransform.translate(pos.x, pos.y);
+			affineTransform.rotate(Math.toRadians(self.direction), dim.x / 2,
+					dim.y / 2);
+
+			((Graphics2D) g).drawImage(bimage, affineTransform, null);
+		} else {
+			g.drawImage(image, (int) pos.x, (int) pos.y,
+					(int) (pos.x + dim.x), (int) (pos.y + dim.y), x * (int) bRight.x,
+					y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
+					y * (int) bRight.y + (int) bRight.y, null);
+		}
 	}
 
 	public Image getImage() {
 		return image;
 	}
-	
+
 	public Dimension getTileDimension() {
 		return new Dimension(x, y);
 	}

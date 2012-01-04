@@ -54,6 +54,8 @@ public class Entity {
 	 */
 	public File file;
 
+	public int direction;
+
 	/**
 	 * This variable case will be passed in containing the additional data from
 	 * the xml level file, as well as entity data from the entity xml.
@@ -68,6 +70,7 @@ public class Entity {
 		type = "DEFAULT";
 		layer = 0;
 		sprite = BASE_SPRITE;
+		direction = 0;
 	}
 	
 	public Entity(final EntityScript script) {
