@@ -16,7 +16,7 @@ public class ChickScript implements EntityScript {
 
 	@Override
 	public void onSpawn(Level level, Entity self) {
-		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
+		physicsModule = new PhysicsModule(new Vector2(0, 0.06f), 1f, self);
 		physicsModule.clearVelocity();
 		flapTime = 100;
 	}
@@ -26,9 +26,10 @@ public class ChickScript implements EntityScript {
 
 		if (--timer < 0) {
 			timer = (int) (flapTime * Math.random());
-			physicsModule.addVelocity(new Vector2(-5
-					+ (int) (Math.random() * 10),
-					-(1 + (int) (Math.random() * 10))));
+			physicsModule.addVelocity(new Vector2(-3
+					+ (int) (Math.random() * 6),
+					-(1 + (int) (Math.random() * 5))));
+			self.sprite.nextFrame();
 		}
 
 		Vector2 delta = physicsModule.onUpdate();

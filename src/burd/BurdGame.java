@@ -193,8 +193,6 @@ public class BurdGame {
 
 		level.onUpdate();
 
-		level.setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
-
 		if (debug) {
 
 			if (keys.isPressed(KeyEvent.VK_P)) {
@@ -225,6 +223,8 @@ public class BurdGame {
 
 		camera.setA(level.getEntityWithId("player").pos.clone());
 		camera.smoothTowardA();
+		
+		level.setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
 	}
 
 	private void setupLevel() {
