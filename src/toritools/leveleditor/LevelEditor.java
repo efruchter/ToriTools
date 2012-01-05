@@ -385,7 +385,6 @@ public class LevelEditor {
 		frame.add(new JScrollPane(drawPanel), BorderLayout.CENTER);
 		frame.add(new JScrollPane(buttonPanel), BorderLayout.EAST);
 		dummyPanel.setLayout(new BoxLayout(dummyPanel, BoxLayout.Y_AXIS));
-		dummyPanel.add(new JScrollPane(bgEditor));
 		dummyPanel.add(layerEditor);
 		dummyPanel.add(varEditor);
 		frame.add(dummyPanel, BorderLayout.WEST);
@@ -541,6 +540,26 @@ public class LevelEditor {
 			}
 		});
 		entityMenu.add(deleteAll);
+		
+		JMenuItem deleteType = new JMenuItem("Delete All By Type");
+		deleteType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String type= JOptionPane.showInputDialog("Type to Delete:");
+				if(type == null || type.isEmpty()) {
+					return;
+				}
+				List<Entity> trash = new ArrayList<Entity>();
+				for(Entity e: entities) {
+					if(type.equals(e.type)) {
+						trash.add(e);
+					}
+				}
+				entities.removeAll(trash);
+				repaint();
+			}
+		});
+		entityMenu.add(deleteType);
+		
 		menuBar.add(entityMenu);
 
 		/**
@@ -589,8 +608,6 @@ public class LevelEditor {
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					bgEditor.setImageFile(fileChooser.getSelectedFile());
 					bgEditor.setupBg();
-					repaint();
-					frame.pack();
 					System.out.println("Found image "
 							+ fileChooser.getSelectedFile().getPath());
 				}
@@ -893,7 +910,7 @@ public class LevelEditor {
 	 *            graphics!
 	 */
 	public void draw(Graphics g) {
-		g.setColor(Color.WHITE);
+		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, levelSize.width, levelSize.height);
 
 		/*

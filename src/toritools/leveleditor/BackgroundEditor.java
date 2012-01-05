@@ -8,8 +8,10 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import toritools.entity.Entity;
 import toritools.io.Importer;
@@ -26,6 +28,8 @@ public class BackgroundEditor extends JPanel {
 
 	private LevelEditor editor;
 
+	private JFrame frame;
+
 	public BackgroundEditor(final LevelEditor editor) {
 		this.editor = editor;
 		this.addMouseListener(new MouseAdapter() {
@@ -36,6 +40,10 @@ public class BackgroundEditor extends JPanel {
 				repaint();
 			}
 		});
+
+		frame = new JFrame("Background Tile Selector");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(new JScrollPane(this));
 	}
 
 	public void paintComponent(Graphics g) {
@@ -64,6 +72,11 @@ public class BackgroundEditor extends JPanel {
 
 	public void setImageFile(final File file) {
 		this.imageFile = file;
+		ImageIcon icon = new ImageIcon(imageFile.getPath());
+		setPreferredSize(new Dimension(icon.getIconWidth(),
+				icon.getIconHeight()));
+		frame.pack();
+		frame.setVisible(true);
 		repaint();
 	}
 
