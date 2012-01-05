@@ -112,6 +112,9 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 0;position.y = 672.0;position.x = 768.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 0;position.y = 672.0;position.x = 832.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 0;position.y = 672.0;position.x = 896.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 352.0;sprite.sheet = flag.png,2,1;position.x = 832.0;description = spawn flag;layer = 3;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 864.0;sprite.sheet = flag.png,2,1;position.x = 64.0;description = spawn flag;layer = 3;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 1120.0;sprite.sheet = flag.png , 2, 1;position.x = 672.0;description = spawn flag;layer = 3;type = flag;dimensions.x = 64;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1088.0;sprite.sheet = spikeUp.png;position.x = 776.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 896.0;sprite.sheet = spikeUp.png;position.x = 720.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 896.0;sprite.sheet = spikeUp.png;position.x = 784.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
@@ -132,7 +135,6 @@
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 232.0;sprite.sheet = spikeLeft.png;position.x = 992.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 440.0;sprite.sheet = spikeLeft.png;position.x = 800.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 440.0;sprite.sheet = spikeRight.png;position.x = 704.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
-<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 352.0;sprite.sheet = flag.png,2,1;position.x = 832.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1472.0;sprite.sheet = spikeLeft.png;position.x = 352.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1504.0;sprite.sheet = spikeLeft.png;position.x = 352.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1600.0;sprite.sheet = spikeLeft.png;position.x = 352.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
@@ -147,7 +149,6 @@
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 1544.0;sprite.sheet = spikeLeft.png;position.x = 288.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 1248.0;sprite.sheet = spikeDown.png;position.x = 160.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeRight.entity;solid = false;position.y = 1312.0;sprite.sheet = spikeRight.png;position.x = 128.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
-<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 864.0;sprite.sheet = flag.png,2,1;position.x = 64.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 512.0;sprite.sheet = spikeLeft.png;position.x = 480.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 544.0;sprite.sheet = spikeLeft.png;position.x = 480.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 768.0;sprite.sheet = spikeLeft.png;position.x = 480.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
@@ -189,7 +190,6 @@
 <entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 1248.0;sprite.sheet = spikeDown.png;position.x = 320.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 1248.0;sprite.sheet = spikeDown.png;position.x = 288.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 64;template = /objects/nest.entity;solid = false;position.y = 1184.0;sprite.sheet = nest.png;position.x = 512.0;description = Drag eggs here to win!;layer = 0;type = nest;dimensions.x = 128;"/>
-<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 1120.0;sprite.sheet = flag.png , 2, 1;position.x = 672.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 1120.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 512.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 384.0;"/>
 <entity map="dimensions.y = 256.0;solid = true;position.y = 128.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
