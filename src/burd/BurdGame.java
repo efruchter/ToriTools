@@ -268,8 +268,10 @@ public class BurdGame {
 	}
 
 	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,
-			(int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);
+			(int) VIEWPORT.y, BufferedImage.TYPE_INT_ARGB);
 	private Graphics bufferGraphics = bufferImage.getGraphics();
+
+	private Image bg = Toolkit.getDefaultToolkit().getImage("burd/backgrounds/sky.jpg");
 
 	private void render(final Graphics rootCanvas) {
 		rootCanvas
@@ -284,8 +286,8 @@ public class BurdGame {
 
 		Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
 
-		bufferGraphics.setColor(Color.GRAY);
-		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+		bufferGraphics.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y,
+				null);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
 				if (debug) {
