@@ -122,7 +122,7 @@ public class LevelEditor {
 	 * This object handles instance variables.
 	 */
 	private VariableEditor varEditor = new VariableEditor(this);
-	
+
 	/**
 	 * This object handles instance variables.
 	 */
@@ -525,7 +525,6 @@ public class LevelEditor {
 				} catch (final Exception i) {
 					return;
 				}
-
 			}
 		});
 		settingsMenu.add(gridMenu);
@@ -542,7 +541,6 @@ public class LevelEditor {
 				} catch (final Exception i) {
 					return;
 				}
-
 			}
 		});
 		settingsMenu.add(levelSizeItem);
@@ -557,6 +555,7 @@ public class LevelEditor {
 				int ret = fileChooser.showDialog(null, "Select Image File");
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					bgEditor.setImageFile(fileChooser.getSelectedFile());
+					bgEditor.setupBg();
 					repaint();
 					frame.pack();
 					System.out.println("Found image "
@@ -566,7 +565,15 @@ public class LevelEditor {
 		});
 		bgMenu.add(selectBg);
 
-		menuBar.add(bgMenu);	
+		JMenuItem setupBg = new JMenuItem("Edit BG Settings");
+		setupBg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				bgEditor.setupBg();
+			}
+		});
+		bgMenu.add(setupBg);
+
+		menuBar.add(bgMenu);
 
 		frame.setJMenuBar(menuBar);
 		frame.pack();
@@ -968,6 +975,11 @@ public class LevelEditor {
 	}
 
 	public Vector2 getClosestGridPoint(final Vector2 p) {
+		return getClosestGridPoint(gridSize, p);
+	}
+
+	public static Vector2 getClosestGridPoint(final Dimension gridSize,
+			final Vector2 p) {
 		return new Vector2(((int) p.x / (int) gridSize.width) * gridSize.width,
 				((int) p.y / (int) gridSize.height) * gridSize.height);
 	}
