@@ -101,16 +101,29 @@ public class ScriptUtils {
 
 	public static Vector2 safeMove(final Entity e, final Vector2 delta,
 			final Entity... opposing) {
+		return safeMove(e, delta, false, opposing);
+	}
+
+	public static Vector2 safeMove(final Entity e, final Vector2 delta,
+			final boolean disregardOutOfView, final Entity... opposing) {
 		e.pos = e.pos.add(delta);
-		return moveOut(e, opposing);
+		return moveOut(e, disregardOutOfView, opposing);
 	}
 
 	public static Vector2 moveOut(final Entity self, final Entity... entities) {
+		return moveOut(self, false, entities);
+	}
+
+	public static Vector2 moveOut(final Entity self,
+			final boolean disregardOutOfView, final Entity... entities) {
 		Vector2 delta = new Vector2();
 		for (Entity entity : entities) {
-			if (self != entity && isColliding(entity, self)) {
-				self.pos = self.pos.add(delta = findBestVectorOut(self, entity)
-						.scale(1.1f));
+			if (self != entity) {
+				if (!(disregardOutOfView && !entity.inView)
+						&& isColliding(entity, self)) {
+					self.pos = self.pos.add(delta = findBestVectorOut(self,
+							entity).scale(1.1f));
+				}
 			}
 		}
 		return delta;

@@ -13,9 +13,9 @@ import burd.BurdGame;
 public class BurdScript implements EntityScript {
 
 	private PhysicsModule physicsModule;
-	
+
 	private Entity latestFlag;
-	
+
 	private float hSpeed = .2f, vSpeed = .5f;
 
 	private Vector2 startPos;
@@ -48,7 +48,7 @@ public class BurdScript implements EntityScript {
 
 		Vector2 delta = physicsModule.onUpdate();
 
-		boolean onGround = ScriptUtils.safeMove(self, delta,
+		boolean onGround = ScriptUtils.safeMove(self, delta, true,
 				level.solids.toArray(new Entity[0])).mag() != 0;
 
 		if (onGround)
@@ -95,7 +95,8 @@ public class BurdScript implements EntityScript {
 		}
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
-			if (flag.inView && ScriptUtils.isColliding(flag, self) && (flag != latestFlag)) {
+			if (flag.inView && ScriptUtils.isColliding(flag, self)
+					&& (flag != latestFlag)) {
 				if (latestFlag != null)
 					latestFlag.sprite.setFrame(0);
 				latestFlag = flag;
