@@ -27,7 +27,6 @@ public class VolcanoParticleScript implements EntityScript {
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
 
-		physicsModule.onStart();
 		float y = (float) (up ? Math.random() * -20 : 0);
 		float x = (float) (-10 + Math.random() * 20);
 		physicsModule.addVelocity(new Vector2(x, y));

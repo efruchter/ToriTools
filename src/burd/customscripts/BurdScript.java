@@ -25,8 +25,6 @@ public class BurdScript implements EntityScript {
 		startPos = self.pos.clone();
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
-
-		physicsModule.onStart();
 	}
 
 	public void onUpdate(Level level, Entity self) {

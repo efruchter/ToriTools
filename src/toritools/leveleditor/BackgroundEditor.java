@@ -86,7 +86,8 @@ public class BackgroundEditor extends JPanel {
 					.showInputDialog("Input an integer tile width, height (ex. 32, 64):");
 			String vals[] = result.split(",");
 			int width = Integer.parseInt(vals[0].trim());
-			int height = Integer.parseInt(vals[1].trim());
+			int height = vals.length == 2 ? Integer.parseInt(vals[1].trim())
+					: width;
 
 			if (imageDim.x % width != 0 || imageDim.y % height != 0) {
 				JOptionPane.showMessageDialog(null,

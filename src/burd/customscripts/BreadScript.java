@@ -1,10 +1,13 @@
 package burd.customscripts;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.io.Importer;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -80,6 +83,21 @@ public class BreadScript implements EntityScript {
 			blood.pos = self.pos.clone();
 			level.spawnEntity(blood);
 		}
+		Entity e;
+		try {
+			e = Importer.importEntity(new File("burd/objects/player.entity"),
+					null);
+			e.variables.setVar("id", "");
+			e.type = "baby";
+			e.script = new ChickScript();
+			e.dim = e.dim.scale(.5f);
+			e.active = false;
+			e.pos = self.pos.clone();
+			level.spawnEntity(e);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 }

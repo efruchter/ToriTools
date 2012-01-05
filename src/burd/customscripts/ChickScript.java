@@ -1,0 +1,69 @@
+package burd.customscripts;
+
+import toritools.entity.Entity;
+import toritools.entity.Level;
+import toritools.entity.physics.PhysicsModule;
+import toritools.math.Vector2;
+import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
+
+public class ChickScript implements EntityScript {
+
+	PhysicsModule physicsModule;
+
+	int flapTime;
+	int timer = 0;
+
+	@Override
+	public void onSpawn(Level level, Entity self) {
+		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
+		physicsModule.clearVelocity();
+		flapTime = 100;
+	}
+
+	@Override
+	public void onUpdate(Level level, Entity self) {
+
+		if (--timer < 0) {
+			timer = (int) (flapTime * Math.random());
+			physicsModule.addVelocity(new Vector2(-5
+					+ (int) (Math.random() * 10),
+					-(1 + (int) (Math.random() * 10))));
+		}
+
+		Vector2 delta = physicsModule.onUpdate();
+
+		boolean onGround = ScriptUtils.safeMove(self, delta,
+				level.solids.toArray(new Entity[0])).mag() != 0;
+
+		if (onGround)
+			physicsModule.setgDrag(.95f);
+		else
+			physicsModule.setgDrag(1f);
+
+		if (Math.abs(delta.x) < 1)
+			self.sprite.setCycle(0);
+		else if (delta.x < 0)
+			self.sprite.setCycle(1);
+		else
+			self.sprite.setCycle(2);
+
+		if ((onGround && Math.abs(delta.x) > 1)) {
+			self.sprite.nextFrame();
+		} else {
+			// make the wing match the motion
+			if (Math.abs(delta.y) < 5)
+				self.sprite.setFrame(1);
+			else if (delta.y < 0)
+				self.sprite.setFrame(2);
+			else
+				self.sprite.setFrame(0);
+		}
+	}
+
+	@Override
+	public void onDeath(Level level, Entity self, boolean isRoomExit) {
+
+	}
+
+}

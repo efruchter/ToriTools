@@ -29,13 +29,7 @@ public class PhysicsModule {
 		g = globalAcceleration;
 		this.self = self;
 		gDrag = globalDrag;
-	}
-
-	/**
-	 * Call this during the parents onStart()
-	 */
-	public void onStart() {
-		prePos = self.pos.clone();
+		prePos = self.pos;
 	}
 
 	/**
