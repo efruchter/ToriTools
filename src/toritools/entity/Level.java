@@ -20,8 +20,8 @@ public class Level extends Entity {
 	 */
 	private HashMap<String, List<Entity>> typeMap = new HashMap<String, List<Entity>>();
 
-	private List<Entity> trash = new ArrayList<Entity>();
-	private List<Entity> newEntities = new ArrayList<Entity>();
+	public List<Entity> trash = new ArrayList<Entity>();
+	public List<Entity> newEntities = new ArrayList<Entity>();
 
 	private void addEntity(final Entity e) {
 		layers.get(e.layer).add(e);

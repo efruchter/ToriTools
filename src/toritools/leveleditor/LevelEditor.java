@@ -49,9 +49,9 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.map.ToriMapIO;
 import toritools.math.Vector2;
@@ -138,8 +138,13 @@ public class LevelEditor {
 	private JLabel editModeLabel = new JLabel("EDITMODE");
 
 	private Vector2 wallStart, wallEnd;
-	private boolean makeWall = false, makingWall = false;
 	private Entity moving;
+
+	private enum Mode {
+		WALL_QUEUE, WALL_MAKING, MOVING, PLACE, BG
+	}
+
+	private Mode mode = Mode.PLACE;
 
 	/**
 	 * Mouse controller.
@@ -148,10 +153,16 @@ public class LevelEditor {
 
 		@Override
 		public void mousePressed(MouseEvent m) {
-			if (makeWall) {
+			if (mode == Mode.WALL_QUEUE) {
 				wallStart = wallEnd = getClosestGridPoint(new Vector2(
 						m.getPoint()));
-				makingWall = true;
+				mode = Mode.WALL_MAKING;
+			} else if (mode == Mode.BG) {
+				Entity bg = bgEditor.makeEntity(getClosestGridPoint(new Vector2(m
+						.getPoint())));
+				bg.layer = layerEditor.getCurrentLayer();
+				addEntity(bg);
+				mode = Mode.PLACE;
 			} else {
 				if (m.getButton() == MouseEvent.BUTTON1)
 					for (Entity ent : entities) {
@@ -167,7 +178,7 @@ public class LevelEditor {
 
 		@Override
 		public void mouseDragged(MouseEvent m) {
-			if (makeWall && makingWall) {
+			if (mode == Mode.WALL_MAKING) {
 				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
 				if (wallEnd.x < wallStart.x) {
 					float temp = wallStart.x;
@@ -187,13 +198,13 @@ public class LevelEditor {
 
 		@Override
 		public void mouseReleased(MouseEvent m) {
-			if (makeWall && makingWall) {
+			if (mode == Mode.WALL_MAKING) {
 				mouseDragged(m);
 				Vector2 wallDim = wallEnd.sub(wallStart);
 				if (wallDim.x != 0 && wallDim.y != 0)
 					addEntity(Importer.makeWall(wallStart,
 							wallEnd.sub(wallStart)));
-				makingWall = makeWall = false;
+				mode = Mode.PLACE;
 			} else if (moving != null) {
 				mouseDragged(m);
 				moving = null;
@@ -204,7 +215,7 @@ public class LevelEditor {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			frame.requestFocus();
-			makeWall = makingWall = false;
+			mode = Mode.PLACE;
 			if (arg0.getButton() == MouseEvent.BUTTON3) {
 				selectOverlapping(new Vector2(arg0.getPoint()));
 				varEditor.setEntity(selected);
@@ -307,8 +318,16 @@ public class LevelEditor {
 			return;
 
 		if (levelFile.exists()) {
-			Document doc = ToriXML.parse(levelFile);
-			loadLevel(doc);
+			Level level = Importer.importLevel(levelFile);
+			entities.clear();
+			layerEditor.clear();
+			for(Entity e : level.newEntities) {
+				if(e.file != null && e.file.canRead()) {
+					importEntity(e.file);
+				}
+				entities.add(e);
+				layerEditor.setLayerVisibility(e.layer, true);
+			}
 		} else {
 			saveLevel();
 		}
@@ -470,8 +489,7 @@ public class LevelEditor {
 		JMenuItem makeWallEntry = new JMenuItem("Make Wall");
 		makeWallEntry.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				makeWall = true;
-				makingWall = false;
+				mode = Mode.WALL_QUEUE;
 				selected = null;
 				repaint();
 			}
@@ -573,6 +591,17 @@ public class LevelEditor {
 		});
 		bgMenu.add(setupBg);
 
+		JMenuItem placeBg = new JMenuItem("Place Selected BG");
+		placeBg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mode = Mode.BG;
+				repaint();
+			}
+		});
+		bgMenu.add(placeBg);
+		placeBg.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,
+				Event.CTRL_MASK));
+
 		menuBar.add(bgMenu);
 
 		frame.setJMenuBar(menuBar);
@@ -637,8 +666,10 @@ public class LevelEditor {
 	 *            the entity
 	 */
 	private void addEntity(final Entity e) {
-		entities.add(e);
-		repaint();
+		if (e != null) {
+			entities.add(e);
+			repaint();
+		}
 	}
 
 	/**
@@ -733,56 +764,6 @@ public class LevelEditor {
 			} else {
 				return false;
 			}
-		}
-	}
-
-	/**
-	 * Load the entity data from level.xml.
-	 * 
-	 * @param doc
-	 *            the doc of level.xml.
-	 * @throws DOMException
-	 * @throws FileNotFoundException
-	 */
-	private void loadLevel(final Document doc) throws FileNotFoundException,
-			DOMException {
-		HashMap<String, String> props = ToriMapIO.readMap(doc
-				.getElementsByTagName("level").item(0).getAttributes()
-				.getNamedItem("map").getNodeValue());
-
-		// Extract level instance info
-		levelSize.width = Integer.parseInt(props.get("width"));
-		levelSize.height = Integer.parseInt(props.get("height"));
-
-		NodeList entities = doc.getElementsByTagName("entity");
-		for (int i = 0; i < entities.getLength(); i++) {
-			Node e = entities.item(i);
-			HashMap<String, String> mapData = ToriMapIO.readMap(e
-					.getAttributes().getNamedItem("map").getNodeValue());
-			int layer = Integer.parseInt(mapData.get("layer"));
-			float x = Float.parseFloat(mapData.get("position.x"));
-			float y = Float.parseFloat(mapData.get("position.y"));
-			File f = new File(workingDirectory + mapData.get("template"));
-			Entity ent = null;
-			if (f.canRead()) {
-				ent = importEntity(f);
-			} else if (mapData.get("type").equals("WALL")) {
-				ent = Importer.makeWall(new Vector2(), new Vector2());
-			} else {
-				System.out.println("FAILED TO PROCESS ENTITY "
-						+ mapData.get("type"));
-				break;
-			}
-			ent.pos = new Vector2(x, y);
-			try {
-				ent.dim.x = Float.parseFloat(mapData.get("dimensions.x"));
-				ent.dim.y = Float.parseFloat(mapData.get("dimensions.y"));
-			} catch (NullPointerException exc) {
-			}
-			layerEditor.setLayerVisibility(layer, true);
-			ent.variables.getVariables().putAll(mapData);
-			ent.layer = layer;
-			addEntity(ent);
 		}
 	}
 
@@ -925,7 +906,7 @@ public class LevelEditor {
 		g.setColor(Color.RED);
 		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
 
-		if (makingWall) {
+		if (mode == Mode.WALL_MAKING) {
 			((Graphics2D) g).setStroke(new BasicStroke(2));
 			g.drawRect((int) wallStart.x, (int) wallStart.y, (int) wallEnd.x
 					- (int) wallStart.x, (int) wallEnd.y - (int) wallStart.y);
@@ -963,8 +944,10 @@ public class LevelEditor {
 				+ " x " + (int) levelSize.getHeight());
 		if (selected != null) {
 			editModeLabel.setText("Editing Single Entity: " + selected.type);
-		} else if (makeWall) {
+		} else if (mode == Mode.WALL_QUEUE) {
 			editModeLabel.setText("Click and Drag to Draw Wall");
+		} else if (mode == Mode.BG) {
+			editModeLabel.setText("Click To Place a BG Tile in Current Layer");
 		} else {
 			editModeLabel.setText("Click to Place Entity");
 		}

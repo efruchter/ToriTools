@@ -165,7 +165,7 @@ public class Importer {
 				float w = Float.parseFloat(mapData.get("dimensions.x"));
 				float h = Float.parseFloat(mapData.get("dimensions.y"));
 
-				File imageFile = new File(mapData.get("image"));
+				File imageFile = new File(workingDirectory + mapData.get("image"));
 
 				Image image = cacheImage(new File(imageFile.getAbsolutePath()),
 						new ImageIcon(imageFile.getAbsolutePath()).getImage());
@@ -177,7 +177,8 @@ public class Importer {
 				int yTiles = Integer.parseInt(mapData.get("yTiles"));
 
 				Entity background = makeBackground(new Vector2(x, y),
-						new Vector2(w, h), image, xTile, yTile, xTiles, yTiles);
+						new Vector2(w, h), image, mapData.get("image"), xTile, yTile,
+						xTiles, yTiles);
 				background.layer = Integer.parseInt(mapData.get("layer"));
 				background.variables.getVariables().putAll(mapData);
 				level.spawnEntity(background);
@@ -188,6 +189,7 @@ public class Importer {
 				ent.layer = Integer.parseInt(mapData.get("layer"));
 				// layerEditor.setLayerVisibility(layer, true);
 				ent.variables.getVariables().putAll(mapData);
+				ent.file = f;
 				level.spawnEntity(ent);
 			}
 		}
@@ -195,11 +197,18 @@ public class Importer {
 	}
 
 	public static Entity makeBackground(final Vector2 pos, final Vector2 dim,
-			final Image image, final int x, final int y, final int xTiles,
-			final int yTiles) {
+			final Image image, final String relativeLink, final int x, final int y,
+			final int xTiles, final int yTiles) {
 		Entity bg = new Entity();
 		bg.pos = pos.clone();
 		bg.dim = dim.clone();
+
+		bg.variables.setVar("xTiles", xTiles + "");
+		bg.variables.setVar("yTiles", yTiles + "");
+		bg.variables.setVar("xTile", x + "");
+		bg.variables.setVar("yTile", y + "");
+		bg.variables.setVar("image", relativeLink);
+
 		bg.variables.setVar("dimensions.x", dim.x + "");
 		bg.variables.setVar("dimensions.y", dim.y + "");
 		bg.type = "BACKGROUND";

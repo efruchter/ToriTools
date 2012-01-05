@@ -69,7 +69,16 @@
 <entity map="dimensions.y = 64;template = /objects/block64.entity;solid = false;position.y = 72.0;sprite.sheet = block.png;position.x = 192.0;description = 64;layer = 0;type = block64;dimensions.x = 64;"/>
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 80.0;sprite.sheet = bread.png;position.x = 144.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
 <entity map="dimensions.y = 64;template = /objects/nest.entity;solid = false;position.y = 224.0;sprite.sheet = nest.png;position.x = 768.0;description = Drag eggs here to win!;layer = 0;type = nest;dimensions.x = 128;"/>
-<entity map="template = /objects/flag.entity;position.y = 832.0;position.x = 608.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/flag.entity;solid = false;position.y = 832.0;sprite.sheet = flag.png , 2, 1;position.x = 608.0;description = spawn flag;layer = 0;type = flag;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 672.0;position.x = 576.0;xTiles = 2;xTile = 0;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 672.0;position.x = 640.0;xTiles = 2;xTile = 0;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 672.0;position.x = 704.0;xTiles = 2;xTile = 0;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 672.0;position.x = 768.0;xTiles = 2;xTile = 0;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 736.0;position.x = 768.0;xTiles = 2;xTile = 0;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 736.0;position.x = 576.0;xTiles = 2;xTile = 0;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 832.0;position.x = 672.0;xTiles = 2;xTile = 1;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 832.0;position.x = 736.0;xTiles = 2;xTile = 1;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 2;yTile = 0;position.y = 832.0;position.x = 800.0;xTiles = 2;xTile = 1;layer = 0;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 112.0;solid = true;position.y = 16.0;visible = false;position.x = 192.0;layer = 0;type = WALL;dimensions.x = 808.0;"/>
 <entity map="dimensions.y = 8.0;solid = true;position.y = 128.0;visible = false;position.x = 192.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 8.0;visible = false;position.x = 128.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>

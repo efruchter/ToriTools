@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import toritools.entity.Entity;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 
 @SuppressWarnings("serial")
@@ -20,9 +22,12 @@ public class BackgroundEditor extends JPanel {
 
 	private Dimension grid = new Dimension(32, 32);
 
-	private Vector2 current = new Vector2();
+	private Vector2 current = new Vector2(), imageDim = new Vector2();
+
+	private LevelEditor editor;
 
 	public BackgroundEditor(final LevelEditor editor) {
+		this.editor = editor;
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent m) {
@@ -41,11 +46,13 @@ public class BackgroundEditor extends JPanel {
 			setPreferredSize(new Dimension(icon.getIconWidth(),
 					icon.getIconHeight()));
 
+			imageDim = new Vector2(icon.getIconWidth(), icon.getIconHeight());
+
 			g.setColor(Color.BLACK);
 			// Draw grid
-			for (int x = 0; x <= icon.getIconWidth(); x += grid.width)
+			for (int x = 0; x <= imageDim.x; x += grid.width)
 				g.drawLine(x, 0, x, icon.getIconHeight());
-			for (int y = 0; y <= icon.getIconHeight(); y += grid.height)
+			for (int y = 0; y <= imageDim.y; y += grid.height)
 				g.drawLine(0, y, icon.getIconWidth(), y);
 
 			// draw Selected
@@ -65,8 +72,15 @@ public class BackgroundEditor extends JPanel {
 			String result = JOptionPane
 					.showInputDialog("Input an integer tile width, height (ex. 32, 64):");
 			String vals[] = result.split(",");
-			grid.width = Integer.parseInt(vals[0].trim());
-			grid.height = Integer.parseInt(vals[1].trim());
+			int width = Integer.parseInt(vals[0].trim());
+			int height = Integer.parseInt(vals[1].trim());
+
+			if (imageDim.x % width != 0 || imageDim.y % height != 0) {
+				JOptionPane.showMessageDialog(null,
+						"The tile size must divide the image cleanly.");
+			} else {
+				grid.setSize(width, height);
+			}
 			repaint();
 		} catch (final Exception i) {
 			return;
@@ -75,5 +89,20 @@ public class BackgroundEditor extends JPanel {
 
 	private Dimension getGrid() {
 		return grid;
+	}
+
+	public Entity makeEntity(final Vector2 pos) {
+		if (imageFile == null)
+			return null;
+		String relativeLink = imageFile.getPath().split(
+				editor.workingDirectory.getPath())[1];
+
+		Entity bg = Importer.makeBackground(pos, new Vector2(grid.width,
+				grid.height), new ImageIcon(imageFile.getPath()).getImage(),
+				relativeLink, (int) (current.x / grid.width),
+				(int) (current.y / grid.height),
+				(int) (imageDim.x / grid.width),
+				(int) (imageDim.y / grid.height));
+		return bg;
 	}
 }
