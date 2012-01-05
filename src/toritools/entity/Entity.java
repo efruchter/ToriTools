@@ -41,6 +41,8 @@ public class Entity {
 	public boolean active = true;
 
 	public Sprite sprite;
+	
+	public boolean inView = true;
 
 	/**
 	 * Static vars for optimization.

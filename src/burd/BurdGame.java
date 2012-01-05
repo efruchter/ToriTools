@@ -115,6 +115,8 @@ public class BurdGame {
 			new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
 			new Point(0, 0), "Hidden Cursor");
 
+	Entity viewPortEntity;
+
 	/**
 	 * Initialize the game
 	 * 
@@ -124,6 +126,9 @@ public class BurdGame {
 	public void init() throws IOException {
 		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
+
+		viewPortEntity = new Entity();
+
 		gd = graphicsEnvironment.getDefaultScreenDevice();
 
 		frame.setCursor(hiddenCursor); // Hide cursor by default
@@ -188,6 +193,8 @@ public class BurdGame {
 		}
 
 		level.onUpdate();
+
+		level.setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
 
 		if (debug) {
 
@@ -271,7 +278,8 @@ public class BurdGame {
 			(int) VIEWPORT.y, BufferedImage.TYPE_INT_ARGB);
 	private Graphics bufferGraphics = bufferImage.getGraphics();
 
-	private Image bg = Toolkit.getDefaultToolkit().getImage("burd/backgrounds/sky.jpg");
+	private Image bg = Toolkit.getDefaultToolkit().getImage(
+			"burd/backgrounds/sky.jpg");
 
 	private void render(final Graphics rootCanvas) {
 		rootCanvas
@@ -296,7 +304,7 @@ public class BurdGame {
 							(int) (e.pos.y + offset.y), (int) e.dim.x,
 							(int) e.dim.y);
 				}
-				if (e.visible)
+				if (e.visible && e.inView)
 					e.draw(bufferGraphics, offset);
 			}
 		level.getEntityWithId("player").draw(bufferGraphics, offset);

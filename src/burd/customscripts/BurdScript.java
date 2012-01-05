@@ -77,7 +77,7 @@ public class BurdScript implements EntityScript {
 
 		if (!BurdGame.debug) {
 			for (Entity spike : level.getEntitiesWithType("spike")) {
-				if (ScriptUtils.isColliding(spike, self)) {
+				if (spike.inView && ScriptUtils.isColliding(spike, self)) {
 					for (Entity bread : level.getEntitiesWithType("bread")) {
 						bread.active = true;
 					}
@@ -95,7 +95,7 @@ public class BurdScript implements EntityScript {
 		}
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
-			if (ScriptUtils.isColliding(flag, self) && (flag != latestFlag)) {
+			if (flag.inView && ScriptUtils.isColliding(flag, self) && (flag != latestFlag)) {
 				if (latestFlag != null)
 					latestFlag.sprite.setFrame(0);
 				latestFlag = flag;

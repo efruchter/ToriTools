@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import toritools.math.Vector2;
+import toritools.scripting.ScriptUtils;
+
 public class Level extends Entity {
 
 	private HashMap<String, Entity> idMap = new HashMap<String, Entity>();
@@ -22,6 +25,8 @@ public class Level extends Entity {
 
 	public List<Entity> trash = new ArrayList<Entity>();
 	public List<Entity> newEntities = new ArrayList<Entity>();
+
+	private Entity viewPort;
 
 	private void addEntity(final Entity e) {
 		layers.get(e.layer).add(e);
@@ -106,6 +111,15 @@ public class Level extends Entity {
 			e.onUpdate(level);
 		}
 		takeOutTrash();
+
+		if (viewPort != null) {
+			for (Entity e : solids) {
+				e.inView = ScriptUtils.isColliding(viewPort, e);
+			}
+			for (Entity e : nonSolids) {
+				e.inView = ScriptUtils.isColliding(viewPort, e);
+			}
+		}
 	}
 
 	public void onDeath(final boolean isRoomExit) {
@@ -135,9 +149,17 @@ public class Level extends Entity {
 
 	public List<Entity> getEntitiesWithType(final String type) {
 		List<Entity> ents = typeMap.get(type);
-		if(ents == null) {
+		if (ents == null) {
 			ents = new ArrayList<Entity>();
 		}
 		return ents;
+	}
+
+	public void setViewportData(final Vector2 pos, final Vector2 dim) {
+		if (viewPort == null) {
+			viewPort = new Entity();
+		}
+		viewPort.pos = pos;
+		viewPort.dim = dim;
 	}
 }
