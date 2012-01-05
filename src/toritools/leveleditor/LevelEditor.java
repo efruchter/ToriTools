@@ -158,11 +158,23 @@ public class LevelEditor {
 						m.getPoint()));
 				mode = Mode.WALL_MAKING;
 			} else if (mode == Mode.BG) {
-				Entity bg = bgEditor
-						.makeEntity(getClosestGridPoint(new Vector2(m
-								.getPoint())));
-				bg.layer = layerEditor.getCurrentLayer();
-				addEntity(bg);
+				if (m.getButton() == MouseEvent.BUTTON3) {
+					for (Entity e : getOverlapping(new Vector2(m.getPoint()))) {
+						if ("BACKGROUND".equals(e.type)) {
+							entities.remove(e);
+						}
+						repaint();
+					}
+
+				} else {
+					Entity bg = bgEditor
+							.makeEntity(getClosestGridPoint(new Vector2(m
+									.getPoint())));
+					if (bg != null) {
+						bg.layer = layerEditor.getCurrentLayer();
+						addEntity(bg);
+					}
+				}
 			} else {
 				if (m.getButton() == MouseEvent.BUTTON1)
 					for (Entity ent : entities) {
@@ -321,6 +333,7 @@ public class LevelEditor {
 
 		if (levelFile.exists()) {
 			Level level = Importer.importLevel(levelFile);
+			levelSize.setSize(level.dim.x, level.dim.y);
 			entities.clear();
 			layerEditor.clear();
 			for (Entity e : level.newEntities) {
@@ -597,6 +610,7 @@ public class LevelEditor {
 		placeBg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mode = mode == Mode.BG ? Mode.PLACE : Mode.BG;
+				selected = null;
 				repaint();
 			}
 		});
@@ -659,6 +673,25 @@ public class LevelEditor {
 			}
 		}
 		removeEntity(selected);
+	}
+
+	/**
+	 * Return all overlapping entities
+	 * 
+	 * @param p
+	 *            the mouse point.
+	 */
+	public List<Entity> getOverlapping(final Vector2 p) {
+		List<Entity> ents = new ArrayList<Entity>();
+		for (Entity e : entities) {
+			if (e.layer == layerEditor.getCurrentLayer()
+					&& new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
+							(int) e.dim.getX(), (int) e.dim.getY())
+							.contains(new Point((int) p.x, (int) p.y))) {
+				ents.add(e);
+			}
+		}
+		return ents;
 	}
 
 	/**
@@ -949,7 +982,8 @@ public class LevelEditor {
 		} else if (mode == Mode.WALL_QUEUE) {
 			editModeLabel.setText("Click and Drag to Draw Wall");
 		} else if (mode == Mode.BG) {
-			editModeLabel.setText("Click To Place a BG Tile in Current Layer (Ctrl+B to exit mode)");
+			editModeLabel
+					.setText("Click To Place a BG Tile in Current Layer (Ctrl+B to exit mode)");
 		} else {
 			editModeLabel.setText("Click to Place Entity");
 		}
