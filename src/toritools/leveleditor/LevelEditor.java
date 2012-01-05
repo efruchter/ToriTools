@@ -651,6 +651,7 @@ public class LevelEditor {
 	public void deleteSelected() {
 		if (selected != null) {
 			removeEntity(selected);
+			selected = null;
 		}
 	}
 
