@@ -99,7 +99,7 @@ public class VariableEditor extends JPanel {
 		editor.repaint();
 	}
 
-	private void loadVariables() {
+	public void loadVariables() {
 		if (entity != null)
 			for (Entry<String, String> s : entity.variables.getVariables()
 					.entrySet()) {

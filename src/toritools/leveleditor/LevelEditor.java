@@ -540,17 +540,17 @@ public class LevelEditor {
 			}
 		});
 		entityMenu.add(deleteAll);
-		
+
 		JMenuItem deleteType = new JMenuItem("Delete All By Type");
 		deleteType.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String type= JOptionPane.showInputDialog("Type to Delete:");
-				if(type == null || type.isEmpty()) {
+				String type = JOptionPane.showInputDialog("Type to Delete:");
+				if (type == null || type.isEmpty()) {
 					return;
 				}
 				List<Entity> trash = new ArrayList<Entity>();
-				for(Entity e: entities) {
-					if(type.equals(e.type)) {
+				for (Entity e : entities) {
+					if (type.equals(e.type)) {
 						trash.add(e);
 					}
 				}
@@ -559,7 +559,7 @@ public class LevelEditor {
 			}
 		});
 		entityMenu.add(deleteType);
-		
+
 		menuBar.add(entityMenu);
 
 		/**
@@ -597,6 +597,60 @@ public class LevelEditor {
 		});
 		settingsMenu.add(levelSizeItem);
 		menuBar.add(settingsMenu);
+
+		JMenu layerMenu = new JMenu("Layer");
+		JMenuItem moveLayer = new JMenuItem("Move Selected to Layer");
+		moveLayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if (selected != null) {
+						int i = Integer.parseInt(JOptionPane
+								.showInputDialog("Move to which layer?"));
+						transferEntity(selected, i);
+						varEditor.setEntity(selected);
+						repaint();
+					}
+
+					repaint();
+				} catch (final Exception i) {
+					return;
+				}
+			}
+		});
+		layerMenu.add(moveLayer);
+
+		JMenuItem moveAllLayer = new JMenuItem("Move Type to Layer");
+		moveAllLayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String type = JOptionPane
+							.showInputDialog("Type to Change Layer of?");
+					if (type == null || type.isEmpty()) {
+						return;
+					}
+					int layer = Integer.parseInt(JOptionPane
+							.showInputDialog("Move to which layer?"));
+					List<Entity> switchs = new ArrayList<Entity>();
+					for (Entity e : entities) {
+						if (type.equals(e.type)) {
+							switchs.add(e);
+						}
+					}
+					for (Entity e : switchs) {
+						transferEntity(e, layer);
+					}
+
+					varEditor.clear();
+
+					repaint();
+				} catch (final Exception i) {
+					return;
+				}
+			}
+		});
+		layerMenu.add(moveAllLayer);
+
+		menuBar.add(layerMenu);
 
 		JMenu bgMenu = new JMenu("Background");
 		JMenuItem selectBg = new JMenuItem("Select New BG");
@@ -744,10 +798,10 @@ public class LevelEditor {
 	 * @param layer
 	 *            layer to add to.
 	 */
-	@SuppressWarnings("unused")
 	private void transferEntity(final Entity e, final int layer) {
 		removeEntity(e);
 		e.layer = layer;
+		e.variables.setVar("layer", layer + "");
 		addEntity(e);
 		repaint();
 	}
