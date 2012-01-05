@@ -158,11 +158,11 @@ public class LevelEditor {
 						m.getPoint()));
 				mode = Mode.WALL_MAKING;
 			} else if (mode == Mode.BG) {
-				Entity bg = bgEditor.makeEntity(getClosestGridPoint(new Vector2(m
-						.getPoint())));
+				Entity bg = bgEditor
+						.makeEntity(getClosestGridPoint(new Vector2(m
+								.getPoint())));
 				bg.layer = layerEditor.getCurrentLayer();
 				addEntity(bg);
-				mode = Mode.PLACE;
 			} else {
 				if (m.getButton() == MouseEvent.BUTTON1)
 					for (Entity ent : entities) {
@@ -215,24 +215,26 @@ public class LevelEditor {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			frame.requestFocus();
-			mode = Mode.PLACE;
-			if (arg0.getButton() == MouseEvent.BUTTON3) {
-				selectOverlapping(new Vector2(arg0.getPoint()));
-				varEditor.setEntity(selected);
-				repaint();
-			} else if (arg0.getButton() == MouseEvent.BUTTON1) {
-				System.err.println("Click");
-				if (current != null) {
-					Vector2 p = new Vector2(arg0.getPoint());
-					deleteOverlapping(p);
-					p.set(getClosestGridPoint(p));
-					Entity e = new Entity();
-					e.setFile(current.getFile());
-					e.pos = p.clone();
-					e.dim = current.dim.clone();
-					e.sprite = current.sprite;
-					e.layer = layerEditor.getCurrentLayer();
-					addEntity(e);
+			if (mode != Mode.BG) {
+				mode = Mode.PLACE;
+				if (arg0.getButton() == MouseEvent.BUTTON3) {
+					selectOverlapping(new Vector2(arg0.getPoint()));
+					varEditor.setEntity(selected);
+					repaint();
+				} else if (arg0.getButton() == MouseEvent.BUTTON1) {
+					System.err.println("Click");
+					if (current != null) {
+						Vector2 p = new Vector2(arg0.getPoint());
+						deleteOverlapping(p);
+						p.set(getClosestGridPoint(p));
+						Entity e = new Entity();
+						e.setFile(current.getFile());
+						e.pos = p.clone();
+						e.dim = current.dim.clone();
+						e.sprite = current.sprite;
+						e.layer = layerEditor.getCurrentLayer();
+						addEntity(e);
+					}
 				}
 			}
 			repaint();
@@ -321,8 +323,8 @@ public class LevelEditor {
 			Level level = Importer.importLevel(levelFile);
 			entities.clear();
 			layerEditor.clear();
-			for(Entity e : level.newEntities) {
-				if(e.file != null && e.file.canRead()) {
+			for (Entity e : level.newEntities) {
+				if (e.file != null && e.file.canRead()) {
 					importEntity(e.file);
 				}
 				entities.add(e);
@@ -591,10 +593,10 @@ public class LevelEditor {
 		});
 		bgMenu.add(setupBg);
 
-		JMenuItem placeBg = new JMenuItem("Place Selected BG");
+		JMenuItem placeBg = new JMenuItem("Toggle Place BG Mode");
 		placeBg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mode = Mode.BG;
+				mode = mode == Mode.BG ? Mode.PLACE : Mode.BG;
 				repaint();
 			}
 		});
@@ -947,7 +949,7 @@ public class LevelEditor {
 		} else if (mode == Mode.WALL_QUEUE) {
 			editModeLabel.setText("Click and Drag to Draw Wall");
 		} else if (mode == Mode.BG) {
-			editModeLabel.setText("Click To Place a BG Tile in Current Layer");
+			editModeLabel.setText("Click To Place a BG Tile in Current Layer (Ctrl+B to exit mode)");
 		} else {
 			editModeLabel.setText("Click to Place Entity");
 		}
