@@ -607,9 +607,10 @@ public class LevelEditor {
 						int i = Integer.parseInt(JOptionPane
 								.showInputDialog("Move to which layer?"));
 						transferEntity(selected, i);
-						varEditor.setEntity(selected);
 						repaint();
 					}
+
+					varEditor.clear();
 
 					repaint();
 				} catch (final Exception i) {
