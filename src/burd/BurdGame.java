@@ -75,7 +75,6 @@ public class BurdGame {
 	private Level level;
 	public static Level newLevel;
 	public static boolean debug = false;
-	public Vector2 zoom = new Vector2(1, 1);
 	public static KeyHolder keys = new KeyHolder();
 	public static boolean inDialog = false;
 	private static String displayString = "";
@@ -202,17 +201,6 @@ public class BurdGame {
 				nextLevel();
 			}
 
-			if (keys.isPressed(KeyEvent.VK_I)) {
-				zoom.x += .1;
-				zoom.y += .1;
-			}
-			if (keys.isPressed(KeyEvent.VK_O)) {
-				zoom.x -= .1;
-				zoom.y -= .1;
-				if (zoom.x < 1)
-					zoom.set(1, 1);
-			}
-
 			if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
 				try {
 					Entity e = Importer.importEntity(new File(
@@ -274,10 +262,6 @@ public class BurdGame {
 		}
 	}
 
-	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,
-			(int) VIEWPORT.y, BufferedImage.TYPE_INT_ARGB);
-	private Graphics bufferGraphics = bufferImage.getGraphics();
-
 	private Image bg = Toolkit.getDefaultToolkit().getImage(
 			"burd/backgrounds/sky.jpg");
 
@@ -294,34 +278,25 @@ public class BurdGame {
 
 		Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
 
-		bufferGraphics.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y,
-				null);
+		rootCanvas
+				.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
 				if (debug) {
-					bufferGraphics.setColor(Color.RED);
-					bufferGraphics.drawRect((int) (e.pos.x + offset.x),
+					rootCanvas.setColor(Color.RED);
+					rootCanvas.drawRect((int) (e.pos.x + offset.x),
 							(int) (e.pos.y + offset.y), (int) e.dim.x,
 							(int) e.dim.y);
 				}
 				if (e.visible && e.inView)
-					e.draw(bufferGraphics, offset);
+					e.draw(rootCanvas, offset);
 			}
-		level.getEntityWithId("player").draw(bufferGraphics, offset);
-
-		// Draw to the actual screen, scaled.
-		int xScalePix = (int) (zoom.x * VIEWPORT.x);
-		int yScalePix = (int) (zoom.y * VIEWPORT.y);
-		rootCanvas.drawImage(bufferImage,
-				-(int) ((xScalePix - VIEWPORT.x) / 2),
-				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
-				null);
+		level.getEntityWithId("player").draw(rootCanvas, offset);
 
 		rootCanvas.setColor(Color.BLACK);
 		String infoString = "[Esc] Quit  [K] Debug Mode: " + debug;
 		if (debug)
-			infoString = infoString + "  [I/O] Zoom: " + zoom.x
-					+ "  [P] Next Level  [L] SPAWN EGGS";
+			infoString = infoString + "  [P] Next Level  [L] SPAWN EGGS";
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 
 		/*
