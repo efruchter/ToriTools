@@ -1,4 +1,4 @@
-<level map="height = 5000;width = 5000;">
+<level map="title = The Tunnel;height = 5000;width = 5000;">
 <objects>
 <entity map="dimensions.y = 128.0;yTiles = 5;yTile = 0;position.y = 0.0;position.x = 0.0;xTiles = 2;xTile = 0;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 128.0;yTiles = 5;yTile = 0;position.y = 0.0;position.x = 128.0;xTiles = 2;xTile = 0;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 128.0;"/>

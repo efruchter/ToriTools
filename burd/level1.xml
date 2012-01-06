@@ -1,4 +1,4 @@
-<level map="height = 1000;width = 1000;">
+<level map="title = Learning To Fly;height = 1000;width = 1000;">
 <objects>
 <entity map="dimensions.y = 166;template = /objects/howTo.entity;solid = false;position.y = 672.0;sprite.sheet = howTo.png;position.x = 160.0;description = describe the controls;layer = 4;type = tutorial;dimensions.x = 360;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 0;position.y = 896.0;position.x = 128.0;xTiles = 4;xTile = 1;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>

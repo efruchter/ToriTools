@@ -54,6 +54,7 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.map.ToriMapIO;
+import toritools.map.VariableCase;
 import toritools.math.Vector2;
 import toritools.xml.ToriXML;
 
@@ -139,6 +140,8 @@ public class LevelEditor {
 
 	private Vector2 wallStart, wallEnd;
 	private Entity moving;
+
+	VariableCase variables = new VariableCase();
 
 	private enum Mode {
 		WALL_QUEUE, WALL_MAKING, MOVING, PLACE, BG
@@ -333,6 +336,7 @@ public class LevelEditor {
 
 		if (levelFile.exists()) {
 			Level level = Importer.importLevel(levelFile);
+			variables = level.variables;
 			levelSize.setSize(level.dim.x, level.dim.y);
 			entities.clear();
 			layerEditor.clear();
@@ -448,6 +452,7 @@ public class LevelEditor {
 				}
 				clear();
 				levelFile = null;
+				variables.clear();
 				repaint();
 			}
 		});
@@ -596,6 +601,26 @@ public class LevelEditor {
 			}
 		});
 		settingsMenu.add(levelSizeItem);
+
+		JMenuItem levelVar = new JMenuItem("Set Level Variable");
+		levelVar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String key = JOptionPane
+							.showInputDialog("Variable to set?");
+					String value = JOptionPane
+							.showInputDialog("value to assign to the key \""
+									+ key + "\"?");
+					if (!key.isEmpty() && !value.isEmpty())
+						variables.setVar(key, value);
+					repaint();
+				} catch (final Exception i) {
+					return;
+				}
+			}
+		});
+		settingsMenu.add(levelVar);
+
 		menuBar.add(settingsMenu);
 
 		JMenu layerMenu = new JMenu("Layer");
@@ -830,8 +855,8 @@ public class LevelEditor {
 		HashMap<String, String> props = new HashMap<String, String>();
 		props.put("width", levelSize.width + "");
 		props.put("height", levelSize.height + "");
+		props.putAll(variables.getVariables());
 		levelElement.setAttribute("map", ToriMapIO.writeMap(null, props));
-
 		// Save the objects
 		Element objectsElements = doc.createElement("objects");
 		levelElement.appendChild(objectsElements);

@@ -223,7 +223,7 @@ public class BurdGame {
 
 		camera.setA(level.getEntityWithId("player").pos.clone());
 		camera.smoothTowardA();
-		
+
 		level.setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
 	}
 
@@ -302,7 +302,10 @@ public class BurdGame {
 		/*
 		 * HUD
 		 */
-		rootCanvas.drawString("Time: " + stopWatch.getElapsedTimeSecs(),
+		String title = level.variables.getVar("title");
+		title = (title == null) ? "" : title;
+		rootCanvas.drawString(
+				title + "        Time: " + stopWatch.getElapsedTimeSecs(),
 				(int) 20, 40);
 
 		// List<Entity> breads;
