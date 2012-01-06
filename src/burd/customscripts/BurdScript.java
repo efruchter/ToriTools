@@ -20,6 +20,8 @@ public class BurdScript implements EntityScript {
 
 	private Vector2 startPos;
 
+	public boolean inAir = true;
+
 	public void onSpawn(Level level, Entity self) {
 
 		startPos = self.pos.clone();
@@ -28,6 +30,12 @@ public class BurdScript implements EntityScript {
 	}
 
 	public void onUpdate(Level level, Entity self) {
+
+		if (inAir) {
+			physicsModule.setgDrag(1f);
+		} else {
+			physicsModule.setgDrag(.945f);
+		}
 
 		boolean flapped = false;
 
@@ -100,6 +108,15 @@ public class BurdScript implements EntityScript {
 				latestFlag = flag;
 				latestFlag.sprite.setFrame(1);
 				startPos = flag.pos.clone();
+			}
+
+		for (Entity air : level.getEntitiesWithType("inAir"))
+			if (air.inView && ScriptUtils.isColliding(air, self)) {
+				inAir = true;
+			}
+		for (Entity water : level.getEntitiesWithType("inWater"))
+			if (water.inView && ScriptUtils.isColliding(water, self)) {
+				inAir = false;
 			}
 	}
 
