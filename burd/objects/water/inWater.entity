@@ -1,0 +1,10 @@
+type = inWater;
+description = The Player is now underwater;
+dimensions.x = 64;
+dimensions.y = 64;
+solid = false;
+visible = false;
+
+sprite.sheet = inWater.png;
+
+

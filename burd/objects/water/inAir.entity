@@ -1,0 +1,10 @@
+type = inAir;
+description = Player is now in air.;
+dimensions.x = 64;
+dimensions.y = 64;
+solid = false;
+visible = false;
+
+sprite.sheet = inAir.png;
+
+
