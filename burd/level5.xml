@@ -359,6 +359,10 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 3;position.y = 672.0;position.x = 1280.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 0;position.y = 992.0;position.x = 1152.0;xTiles = 4;xTile = 3;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 2;position.y = 1056.0;position.x = 1152.0;xTiles = 4;xTile = 3;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="template = /objects/water/inAir.entity;position.y = 384.0;position.x = 1376.0;layer = 3;"/>
+<entity map="template = /objects/water/inAir.entity;position.y = 384.0;position.x = 1440.0;layer = 3;"/>
+<entity map="template = /objects/water/inAir.entity;position.y = 320.0;position.x = 1376.0;layer = 3;"/>
+<entity map="template = /objects/water/inAir.entity;position.y = 320.0;position.x = 1440.0;layer = 3;"/>
 <entity map="sprite.sizeOffset = 10;template = /objects/player.entity;position.y = 352.0;sprite.timeScale = 3;position.x = 1408.0;layer = 0;type = player;hSpeed = .2;id = player;dimensions.y = 20;solid = false;sprite.sheet = burd.png, 4, 4;description = an burd;vSpeed = .4f;dimensions.x = 20;"/>
 <entity map="dimensions.y = 64;template = /objects/nest.entity;solid = false;position.y = 416.0;sprite.sheet = nest.png;position.x = 1376.0;description = Drag eggs here to win!;layer = 0;type = nest;dimensions.x = 128;"/>
 <entity map="dimensions.y = 32;template = /objects/bread.entity;solid = false;position.y = 112.0;sprite.sheet = bread.png;position.x = 1424.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
@@ -429,26 +433,26 @@
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 640.0;sprite.sheet = spikeUp.png;position.x = 1184.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 640.0;sprite.sheet = spikeUp.png;position.x = 1248.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 640.0;sprite.sheet = spikeUp.png;position.x = 1280.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 1664.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 1728.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 1792.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 1856.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 1920.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 1984.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 2048.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 2112.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 2208.0;layer = 0;"/>
-<entity map="template = /objects/water/inWater.entity;position.y = 416.0;position.x = 2176.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 1664.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 1728.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 1792.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 1856.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 1920.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 1984.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 2048.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 2112.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 2208.0;layer = 0;"/>
-<entity map="template = /objects/water/inAir.entity;position.y = 352.0;position.x = 2176.0;layer = 0;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1664.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1728.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1792.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1856.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1920.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1984.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 2048.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 2112.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 2208.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 2176.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 1664.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 1728.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 1792.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 1856.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 1920.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 1984.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 2048.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 2112.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 2208.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = /objects/water/inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 2176.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 352.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 384.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>

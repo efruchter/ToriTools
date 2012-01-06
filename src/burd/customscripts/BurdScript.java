@@ -31,12 +31,6 @@ public class BurdScript implements EntityScript {
 
 	public void onUpdate(Level level, Entity self) {
 
-		if (inAir) {
-			physicsModule.setgDrag(1f);
-		} else {
-			physicsModule.setgDrag(.945f);
-		}
-
 		boolean flapped = false;
 
 		if (BurdGame.keys.isPressed(KeyEvent.VK_SPACE)) {
@@ -57,7 +51,7 @@ public class BurdScript implements EntityScript {
 		boolean onGround = ScriptUtils.safeMove(self, delta, true,
 				level.solids.toArray(new Entity[0])).mag() != 0;
 
-		if (onGround)
+		if (onGround || !inAir)
 			physicsModule.setgDrag(.95f);
 		else
 			physicsModule.setgDrag(1f);
