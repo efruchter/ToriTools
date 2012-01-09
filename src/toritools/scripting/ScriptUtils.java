@@ -3,6 +3,7 @@ package toritools.scripting;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import toritools.entity.Entity;
 import toritools.map.ToriMapIO;
@@ -99,33 +100,32 @@ public class ScriptUtils {
 		return true;
 	}
 
-	public static Vector2 safeMove(final Entity e, final Vector2 delta,
-			final Entity... opposing) {
-		return safeMove(e, delta, false, opposing);
-	}
+	public static Vector2 moveOut(final Entity self,
+			final boolean disregardOutOfView, final Entity entity) {
+		Vector2 delta = new Vector2();
+		if (self != entity) {
+			if (!(disregardOutOfView && !entity.inView)
+					&& isColliding(entity, self)) {
+				self.pos = self.pos.add(delta = findBestVectorOut(self, entity)
+						.scale(1.1f));
+			}
 
-	public static Vector2 safeMove(final Entity e, final Vector2 delta,
-			final boolean disregardOutOfView, final Entity... opposing) {
-		e.pos = e.pos.add(delta);
-		return moveOut(e, disregardOutOfView, opposing);
-	}
-
-	public static Vector2 moveOut(final Entity self, final Entity... entities) {
-		return moveOut(self, false, entities);
+		}
+		return delta;
 	}
 
 	public static Vector2 moveOut(final Entity self,
-			final boolean disregardOutOfView, final Entity... entities) {
+			final boolean disregardOutOfView, final List<Entity> entities) {
 		Vector2 delta = new Vector2();
-		for (Entity entity : entities) {
+		for (Entity entity : entities)
 			if (self != entity) {
 				if (!(disregardOutOfView && !entity.inView)
 						&& isColliding(entity, self)) {
 					self.pos = self.pos.add(delta = findBestVectorOut(self,
 							entity).scale(1.1f));
 				}
+
 			}
-		}
 		return delta;
 	}
 

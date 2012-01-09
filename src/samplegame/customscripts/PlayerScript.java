@@ -52,7 +52,9 @@ public class PlayerScript implements EntityScript {
 			self.sprite.setCycle(0);
 		}
 
-		ScriptUtils.safeMove(self, delta, level.solids.toArray(new Entity[0]));
+		self.pos = self.pos.add(delta);
+
+		ScriptUtils.moveOut(self, false, level.solids);
 
 		if (walked)
 			self.sprite.nextFrame();

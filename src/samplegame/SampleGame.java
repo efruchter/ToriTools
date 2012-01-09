@@ -212,10 +212,9 @@ public class SampleGame {
 				}
 
 				public void onUpdate(Level level, Entity self) {
-					ScriptUtils.moveOut(self, player);
-					ScriptUtils.moveOut(self,
-							level.solids.toArray(new Entity[0]));
-					ScriptUtils.moveOut(player, self);
+					ScriptUtils.moveOut(self, true, player);
+					ScriptUtils.moveOut(self, true, level.solids);
+					ScriptUtils.moveOut(player, true, self);
 				}
 
 				public void onDeath(Level level, Entity self, boolean isRoomExit) {

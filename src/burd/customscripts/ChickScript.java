@@ -35,8 +35,8 @@ public class ChickScript implements EntityScript {
 
 		Vector2 delta = physicsModule.onUpdate();
 
-		boolean onGround = ScriptUtils.safeMove(self, delta,
-				level.solids.toArray(new Entity[0])).mag() != 0;
+		self.pos = self.pos.add(delta);
+		boolean onGround = ScriptUtils.moveOut(self, false, level.solids).mag() != 0;
 
 		if (onGround)
 			physicsModule.setgDrag(.95f);
@@ -50,17 +50,17 @@ public class ChickScript implements EntityScript {
 		else
 			self.sprite.setCycle(2);
 
-//		if ((onGround && Math.abs(delta.x) > 1)) {
-//			self.sprite.nextFrame();
-//		} else {
-//			// make the wing match the motion
-//			if (Math.abs(delta.y) < 5)
-//				self.sprite.setFrame(1);
-//			else if (delta.y < 0)
-//				self.sprite.setFrame(2);
-//			else
-//				self.sprite.setFrame(0);
-//		}
+		// if ((onGround && Math.abs(delta.x) > 1)) {
+		// self.sprite.nextFrame();
+		// } else {
+		// // make the wing match the motion
+		// if (Math.abs(delta.y) < 5)
+		// self.sprite.setFrame(1);
+		// else if (delta.y < 0)
+		// self.sprite.setFrame(2);
+		// else
+		// self.sprite.setFrame(0);
+		// }
 	}
 
 	@Override
