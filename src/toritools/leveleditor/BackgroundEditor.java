@@ -108,8 +108,9 @@ public class BackgroundEditor extends JPanel {
 	public Entity makeEntity(final Vector2 pos) {
 		if (imageFile == null)
 			return null;
-		String relativeLink = imageFile.getPath().split(
-				editor.workingDirectory.getPath())[1];
+
+		String relativeLink = imageFile.getPath().replace(
+				editor.workingDirectory.getPath(), "");
 
 		Entity bg = Importer.makeBackground(pos, new Vector2(grid.width,
 				grid.height), new ImageIcon(imageFile.getPath()).getImage(),

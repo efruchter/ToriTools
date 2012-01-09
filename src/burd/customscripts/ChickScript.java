@@ -27,7 +27,7 @@ public class ChickScript implements EntityScript {
 
 		if (--timer < 0) {
 			timer = (int) (flapTime * Math.random());
-			physicsModule.addVelocity(new Vector2(-3
+			physicsModule.addVelocity(new Vector2(-2
 					+ (int) (Math.random() * 6),
 					-(1 + (int) (Math.random() * 5))));
 			self.sprite.nextFrame();
