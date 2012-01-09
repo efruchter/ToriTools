@@ -27,16 +27,14 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import samplegame.customscripts.PlayerScript;
 import samplegame.customscripts.WolfScript;
@@ -50,7 +48,7 @@ import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
 public class SampleGame {
-	
+
 	public static String savePrefix = "secondchance";
 
 	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
@@ -135,7 +133,7 @@ public class SampleGame {
 		frame.requestFocusInWindow();
 	}
 
-	private Timer timer;
+	private java.util.Timer timer;
 
 	/**
 	 * Runs the game (the "main loop")
@@ -144,14 +142,15 @@ public class SampleGame {
 		/*
 		 * This is not 60 fps, but really close!
 		 */
-		timer = new Timer(17, new ActionListener() {
+		timer = new java.util.Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void run() {
 				logic();
 				frame.repaint();
 			}
-		});
-		timer.start();
+		}, 0l, 17l);
 	}
 
 	/**
@@ -226,7 +225,7 @@ public class SampleGame {
 		}
 
 		level.onSpawn();
-		
+
 		// Set up world portals.
 		for (Entity e : level.getEntitiesWithType("worldPortal")) {
 			e.script = new WorldPortalScript();

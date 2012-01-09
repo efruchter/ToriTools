@@ -28,18 +28,16 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
@@ -153,7 +151,7 @@ public class BurdGame {
 		frame.requestFocusInWindow();
 	}
 
-	private Timer timer;
+	private java.util.Timer timer;
 
 	/**
 	 * Runs the game (the "main loop")
@@ -162,14 +160,15 @@ public class BurdGame {
 		/*
 		 * This is not 60 fps, but really close!
 		 */
-		timer = new Timer(17, new ActionListener() {
+		timer = new java.util.Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void run() {
 				logic();
 				frame.repaint();
 			}
-		});
-		timer.start();
+		}, 0l, 17l);
 	}
 
 	/**

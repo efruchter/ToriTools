@@ -19,6 +19,7 @@ public class ChickScript implements EntityScript {
 		physicsModule = new PhysicsModule(new Vector2(0, 0.06f), 1f, self);
 		physicsModule.clearVelocity();
 		flapTime = 100;
+		self.sprite.timeStretch = 1;
 	}
 
 	@Override
@@ -49,17 +50,17 @@ public class ChickScript implements EntityScript {
 		else
 			self.sprite.setCycle(2);
 
-		if ((onGround && Math.abs(delta.x) > 1)) {
-			self.sprite.nextFrame();
-		} else {
-			// make the wing match the motion
-			if (Math.abs(delta.y) < 5)
-				self.sprite.setFrame(1);
-			else if (delta.y < 0)
-				self.sprite.setFrame(2);
-			else
-				self.sprite.setFrame(0);
-		}
+//		if ((onGround && Math.abs(delta.x) > 1)) {
+//			self.sprite.nextFrame();
+//		} else {
+//			// make the wing match the motion
+//			if (Math.abs(delta.y) < 5)
+//				self.sprite.setFrame(1);
+//			else if (delta.y < 0)
+//				self.sprite.setFrame(2);
+//			else
+//				self.sprite.setFrame(0);
+//		}
 	}
 
 	@Override

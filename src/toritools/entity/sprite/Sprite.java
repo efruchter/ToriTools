@@ -47,6 +47,11 @@ public class Sprite {
 	public void nextFrame() {
 		x = ++x % (xSplit * timeStretch);
 	}
+	
+	public void nextFrameAbsolute() {
+		int timeStretch = 1;
+		x = ++x % (xSplit * timeStretch);
+	}
 
 	public void setFrame(final int frame) {
 		x = frame * timeStretch % (xSplit * timeStretch);
