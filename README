@@ -10,9 +10,6 @@ Create a blank java project in eclipse called ToriTools,
 and drag the git repo onto it and merge. Add all the jars 
 and their natives (if they have them) to the build path.
 
-If you are using Java 6, As a VM argument, pass in:
--Dsun.java2d.opengl=true
-This will make things runs nice and smooth.
 Just peek into the top level classes for each of the sample games to see how setting up entities and their behavior is done.
 
 ~toriscope

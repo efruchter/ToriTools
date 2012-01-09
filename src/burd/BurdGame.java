@@ -19,15 +19,11 @@ package burd;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.DisplayMode;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -60,8 +56,7 @@ public class BurdGame {
 
 	public static String savePrefix = "burd2";
 
-	private int resolutionWidth = Toolkit.getDefaultToolkit().getScreenSize().width,
-			resolutionHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+	private int resolutionWidth = 800, resolutionHeight = 600;
 	private final Vector2 VIEWPORT = new Vector2(resolutionWidth,
 			resolutionHeight);
 
@@ -86,16 +81,19 @@ public class BurdGame {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+
+		if (System.getProperty("os.name").contains("Windows ")) {
+			System.setProperty("sun.java2d.d3d", "True");
+			System.setProperty("sun.java2d.accthreshold", "0");
+		} else {
+			System.setProperty("sun.java2d.opengl=true", "True");
+		}
+
 		BurdGame sampleGame = new BurdGame();
 
 		sampleGame.init();
 		sampleGame.run();
 	}
-
-	/**
-	 * Interface to video card/chip for hardware acceleration
-	 */
-	private GraphicsDevice gd;
 
 	/**
 	 * JFrame with game title
@@ -121,12 +119,7 @@ public class BurdGame {
 	 *             if init fails
 	 */
 	public void init() throws IOException {
-		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-
 		viewPortEntity = new Entity();
-
-		gd = graphicsEnvironment.getDefaultScreenDevice();
 
 		frame.setCursor(hiddenCursor); // Hide cursor by default
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,6 +128,8 @@ public class BurdGame {
 		frame.add(panel);
 		frame.addKeyListener(keys);
 		frame.setFocusable(true);
+		frame.setVisible(true);
+		frame.pack();
 
 		try {
 			ScriptUtils.loadProfileVariables(savePrefix);
@@ -147,7 +142,6 @@ public class BurdGame {
 
 		setupLevel();
 
-		setFullScreen(true);
 		frame.requestFocusInWindow();
 	}
 
@@ -327,56 +321,6 @@ public class BurdGame {
 		if (displayString != null) {
 			rootCanvas.drawString(displayString, (int) VIEWPORT.x / 2,
 					(int) VIEWPORT.y / 2 + 64);
-		}
-	}
-
-	/**
-	 * Display mode of user's monitor. Uses 32-bit color depth.
-	 */
-	private DisplayMode displayMode = new DisplayMode(resolutionWidth,
-			resolutionHeight, 32, DisplayMode.REFRESH_RATE_UNKNOWN);
-	@SuppressWarnings("unused")
-	private boolean isInFullScreen;
-
-	/**
-	 * Sets full screen or reverts screen to normal. In the future, this method
-	 * will be able to restore to windowed mode and not simply hide it.
-	 * 
-	 * To my knowledge, full screen only supports one monitor, for I have no
-	 * other monitors to test with.
-	 * 
-	 * @param isFullScreen
-	 *            Enable (true) or disable (false) full screen mode
-	 */
-	public void setFullScreen(boolean isFullScreen) {
-		if (isFullScreen) {
-			frame.dispose(); // Without disposing first, the frame remains
-								// displayed.
-			frame.setUndecorated(true);
-			frame.setResizable(false); // Safety check
-			gd.setFullScreenWindow(frame); // This must be placed after
-											// setUndecorated.
-			isInFullScreen = true;
-
-			if (displayMode != null && gd.isDisplayChangeSupported()) {
-				try {
-					gd.setDisplayMode(displayMode);
-				} catch (Exception e) {
-					System.out.println("Error: Could not set display mode!");
-				}
-			}
-		} else {
-			Window window = gd.getFullScreenWindow();
-
-			if (window != null) {
-				window.dispose(); // Dispose resources when closed.
-			}
-			frame.setUndecorated(false);
-			frame.setResizable(true);
-			frame.pack();
-			frame.setVisible(true);
-			gd.setFullScreenWindow(null); // Actual revert of window
-			isInFullScreen = false;
 		}
 	}
 
