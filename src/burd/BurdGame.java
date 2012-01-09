@@ -281,14 +281,15 @@ public class BurdGame {
 				.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
-				if (debug) {
+				if (e.visible && e.inView)
+					e.draw(rootCanvas, offset);
+				if (!"BACKGROUND".equals(e.type) && debug) {
 					rootCanvas.setColor(Color.RED);
 					rootCanvas.drawRect((int) (e.pos.x + offset.x),
 							(int) (e.pos.y + offset.y), (int) e.dim.x,
 							(int) e.dim.y);
 				}
-				if (e.visible && e.inView)
-					e.draw(rootCanvas, offset);
+
 			}
 		level.getEntityWithId("player").draw(rootCanvas, offset);
 

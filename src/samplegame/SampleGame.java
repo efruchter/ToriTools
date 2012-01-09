@@ -23,7 +23,6 @@ import java.awt.DisplayMode;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -233,10 +232,6 @@ public class SampleGame {
 		}
 	}
 
-	private Image bufferImage = new BufferedImage((int) VIEWPORT.x,
-			(int) VIEWPORT.y, BufferedImage.TYPE_INT_RGB);
-	private Graphics bufferGraphics = bufferImage.getGraphics();
-
 	private void render(final Graphics rootCanvas) {
 		if (level == null) {
 			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
@@ -249,30 +244,24 @@ public class SampleGame {
 		Vector2 playerPos = level.getEntityWithId("player").pos;
 		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
-		bufferGraphics.setColor(Color.BLACK);
-		bufferGraphics.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+		rootCanvas.setColor(Color.BLACK);
+		rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
-				if (debug) {
-					bufferGraphics.setColor(Color.RED);
-					bufferGraphics.drawRect((int) (e.pos.x + offset.x),
+				if (e.visible && e.inView)
+					e.draw(rootCanvas, offset);
+				if (!"BACKGROUND".equals(e.type) && debug) {
+					rootCanvas.setColor(Color.RED);
+					rootCanvas.drawRect((int) (e.pos.x + offset.x),
 							(int) (e.pos.y + offset.y), (int) e.dim.x,
 							(int) e.dim.y);
 				}
-				if (e.visible)
-					e.draw(bufferGraphics, offset);
+
 			}
-		// Draw to the actual screen, scaled.
-		int xScalePix = (int) (zoom.x * VIEWPORT.x);
-		int yScalePix = (int) (zoom.y * VIEWPORT.y);
-		rootCanvas.drawImage(bufferImage,
-				-(int) ((xScalePix - VIEWPORT.x) / 2),
-				-(int) ((yScalePix - VIEWPORT.y) / 2), xScalePix, yScalePix,
-				null);
+
 		rootCanvas.setColor(Color.white);
-		String infoString = "[WASD] Move" + "  |  [I/O] Zoom: " + zoom.x
-				+ "  |  [K] Debug Mode: " + debug + "  |  [L] Full Screen: "
-				+ isInFullScreen + "  |  [Esc] Quit";
+		String infoString = "[WASD] Move" + "  |  [K] Debug Mode: " + debug
+				+ "  |  [L] Full Screen: " + isInFullScreen + "  |  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 
