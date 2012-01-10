@@ -1,13 +1,10 @@
 package burd.customscripts;
 
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
-import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -79,7 +76,7 @@ public class BurdScript implements EntityScript {
 		}
 
 		if (!BurdGame.debug) {
-			for (Entity spike : level.getEntitiesWithType("spike")) {
+			for (Entity spike : level.getEntitiesWithType("spike", "puffer")) {
 				if (spike.inView && ScriptUtils.isColliding(spike, self)) {
 					for (Entity bread : level.getEntitiesWithType("bread")) {
 						bread.active = true;
@@ -117,16 +114,9 @@ public class BurdScript implements EntityScript {
 			}
 
 		if (!inAir && Math.random() < .04) {
-			try {
-				Entity bubble = Importer.importEntity(new File(
-						"burd/objects/bubble.entity"), null);
-				bubble.script = new BubbleScript();
-				bubble.pos = self.pos;
-				bubble.dim = bubble.dim.scale((float) Math.random());
-				level.spawnEntity(bubble);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			Entity bubble = BubbleScript.getBubbleEntity();
+			bubble.pos = self.pos.clone();
+			level.spawnEntity(bubble);
 		}
 	}
 

@@ -36,6 +36,7 @@ public class ChickScript implements EntityScript {
 		Vector2 delta = physicsModule.onUpdate();
 
 		self.pos = self.pos.add(delta);
+		ScriptUtils.moveOut(self, false, level.getEntitiesWithType("inWater"));
 		boolean onGround = ScriptUtils.moveOut(self, false, level.solids).mag() != 0;
 
 		if (onGround)

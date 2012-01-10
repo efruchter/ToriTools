@@ -1,7 +1,11 @@
 package burd.customscripts;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -37,6 +41,20 @@ public class BubbleScript implements EntityScript {
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static Entity getBubbleEntity() {
+		Entity bubble;
+		try {
+			bubble = Importer.importEntity(new File(
+					"burd/objects/bubble.entity"), null);
+			bubble.script = new BubbleScript();
+			bubble.dim = bubble.dim.scale((float) Math.random());
+			return bubble;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

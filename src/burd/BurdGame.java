@@ -46,6 +46,7 @@ import toritools.scripting.ScriptUtils;
 import toritools.timing.StopWatch;
 import burd.customscripts.BreadScript;
 import burd.customscripts.BurdScript;
+import burd.customscripts.PufferfishScript;
 import burd.customscripts.ScrollScript;
 
 public class BurdGame {
@@ -251,6 +252,11 @@ public class BurdGame {
 
 		for (Entity e : level.getEntitiesWithType("vScroll")) {
 			e.script = new ScrollScript(false);
+			e.onSpawn(level);
+		}
+		
+		for (Entity e : level.getEntitiesWithType("puffer")) {
+			e.script = new PufferfishScript();
 			e.onSpawn(level);
 		}
 	}

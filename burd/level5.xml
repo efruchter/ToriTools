@@ -139,7 +139,6 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 160.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 224.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 288.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 416.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 672.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 736.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 1;position.y = 800.0;position.x = 928.0;xTiles = 4;xTile = 2;layer = 4;image = /backgrounds/test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -346,6 +345,17 @@
 <entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 288.0;sprite.sheet = inAir.png;visible = false;position.x = 576.0;description = Player is now in air.;layer = 3;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 224.0;sprite.sheet = inAir.png;visible = false;position.x = 576.0;description = Player is now in air.;layer = 3;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 224.0;sprite.sheet = inAir.png;visible = false;position.x = 640.0;description = Player is now in air.;layer = 3;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 352.0;sprite.sheet = inWater.png;visible = false;position.x = 832.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 352.0;sprite.sheet = inWater.png;visible = false;position.x = 896.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 352.0;sprite.sheet = inWater.png;visible = false;position.x = 960.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 352.0;sprite.sheet = inWater.png;visible = false;position.x = 1024.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 352.0;sprite.sheet = inWater.png;visible = false;position.x = 1088.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 992.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1088.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 1056.0;description = The Player is now underwater;layer = 3;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 288.0;sprite.sheet = inAir.png;visible = false;position.x = 992.0;description = Player is now in air.;layer = 3;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 288.0;sprite.sheet = inAir.png;visible = false;position.x = 1088.0;description = Player is now in air.;layer = 3;type = inAir;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 288.0;sprite.sheet = inAir.png;visible = false;position.x = 1056.0;description = Player is now in air.;layer = 3;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 416.0;position.x = 1664.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 416.0;position.x = 1728.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 416.0;position.x = 1792.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -379,8 +389,8 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 2208.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 2144.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 2080.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 2016.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 1952.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 2016.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 1888.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 1824.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 544.0;position.x = 1760.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -480,8 +490,8 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1088.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1088.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 960.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 928.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 800.0;position.x = 1760.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 800.0;position.x = 1824.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -709,6 +719,19 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 480.0;position.x = 704.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 352.0;position.x = 704.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64;template = \objects\water\inWater.entity;solid = false;position.y = 288.0;sprite.sheet = inWater.png;visible = false;position.x = 640.0;description = The Player is now underwater;layer = 2;type = inWater;dimensions.x = 64;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 352.0;position.x = 832.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 352.0;position.x = 896.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 352.0;position.x = 960.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 352.0;position.x = 1024.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 352.0;position.x = 1088.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 416.0;position.x = 1088.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 416.0;position.x = 992.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 416.0;position.x = 1056.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 288.0;position.x = 992.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 288.0;position.x = 1088.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 288.0;position.x = 1056.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 320.0;position.x = 1088.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 320.0;position.x = 1088.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 992.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 1024.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1728.0;sprite.sheet = spikeUp.png;position.x = 1056.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
@@ -853,7 +876,6 @@
 <entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 2208.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64;template = /objects/water/inWater.entity;solid = false;position.y = 416.0;sprite.sheet = inWater.png;visible = false;position.x = 2176.0;description = The Player is now underwater;layer = 0;type = inWater;dimensions.x = 64;"/>
 <entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 768.0;sprite.sheet = bread.png;position.x = 1216.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
-<entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 352.0;sprite.sheet = inAir.png;visible = false;position.x = 832.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 416.0;sprite.sheet = inAir.png;visible = false;position.x = 832.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 480.0;sprite.sheet = inAir.png;visible = false;position.x = 832.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
 <entity map="dimensions.y = 64;template = \objects\water\inAir.entity;solid = false;position.y = 480.0;sprite.sheet = inAir.png;visible = false;position.x = 768.0;description = Player is now in air.;layer = 0;type = inAir;dimensions.x = 64;"/>
@@ -930,9 +952,17 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 0;position.y = 416.0;position.x = 896.0;xTiles = 4;xTile = 0;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 2;position.y = 288.0;position.x = 896.0;xTiles = 4;xTile = 0;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 608.0;sprite.sheet = bread.png;position.x = 608.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
-<entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 224.0;sprite.sheet = bread.png;position.x = 576.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
-<entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 224.0;sprite.sheet = bread.png;position.x = 736.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
-<entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 704.0;sprite.sheet = bread.png;position.x = 576.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 256.0;sprite.sheet = bread.png;position.x = 608.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 256.0;sprite.sheet = bread.png;position.x = 704.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\bread.entity;solid = false;position.y = 672.0;sprite.sheet = bread.png;position.x = 608.0;description = a delicious bread;layer = 0;type = bread;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 576.0;sprite.sheet = puffer.png, 2, 1;position.x = 1984.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 800.0;sprite.sheet = puffer.png, 2, 1;position.x = 1664.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 1088.0;sprite.sheet = puffer.png, 2, 1;position.x = 2144.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 608.0;sprite.sheet = puffer.png, 2, 1;position.x = 1024.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 1088.0;sprite.sheet = puffer.png, 2, 1;position.x = 1088.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 1536.0;sprite.sheet = puffer.png, 2, 1;position.x = 1408.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 1472.0;sprite.sheet = puffer.png, 2, 1;position.x = 1024.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 288.0;sprite.sheet = puffer.png, 2, 1;position.x = 768.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 352.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 384.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
@@ -954,7 +984,6 @@
 <entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 448.0;"/>
 <entity map="dimensions.y = 160.0;solid = true;position.y = 0.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 224.0;"/>
 <entity map="dimensions.y = 192.0;solid = true;position.y = 352.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 96.0;solid = true;position.y = 448.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 0.0;visible = false;position.x = 1664.0;layer = 0;type = WALL;dimensions.x = 608.0;"/>
 <entity map="dimensions.y = 672.0;solid = true;position.y = 0.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 352.0;solid = true;position.y = 672.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
@@ -975,5 +1004,6 @@
 <entity map="dimensions.y = 576.0;solid = true;position.y = 256.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 128.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 448.0;"/>
 <entity map="dimensions.y = 64.0;solid = true;position.y = 192.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 416.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
 </objects>
 </level>
