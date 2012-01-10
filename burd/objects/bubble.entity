@@ -1,0 +1,9 @@
+type = bubble;
+description = a bubble;
+dimensions.x = 16;
+dimensions.y = 16;
+solid = false;
+
+sprite.sheet = bubble.png;
+
+

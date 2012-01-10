@@ -47,7 +47,7 @@ public class Sprite {
 	public void nextFrame() {
 		x = ++x % (xSplit * timeStretch);
 	}
-	
+
 	public void nextFrameAbsolute() {
 		int timeStretch = 1;
 		x = ++x % (xSplit * timeStretch);
@@ -97,10 +97,11 @@ public class Sprite {
 
 			((Graphics2D) g).drawImage(bimage, affineTransform, null);
 		} else {
-			g.drawImage(image, (int) pos.x, (int) pos.y,
-					(int) (pos.x + dim.x), (int) (pos.y + dim.y), x * (int) bRight.x,
-					y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
-					y * (int) bRight.y + (int) bRight.y, null);
+			g.drawImage(image, (int) pos.x, (int) pos.y, (int) (pos.x + dim.x),
+					(int) (pos.y + dim.y), x * (int) bRight.x, y
+							* (int) bRight.y, x * (int) bRight.x
+							+ (int) bRight.x, y * (int) bRight.y
+							+ (int) bRight.y, null);
 		}
 	}
 

@@ -1,10 +1,13 @@
 package burd.customscripts;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -52,7 +55,7 @@ public class BurdScript implements EntityScript {
 		boolean onGround = ScriptUtils.moveOut(self, true, level.solids).mag() != 0;
 
 		if (onGround || !inAir)
-			physicsModule.setgDrag(.95f);
+			physicsModule.setgDrag(.92f);
 		else
 			physicsModule.setgDrag(1f);
 
@@ -112,6 +115,19 @@ public class BurdScript implements EntityScript {
 			if (water.inView && ScriptUtils.isColliding(water, self)) {
 				inAir = false;
 			}
+
+		if (!inAir && Math.random() < .04) {
+			try {
+				Entity bubble = Importer.importEntity(new File(
+						"burd/objects/bubble.entity"), null);
+				bubble.script = new BubbleScript();
+				bubble.pos = self.pos;
+				bubble.dim = bubble.dim.scale((float) Math.random());
+				level.spawnEntity(bubble);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {
