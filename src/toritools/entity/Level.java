@@ -1,5 +1,7 @@
 package toritools.entity;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -163,5 +165,22 @@ public class Level extends Entity {
 		}
 		viewPort.pos = pos;
 		viewPort.dim = dim;
+	}
+
+	private Image baked;
+
+	//TODO: Replace with volatile image
+	public Image getBakedBackground() {
+		if (baked == null) {
+			baked = new BufferedImage((int) dim.x, (int) dim.y,
+					BufferedImage.TYPE_INT_ARGB);
+			for (Entity e : nonSolids) {
+				if ("BACKGROUND".equals(e.type)) {
+					killEntity(e);
+					e.draw(baked.getGraphics(), new Vector2());
+				}
+			}
+		}
+		return baked;
 	}
 }

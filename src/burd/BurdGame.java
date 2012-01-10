@@ -254,7 +254,7 @@ public class BurdGame {
 			e.script = new ScrollScript(false);
 			e.onSpawn(level);
 		}
-		
+
 		for (Entity e : level.getEntitiesWithType("puffer")) {
 			e.script = new PufferfishScript();
 			e.onSpawn(level);
@@ -279,6 +279,9 @@ public class BurdGame {
 
 		rootCanvas
 				.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
+		Image bakedBg = level.getBakedBackground();
+		rootCanvas.drawImage(bakedBg, (int) offset.x, (int) offset.y,
+				bakedBg.getWidth(null), bakedBg.getHeight(null), null);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
 				if (e.visible && e.inView)
