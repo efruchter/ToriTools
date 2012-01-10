@@ -38,11 +38,10 @@ public class LayerEditor extends JPanel {
 		Integer[] layers = new Integer[MAXLAYER];
 		for (int i = 0; i < MAXLAYER; i++)
 			layers[i] = i;
-		JComboBox<Integer> combo = new JComboBox<Integer>(layers);
+		JComboBox combo = new JComboBox(layers);
 		combo.addActionListener(new ActionListener() {
-			@SuppressWarnings("unchecked")
 			public void actionPerformed(ActionEvent e) {
-				currentLayer = (Integer) ((JComboBox<Integer>) e.getSource())
+				currentLayer = (Integer) ((JComboBox) e.getSource())
 						.getSelectedItem();
 			}
 
