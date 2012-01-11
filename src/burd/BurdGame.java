@@ -85,7 +85,7 @@ public class BurdGame {
 
 		if (System.getProperty("os.name").contains("Windows ")) {
 			System.setProperty("sun.java2d.d3d", "True");
-			System.setProperty("sun.java2d.accthreshold", "0");
+			//System.setProperty("sun.java2d.accthreshold", "0");
 		} else {
 			System.setProperty("sun.java2d.opengl=true", "True");
 		}
@@ -163,7 +163,7 @@ public class BurdGame {
 				logic();
 				frame.repaint();
 			}
-		}, 0l, 17l);
+		}, 0, 17);
 	}
 
 	/**
