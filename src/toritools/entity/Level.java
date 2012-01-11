@@ -117,9 +117,30 @@ public class Level extends Entity {
 		if (viewPort != null) {
 			for (Entity e : solids) {
 				e.inView = ScriptUtils.isColliding(viewPort, e);
+				specialActions(e);
 			}
 			for (Entity e : nonSolids) {
 				e.inView = ScriptUtils.isColliding(viewPort, e);
+				specialActions(e);
+			}
+		}
+	}
+
+	private void specialActions(final Entity e) {
+		// Scrolling
+		String data;
+		if ((data = e.variables.getVar("vScroll")) != null) {
+			float val = Float.parseFloat(data);
+			e.pos.y += val;
+			if (ScriptUtils.isColliding(e, solids)) {
+				e.variables.setVar("vScroll", -val + "");
+			}
+		}
+		if ((data = e.variables.getVar("hScroll")) != null) {
+			float val = Float.parseFloat(data);
+			e.pos.x += val;
+			if (ScriptUtils.isColliding(e, solids)) {
+				e.variables.setVar("hScroll", -val + "");
 			}
 		}
 	}
@@ -169,7 +190,7 @@ public class Level extends Entity {
 
 	private Image baked;
 
-	//TODO: Replace with volatile image
+	// TODO: Replace with volatile image
 	public Image getBakedBackground() {
 		if (baked == null) {
 			baked = new BufferedImage((int) dim.x, (int) dim.y,

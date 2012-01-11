@@ -100,6 +100,14 @@ public class ScriptUtils {
 		return true;
 	}
 
+	public static boolean isColliding(final Entity a, final List<Entity> b) {
+		for (Entity e : b) {
+			if (e != a && isColliding(e, a))
+				return true;
+		}
+		return false;
+	}
+
 	public static Vector2 moveOut(final Entity self,
 			final boolean disregardOutOfView, final Entity entity) {
 		Vector2 delta = new Vector2();
