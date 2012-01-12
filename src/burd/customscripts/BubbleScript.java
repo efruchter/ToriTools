@@ -20,8 +20,7 @@ public class BubbleScript implements EntityScript {
 
 	@Override
 	public void onUpdate(Level level, Entity self) {
-		self.pos = self.pos
-				.add(new Vector2(-1 + (float) Math.random() * 3, -1));
+		self.setPos(self.getPos().add(new Vector2(-1 + (float) Math.random() * 3, -1)));
 		for (Entity wall : level.solids) {
 			if (ScriptUtils.isColliding(self, wall)) {
 				level.killEntity(self);
@@ -46,10 +45,9 @@ public class BubbleScript implements EntityScript {
 	public static Entity getBubbleEntity() {
 		Entity bubble;
 		try {
-			bubble = Importer.importEntity(new File(
-					"burd/objects/bubble.entity"), null);
-			bubble.script = new BubbleScript();
-			bubble.dim = bubble.dim.scale((float) Math.random());
+			bubble = Importer.importEntity(new File("burd/objects/bubble.entity"), null);
+			bubble.setScript(new BubbleScript());
+			bubble.setDim(bubble.getDim().scale((float) Math.random()));
 			return bubble;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

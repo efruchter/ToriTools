@@ -203,8 +203,8 @@ public class BurdGame {
 				try {
 					Entity e = Importer.importEntity(new File(
 							"burd/objects/bread.entity"), null);
-					e.pos = level.getEntityWithId("player").pos.clone();
-					e.script = new BreadScript();
+					e.setPos(level.getEntityWithId("player").getPos().clone());
+					e.setScript(new BreadScript());
 					level.spawnEntity(e);
 				}
 				catch (final Exception w) {
@@ -222,7 +222,7 @@ public class BurdGame {
 
 		keys.freeQueuedKeys();
 
-		camera.setA(level.getEntityWithId("player").pos.clone());
+		camera.setA(level.getEntityWithId("player").getPos().clone());
 		camera.smoothTowardA();
 
 		level.setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
@@ -233,8 +233,8 @@ public class BurdGame {
 		stopWatch.start();
 
 		try {
-			level.getEntityWithId("player").script = new BurdScript();
-			level.getEntityWithId("player").visible = false;
+			level.getEntityWithId("player").setScript(new BurdScript());
+			level.getEntityWithId("player").setVisible(false);
 		}
 		catch (final NullPointerException e) {
 			JOptionPane.showMessageDialog(null,
@@ -249,12 +249,12 @@ public class BurdGame {
 		 */
 
 		for (Entity e : level.getEntitiesWithType("bread")) {
-			e.script = new BreadScript();
+			e.setScript(new BreadScript());
 			e.onSpawn(level);
 		}
 
 		for (Entity e : level.getEntitiesWithType("puffer")) {
-			e.script = new PufferfishScript();
+			e.setScript(new PufferfishScript());
 			e.onSpawn(level);
 		}
 		
@@ -280,16 +280,16 @@ public class BurdGame {
 		rootCanvas
 				.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
 		rootCanvas.drawImage(level.getBakedBackground(), (int) offset.x,
-				(int) offset.y, (int) level.dim.x, (int) level.dim.y, null);
+				(int) offset.y, (int) level.getDim().x, (int) level.getDim().y, null);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
-				if (e.visible && e.inView)
+				if (e.isVisible() && e.isInView())
 					e.draw(rootCanvas, offset);
-				if (!"BACKGROUND".equals(e.type) && debug) {
+				if (!"BACKGROUND".equals(e.getType()) && debug) {
 					rootCanvas.setColor(Color.RED);
-					rootCanvas.drawRect((int) (e.pos.x + offset.x),
-							(int) (e.pos.y + offset.y), (int) e.dim.x,
-							(int) e.dim.y);
+					rootCanvas.drawRect((int) (e.getPos().x + offset.x),
+							(int) (e.getPos().y + offset.y), (int) e.getDim().x,
+							(int) e.getDim().y);
 				}
 
 			}
@@ -304,7 +304,7 @@ public class BurdGame {
 		/*
 		 * HUD
 		 */
-		String title = level.variables.getVar("title");
+		String title = level.getVariableCase().getVar("title");
 		title = (title == null) ? "" : title;
 		rootCanvas.drawString(
 				title + "        Time: " + stopWatch.getElapsedTimeSecs(),
@@ -314,8 +314,8 @@ public class BurdGame {
 		// if (!(breads = level.getEntitiesWithType("bread")).isEmpty()) {
 		int xIndex = 0;
 		for (Entity bread : level.getEntitiesWithType("bread")) {
-			bread.sprite.draw(rootCanvas, bread, new Vector2(20 + xIndex++
-					* bread.dim.x * 1.5f, 50), bread.dim);
+			bread.getSprite().draw(rootCanvas, bread, new Vector2(20 + xIndex++
+					* bread.getDim().x * 1.5f, 50), bread.getDim());
 		}
 		// } else {
 		// int xIndex = 0;

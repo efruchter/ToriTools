@@ -31,36 +31,36 @@ public class Level extends Entity {
 	private Entity viewPort;
 
 	private void addEntity(final Entity e) {
-		layers.get(e.layer).add(e);
-		if (e.solid) {
+		layers.get(e.getLayer()).add(e);
+		if (e.isSolid()) {
 			solids.add(e);
 		}
 		else {
 			nonSolids.add(e);
 		}
-		if (!typeMap.containsKey(e.type)) {
-			typeMap.put(e.type, new ArrayList<Entity>());
+		if (!typeMap.containsKey(e.getType())) {
+			typeMap.put(e.getType(), new ArrayList<Entity>());
 		}
-		typeMap.get(e.type).add(e);
+		typeMap.get(e.getType()).add(e);
 	}
 
 	private void removeEntityUnsafe(final Entity e) {
-		layers.get(e.layer).remove(e);
-		if (e.solid)
+		layers.get(e.getLayer()).remove(e);
+		if (e.isSolid())
 			solids.remove(e);
 		else
 			nonSolids.remove(e);
 		String id;
-		if ((id = e.variables.getVar("id")) != null) {
+		if ((id = e.getVariableCase().getVar("id")) != null) {
 			idMap.remove(id);
 		}
-		typeMap.get(e.type).remove(e);
+		typeMap.get(e.getType()).remove(e);
 	}
 
 	public void spawnEntity(final Entity entity) {
 		newEntities.add(entity);
 		String id;
-		if ((id = entity.variables.getVar("id")) != null) {
+		if ((id = entity.getVariableCase().getVar("id")) != null) {
 			idMap.put(id, entity);
 		}
 	}
@@ -117,11 +117,11 @@ public class Level extends Entity {
 
 		if (viewPort != null) {
 			for (Entity e : solids) {
-				e.inView = ScriptUtils.isColliding(viewPort, e);
+				e.setInView(ScriptUtils.isColliding(viewPort, e));
 				specialActions(e);
 			}
 			for (Entity e : nonSolids) {
-				e.inView = ScriptUtils.isColliding(viewPort, e);
+				e.setInView(ScriptUtils.isColliding(viewPort, e));
 				specialActions(e);
 			}
 		}
@@ -130,18 +130,18 @@ public class Level extends Entity {
 	private void specialActions(final Entity e) {
 		// Scrolling
 		String data;
-		if ((data = e.variables.getVar("vScroll")) != null) {
+		if ((data = e.getVariableCase().getVar("vScroll")) != null) {
 			float val = Float.parseFloat(data);
-			e.pos.y += val;
+			e.getPos().y += val;
 			if (ScriptUtils.isColliding(e, solids)) {
-				e.variables.setVar("vScroll", -val + "");
+				e.getVariableCase().setVar("vScroll", -val + "");
 			}
 		}
-		if ((data = e.variables.getVar("hScroll")) != null) {
+		if ((data = e.getVariableCase().getVar("hScroll")) != null) {
 			float val = Float.parseFloat(data);
-			e.pos.x += val;
+			e.getPos().x += val;
 			if (ScriptUtils.isColliding(e, solids)) {
-				e.variables.setVar("hScroll", -val + "");
+				e.getVariableCase().setVar("hScroll", -val + "");
 			}
 		}
 	}
@@ -185,17 +185,17 @@ public class Level extends Entity {
 		if (viewPort == null) {
 			viewPort = new Entity();
 		}
-		viewPort.pos = pos;
-		viewPort.dim = dim;
+		viewPort.setPos(pos);
+		viewPort.setDim(dim);
 	}
 
 	private Image baked;
 
 	public Image preBakeBackground() {
-		baked = new BufferedImage((int) dim.x, (int) dim.y,
+		baked = new BufferedImage((int) getDim().x, (int) getDim().y,
 				BufferedImage.TYPE_INT_ARGB);
 		for (Entity e : nonSolids) {
-			if ("BACKGROUND".equals(e.type)) {
+			if ("BACKGROUND".equals(e.getType())) {
 				killEntity(e);
 				e.draw(baked.getGraphics(), new Vector2());
 			}

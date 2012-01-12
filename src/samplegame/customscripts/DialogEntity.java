@@ -34,11 +34,11 @@ public class DialogEntity extends Entity {
      */
     public DialogEntity(final DialogNode dialogNode, final Entity entityToTrack) {
 
-        pos = new Vector2(300, 300);
+        setPos(new Vector2(300, 300));
 
-        dim = new Vector2(500, 75);
+        setDim(new Vector2(500, 75));
 
-        script = new EntityScript() {
+        setScript(new EntityScript() {
 
             @Override
             public void onSpawn(Level level, Entity self) {
@@ -51,7 +51,7 @@ public class DialogEntity extends Entity {
                 SampleGame.setDisplayPrompt("Next <SPACE>");
 
                 if (entityToTrack != null) {
-                    self.pos = entityToTrack.pos.add(new Vector2(5, -(self.dim.y + 10)));
+                    self.setPos(entityToTrack.getPos().add(new Vector2(5, -(self.getDim().y + 10))));
                 }
 
                 if (getCurrentDisplay() == null
@@ -70,11 +70,11 @@ public class DialogEntity extends Entity {
                 dialogNode.doAction(level);
             }
 
-        };
+        });
 
-        layer = 0;
+        setLayer(0);
 
-        sprite = new Sprite() {
+        setSprite(new Sprite() {
             @Override
             public void draw(final Graphics g, final Entity self, final Vector2 pos,
                     final Vector2 dim) {
@@ -93,7 +93,7 @@ public class DialogEntity extends Entity {
                     g.drawString(displayString.get(i), (int) pos.x + 20, (int) pos.y + 20 + i * 20);
                 }
             }
-        };
+        });
     }
 
     private List<String> getCurrentDisplay() {

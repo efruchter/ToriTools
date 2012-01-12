@@ -163,7 +163,7 @@ public class LevelEditor {
 			} else if (mode == Mode.BG) {
 				if (m.getButton() == MouseEvent.BUTTON3) {
 					for (Entity e : getOverlapping(new Vector2(m.getPoint()))) {
-						if ("BACKGROUND".equals(e.type)) {
+						if ("BACKGROUND".equals(e.getType())) {
 							entities.remove(e);
 						}
 						repaint();
@@ -173,15 +173,15 @@ public class LevelEditor {
 					List<Entity> bgs = bgEditor.makeEntities(
 							getClosestGridPoint(new Vector2(m.getPoint())));
 					for (Entity bg : bgs) {
-						bg.layer = layerEditor.getCurrentLayer();
+						bg.setLayer(layerEditor.getCurrentLayer());
 						addEntity(bg);
 					}
 				}
 			} else {
 				if (m.getButton() == MouseEvent.BUTTON1)
 					for (Entity ent : entities) {
-						if (new Rectangle.Float(ent.pos.x, ent.pos.y,
-								ent.dim.x, ent.dim.y).contains(m.getPoint())) {
+						if (new Rectangle.Float(ent.getPos().x, ent.getPos().y,
+								ent.getDim().x, ent.getDim().y).contains(m.getPoint())) {
 							moving = ent;
 							break;
 						}
@@ -195,7 +195,7 @@ public class LevelEditor {
 			if (mode == Mode.WALL_MAKING) {
 				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
 			} else if (moving != null) {
-				moving.pos = getClosestGridPoint(new Vector2(m.getPoint()));
+				moving.setPos(getClosestGridPoint(new Vector2(m.getPoint())));
 			}
 			repaint();
 		}
@@ -243,10 +243,10 @@ public class LevelEditor {
 						p.set(getClosestGridPoint(p));
 						Entity e = new Entity();
 						e.setFile(current.getFile());
-						e.pos = p.clone();
-						e.dim = current.dim.clone();
-						e.sprite = current.sprite;
-						e.layer = layerEditor.getCurrentLayer();
+						e.setPos(p.clone());
+						e.setDim(current.getDim().clone());
+						e.setSprite(current.getSprite());
+						e.setLayer(layerEditor.getCurrentLayer());
 						addEntity(e);
 					}
 				}
@@ -335,16 +335,17 @@ public class LevelEditor {
 
 		if (levelFile.exists()) {
 			Level level = Importer.importLevel(levelFile);
-			variables = level.variables;
-			levelSize.setSize(level.dim.x, level.dim.y);
+			variables = level.getVariableCase();
+			levelSize.setSize(level.getDim().x, level.getDim().y);
 			entities.clear();
 			layerEditor.clear();
 			for (Entity e : level.newEntities) {
-				if (e.file != null && e.file.canRead()) {
-					importEntity(e.file);
+				File file = new File(e.getFile());
+				if (file.canRead()) {
+					importEntity(file);
 				}
 				entities.add(e);
-				layerEditor.setLayerVisibility(e.layer, true);
+				layerEditor.setLayerVisibility(e.getLayer(), true);
 			}
 		} else {
 			saveLevel();
@@ -554,7 +555,7 @@ public class LevelEditor {
 				}
 				List<Entity> trash = new ArrayList<Entity>();
 				for (Entity e : entities) {
-					if (type.equals(e.type)) {
+					if (type.equals(e.getType())) {
 						trash.add(e);
 					}
 				}
@@ -657,7 +658,7 @@ public class LevelEditor {
 							.showInputDialog("Move to which layer?"));
 					List<Entity> switchs = new ArrayList<Entity>();
 					for (Entity e : entities) {
-						if (type.equals(e.type)) {
+						if (type.equals(e.getType())) {
 							switchs.add(e);
 						}
 					}
@@ -730,8 +731,8 @@ public class LevelEditor {
 	public void selectOverlapping(final Vector2 p) {
 		Entity selected = null;
 		for (Entity e : entities) {
-			if (new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
-					(int) e.dim.getX(), (int) e.dim.getY()).contains(new Point(
+			if (new Rectangle((int) e.getPos().getX(), (int) e.getPos().getY(),
+					(int) e.getDim().getX(), (int) e.getDim().getY()).contains(new Point(
 					(int) p.x, (int) p.y))
 					&& this.selected != e) {
 				selected = e;
@@ -760,9 +761,9 @@ public class LevelEditor {
 	public void deleteOverlapping(final Vector2 p) {
 		Entity selected = null;
 		for (Entity e : entities) {
-			if (e.layer == layerEditor.getCurrentLayer()
-					&& new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
-							(int) e.dim.getX(), (int) e.dim.getY())
+			if (e.getLayer() == layerEditor.getCurrentLayer()
+					&& new Rectangle((int) e.getPos().getX(), (int) e.getPos().getY(),
+							(int) e.getDim().getX(), (int) e.getDim().getY())
 							.contains(new Point((int) p.x, (int) p.y))
 					&& this.selected != e) {
 				selected = e;
@@ -781,9 +782,9 @@ public class LevelEditor {
 	public List<Entity> getOverlapping(final Vector2 p) {
 		List<Entity> ents = new ArrayList<Entity>();
 		for (Entity e : entities) {
-			if (e.layer == layerEditor.getCurrentLayer()
-					&& new Rectangle((int) e.pos.getX(), (int) e.pos.getY(),
-							(int) e.dim.getX(), (int) e.dim.getY())
+			if (e.getLayer() == layerEditor.getCurrentLayer()
+					&& new Rectangle((int) e.getPos().getX(), (int) e.getPos().getY(),
+							(int) e.getDim().getX(), (int) e.getDim().getY())
 							.contains(new Point((int) p.x, (int) p.y))) {
 				ents.add(e);
 			}
@@ -825,8 +826,8 @@ public class LevelEditor {
 	 */
 	private void transferEntity(final Entity e, final int layer) {
 		removeEntity(e);
-		e.layer = layer;
-		e.variables.setVar("layer", layer + "");
+		e.setLayer(layer);
+		e.getVariableCase().setVar("layer", layer + "");
 		addEntity(e);
 		repaint();
 	}
@@ -861,22 +862,14 @@ public class LevelEditor {
 		levelElement.appendChild(objectsElements);
 		for (Entity e : entities) {
 			HashMap<String, String> map = new HashMap<String, String>();
-			if (e.getFile() != null)
-				map.put("template",
-						e.getFile()
-								.getPath()
-								.substring(
-										e.getFile()
-												.getPath()
-												.indexOf(
-														workingDirectory
-																.getName())
-												+ workingDirectory.getName()
-														.length()));
-			map.put("layer", e.layer + "");
-			map.putAll(e.variables.getVariables());
-			map.put("position.x", e.pos.getX() + "");
-			map.put("position.y", e.pos.getY() + "");
+			File f = new File(e.getFile());
+			if (f.canRead()) {
+				map.put("template", f.getPath().substring(f.getPath().indexOf(workingDirectory.getName()) + workingDirectory.getName().length()));
+			}
+			map.put("layer", e.getLayer() + "");
+			map.putAll(e.getVariableCase().getVariables());
+			map.put("position.x", e.getPos().getX() + "");
+			map.put("position.y", e.getPos().getY() + "");
 			Element object = doc.createElement("entity");
 			object.setAttribute("map", ToriMapIO.writeMap(null, map));
 			objectsElements.appendChild(object);
@@ -952,7 +945,7 @@ public class LevelEditor {
 		final Entity e = Importer.importEntity(file, null);
 		try {
 			String[] s = data.get("sprite.editor").split(",");
-			e.sprite.set(Integer.parseInt(s[0].trim()),
+			e.getSprite().set(Integer.parseInt(s[0].trim()),
 					Integer.parseInt(s[1].trim()));
 		} catch (final Exception exc) {
 			// The sprite remains at 1,1;
@@ -960,7 +953,7 @@ public class LevelEditor {
 
 		if (!entityExists(e)) {
 			ImageIcon bI = new ImageIcon();
-			bI.setImage(e.sprite.getImage().getScaledInstance(32, 32, 0));
+			bI.setImage(e.getSprite().getImage().getScaledInstance(32, 32, 0));
 			JButton b = new JButton(bI);
 			b.setToolTipText(data.get("description"));
 			b.addActionListener(new ActionListener() {
@@ -976,7 +969,7 @@ public class LevelEditor {
 
 	private boolean entityExists(final Entity e) {
 		for (Entity existingEntity : entities) {
-			if (e.file.equals(existingEntity.file))
+			if (e.getFile().equals(existingEntity.getFile()))
 				return true;
 		}
 		return false;
@@ -1011,11 +1004,11 @@ public class LevelEditor {
 		Collections.sort(entities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity a, Entity b) {
-				int ret = new Integer(b.layer).compareTo(new Integer(a.layer));
+				int ret = new Integer(b.getLayer()).compareTo(new Integer(a.getLayer()));
 				if (ret == 0) {
-					if ("WALL".equals(a.type))
+					if ("WALL".equals(a.getType()))
 						return 1;
-					else if ("WALL".equals(b.type))
+					else if ("WALL".equals(b.getType()))
 						return -1;
 					else
 						return 0;
@@ -1025,14 +1018,14 @@ public class LevelEditor {
 			}
 		});
 		for (Entity e : entities) {
-			if (layerEditor.isLayerVisible(e.layer))
+			if (layerEditor.isLayerVisible(e.getLayer()))
 				e.draw(g, new Vector2());
 		}
 
 		if (selected != null) {
 			g.setColor(Color.GREEN);
-			g.drawRect((int) selected.pos.getX(), (int) selected.pos.getY(),
-					(int) selected.dim.getX(), (int) selected.dim.getY());
+			g.drawRect((int) selected.getPos().getX(), (int) selected.getPos().getY(),
+					(int) selected.getDim().getX(), (int) selected.getDim().getY());
 		}
 
 		g.setColor(Color.RED);
@@ -1089,7 +1082,7 @@ public class LevelEditor {
 		levelSizeLabel.setText("Level Size: " + (int) levelSize.getWidth()
 				+ " x " + (int) levelSize.getHeight());
 		if (selected != null) {
-			editModeLabel.setText("Editing Single Entity: " + selected.type);
+			editModeLabel.setText("Editing Single Entity: " + selected.getType());
 		} else if (mode == Mode.WALL_QUEUE) {
 			editModeLabel.setText("Click and Drag to Draw Wall");
 		} else if (mode == Mode.BG) {

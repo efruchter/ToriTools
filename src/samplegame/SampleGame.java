@@ -204,15 +204,15 @@ public class SampleGame {
 		 * This custom script attaching for player, wolf and block will soon by
 		 * nullified by a the Rhino module.
 		 */
-		level.getEntityWithId("player").script = new PlayerScript();
+		level.getEntityWithId("player").setScript(new PlayerScript());
 
 		Entity temp = level.getEntityWithId("wolf");
 		if (temp != null)
-			temp.script = new WolfScript();
+			temp.setScript(new WolfScript());
 
 		temp = level.getEntityWithId("pushblock1");
 		if (temp != null) {
-			temp.script = new EntityScript() {
+			temp.setScript(new EntityScript() {
 				Entity player;
 
 				public void onSpawn(Level level, Entity self) {
@@ -227,14 +227,14 @@ public class SampleGame {
 
 				public void onDeath(Level level, Entity self, boolean isRoomExit) {
 				}
-			};
+			});
 		}
 
 		level.onSpawn();
 
 		// Set up world portals.
 		for (Entity e : level.getEntitiesWithType("worldPortal")) {
-			e.script = new WorldPortalScript();
+			e.setScript(new WorldPortalScript());
 			e.onSpawn(level);
 		}
 	}
@@ -248,20 +248,20 @@ public class SampleGame {
 			return;
 		}
 
-		Vector2 playerPos = level.getEntityWithId("player").pos;
+		Vector2 playerPos = level.getEntityWithId("player").getPos();
 		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
 		rootCanvas.setColor(Color.BLACK);
 		rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
-				if (e.visible && e.inView)
+				if (e.isVisible() && e.isInView())
 					e.draw(rootCanvas, offset);
-				if (!"BACKGROUND".equals(e.type) && debug) {
+				if (!"BACKGROUND".equals(e.getType()) && debug) {
 					rootCanvas.setColor(Color.RED);
-					rootCanvas.drawRect((int) (e.pos.x + offset.x),
-							(int) (e.pos.y + offset.y), (int) e.dim.x,
-							(int) e.dim.y);
+					rootCanvas.drawRect((int) (e.getPos().x + offset.x),
+							(int) (e.getPos().y + offset.y), (int) e.getDim().x,
+							(int) e.getDim().y);
 				}
 
 			}

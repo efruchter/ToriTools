@@ -61,38 +61,38 @@ public class Importer {
 			entityMap.getVariables().putAll(instanceMap);
 		Entity e = new Entity();
 
-		e.variables.getVariables().putAll(entityMap.getVariables());
+		e.getVariableCase().getVariables().putAll(entityMap.getVariables());
 
-		e.file = file;
+		e.setFile(file.getPath());
 
 		/**
 		 * Extract the basic template data.
 		 */
 		// DIMENSION
 		try {
-			e.dim = new Vector2(Float.parseFloat(entityMap
+			e.setDim(new Vector2(Float.parseFloat(entityMap
 					.getVar("dimensions.x")), Float.parseFloat(entityMap
-					.getVar("dimensions.y")));
+					.getVar("dimensions.y"))));
 		} catch (Exception er) {
-			e.dim = new Vector2();
+			e.setDim(new Vector2());
 		}
 		// SOLID
 		try {
-			e.solid = Boolean.parseBoolean(entityMap.getVar("solid").trim());
+			e.setSolid(Boolean.parseBoolean(entityMap.getVar("solid").trim()));
 		} catch (Exception er) {
-			e.solid = false;
+			e.setSolid(false);
 		}
 
 		// ID
 		String id;
 		if ((id = entityMap.getVar("id")) != null) {
-			e.variables.setVar("id", id);
+			e.getVariableCase().setVar("id", id);
 		}
 
 		// TITLE
-		e.type = entityMap.getVar("type");
-		if (e.type == null)
-			e.type = "DEFAULT";
+		e.setType(entityMap.getVar("type"));
+		if (e.getType() == null)
+			e.setType("DEFAULT");
 
 		String inGame = entityMap.getVar("sprite.sheet");
 		if (inGame != null) {
@@ -106,24 +106,24 @@ public class Importer {
 			// 0: file, 1: x tile, 2: y tile
 			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
 			if (spriteFile.canRead()) {
-				e.sprite = new Sprite(cacheImage(
+				e.setSprite(new Sprite(cacheImage(
 						new File(spriteFile.getAbsolutePath()), new ImageIcon(
-								spriteFile.getAbsolutePath()).getImage()), x, y);
+								spriteFile.getAbsolutePath()).getImage()), x, y));
 
 			}
 			inGame = entityMap.getVar("sprite.timeScale");
 			if (inGame != null) {
-				e.sprite.timeStretch = Integer.parseInt(inGame.trim());
+				e.getSprite().timeStretch = Integer.parseInt(inGame.trim());
 			}
 
 		}
 		inGame = entityMap.getVar("sprite.sizeOffset");
 		if (inGame != null) {
-			e.sprite.sizeOffset = Integer.parseInt(inGame.trim());
+			e.getSprite().sizeOffset = Integer.parseInt(inGame.trim());
 		}
 		inGame = entityMap.getVar("visible");
 		if (inGame != null) {
-			e.visible = Boolean.parseBoolean(inGame.trim());
+			e.setVisible(Boolean.parseBoolean(inGame.trim()));
 		}
 		return e;
 	}
@@ -135,9 +135,9 @@ public class Importer {
 		HashMap<String, String> props = ToriMapIO.readMap(doc
 				.getElementsByTagName("level").item(0).getAttributes()
 				.getNamedItem("map").getNodeValue());
-		level.variables.setVariables(props);
-		level.dim.x = level.variables.getFloat("width");
-		level.dim.y = level.variables.getFloat("height");
+		level.getVariableCase().setVariables(props);
+		level.getDim().x = level.getVariableCase().getFloat("width");
+		level.getDim().y = level.getVariableCase().getFloat("height");
 
 		// Extract level instance info
 		// levelSize.width = Integer.parseInt(props.get("width"));
@@ -157,8 +157,8 @@ public class Importer {
 				float w = Float.parseFloat(mapData.get("dimensions.x"));
 				float h = Float.parseFloat(mapData.get("dimensions.y"));
 				Entity wall = makeWall(new Vector2(x, y), new Vector2(w, h));
-				wall.layer = Integer.parseInt(mapData.get("layer"));
-				wall.variables.getVariables().putAll(mapData);
+				wall.setLayer(Integer.parseInt(mapData.get("layer")));
+				wall.getVariableCase().getVariables().putAll(mapData);
 				level.spawnEntity(wall);
 			} else if (mapData.get("type") != null
 					&& mapData.get("type").equals("BACKGROUND")) {
@@ -180,17 +180,17 @@ public class Importer {
 				Entity background = makeBackground(new Vector2(x, y),
 						new Vector2(w, h), image, mapData.get("image"), xTile,
 						yTile, xTiles, yTiles);
-				background.layer = Integer.parseInt(mapData.get("layer"));
-				background.variables.getVariables().putAll(mapData);
+				background.setLayer(Integer.parseInt(mapData.get("layer")));
+				background.getVariableCase().getVariables().putAll(mapData);
 				level.spawnEntity(background);
 			} else {
 				File f = new File(workingDirectory + mapData.get("template"));
 				Entity ent = importEntity(f, mapData);
-				ent.pos = new Vector2((float) x, (float) y);
-				ent.layer = Integer.parseInt(mapData.get("layer"));
+				ent.setPos(new Vector2((float) x, (float) y));
+				ent.setLayer(Integer.parseInt(mapData.get("layer")));
 				// layerEditor.setLayerVisibility(layer, true);
-				ent.variables.getVariables().putAll(mapData);
-				ent.file = f;
+				ent.getVariableCase().getVariables().putAll(mapData);
+				ent.setFile(f.getPath());
 				level.spawnEntity(ent);
 			}
 		}
@@ -201,38 +201,38 @@ public class Importer {
 			final Image image, final String relativeLink, final int x,
 			final int y, final int xTiles, final int yTiles) {
 		Entity bg = new Entity();
-		bg.pos = pos.clone();
-		bg.dim = dim.clone();
+		bg.setPos(pos.clone());
+		bg.setDim(dim.clone());
 
-		bg.variables.setVar("xTiles", xTiles + "");
-		bg.variables.setVar("yTiles", yTiles + "");
-		bg.variables.setVar("xTile", x + "");
-		bg.variables.setVar("yTile", y + "");
-		bg.variables.setVar("image", relativeLink);
+		bg.getVariableCase().setVar("xTiles", xTiles + "");
+		bg.getVariableCase().setVar("yTiles", yTiles + "");
+		bg.getVariableCase().setVar("xTile", x + "");
+		bg.getVariableCase().setVar("yTile", y + "");
+		bg.getVariableCase().setVar("image", relativeLink);
 
-		bg.variables.setVar("dimensions.x", dim.x + "");
-		bg.variables.setVar("dimensions.y", dim.y + "");
-		bg.type = "BACKGROUND";
-		bg.variables.setVar("type", bg.type);
-		bg.sprite = new Sprite(image, xTiles, yTiles);
-		bg.sprite.setFrame(x);
-		bg.sprite.setCycle(y);
+		bg.getVariableCase().setVar("dimensions.x", dim.x + "");
+		bg.getVariableCase().setVar("dimensions.y", dim.y + "");
+		bg.setType("BACKGROUND");
+		bg.getVariableCase().setVar("type", bg.getType());
+		bg.setSprite(new Sprite(image, xTiles, yTiles));
+		bg.getSprite().setFrame(x);
+		bg.getSprite().setCycle(y);
 		return bg;
 	}
 
 	public static Entity makeWall(final Vector2 pos, final Vector2 dim) {
 		Entity wall = new Entity();
-		wall.pos = pos.clone();
-		wall.dim = dim.clone();
-		wall.variables.setVar("dimensions.x", dim.x + "");
-		wall.variables.setVar("dimensions.y", dim.y + "");
-		wall.solid = true;
-		wall.variables.setVar("solid", "true");
-		wall.type = "WALL";
-		wall.variables.setVar("type", "WALL");
-		wall.visible = false;
-		wall.variables.setVar("visible", "false");
-		wall.sprite = new Sprite() {
+		wall.setPos(pos.clone());
+		wall.setDim(dim.clone());
+		wall.getVariableCase().setVar("dimensions.x", dim.x + "");
+		wall.getVariableCase().setVar("dimensions.y", dim.y + "");
+		wall.setSolid(true);
+		wall.getVariableCase().setVar("solid", "true");
+		wall.setType("WALL");
+		wall.getVariableCase().setVar("type", "WALL");
+		wall.setVisible(false);
+		wall.getVariableCase().setVar("visible", "false");
+		wall.setSprite(new Sprite() {
 			@Override
 			public void draw(final Graphics g, final Entity self,
 					final Vector2 pos, final Vector2 dim) {
@@ -245,7 +245,7 @@ public class Importer {
 				g.draw3DRect((int) pos.x, (int) pos.y, (int) dim.x,
 						(int) dim.y, true);
 			}
-		};
+		});
 		return wall;
 	}
 }

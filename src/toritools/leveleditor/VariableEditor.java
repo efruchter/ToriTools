@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -61,7 +62,7 @@ public class VariableEditor extends JPanel {
 					return;
 				String s = JOptionPane.showInputDialog("New variable name?");
 				if (s != null && !s.isEmpty()) {
-					getEntity().variables.setVar(s, "DEFAULT");
+					getEntity().getVariableCase().setVar(s, "DEFAULT");
 					Entity e = getEntity();
 					clear();
 					setEntity(e);
@@ -73,9 +74,9 @@ public class VariableEditor extends JPanel {
 				if (getEntity() == null)
 					return;
 				try {
-					getEntity().variables.clear();
-					getEntity().variables.setVariables(editor
-							.importEntity(getEntity().file).variables
+					getEntity().getVariableCase().clear();
+					getEntity().getVariableCase().setVariables(editor
+							.importEntity(new File(getEntity().getFile())).getVariableCase()
 							.getVariables());
 					setEntity(getEntity());
 					JOptionPane.showMessageDialog(null,
@@ -101,7 +102,7 @@ public class VariableEditor extends JPanel {
 
 	public void loadVariables() {
 		if (entity != null)
-			for (Entry<String, String> s : entity.variables.getVariables()
+			for (Entry<String, String> s : entity.getVariableCase().getVariables()
 					.entrySet()) {
 				if (s.getKey().equals("layer")
 						|| s.getKey().startsWith("position.")
@@ -124,10 +125,10 @@ public class VariableEditor extends JPanel {
 			for (Entry<String, JTextField> s : keys.entrySet()) {
 				String data = s.getValue().getText();
 				if (!data.isEmpty()) {
-					entity.variables.getVariables().put(s.getKey(),
+					entity.getVariableCase().getVariables().put(s.getKey(),
 							s.getValue().getText());
 				} else {
-					entity.variables.getVariables().remove(s.getKey());
+					entity.getVariableCase().getVariables().remove(s.getKey());
 				}
 
 			}

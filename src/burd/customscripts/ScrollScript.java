@@ -17,13 +17,13 @@ public class ScrollScript implements EntityScript {
 
 	@Override
 	public void onSpawn(Level level, Entity self) {
-		speed = self.variables.getFloatOrDefault("speed", speed);
+		speed = self.getVariableCase().getFloatOrDefault("speed", speed);
 	}
 
 	@Override
 	public void onUpdate(Level level, Entity self) {
-		self.pos = self.pos.add(hor ? new Vector2(speed, 0) : new Vector2(0,
-				speed));
+		self.setPos(self.getPos().add(hor ? new Vector2(speed, 0) : new Vector2(0,
+				speed)));
 		for (Entity e : level.solids) {
 			if (e != self && ScriptUtils.isColliding(self, e)) {
 				speed = speed * -1;

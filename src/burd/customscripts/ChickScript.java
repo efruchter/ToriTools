@@ -19,7 +19,7 @@ public class ChickScript implements EntityScript {
 		physicsModule = new PhysicsModule(new Vector2(0, 0.06f), 1f, self);
 		physicsModule.clearVelocity();
 		flapTime = 100;
-		self.sprite.timeStretch = 1;
+		self.getSprite().timeStretch = 1;
 	}
 
 	@Override
@@ -30,12 +30,12 @@ public class ChickScript implements EntityScript {
 			physicsModule.addVelocity(new Vector2(-2
 					+ (int) (Math.random() * 6),
 					-(1 + (int) (Math.random() * 5))));
-			self.sprite.nextFrame();
+			self.getSprite().nextFrame();
 		}
 
 		Vector2 delta = physicsModule.onUpdate();
 
-		self.pos = self.pos.add(delta);
+		self.setPos(self.getPos().add(delta));
 		ScriptUtils.moveOut(self, false, level.getEntitiesWithType("inWater"));
 		boolean onGround = ScriptUtils.moveOut(self, false, level.solids).mag() != 0;
 
@@ -45,11 +45,11 @@ public class ChickScript implements EntityScript {
 			physicsModule.setgDrag(1f);
 
 		if (Math.abs(delta.x) < 1)
-			self.sprite.setCycle(0);
+			self.getSprite().setCycle(0);
 		else if (delta.x < 0)
-			self.sprite.setCycle(1);
+			self.getSprite().setCycle(1);
 		else
-			self.sprite.setCycle(2);
+			self.getSprite().setCycle(2);
 
 		// if ((onGround && Math.abs(delta.x) > 1)) {
 		// self.sprite.nextFrame();

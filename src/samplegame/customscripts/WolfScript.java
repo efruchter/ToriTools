@@ -38,28 +38,28 @@ public class WolfScript implements EntityScript {
 		if (rand.nextDouble() > .99)
 			newDirection();
 		if (rand.nextDouble() > .8) {
-			self.pos = self.pos
-					.add(Vector2.buildVector(direction).scale(speed));
+			self.setPos(self.getPos()
+					.add(Vector2.buildVector(direction).scale(speed)));
 			ScriptUtils.moveOut(self, false, level.solids);
-			self.sprite.nextFrame();
+			self.getSprite().nextFrame();
 		}
 
 		switch (Direction.findEnum(direction)) {
 		case DOWN:
 		case DOWN_RIGHT:
 		case DOWN_LEFT:
-			self.sprite.setCycle(3);
+			self.getSprite().setCycle(3);
 			break;
 		case UP:
 		case UP_RIGHT:
 		case UP_LEFT:
-			self.sprite.setCycle(0);
+			self.getSprite().setCycle(0);
 			break;
 		case RIGHT:
-			self.sprite.setCycle(2);
+			self.getSprite().setCycle(2);
 			break;
 		case LEFT:
-			self.sprite.setCycle(1);
+			self.getSprite().setCycle(1);
 			break;
 		}
 

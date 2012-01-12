@@ -1,7 +1,6 @@
 package toritools.entity;
 
 import java.awt.Graphics;
-import java.io.File;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -19,31 +18,7 @@ import toritools.scripting.EntityScript;
  * 
  */
 public class Entity {
-
-	/**
-	 * Holds all variables for the entity.
-	 */
-	public VariableCase variables = new VariableCase();
-
-	/**
-	 * The control script for this entity.
-	 */
-	public EntityScript script;
-
-	/*
-	 * INSTANCE ENTITY VARIABLES
-	 */
-	public Vector2 pos, dim;
-	public boolean solid;
-	public String type;
-	public int layer;
-	public boolean visible = true;
-	public boolean active = true;
-
-	public Sprite sprite;
 	
-	public boolean inView = true;
-
 	/**
 	 * Static vars for optimization.
 	 */
@@ -51,12 +26,36 @@ public class Entity {
 	private static Sprite BASE_SPRITE = new Sprite(new ImageIcon(
 			"resources/nope.png").getImage(), 1, 1);
 
+	/**
+	 * Holds all variables for the entity.
+	 */
+	private VariableCase variables = new VariableCase();
+
+	/**
+	 * The control script for this entity.
+	 */
+	private EntityScript script = EntityScript.BLANK;
+
+	/*
+	 * INSTANCE ENTITY VARIABLES
+	 */
+	private Vector2 pos = BASE_VECT, dim = BASE_VECT;
+	private boolean solid = false;
+	private String type = "";
+	private int layer = 0;
+	private boolean visible = true;
+	private boolean active = true;
+
+	private Sprite sprite = BASE_SPRITE;
+
+	private boolean inView = true;
+
 	/*
 	 * Editor variables!
 	 */
-	public File file;
+	private String file = "";
 
-	public int direction;
+	private int direction = 0;
 
 	/**
 	 * This variable case will be passed in containing the additional data from
@@ -65,16 +64,9 @@ public class Entity {
 	 * @param variables
 	 */
 	public Entity() {
-		script = EntityScript.BLANK;
-		pos = BASE_VECT;
-		dim = pos;
-		solid = false;
-		type = "DEFAULT";
-		layer = 0;
-		sprite = BASE_SPRITE;
-		direction = 0;
+		
 	}
-	
+
 	public Entity(final EntityScript script) {
 		this();
 		this.script = script;
@@ -104,11 +96,99 @@ public class Entity {
 		this.variables.getVariables().putAll(variables);
 	}
 
-	public File getFile() {
+	public Vector2 getPos() {
+		return pos;
+	}
+
+	public void setPos(Vector2 pos) {
+		this.pos = pos;
+	}
+
+	public Vector2 getDim() {
+		return dim;
+	}
+
+	public void setDim(Vector2 dim) {
+		this.dim = dim;
+	}
+
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public boolean isInView() {
+		return inView;
+	}
+
+	public void setInView(boolean inView) {
+		this.inView = inView;
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	public VariableCase getVariableCase() {
+		return variables;
+	}
+
+	public int getLayer() {
+		return layer;
+	}
+
+	public String getFile() {
 		return file;
 	}
 
-	public void setFile(File file) {
+	public void setFile(final String file) {
 		this.file = file;
+	}
+
+	public void setScript(EntityScript script) {
+		this.script = script;
+	}
+
+	public void setLayer(int layer) {
+		this.layer = layer;
 	}
 }

@@ -16,7 +16,7 @@ public class PlayerScript implements EntityScript {
 		if ((warpTo = ScriptUtils.getVar("warpTo")) != null) {
 			Entity portal;
 			if ((portal = level.getEntityWithId(warpTo)) != null) {
-				self.pos = portal.pos.clone();
+				self.setPos(portal.getPos().clone());
 				ScriptUtils.setVar("warpTo", null);
 			} else {
 				System.out.println("Could not warp player to " + warpTo + "!");
@@ -32,32 +32,32 @@ public class PlayerScript implements EntityScript {
 		if (SampleGame.keys.isPressed(KeyEvent.VK_A)) {
 			walked = true;
 			delta.x -= speed;
-			self.sprite.setCycle(1);
+			self.getSprite().setCycle(1);
 		}
 		if (SampleGame.keys.isPressed(KeyEvent.VK_D)) {
 			walked = true;
 			delta.x += speed;
-			self.sprite.setCycle(2);
+			self.getSprite().setCycle(2);
 		}
 
 		if (SampleGame.keys.isPressed(KeyEvent.VK_W)) {
 			walked = true;
 			delta.y -= speed;
-			self.sprite.setCycle(3);
+			self.getSprite().setCycle(3);
 		}
 
 		if (SampleGame.keys.isPressed(KeyEvent.VK_S)) {
 			walked = true;
 			delta.y += speed;
-			self.sprite.setCycle(0);
+			self.getSprite().setCycle(0);
 		}
 
-		self.pos = self.pos.add(delta);
+		self.setPos(self.getPos().add(delta));
 
 		ScriptUtils.moveOut(self, false, level.solids);
 
 		if (walked)
-			self.sprite.nextFrame();
+			self.getSprite().nextFrame();
 	}
 
 	public void onDeath(Level level, Entity self, boolean isRoomExit) {

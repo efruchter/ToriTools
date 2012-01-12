@@ -33,7 +33,7 @@ public class VolcanoParticleScript implements EntityScript {
 	}
 
 	public void onUpdate(Level level, Entity self) {
-		self.pos = self.pos.add(physicsModule.onUpdate());
+		self.setPos(self.getPos().add(physicsModule.onUpdate()));
 		ScriptUtils.moveOut(self, false, level.solids);
 
 		if (--timer == 0) {
@@ -50,7 +50,7 @@ public class VolcanoParticleScript implements EntityScript {
 		try {
 			Entity e = Importer.importEntity(new File(
 					"burd/objects/blood.entity"), null);
-			e.script = new VolcanoParticleScript(true);
+			e.setScript(new VolcanoParticleScript(true));
 			return e;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -62,7 +62,7 @@ public class VolcanoParticleScript implements EntityScript {
 		try {
 			Entity e = Importer.importEntity(new File(
 					"burd/objects/sparkle.entity"), null);
-			e.script = new VolcanoParticleScript(true);
+			e.setScript(new VolcanoParticleScript(true));
 			return e;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -74,8 +74,8 @@ public class VolcanoParticleScript implements EntityScript {
 		try {
 			Entity e = Importer.importEntity(new File(
 					"burd/objects/crumb.entity"), null);
-			e.script = new VolcanoParticleScript(false);
-			e.dim.set((float) (6 + Math.random() * 5),
+			e.setScript(new VolcanoParticleScript(false));
+			e.getDim().set((float) (6 + Math.random() * 5),
 					(float) (6 + Math.random() * 5));
 			return e;
 		} catch (FileNotFoundException e) {

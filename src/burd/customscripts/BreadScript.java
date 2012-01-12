@@ -37,19 +37,19 @@ public class BreadScript implements EntityScript {
 
 		// First spawn
 		if (origPos == null) {
-			origPos = self.pos.clone();
+			origPos = self.getPos().clone();
 		}
 
-		chain = new MidpointChain(self.pos.clone(), origPos, 15);
+		chain = new MidpointChain(self.getPos().clone(), origPos, 15);
 	}
 
 	@Override
 	public void onUpdate(Level level, Entity self) {
 		boolean grabeable = Vector2.dist(chain.getA(), chain.getB()) < 10;
-		if (self.active) {
+		if (self.isActive()) {
 			chain.setB(origPos);
 			if (grabeable && ScriptUtils.isColliding(self, player)) {
-				self.active = false;
+				self.setActive(false);
 				trailBread = trailingQueue.isEmpty() ? player : trailingQueue
 						.get(trailingQueue.size() - 1);
 				trailingQueue.add(self);
@@ -58,7 +58,7 @@ public class BreadScript implements EntityScript {
 			}
 		} else {
 			if (trailBread == player || trailingQueue.contains(trailBread))
-				chain.setB(trailBread.pos.clone());
+				chain.setB(trailBread.getPos().clone());
 			else {
 				int index = trailingQueue.indexOf(self);
 				trailBread = index == 0 ? player : trailingQueue.get(index - 1);
@@ -66,7 +66,7 @@ public class BreadScript implements EntityScript {
 		}
 		if (!grabeable)
 			chain.smoothTowardB();
-		self.pos = chain.getA();
+		self.setPos(chain.getA());
 
 		for (Entity nest : level.getEntitiesWithType("nest")) {
 			if (ScriptUtils.isColliding(self, nest)) {
@@ -80,19 +80,18 @@ public class BreadScript implements EntityScript {
 		trailingQueue.remove(self);
 		for (int i = 0; i < 5; i++) {
 			Entity blood = VolcanoParticleScript.getSparkle();
-			blood.pos = self.pos.clone();
+			blood.setPos(self.getPos().clone());
 			level.spawnEntity(blood);
 		}
 		Entity e;
 		try {
-			e = Importer.importEntity(new File("burd/objects/player.entity"),
-					null);
-			e.variables.setVar("id", "");
-			e.type = "baby";
-			e.script = new ChickScript();
-			e.dim = e.dim.scale(.5f);
-			e.active = false;
-			e.pos = self.pos.clone();
+			e = Importer.importEntity(new File("burd/objects/player.entity"), null);
+			e.getVariableCase().setVar("id", "");
+			e.setType("baby");
+			e.setScript(new ChickScript());
+			e.setDim(e.getDim().scale(.5f));
+			e.setActive(false);
+			e.setPos(self.getPos().clone());
 			level.spawnEntity(e);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();

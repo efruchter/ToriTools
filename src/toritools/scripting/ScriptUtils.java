@@ -81,19 +81,19 @@ public class ScriptUtils {
 
 	public static boolean isColliding(final Entity a, final Entity b) {
 		// left of
-		if (a.pos.x + a.dim.x <= b.pos.x) {
+		if (a.getPos().x + a.getDim().x <= b.getPos().x) {
 			return false;
 		}
 		// below
-		else if (a.pos.y + a.dim.y <= b.pos.y) {
+		else if (a.getPos().y + a.getDim().y <= b.getPos().y) {
 			return false;
 		}
 		// right
-		else if (b.pos.x + b.dim.x <= a.pos.x) {
+		else if (b.getPos().x + b.getDim().x <= a.getPos().x) {
 			return false;
 		}
 		// above
-		else if (b.pos.y + b.dim.y <= a.pos.y) {
+		else if (b.getPos().y + b.getDim().y <= a.getPos().y) {
 			return false;
 		}
 
@@ -112,10 +112,10 @@ public class ScriptUtils {
 			final boolean disregardOutOfView, final Entity entity) {
 		Vector2 delta = new Vector2();
 		if (self != entity) {
-			if (!(disregardOutOfView && !entity.inView)
+			if (!(disregardOutOfView && !entity.isInView())
 					&& isColliding(entity, self)) {
-				self.pos = self.pos.add(delta = findBestVectorOut(self, entity)
-						.scale(1.1f));
+				self.setPos(self.getPos().add(delta = findBestVectorOut(self, entity)
+						.scale(1.1f)));
 			}
 
 		}
@@ -127,10 +127,10 @@ public class ScriptUtils {
 		Vector2 delta = new Vector2();
 		for (Entity entity : entities)
 			if (self != entity) {
-				if (!(disregardOutOfView && !entity.inView)
+				if (!(disregardOutOfView && !entity.isInView())
 						&& isColliding(entity, self)) {
-					self.pos = self.pos.add(delta = findBestVectorOut(self,
-							entity).scale(1.1f));
+					self.setPos(self.getPos().add(delta = findBestVectorOut(self,
+							entity).scale(1.1f)));
 				}
 
 			}
@@ -140,19 +140,19 @@ public class ScriptUtils {
 	public static Vector2 findBestVectorOut(final Entity toMove,
 			final Entity noMove) {
 		Vector2 test;
-		Vector2 best = new Vector2(0, noMove.pos.y
-				- (toMove.pos.y + toMove.dim.y));
+		Vector2 best = new Vector2(0, noMove.getPos().y
+				- (toMove.getPos().y + toMove.getDim().y));
 
-		test = new Vector2(0, (toMove.pos.y - (noMove.pos.y + noMove.dim.y))
+		test = new Vector2(0, (toMove.getPos().y - (noMove.getPos().y + noMove.getDim().y))
 				* -1);
 		if (test.mag() < best.mag())
 			best = test;
 
-		test = new Vector2(noMove.pos.x - (toMove.pos.x + toMove.dim.x), 0);
+		test = new Vector2(noMove.getPos().x - (toMove.getPos().x + toMove.getDim().x), 0);
 		if (test.mag() < best.mag())
 			best = test;
 
-		test = new Vector2((toMove.pos.x - (noMove.pos.x + noMove.dim.x)) * -1,
+		test = new Vector2((toMove.getPos().x - (noMove.getPos().x + noMove.getDim().x)) * -1,
 				0);
 		if (test.mag() < best.mag())
 			best = test;

@@ -29,7 +29,7 @@ public class PhysicsModule {
 		g = globalAcceleration;
 		this.self = self;
 		gDrag = globalDrag;
-		prePos = self.pos;
+		prePos = self.getPos();
 	}
 
 	/**
@@ -44,14 +44,14 @@ public class PhysicsModule {
 		// Add global accel
 		acc = acc.add(g);
 
-		Vector2 velocity = self.pos.sub(prePos).add(acc);
+		Vector2 velocity = self.getPos().sub(prePos).add(acc);
 
 		// cap the speed
 		velocity = velocity.unit().scale(velocity.mag());
 		
 		velocity = velocity.unit().scale(velocity.mag() * getgDrag());
 
-		prePos = self.pos.clone();
+		prePos = self.getPos().clone();
 
 		acc.clear();
 		
@@ -63,19 +63,19 @@ public class PhysicsModule {
 	}
 	
 	public Vector2 getCurrentVelocity() {
-		return self.pos.sub(prePos);
+		return self.getPos().sub(prePos);
 	}
 	
 	public void clearVelocity() {
-		prePos = self.pos.clone();
+		prePos = self.getPos().clone();
 	}
 	
 	public void clearXVelocity() {
-		prePos.x = self.pos.x;
+		prePos.x = self.getPos().x;
 	}
 	
 	public void clearYVelocity() {
-		prePos.y = self.pos.y;
+		prePos.y = self.getPos().y;
 	}
 	
 	public void addAcceleration(final Vector2 a) {

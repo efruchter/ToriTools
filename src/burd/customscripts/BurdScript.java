@@ -24,7 +24,7 @@ public class BurdScript implements EntityScript {
 
 	public void onSpawn(Level level, Entity self) {
 
-		startPos = self.pos.clone();
+		startPos = self.getPos().clone();
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
 	}
@@ -48,7 +48,7 @@ public class BurdScript implements EntityScript {
 
 		Vector2 delta = physicsModule.onUpdate();
 
-		self.pos = self.pos.add(delta);
+		self.setPos(self.getPos().add(delta));
 		boolean onGround = ScriptUtils.moveOut(self, true, level.solids).mag() != 0;
 
 		if (onGround || !inAir)
@@ -57,36 +57,36 @@ public class BurdScript implements EntityScript {
 			physicsModule.setgDrag(1f);
 
 		if (Math.abs(delta.x) < 1)
-			self.sprite.setCycle(0);
+			self.getSprite().setCycle(0);
 		else if (delta.x < 0)
-			self.sprite.setCycle(1);
+			self.getSprite().setCycle(1);
 		else
-			self.sprite.setCycle(2);
+			self.getSprite().setCycle(2);
 
 		if (flapped || (onGround && Math.abs(delta.x) > 1)) {
-			self.sprite.nextFrame();
+			self.getSprite().nextFrame();
 		} else {
 			// make the wing match the motion
 			if (Math.abs(delta.y) < 5)
-				self.sprite.setFrame(1);
+				self.getSprite().setFrame(1);
 			else if (delta.y < 0)
-				self.sprite.setFrame(2);
+				self.getSprite().setFrame(2);
 			else
-				self.sprite.setFrame(0);
+				self.getSprite().setFrame(0);
 		}
 
 		if (!BurdGame.debug) {
 			for (Entity spike : level.getEntitiesWithType("spike", "puffer")) {
-				if (spike.inView && ScriptUtils.isColliding(spike, self)) {
+				if (spike.isInView() && ScriptUtils.isColliding(spike, self)) {
 					for (Entity bread : level.getEntitiesWithType("bread")) {
-						bread.active = true;
+						bread.setActive(true);
 					}
 					for (int i = 0; i < 15; i++) {
 						Entity blood = VolcanoParticleScript.getBlood();
-						blood.pos = self.pos.clone();
+						blood.setPos(self.getPos().clone());
 						level.spawnEntity(blood);
 					}
-					self.pos = startPos.clone();
+					self.setPos(startPos.clone());
 					physicsModule.clearVelocity();
 					break;
 				}
@@ -95,27 +95,27 @@ public class BurdScript implements EntityScript {
 		}
 
 		for (Entity flag : level.getEntitiesWithType("flag"))
-			if (flag.inView && ScriptUtils.isColliding(flag, self)
+			if (flag.isInView() && ScriptUtils.isColliding(flag, self)
 					&& (flag != latestFlag)) {
 				if (latestFlag != null)
-					latestFlag.sprite.setFrame(0);
+					latestFlag.getSprite().setFrame(0);
 				latestFlag = flag;
-				latestFlag.sprite.setFrame(1);
-				startPos = flag.pos.clone();
+				latestFlag.getSprite().setFrame(1);
+				startPos = flag.getPos().clone();
 			}
 
 		for (Entity air : level.getEntitiesWithType("inAir"))
-			if (air.inView && ScriptUtils.isColliding(air, self)) {
+			if (air.isInView() && ScriptUtils.isColliding(air, self)) {
 				inAir = true;
 			}
 		for (Entity water : level.getEntitiesWithType("inWater"))
-			if (water.inView && ScriptUtils.isColliding(water, self)) {
+			if (water.isInView() && ScriptUtils.isColliding(water, self)) {
 				inAir = false;
 			}
 
 		if (!inAir && Math.random() < .04) {
 			Entity bubble = BubbleScript.getBubbleEntity();
-			bubble.pos = self.pos.clone();
+			bubble.setPos(self.getPos().clone());
 			level.spawnEntity(bubble);
 		}
 	}

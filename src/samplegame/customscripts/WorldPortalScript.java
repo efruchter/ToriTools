@@ -27,19 +27,18 @@ public class WorldPortalScript implements EntityScript {
     @Override
     public void onSpawn(Level level, Entity self) {
         player = level.getEntityWithId("player");
-        isWarp = self.variables.getVar("warpTo") != null;
+        isWarp = self.getVariableCase().getVar("warpTo") != null;
     }
 
     @Override
     public void onUpdate(Level level, Entity self) {
-        self.visible = SampleGame.debug;
+        self.setVisible(SampleGame.debug);
         if (isWarp && ScriptUtils.isColliding(self, player)) {
             SampleGame.setDisplayPrompt("Enter <SPACE>");
             if (SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)) {
-                ScriptUtils.setVar("warpTo", self.variables.getVar("warpTo"));
+                ScriptUtils.setVar("warpTo", self.getVariableCase().getVar("warpTo"));
                 try {
-                    SampleGame.warpToLevel(Importer.importLevel(new File(self.variables
-                            .getVar("level"))));
+                    SampleGame.warpToLevel(Importer.importLevel(new File(self.getVariableCase().getVar("level"))));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -49,7 +48,6 @@ public class WorldPortalScript implements EntityScript {
 
     @Override
     public void onDeath(Level level, Entity self, boolean isRoomExit) {
-        // TODO Auto-generated method stub
 
     }
 

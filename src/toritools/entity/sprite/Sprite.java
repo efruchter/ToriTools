@@ -80,7 +80,7 @@ public class Sprite {
 		Vector2 dim = dimension.add(sizeOffset * 2);
 		Vector2 pos = position.sub(sizeOffset);
 
-		if (self.direction != 0) {
+		if (self.getDirection() != 0) {
 			BufferedImage bimage = new BufferedImage((int) dim.x, (int) dim.y,
 					BufferedImage.TYPE_INT_ARGB);
 
@@ -92,7 +92,7 @@ public class Sprite {
 			AffineTransform affineTransform = new AffineTransform();
 			// rotate with the anchor point as the mid of the image
 			affineTransform.translate(pos.x, pos.y);
-			affineTransform.rotate(Math.toRadians(self.direction), dim.x / 2,
+			affineTransform.rotate(Math.toRadians(self.getDirection()), dim.x / 2,
 					dim.y / 2);
 
 			((Graphics2D) g).drawImage(bimage, affineTransform, null);
