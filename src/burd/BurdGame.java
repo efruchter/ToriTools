@@ -47,7 +47,6 @@ import toritools.timing.StopWatch;
 import burd.customscripts.BreadScript;
 import burd.customscripts.BurdScript;
 import burd.customscripts.PufferfishScript;
-import burd.customscripts.ScrollScript;
 
 public class BurdGame {
 
