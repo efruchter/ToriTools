@@ -85,7 +85,7 @@ public class BurdGame {
 
 		if (System.getProperty("os.name").contains("Windows ")) {
 			System.setProperty("sun.java2d.d3d", "True");
-			//System.setProperty("sun.java2d.accthreshold", "0");
+			// System.setProperty("sun.java2d.accthreshold", "0");
 		} else {
 			System.setProperty("sun.java2d.opengl=true", "True");
 		}
@@ -146,8 +146,6 @@ public class BurdGame {
 		frame.requestFocusInWindow();
 	}
 
-	private java.util.Timer timer;
-
 	/**
 	 * Runs the game (the "main loop")
 	 */
@@ -155,12 +153,18 @@ public class BurdGame {
 		/*
 		 * This is not 60 fps, but really close!
 		 */
-		timer = new java.util.Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+		new java.util.Timer().scheduleAtFixedRate(new TimerTask() {
 
 			@Override
 			public void run() {
 				logic();
+			}
+		}, 0, 17);
+
+		new java.util.Timer().scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
 				frame.repaint();
 			}
 		}, 0, 17);
