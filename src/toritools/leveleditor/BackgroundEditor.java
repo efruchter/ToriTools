@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,7 +26,9 @@ public class BackgroundEditor extends JPanel {
 
 	private Dimension grid = new Dimension(32, 32);
 
-	private Vector2 current = new Vector2(), imageDim = new Vector2();
+	private Vector2 selStart = new Vector2();
+	private Vector2 selEnd = new Vector2();
+	private Vector2 imageDim = new Vector2();
 
 	private LevelEditor editor;
 
@@ -32,14 +36,42 @@ public class BackgroundEditor extends JPanel {
 
 	public BackgroundEditor(final LevelEditor editor) {
 		this.editor = editor;
-		this.addMouseListener(new MouseAdapter() {
+		MouseAdapter mouseAdapter = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent m) {
-				current = LevelEditor.getClosestGridPoint(getGrid(),
+				selStart = selEnd = LevelEditor.getClosestGridPoint(getGrid(),
 						new Vector2(m.getPoint()));
 				repaint();
 			}
-		});
+			
+			@Override
+			public void mouseDragged(MouseEvent m) {
+				selEnd = LevelEditor.getClosestGridPoint(getGrid(), 
+						new Vector2(m.getPoint()));
+				repaint();
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent m) {
+				mouseDragged(m);
+				if (selEnd.x < selStart.x) {
+					float temp = selStart.x;
+					selStart.x = selEnd.x;
+					selEnd.x = temp;
+				}
+				if (selEnd.y < selStart.y) {
+					float temp = selStart.y;
+					selStart.y = selEnd.y;
+					selEnd.y = temp;
+				}
+				if (selStart.x == selEnd.x && selStart.y == selEnd.y) {
+					selEnd.set(selEnd.add(getGrid().width, getGrid().height));
+				}
+				repaint();
+			}
+		};
+		this.addMouseListener(mouseAdapter);
+		this.addMouseMotionListener(mouseAdapter);
 
 		frame = new JFrame("Background Tile Selector");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,8 +97,9 @@ public class BackgroundEditor extends JPanel {
 
 			// draw Selected
 			g.setColor(Color.RED);
-			g.draw3DRect((int) current.x, (int) current.y, grid.width,
-					grid.height, true);
+			g.draw3DRect((int) selStart.x, (int) selStart.y, 
+					(int) selEnd.x - (int) selStart.x,	
+					(int) selEnd.y - (int) selStart.y, true);
 		}
 	}
 
@@ -105,19 +138,31 @@ public class BackgroundEditor extends JPanel {
 		return grid;
 	}
 
-	public Entity makeEntity(final Vector2 pos) {
+	public List<Entity> makeEntities(final Vector2 pos) {
 		if (imageFile == null)
 			return null;
 
 		String relativeLink = imageFile.getPath().replace(
 				editor.workingDirectory.getPath(), "");
+		
+		int numX = (int) (selEnd.x - selStart.x) / grid.width;
+		int numY = (int) (selEnd.y - selStart.y) / grid.width;
 
-		Entity bg = Importer.makeBackground(pos, new Vector2(grid.width,
-				grid.height), new ImageIcon(imageFile.getPath()).getImage(),
-				relativeLink, (int) (current.x / grid.width),
-				(int) (current.y / grid.height),
-				(int) (imageDim.x / grid.width),
-				(int) (imageDim.y / grid.height));
-		return bg;
+		List<Entity> bgs = new ArrayList<Entity>(numX * numY);
+		
+		for (int x = 0; x < numX; x++) {
+			for (int y = 0; y < numY; y++) {
+				Entity bg = Importer.makeBackground(pos.add(x * grid.width, y * grid.width), 
+						new Vector2(grid.width, grid.height), new ImageIcon(imageFile.getPath()).getImage(),
+						relativeLink, 
+						(int) (selStart.x / grid.width) + x, 
+						(int) (selStart.y / grid.width) + y,
+						(int) (imageDim.x / grid.width),
+						(int) (imageDim.y / grid.height));
+				bgs.add(bg);
+			}
+		}
+		
+		return bgs;
 	}
 }

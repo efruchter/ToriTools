@@ -170,10 +170,9 @@ public class LevelEditor {
 					}
 
 				} else {
-					Entity bg = bgEditor
-							.makeEntity(getClosestGridPoint(new Vector2(m
-									.getPoint())));
-					if (bg != null) {
+					List<Entity> bgs = bgEditor.makeEntities(
+							getClosestGridPoint(new Vector2(m.getPoint())));
+					for (Entity bg : bgs) {
 						bg.layer = layerEditor.getCurrentLayer();
 						addEntity(bg);
 					}
@@ -195,16 +194,6 @@ public class LevelEditor {
 		public void mouseDragged(MouseEvent m) {
 			if (mode == Mode.WALL_MAKING) {
 				wallEnd = getClosestGridPoint(new Vector2(m.getPoint()));
-				if (wallEnd.x < wallStart.x) {
-					float temp = wallStart.x;
-					wallStart.x = wallEnd.x;
-					wallEnd.x = temp;
-				}
-				if (wallEnd.y < wallStart.y) {
-					float temp = wallStart.y;
-					wallStart.y = wallEnd.y;
-					wallEnd.y = temp;
-				}
 			} else if (moving != null) {
 				moving.pos = getClosestGridPoint(new Vector2(m.getPoint()));
 			}
@@ -215,11 +204,21 @@ public class LevelEditor {
 		public void mouseReleased(MouseEvent m) {
 			if (mode == Mode.WALL_MAKING) {
 				mouseDragged(m);
+				if (wallEnd.x < wallStart.x) {
+					float temp = wallStart.x;
+					wallStart.x = wallEnd.x;
+					wallEnd.x = temp;
+				}
+				if (wallEnd.y < wallStart.y) {
+					float temp = wallStart.y;
+					wallStart.y = wallEnd.y;
+					wallEnd.y = temp;
+				}
 				Vector2 wallDim = wallEnd.sub(wallStart);
 				if (wallDim.x != 0 && wallDim.y != 0)
 					addEntity(Importer.makeWall(wallStart,
 							wallEnd.sub(wallStart)));
-				mode = Mode.PLACE;
+				mode = Mode.WALL_QUEUE;
 			} else if (moving != null) {
 				mouseDragged(m);
 				moving = null;
@@ -1040,9 +1039,23 @@ public class LevelEditor {
 		g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
 
 		if (mode == Mode.WALL_MAKING) {
+			float wallStartX = wallStart.x;
+			float wallStartY = wallStart.y;
+			float wallEndX = wallEnd.x;
+			float wallEndY = wallEnd.y;
+			if (wallEndX < wallStartX) {
+				float temp = wallStartX;
+				wallStartX = wallEndX;
+				wallEndX = temp;
+			}
+			if (wallEndY < wallStartY) {
+				float temp = wallStartY;
+				wallStartY = wallEndY;
+				wallEndY = temp;
+			}
 			((Graphics2D) g).setStroke(new BasicStroke(2));
-			g.drawRect((int) wallStart.x, (int) wallStart.y, (int) wallEnd.x
-					- (int) wallStart.x, (int) wallEnd.y - (int) wallStart.y);
+			g.drawRect((int) wallStartX, (int) wallStartY, (int) wallEndX
+					- (int) wallStartX, (int) wallEndY - (int) wallStartY);
 			((Graphics2D) g).setStroke(new BasicStroke(1));
 		}
 	}
