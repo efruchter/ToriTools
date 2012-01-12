@@ -86,7 +86,8 @@ public class BurdGame {
 		if (System.getProperty("os.name").contains("Windows ")) {
 			System.setProperty("sun.java2d.d3d", "True");
 			// System.setProperty("sun.java2d.accthreshold", "0");
-		} else {
+		}
+		else {
 			System.setProperty("sun.java2d.opengl=true", "True");
 		}
 
@@ -102,6 +103,7 @@ public class BurdGame {
 	private JFrame frame = new JFrame("burd");
 	@SuppressWarnings("serial")
 	private JPanel panel = new JPanel() {
+
 		public void paintComponent(final Graphics g) {
 			render(g);
 		}
@@ -134,7 +136,8 @@ public class BurdGame {
 
 		try {
 			ScriptUtils.loadProfileVariables(savePrefix);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			ScriptUtils.saveProfileVariables(savePrefix);
 		}
 
@@ -204,7 +207,8 @@ public class BurdGame {
 					e.pos = level.getEntityWithId("player").pos.clone();
 					e.script = new BreadScript();
 					level.spawnEntity(e);
-				} catch (final Exception w) {
+				}
+				catch (final Exception w) {
 					w.printStackTrace();
 				}
 			}
@@ -232,7 +236,8 @@ public class BurdGame {
 		try {
 			level.getEntityWithId("player").script = new BurdScript();
 			level.getEntityWithId("player").visible = false;
-		} catch (final NullPointerException e) {
+		}
+		catch (final NullPointerException e) {
 			JOptionPane.showMessageDialog(null,
 					"This level is missing a Burd (player.entity)!");
 			System.exit(0);
@@ -249,20 +254,12 @@ public class BurdGame {
 			e.onSpawn(level);
 		}
 
-		for (Entity e : level.getEntitiesWithType("hScroll")) {
-			e.script = new ScrollScript(true);
-			e.onSpawn(level);
-		}
-
-		for (Entity e : level.getEntitiesWithType("vScroll")) {
-			e.script = new ScrollScript(false);
-			e.onSpawn(level);
-		}
-
 		for (Entity e : level.getEntitiesWithType("puffer")) {
 			e.script = new PufferfishScript();
 			e.onSpawn(level);
 		}
+		
+		level.preBakeBackground();
 	}
 
 	private Image bg = Toolkit.getDefaultToolkit().getImage(
@@ -283,9 +280,8 @@ public class BurdGame {
 
 		rootCanvas
 				.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
-		Image bakedBg = level.getBakedBackground();
-		rootCanvas.drawImage(bakedBg, (int) offset.x, (int) offset.y,
-				bakedBg.getWidth(null), bakedBg.getHeight(null), null);
+		rootCanvas.drawImage(level.getBakedBackground(), (int) offset.x,
+				(int) offset.y, (int) level.dim.x, (int) level.dim.y, null);
 		for (int i = level.layers.size() - 1; i >= 0; i--)
 			for (Entity e : level.layers.get(i)) {
 				if (e.visible && e.inView)
@@ -366,11 +362,13 @@ public class BurdGame {
 			if (levelFile.canRead()) {
 				System.out.println(currLevel);
 				warpToLevel(Importer.importLevel(levelFile));
-			} else {
+			}
+			else {
 				JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
 				System.exit(0);
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(0);
 		}

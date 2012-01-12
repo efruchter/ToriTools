@@ -34,7 +34,8 @@ public class Level extends Entity {
 		layers.get(e.layer).add(e);
 		if (e.solid) {
 			solids.add(e);
-		} else {
+		}
+		else {
 			nonSolids.add(e);
 		}
 		if (!typeMap.containsKey(e.type)) {
@@ -190,18 +191,19 @@ public class Level extends Entity {
 
 	private Image baked;
 
-	// TODO: Replace with volatile image
-	public Image getBakedBackground() {
-		if (baked == null) {
-			baked = new BufferedImage((int) dim.x, (int) dim.y,
-					BufferedImage.TYPE_INT_ARGB);
-			for (Entity e : nonSolids) {
-				if ("BACKGROUND".equals(e.type)) {
-					killEntity(e);
-					e.draw(baked.getGraphics(), new Vector2());
-				}
+	public Image preBakeBackground() {
+		baked = new BufferedImage((int) dim.x, (int) dim.y,
+				BufferedImage.TYPE_INT_ARGB);
+		for (Entity e : nonSolids) {
+			if ("BACKGROUND".equals(e.type)) {
+				killEntity(e);
+				e.draw(baked.getGraphics(), new Vector2());
 			}
 		}
+		return baked;
+	}
+
+	public Image getBakedBackground() {
 		return baked;
 	}
 }
