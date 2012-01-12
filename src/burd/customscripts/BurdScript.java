@@ -8,7 +8,6 @@ import toritools.entity.physics.PhysicsModule;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
-import burd.BurdGame;
 
 public class BurdScript implements EntityScript {
 
@@ -33,15 +32,15 @@ public class BurdScript implements EntityScript {
 
 		boolean flapped = false;
 
-		if (BurdGame.keys.isPressed(KeyEvent.VK_SPACE)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_SPACE)) {
 			physicsModule.addVelocity(new Vector2(0, -vSpeed));
 			flapped = true;
 		}
 
-		if (BurdGame.keys.isPressed(KeyEvent.VK_A)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A)) {
 			physicsModule.addVelocity(new Vector2(-hSpeed, 0));
 		}
-		if (BurdGame.keys.isPressed(KeyEvent.VK_D)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D)) {
 			physicsModule.addVelocity(new Vector2(hSpeed, 0));
 
 		}
@@ -75,7 +74,7 @@ public class BurdScript implements EntityScript {
 				self.getSprite().setFrame(0);
 		}
 
-		if (!BurdGame.debug) {
+		if (!ScriptUtils.isDebugMode()) {
 			for (Entity spike : level.getEntitiesWithType("spike", "puffer")) {
 				if (spike.isInView() && ScriptUtils.isColliding(spike, self)) {
 					for (Entity bread : level.getEntitiesWithType("bread")) {

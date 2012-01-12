@@ -12,6 +12,7 @@ import toritools.entity.Level;
 import toritools.entity.sprite.Sprite;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
 
 /**
  * This entity displays and controls a DialogNode.
@@ -55,7 +56,7 @@ public class DialogEntity extends Entity {
                 }
 
                 if (getCurrentDisplay() == null
-                        || SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)) {
+                        || ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_SPACE)) {
                     setCurrentDisplay(dialogNode.getNextLines(3));
                     if (getCurrentDisplay().isEmpty()) {
                         level.killEntity(self);

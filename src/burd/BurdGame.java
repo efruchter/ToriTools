@@ -35,7 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.io.FontLoader;
@@ -67,8 +66,6 @@ public class BurdGame {
 	 */
 	private Level level;
 	public static Level newLevel;
-	public static boolean debug = false;
-	public static KeyHolder keys = new KeyHolder();
 	public static boolean inDialog = false;
 	private static String displayString = "";
 	private static StopWatch stopWatch = new StopWatch();
@@ -128,7 +125,7 @@ public class BurdGame {
 		frame.setPreferredSize(new Dimension(800, 600)); // Default windowed
 															// dimensions
 		frame.add(panel);
-		frame.addKeyListener(keys);
+		frame.addKeyListener(ScriptUtils.getKeyHolder());
 		frame.setFocusable(true);
 		frame.setVisible(true);
 		frame.pack();
@@ -193,13 +190,13 @@ public class BurdGame {
 
 		level.onUpdate();
 
-		if (debug) {
+		if (ScriptUtils.isDebugMode()) {
 
-			if (keys.isPressed(KeyEvent.VK_P)) {
+			if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_P)) {
 				nextLevel();
 			}
 
-			if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
+			if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_L)) {
 				try {
 					Entity e = Importer.importEntity(new File(
 							"burd/objects/bread.entity"), null);
@@ -213,14 +210,14 @@ public class BurdGame {
 			}
 		}
 
-		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug;
+		ScriptUtils.setDebugMode(ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_K) ? !ScriptUtils.isDebugMode() : ScriptUtils.isDebugMode());
 
-		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			frame.setCursor(null); // Restore cursor for menu
 			System.exit(0);
 		}
 
-		keys.freeQueuedKeys();
+		ScriptUtils.getKeyHolder().freeQueuedKeys();
 
 		camera.setA(level.getEntityWithId("player").getPos().clone());
 		camera.smoothTowardA();
@@ -285,7 +282,7 @@ public class BurdGame {
 			for (Entity e : level.layers.get(i)) {
 				if (e.isVisible() && e.isInView())
 					e.draw(rootCanvas, offset);
-				if (!"BACKGROUND".equals(e.getType()) && debug) {
+				if (!"BACKGROUND".equals(e.getType()) && ScriptUtils.isDebugMode()) {
 					rootCanvas.setColor(Color.RED);
 					rootCanvas.drawRect((int) (e.getPos().x + offset.x),
 							(int) (e.getPos().y + offset.y), (int) e.getDim().x,
@@ -296,8 +293,8 @@ public class BurdGame {
 		level.getEntityWithId("player").draw(rootCanvas, offset);
 
 		rootCanvas.setColor(Color.BLACK);
-		String infoString = "[Esc] Quit  [K] Debug Mode: " + debug;
-		if (debug)
+		String infoString = "[Esc] Quit  [K] Debug Mode: " + ScriptUtils.isDebugMode();
+		if (ScriptUtils.isDebugMode())
 			infoString = infoString + "  [P] Next Level  [L] SPAWN EGGS";
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
 
@@ -340,7 +337,7 @@ public class BurdGame {
 	 */
 	public static void warpToLevel(final Level newLevel) {
 		BurdGame.newLevel = newLevel;
-		keys.clearKeys();
+		ScriptUtils.getKeyHolder().clearKeys();
 	}
 
 	/**

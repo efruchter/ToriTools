@@ -2,7 +2,6 @@ package samplegame.customscripts;
 
 import java.awt.event.KeyEvent;
 
-import samplegame.SampleGame;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.math.Vector2;
@@ -29,24 +28,24 @@ public class PlayerScript implements EntityScript {
 		boolean walked = false;
 		Vector2 delta = new Vector2();
 
-		if (SampleGame.keys.isPressed(KeyEvent.VK_A)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A)) {
 			walked = true;
 			delta.x -= speed;
 			self.getSprite().setCycle(1);
 		}
-		if (SampleGame.keys.isPressed(KeyEvent.VK_D)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D)) {
 			walked = true;
 			delta.x += speed;
 			self.getSprite().setCycle(2);
 		}
 
-		if (SampleGame.keys.isPressed(KeyEvent.VK_W)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_W)) {
 			walked = true;
 			delta.y -= speed;
 			self.getSprite().setCycle(3);
 		}
 
-		if (SampleGame.keys.isPressed(KeyEvent.VK_S)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_S)) {
 			walked = true;
 			delta.y += speed;
 			self.getSprite().setCycle(0);

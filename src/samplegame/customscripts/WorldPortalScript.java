@@ -32,10 +32,10 @@ public class WorldPortalScript implements EntityScript {
 
     @Override
     public void onUpdate(Level level, Entity self) {
-        self.setVisible(SampleGame.debug);
+        self.setVisible(ScriptUtils.isDebugMode());
         if (isWarp && ScriptUtils.isColliding(self, player)) {
             SampleGame.setDisplayPrompt("Enter <SPACE>");
-            if (SampleGame.keys.isPressedThenRelease(KeyEvent.VK_SPACE)) {
+            if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_SPACE)) {
                 ScriptUtils.setVar("warpTo", self.getVariableCase().getVar("warpTo"));
                 try {
                     SampleGame.warpToLevel(Importer.importLevel(new File(self.getVariableCase().getVar("level"))));

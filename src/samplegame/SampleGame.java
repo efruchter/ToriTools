@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 import samplegame.customscripts.PlayerScript;
 import samplegame.customscripts.WolfScript;
 import samplegame.customscripts.WorldPortalScript;
-import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.io.Importer;
@@ -59,9 +58,7 @@ public class SampleGame {
 	 */
 	private Level level;
 	public static Level newLevel;
-	public static boolean debug = false;
 	public Vector2 zoom = new Vector2(1, 1);
-	public static KeyHolder keys = new KeyHolder();
 	public static boolean inDialog = false;
 	private static String displayString = "";
 
@@ -121,7 +118,7 @@ public class SampleGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.add(panel);
-		frame.addKeyListener(keys);
+		frame.addKeyListener(ScriptUtils.getKeyHolder());
 		frame.setFocusable(true);
 
 		try {
@@ -176,27 +173,27 @@ public class SampleGame {
 
 		level.onUpdate();
 
-		if (keys.isPressed(KeyEvent.VK_I)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_I)) {
 			zoom.x += .1;
 			zoom.y += .1;
 		}
-		if (keys.isPressed(KeyEvent.VK_O)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_O)) {
 			zoom.x -= .1;
 			zoom.y -= .1;
 			if (zoom.x < 1)
 				zoom.set(1, 1);
 		}
-		if (keys.isPressedThenRelease(KeyEvent.VK_L)) {
+		if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_L)) {
 			setFullScreen(!isInFullScreen);
 		}
-		debug = keys.isPressedThenRelease(KeyEvent.VK_K) ? !debug : debug;
+		ScriptUtils.setDebugMode(ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_K) ? !ScriptUtils.isDebugMode() : ScriptUtils.isDebugMode());
 
-		if (keys.isPressed(KeyEvent.VK_ESCAPE)) {
+		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			frame.setCursor(null); // Restore cursor for menu
 			System.exit(0);
 		}
 
-		keys.freeQueuedKeys();
+		ScriptUtils.getKeyHolder().freeQueuedKeys();
 	}
 
 	private void setupLevel() {
@@ -257,7 +254,7 @@ public class SampleGame {
 			for (Entity e : level.layers.get(i)) {
 				if (e.isVisible() && e.isInView())
 					e.draw(rootCanvas, offset);
-				if (!"BACKGROUND".equals(e.getType()) && debug) {
+				if (!"BACKGROUND".equals(e.getType()) && ScriptUtils.isDebugMode()) {
 					rootCanvas.setColor(Color.RED);
 					rootCanvas.drawRect((int) (e.getPos().x + offset.x),
 							(int) (e.getPos().y + offset.y), (int) e.getDim().x,
@@ -267,7 +264,7 @@ public class SampleGame {
 			}
 
 		rootCanvas.setColor(Color.white);
-		String infoString = "[WASD] Move" + "  |  [K] Debug Mode: " + debug
+		String infoString = "[WASD] Move" + "  |  [K] Debug Mode: " + ScriptUtils.isDebugMode()
 				+ "  |  [L] Full Screen: " + isInFullScreen + "  |  [Esc] Quit";
 
 		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);

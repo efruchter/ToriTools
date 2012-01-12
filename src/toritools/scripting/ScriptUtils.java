@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
@@ -21,6 +22,16 @@ public class ScriptUtils {
 
 	private static VariableCase profileVariables = new VariableCase();
 	private final static String PROFILE = "profile.save";
+	private static KeyHolder keyHolder = new KeyHolder();
+	private static boolean debugMode = false;
+
+	public static KeyHolder getKeyHolder() {
+		return keyHolder;
+	}
+
+	public static void setKeyHolder(final KeyHolder keyHolder) {
+		ScriptUtils.keyHolder = keyHolder;
+	}
 
 	public static String getVar(final String key) {
 		return profileVariables.getVar(key);
@@ -114,8 +125,8 @@ public class ScriptUtils {
 		if (self != entity) {
 			if (!(disregardOutOfView && !entity.isInView())
 					&& isColliding(entity, self)) {
-				self.setPos(self.getPos().add(delta = findBestVectorOut(self, entity)
-						.scale(1.1f)));
+				self.setPos(self.getPos().add(
+						delta = findBestVectorOut(self, entity).scale(1.1f)));
 			}
 
 		}
@@ -129,8 +140,9 @@ public class ScriptUtils {
 			if (self != entity) {
 				if (!(disregardOutOfView && !entity.isInView())
 						&& isColliding(entity, self)) {
-					self.setPos(self.getPos().add(delta = findBestVectorOut(self,
-							entity).scale(1.1f)));
+					self.setPos(self.getPos()
+							.add(delta = findBestVectorOut(self, entity).scale(
+									1.1f)));
 				}
 
 			}
@@ -143,20 +155,31 @@ public class ScriptUtils {
 		Vector2 best = new Vector2(0, noMove.getPos().y
 				- (toMove.getPos().y + toMove.getDim().y));
 
-		test = new Vector2(0, (toMove.getPos().y - (noMove.getPos().y + noMove.getDim().y))
-				* -1);
+		test = new Vector2(0,
+				(toMove.getPos().y - (noMove.getPos().y + noMove.getDim().y))
+						* -1);
 		if (test.mag() < best.mag())
 			best = test;
 
-		test = new Vector2(noMove.getPos().x - (toMove.getPos().x + toMove.getDim().x), 0);
+		test = new Vector2(noMove.getPos().x
+				- (toMove.getPos().x + toMove.getDim().x), 0);
 		if (test.mag() < best.mag())
 			best = test;
 
-		test = new Vector2((toMove.getPos().x - (noMove.getPos().x + noMove.getDim().x)) * -1,
-				0);
+		test = new Vector2(
+				(toMove.getPos().x - (noMove.getPos().x + noMove.getDim().x))
+						* -1, 0);
 		if (test.mag() < best.mag())
 			best = test;
 
 		return best;
+	}
+
+	public static boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public static void setDebugMode(boolean debugMode) {
+		ScriptUtils.debugMode = debugMode;
 	}
 }
