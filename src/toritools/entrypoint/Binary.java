@@ -57,7 +57,7 @@ public abstract class Binary {
 	 * idea to package control polling for most entities with their script,
 	 * rather than here. This is the place for global menus, state changing,
 	 * etc. The level will update after this method is run, followed by a
-	 * graphical repaint.
+	 * graphical repaint. Keys queued for release are also released after this.
 	 */
 	protected abstract void globalLogic();
 
@@ -124,6 +124,7 @@ public abstract class Binary {
 		} else {
 			globalLogic();
 			ScriptUtils.getCurrentLevel().onUpdate();
+			ScriptUtils.getKeyHolder().freeQueuedKeys();
 		}
 	}
 

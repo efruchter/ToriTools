@@ -97,8 +97,6 @@ public class SampleGame extends Binary {
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
-
-		ScriptUtils.getKeyHolder().freeQueuedKeys();
 	}
 
 	@Override
