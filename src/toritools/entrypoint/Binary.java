@@ -56,7 +56,8 @@ public abstract class Binary {
 	 * condition, etc. Entity updating should not be done here. It is a good
 	 * idea to package control polling for most entities with their script,
 	 * rather than here. This is the place for global menus, state changing,
-	 * etc.
+	 * etc. The level will update after this method is run, followed by a
+	 * graphical repaint.
 	 */
 	protected abstract void globalLogic();
 
@@ -121,9 +122,8 @@ public abstract class Binary {
 			setupCurrentLevel(ScriptUtils.getCurrentLevel());
 			loadingLevel = false;
 		} else {
-			ScriptUtils.getCurrentLevel().onUpdate();
-
 			globalLogic();
+			ScriptUtils.getCurrentLevel().onUpdate();
 		}
 	}
 
