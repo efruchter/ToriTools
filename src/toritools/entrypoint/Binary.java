@@ -18,7 +18,7 @@ import toritools.scripting.ScriptUtils;
 
 /**
  * This class is a good way to get started with ToriTools. Just extend it, and
- * feill in what you need. Instantiate the subclass, and you're done!
+ * fill in what you need. Instantiate the subclass, and you're done!
  * 
  * @author toriscope
  * 
