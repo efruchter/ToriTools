@@ -467,9 +467,7 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1888.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1824.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1760.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1088.0;position.x = 1536.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1536.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 960.0;position.x = 1536.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 896.0;position.x = 1536.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -480,18 +478,13 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 800.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 864.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 928.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1120.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 960.0;position.x = 1568.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 800.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 864.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 928.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1088.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1088.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 960.0;position.x = 1632.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1600.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1664.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 928.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 800.0;position.x = 1760.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 800.0;position.x = 1824.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -629,8 +622,7 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1280.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1344.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1408.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 992.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 960.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1408.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1344.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1056.0;position.x = 1280.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -643,8 +635,8 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1120.0;position.x = 1408.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1184.0;position.x = 1408.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1248.0;position.x = 1408.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1120.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1184.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 960.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1024.0;position.x = 1696.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1248.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1312.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1312.0;position.x = 1408.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -709,8 +701,6 @@
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1568.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1632.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1696.0;position.x = 1472.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1536.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;yTiles = 10;yTile = 7;position.y = 1152.0;position.x = 1568.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 224.0;position.x = 640.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 224.0;position.x = 768.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 64.0;yTiles = 10;yTile = 6;position.y = 224.0;position.x = 832.0;xTiles = 4;xTile = 0;layer = 2;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 64.0;"/>
@@ -801,7 +791,6 @@
 <entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 928.0;sprite.sheet = spikeDown.png;position.x = 1728.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeDown.entity;solid = false;position.y = 800.0;sprite.sheet = spikeDown.png;position.x = 1632.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeLeft.entity;solid = false;position.y = 744.0;sprite.sheet = spikeLeft.png;position.x = 1600.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
-<entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1184.0;sprite.sheet = spikeUp.png;position.x = 1696.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1184.0;sprite.sheet = spikeUp.png;position.x = 1888.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1184.0;sprite.sheet = spikeUp.png;position.x = 2016.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikeUp.entity;solid = false;position.y = 1184.0;sprite.sheet = spikeUp.png;position.x = 2144.0;description = a spike;layer = 1;type = spike;dimensions.x = 32;"/>
@@ -963,47 +952,76 @@
 <entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 1536.0;sprite.sheet = puffer.png, 2, 1;position.x = 1408.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 1472.0;sprite.sheet = puffer.png, 2, 1;position.x = 1024.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = \objects\puffer.entity;solid = false;position.y = 288.0;sprite.sheet = puffer.png, 2, 1;position.x = 768.0;description = a puffer that chases the player;layer = 0;type = puffer;dimensions.x = 32;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 352.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 384.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 416.0;visible = false;position.x = 1568.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 1504.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 1344.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 352.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 160.0;solid = true;position.y = 384.0;visible = false;position.x = 1248.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 416.0;visible = false;position.x = 1280.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 32.0;visible = false;position.x = 1568.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 64.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 64.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 64.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 64.0;visible = false;position.x = 1248.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 192.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 32.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 32.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 448.0;"/>
-<entity map="dimensions.y = 160.0;solid = true;position.y = 0.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 224.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 352.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 0.0;visible = false;position.x = 1664.0;layer = 0;type = WALL;dimensions.x = 608.0;"/>
-<entity map="dimensions.y = 672.0;solid = true;position.y = 0.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 352.0;solid = true;position.y = 672.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 1216.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 736.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 1024.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 736.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 736.0;visible = false;position.x = 1696.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 352.0;solid = true;position.y = 1216.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 1760.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 704.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 1568.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 544.0;solid = true;position.y = 1216.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 672.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 992.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 544.0;solid = true;position.y = 672.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 320.0;solid = true;position.y = 32.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 768.0;visible = false;position.x = 544.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
-<entity map="dimensions.y = 576.0;solid = true;position.y = 256.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 128.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 448.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 192.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 64;template = \objects\nest.entity;solid = false;position.y = 1152.0;sprite.sheet = nest.png;position.x = 1536.0;description = Drag eggs here to win!;layer = 0;type = nest;dimensions.x = 128;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 0;position.y = 1088.0;position.x = 1472.0;xTiles = 8;xTile = 6;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 1;position.y = 1120.0;position.x = 1472.0;xTiles = 8;xTile = 6;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 2;position.y = 1152.0;position.x = 1472.0;xTiles = 8;xTile = 6;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 0;position.y = 1088.0;position.x = 1504.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 1;position.y = 1120.0;position.x = 1504.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 2;position.y = 1152.0;position.x = 1504.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 4;position.y = 1184.0;position.x = 1472.0;xTiles = 8;xTile = 6;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 5;position.y = 1216.0;position.x = 1472.0;xTiles = 8;xTile = 6;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 4;position.y = 1184.0;position.x = 1504.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 5;position.y = 1216.0;position.x = 1504.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 4;position.y = 1152.0;position.x = 1664.0;xTiles = 8;xTile = 6;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 5;position.y = 1184.0;position.x = 1696.0;xTiles = 8;xTile = 4;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 5;position.y = 1184.0;position.x = 1728.0;xTiles = 8;xTile = 5;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 5;position.y = 1184.0;position.x = 1664.0;xTiles = 8;xTile = 0;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 0;position.y = 1088.0;position.x = 1664.0;xTiles = 8;xTile = 0;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 0;position.y = 1088.0;position.x = 1696.0;xTiles = 8;xTile = 1;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 0;position.y = 1088.0;position.x = 1728.0;xTiles = 8;xTile = 5;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 1;position.y = 1120.0;position.x = 1728.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 1;position.y = 1152.0;position.x = 1728.0;xTiles = 8;xTile = 7;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 2;position.y = 1120.0;position.x = 1696.0;xTiles = 8;xTile = 3;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 2;position.y = 1152.0;position.x = 1696.0;xTiles = 8;xTile = 3;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;yTiles = 20;yTile = 2;position.y = 1120.0;position.x = 1664.0;xTiles = 8;xTile = 0;layer = 0;image = \backgrounds\test.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="template = \objects\water\inWater.entity;position.y = 1024.0;position.x = 1536.0;layer = 0;"/>
+<entity map="template = \objects\water\inWater.entity;position.y = 1024.0;position.x = 1600.0;layer = 0;"/>
+<entity map="template = \objects\water\inAir.entity;position.y = 1088.0;position.x = 1536.0;layer = 0;"/>
+<entity map="template = \objects\water\inAir.entity;position.y = 1088.0;position.x = 1600.0;layer = 0;"/>
+<entity map="dimensions.y = 160.0;solid = true;position.y = 1088.0;visible = false;position.x = 1472.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 416.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 192.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 128.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 448.0;"/>
+<entity map="dimensions.y = 576.0;solid = true;position.y = 256.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 768.0;visible = false;position.x = 544.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
+<entity map="dimensions.y = 320.0;solid = true;position.y = 32.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 544.0;solid = true;position.y = 672.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 992.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 672.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 544.0;solid = true;position.y = 1216.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 1568.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1760.0;visible = false;position.x = 896.0;layer = 0;type = WALL;dimensions.x = 704.0;"/>
+<entity map="dimensions.y = 352.0;solid = true;position.y = 1216.0;visible = false;position.x = 1536.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 736.0;visible = false;position.x = 1696.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 736.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 1024.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1216.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 736.0;"/>
+<entity map="dimensions.y = 352.0;solid = true;position.y = 672.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 672.0;solid = true;position.y = 0.0;visible = false;position.x = 2272.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 0.0;visible = false;position.x = 1664.0;layer = 0;type = WALL;dimensions.x = 608.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 352.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 160.0;solid = true;position.y = 0.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 224.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 448.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 32.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 32.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 192.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 64.0;visible = false;position.x = 1248.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 64.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 64.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 64.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 32.0;visible = false;position.x = 1568.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 416.0;visible = false;position.x = 1280.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 160.0;solid = true;position.y = 384.0;visible = false;position.x = 1248.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 352.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 1344.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 448.0;visible = false;position.x = 1504.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 416.0;visible = false;position.x = 1568.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 384.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 352.0;visible = false;position.x = 1632.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 1088.0;visible = false;position.x = 1664.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
 </objects>
 </level>
