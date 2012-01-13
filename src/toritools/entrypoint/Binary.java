@@ -76,6 +76,7 @@ public abstract class Binary {
 		}
 
 		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final JPanel panel = new JPanel() {
 			public void paintComponent(final Graphics g) {
 				renderAll(g);
