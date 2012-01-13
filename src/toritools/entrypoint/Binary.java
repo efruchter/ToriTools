@@ -16,6 +16,13 @@ import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
+/**
+ * This class is a good way to get started with ToriTools. Just extend it, and
+ * feill in what you need. Instantiate the subclass, and you're done!
+ * 
+ * @author toriscope
+ * 
+ */
 public abstract class Binary {
 
 	// CORE VARS
@@ -80,9 +87,9 @@ public abstract class Binary {
 				coreLogic();
 				panel.repaint();
 			}
-		}, 0, FRAMERATE/2);
+		}, 0, FRAMERATE);
 	}
-	
+
 	private boolean loadingLevel = false;
 
 	private void coreLogic() {

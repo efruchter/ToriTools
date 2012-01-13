@@ -156,7 +156,7 @@ public class Importer {
 			float x = Float.parseFloat(mapData.get("position.x"));
 			float y = Float.parseFloat(mapData.get("position.y"));
 			if (mapData.get("type") != null
-					&& mapData.get("type").equals(ReservedTypes.BACKGROUND)) {
+					&& mapData.get("type").equals(ReservedTypes.WALL.toString())) {
 				float w = Float.parseFloat(mapData.get("dimensions.x"));
 				float h = Float.parseFloat(mapData.get("dimensions.y"));
 				Entity wall = makeWall(new Vector2(x, y), new Vector2(w, h));
@@ -164,7 +164,7 @@ public class Importer {
 				wall.getVariableCase().getVariables().putAll(mapData);
 				level.spawnEntity(wall);
 			} else if (mapData.get("type") != null
-					&& mapData.get("type").equals(ReservedTypes.BACKGROUND)) {
+					&& mapData.get("type").equals(ReservedTypes.BACKGROUND.toString())) {
 				float w = Float.parseFloat(mapData.get("dimensions.x"));
 				float h = Float.parseFloat(mapData.get("dimensions.y"));
 
