@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -80,14 +80,13 @@ public abstract class Binary {
 		}
 
 		setupCurrentLevel();
-
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				coreLogic();
-				panel.repaint();
-			}
-		}, 0, FRAMERATE);
+		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
+				new Thread() {
+					public void run() {
+						coreLogic();
+						panel.repaint();
+					}
+				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
 	}
 
 	private boolean loadingLevel = false;
