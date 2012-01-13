@@ -18,7 +18,7 @@ public class ChickScript implements EntityScript {
 		physicsModule = new PhysicsModule(new Vector2(0, 0.06f), 1f, self);
 		physicsModule.clearVelocity();
 		flapTime = 100;
-		self.getSprite().timeStretch = 1;
+		self.getSprite().setTimeStretch(1);
 	}
 
 	@Override

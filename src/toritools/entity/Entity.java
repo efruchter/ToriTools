@@ -5,7 +5,8 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import toritools.entity.sprite.Sprite;
+import toritools.entity.sprite.AbstractSprite;
+import toritools.entity.sprite.ImageSprite;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -23,7 +24,7 @@ public class Entity {
 	 * Static vars for optimization.
 	 */
 	private static Vector2 BASE_VECT = new Vector2();
-	private static Sprite BASE_SPRITE = new Sprite(new ImageIcon(
+	private static AbstractSprite BASE_SPRITE = new ImageSprite(new ImageIcon(
 			"resources/nope.png").getImage(), 1, 1);
 
 	/**
@@ -46,7 +47,7 @@ public class Entity {
 	private boolean visible = true;
 	private boolean active = true;
 
-	private Sprite sprite = BASE_SPRITE;
+	private AbstractSprite sprite = BASE_SPRITE;
 
 	private boolean inView = true;
 
@@ -144,11 +145,11 @@ public class Entity {
 		this.active = active;
 	}
 
-	public Sprite getSprite() {
+	public AbstractSprite getSprite() {
 		return sprite;
 	}
 
-	public void setSprite(Sprite sprite) {
+	public void setSprite(AbstractSprite sprite) {
 		this.sprite = sprite;
 	}
 

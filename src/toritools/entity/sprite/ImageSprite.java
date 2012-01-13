@@ -10,13 +10,14 @@ import java.awt.image.BufferedImage;
 import toritools.entity.Entity;
 import toritools.math.Vector2;
 
-public class Sprite {
+public class ImageSprite implements AbstractSprite {
+
 	private int xSplit = 1, ySplit = 1, x = 0, y = 0;// w, h;
 	private Image image;
 
 	private Vector2 bRight;
-	public int timeStretch = 1;
-	public float sizeOffset = 0;
+	private int timeStretch = 1;
+	private float sizeOffset = 0;
 
 	/**
 	 * Create a sprite with given image;
@@ -28,7 +29,7 @@ public class Sprite {
 	 * @param yTiles
 	 *            tiles in y direction
 	 */
-	public Sprite(final Image image, final int xTiles, final int yTiles) {
+	public ImageSprite(final Image image, final int xTiles, final int yTiles) {
 		this.image = image;
 		this.xSplit = xTiles;
 		this.ySplit = yTiles;
@@ -40,7 +41,7 @@ public class Sprite {
 	 * Use this constructor if you plan on overriding draw(); Everything will be
 	 * null.
 	 */
-	public Sprite() {
+	public ImageSprite() {
 
 	}
 
@@ -111,5 +112,15 @@ public class Sprite {
 
 	public Dimension getTileDimension() {
 		return new Dimension(x, y);
+	}
+
+	@Override
+	public void setTimeStretch(int timeStretch) {
+		this.timeStretch = timeStretch;
+	}
+
+	@Override
+	public void setsizeOffset(int sizeOffset) {
+		this.sizeOffset = sizeOffset;		
 	}
 }

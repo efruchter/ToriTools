@@ -1,14 +1,16 @@
 package samplegame.customscripts;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
 import samplegame.SampleGame;
 import toritools.dialog.DialogNode;
 import toritools.entity.Entity;
-import toritools.entity.sprite.Sprite;
+import toritools.entity.sprite.AbstractSprite;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -74,7 +76,7 @@ public class DialogEntity extends Entity {
 
         setLayer(0);
 
-        setSprite(new Sprite() {
+        setSprite(new AbstractSprite() {
             @Override
             public void draw(final Graphics g, final Entity self, final Vector2 pos,
                     final Vector2 dim) {
@@ -93,6 +95,15 @@ public class DialogEntity extends Entity {
                     g.drawString(displayString.get(i), (int) pos.x + 20, (int) pos.y + 20 + i * 20);
                 }
             }
+			public void nextFrame() {}
+			public void nextFrameAbsolute() {}
+			public void setFrame(int frame) {}
+			public void setCycle(int cycle) {}
+			public void set(int frame, int cycle) {}
+			public void setTimeStretch(int timeStretch) {}
+			public void setsizeOffset(int sizeOffset) {}
+			public Image getImage() {return null;}
+			public Dimension getTileDimension() {return null;}
         });
     }
 

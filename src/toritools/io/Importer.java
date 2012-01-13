@@ -2,6 +2,7 @@ package toritools.io;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -17,7 +18,8 @@ import org.w3c.dom.NodeList;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
-import toritools.entity.sprite.Sprite;
+import toritools.entity.sprite.AbstractSprite;
+import toritools.entity.sprite.ImageSprite;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
@@ -106,20 +108,20 @@ public class Importer {
 			// 0: file, 1: x tile, 2: y tile
 			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
 			if (spriteFile.canRead()) {
-				e.setSprite(new Sprite(cacheImage(
+				e.setSprite(new ImageSprite(cacheImage(
 						new File(spriteFile.getAbsolutePath()), new ImageIcon(
 								spriteFile.getAbsolutePath()).getImage()), x, y));
 
 			}
 			inGame = entityMap.getVar("sprite.timeScale");
 			if (inGame != null) {
-				e.getSprite().timeStretch = Integer.parseInt(inGame.trim());
+				e.getSprite().setTimeStretch(Integer.parseInt(inGame.trim()));
 			}
 
 		}
 		inGame = entityMap.getVar("sprite.sizeOffset");
 		if (inGame != null) {
-			e.getSprite().sizeOffset = Integer.parseInt(inGame.trim());
+			e.getSprite().setsizeOffset(Integer.parseInt(inGame.trim()));
 		}
 		inGame = entityMap.getVar("visible");
 		if (inGame != null) {
@@ -214,7 +216,7 @@ public class Importer {
 		bg.getVariableCase().setVar("dimensions.y", dim.y + "");
 		bg.setType("BACKGROUND");
 		bg.getVariableCase().setVar("type", bg.getType());
-		bg.setSprite(new Sprite(image, xTiles, yTiles));
+		bg.setSprite(new ImageSprite(image, xTiles, yTiles));
 		bg.getSprite().setFrame(x);
 		bg.getSprite().setCycle(y);
 		return bg;
@@ -232,7 +234,7 @@ public class Importer {
 		wall.getVariableCase().setVar("type", "WALL");
 		wall.setVisible(false);
 		wall.getVariableCase().setVar("visible", "false");
-		wall.setSprite(new Sprite() {
+		wall.setSprite(new AbstractSprite() {
 			@Override
 			public void draw(final Graphics g, final Entity self,
 					final Vector2 pos, final Vector2 dim) {
@@ -245,6 +247,15 @@ public class Importer {
 				g.draw3DRect((int) pos.x, (int) pos.y, (int) dim.x,
 						(int) dim.y, true);
 			}
+			public void nextFrame() {}
+			public void nextFrameAbsolute() {}
+			public void setFrame(int frame) {}
+			public void setCycle(int cycle) {}
+			public void set(int frame, int cycle) {}
+			public void setTimeStretch(int timeStretch) {}
+			public void setsizeOffset(int sizeOffset) {}
+			public Image getImage() {return null;}
+			public Dimension getTileDimension() {return null;}
 		});
 		return wall;
 	}
