@@ -52,10 +52,13 @@ public abstract class Binary {
 	protected abstract void initialize();
 
 	/**
-	 * The logic loop. Poll controls here if you want, check for win condition,
-	 * etc. Entity updating should not be done here.
+	 * The global logic loop. Poll controls here if you want, check for win
+	 * condition, etc. Entity updating should not be done here. It is a good
+	 * idea to package control polling for most entities with their script,
+	 * rather than here. This is the place for global menus, state changing,
+	 * etc.
 	 */
-	protected abstract void logic();
+	protected abstract void globalLogic();
 
 	/**
 	 * Configure the current level to be loaded. Set up your special entity
@@ -92,7 +95,8 @@ public abstract class Binary {
 		initialize();
 
 		try {
-			ScriptUtils.queueLevelSwitch(Importer.importLevel(getStartingLevel()));
+			ScriptUtils.queueLevelSwitch(Importer
+					.importLevel(getStartingLevel()));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -116,9 +120,10 @@ public abstract class Binary {
 			ScriptUtils.moveToQueuedLevel();
 			setupCurrentLevel(ScriptUtils.getCurrentLevel());
 			loadingLevel = false;
-		}
-		if (!ScriptUtils.isLevelQueued()) {
-			logic();
+		} else {
+			ScriptUtils.getCurrentLevel().onUpdate();
+
+			globalLogic();
 		}
 	}
 
@@ -126,7 +131,8 @@ public abstract class Binary {
 		if (loadingLevel || !render(rootCanvas)) {
 			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2, (int) VIEWPORT.y / 2);
+			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
+					(int) VIEWPORT.y / 2);
 			return;
 		}
 	}
