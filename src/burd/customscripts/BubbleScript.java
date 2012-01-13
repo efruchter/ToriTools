@@ -22,13 +22,13 @@ public class BubbleScript implements EntityScript {
 		self.setPos(self.getPos().add(new Vector2(-1 + (float) Math.random() * 3, -1)));
 		for (Entity wall : ScriptUtils.getCurrentLevel().getSolids()) {
 			if (ScriptUtils.isColliding(self, wall)) {
-				ScriptUtils.getCurrentLevel().killEntity(self);
+				ScriptUtils.getCurrentLevel().despawnEntity(self);
 				break;
 			}
 		}
 		for (Entity wall : ScriptUtils.getCurrentLevel().getEntitiesWithType("inAir")) {
 			if (ScriptUtils.isColliding(self, wall)) {
-				ScriptUtils.getCurrentLevel().killEntity(self);
+				ScriptUtils.getCurrentLevel().despawnEntity(self);
 				break;
 			}
 		}

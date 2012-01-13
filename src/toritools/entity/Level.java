@@ -30,18 +30,13 @@ public class Level extends Entity {
 
 	private Entity viewPort;
 
-	private void addEntity(final Entity e) {
+	private void addEntityUnsafe(final Entity e) {
 		layers.get(e.getLayer()).add(e);
 		if (e.isSolid()) {
 			solids.add(e);
-		}
-		else {
+		} else {
 			nonSolids.add(e);
 		}
-		if (!typeMap.containsKey(e.getType())) {
-			typeMap.put(e.getType(), new ArrayList<Entity>());
-		}
-		typeMap.get(e.getType()).add(e);
 	}
 
 	private void removeEntityUnsafe(final Entity e) {
@@ -63,9 +58,13 @@ public class Level extends Entity {
 		if ((id = entity.getVariableCase().getVar("id")) != null) {
 			idMap.put(id, entity);
 		}
+		if (!typeMap.containsKey(entity.getType())) {
+			typeMap.put(entity.getType(), new ArrayList<Entity>());
+		}
+		typeMap.get(entity.getType()).add(entity);
 	}
 
-	public void killEntity(final Entity entity) {
+	public void despawnEntity(final Entity entity) {
 		trash.add(entity);
 	}
 
@@ -73,7 +72,7 @@ public class Level extends Entity {
 		List<Entity> tempList = new ArrayList<Entity>(getNewEntities());
 		getNewEntities().clear();
 		for (Entity e : tempList) {
-			addEntity(e);
+			addEntityUnsafe(e);
 		}
 		for (Entity e : tempList) {
 			e.onSpawn();
@@ -179,22 +178,25 @@ public class Level extends Entity {
 
 	private Image baked;
 
-	public Image preBakeBackground() {
-		baked = new BufferedImage((int) getDim().x, (int) getDim().y,
-				BufferedImage.TYPE_INT_ARGB);
-		for (Entity e : nonSolids) {
-			if ("BACKGROUND".equals(e.getType())) {
-				killEntity(e);
-				e.draw(baked.getGraphics(), new Vector2());
-			}
+	public Image bakeBackground() {
+		baked = new BufferedImage((int) getDim().x, (int) getDim().y, BufferedImage.TYPE_INT_ARGB);
+		for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {
+			despawnEntity(e);
+			e.draw(baked.getGraphics(), new Vector2());
+			System.out.println("BAKING: " + e.getType());
 		}
 		return baked;
 	}
 
+	/**
+	 * Returns the baked background. Make sure you bake it first!
+	 * 
+	 * @return the baked bg, or null if none exists. DO NOT BAKE WHILE DRAWING.
+	 */
 	public Image getBakedBackground() {
 		return baked;
 	}
-	
+
 	public List<List<Entity>> getLayers() {
 		return layers;
 	}
@@ -207,6 +209,9 @@ public class Level extends Entity {
 		return nonSolids;
 	}
 
+	/**
+	 * Grab a highly volatile list of the entities queued for spawn. Avoid!
+	 */
 	public List<Entity> getNewEntities() {
 		return newEntities;
 	}

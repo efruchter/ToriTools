@@ -1,19 +1,3 @@
-/**
- * This will be the main class for a simple game that uses toritools.
- * 
- * Windowed mode does not yet work as intended.  Issue with VIEWPORT and render()
- * 
- * Note the Graphics class is Graphics2D, not Graphics3D.  This inconsistency is not yet
- * corrected in current versions of Java, so we must check the superclass.
- * Exempli gratia:
- * 		if (g instanceof Graphics2D) {
- Graphics2D g2 = (Graphics2D)g;
- g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
- RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
- }g.drawString("abcdefghijklmnopqrstuvwxyz.", 200, 200);
- * 
- * @author toriscope
- */
 package burd;
 
 import java.awt.Color;
@@ -113,6 +97,9 @@ public class BurdGame extends Binary {
 		camera.setA(ScriptUtils.getCurrentLevel().getEntityWithId("player")
 				.getPos().clone());
 		camera.smoothTowardA();
+
+		ScriptUtils.getCurrentLevel().setViewportData(
+				camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
 	}
 
 	public boolean render(final Graphics rootCanvas) {
@@ -162,11 +149,7 @@ public class BurdGame extends Binary {
 
 			int xIndex = 0;
 			for (Entity bread : level.getEntitiesWithType("bread")) {
-				bread.getSprite()
-						.draw(rootCanvas,
-								bread,
-								new Vector2(20 + xIndex++ * bread.getDim().x
-										* 1.5f, 50), bread.getDim());
+				bread.getSprite().draw(rootCanvas, bread, new Vector2(20 + xIndex++ * bread.getDim().x * 1.5f, 50), bread.getDim());
 			}
 		} catch (final Exception e) {
 			return false;
@@ -177,10 +160,8 @@ public class BurdGame extends Binary {
 	@Override
 	protected void setupCurrentLevel() {
 		try {
-			ScriptUtils.getCurrentLevel().getEntityWithId("player")
-					.setScript(new BurdScript());
-			ScriptUtils.getCurrentLevel().getEntityWithId("player")
-					.setVisible(false);
+			ScriptUtils.getCurrentLevel().getEntityWithId("player").setScript(new BurdScript());
+			ScriptUtils.getCurrentLevel().getEntityWithId("player").setVisible(false);
 			camera = new MidpointChain(ScriptUtils.getCurrentLevel()
 					.getEntityWithId("player").getPos(), ScriptUtils
 					.getCurrentLevel().getEntityWithId("player").getPos(), 10);
@@ -190,25 +171,21 @@ public class BurdGame extends Binary {
 			System.exit(0);
 		}
 
-		ScriptUtils.getCurrentLevel().onSpawn();
-
 		/*
 		 * Special spawns, will be fixed.
 		 */
 
-		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType(
-				"bread")) {
+		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType("bread")) {
 			e.setScript(new BreadScript());
-			e.onSpawn();
 		}
 
-		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType(
-				"puffer")) {
+		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType("puffer")) {
 			e.setScript(new PufferfishScript());
-			e.onSpawn();
 		}
 
-		ScriptUtils.getCurrentLevel().preBakeBackground();
+		ScriptUtils.getCurrentLevel().bakeBackground();
+
+		ScriptUtils.getCurrentLevel().onSpawn();
 
 		stopWatch.start();
 	}

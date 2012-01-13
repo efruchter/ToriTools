@@ -69,7 +69,7 @@ public class BreadScript implements EntityScript {
 
 		for (Entity nest : ScriptUtils.getCurrentLevel().getEntitiesWithType("nest")) {
 			if (ScriptUtils.isColliding(self, nest)) {
-				ScriptUtils.getCurrentLevel().killEntity(self);
+				ScriptUtils.getCurrentLevel().despawnEntity(self);
 			}
 		}
 	}

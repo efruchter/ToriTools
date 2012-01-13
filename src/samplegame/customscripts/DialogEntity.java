@@ -60,7 +60,7 @@ public class DialogEntity extends Entity {
                         || ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_SPACE)) {
                     setCurrentDisplay(dialogNode.getNextLines(3));
                     if (getCurrentDisplay().isEmpty()) {
-                    	ScriptUtils.getCurrentLevel().killEntity(self);
+                    	ScriptUtils.getCurrentLevel().despawnEntity(self);
                     }
                 }
 

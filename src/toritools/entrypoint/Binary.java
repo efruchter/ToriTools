@@ -19,8 +19,8 @@ import toritools.scripting.ScriptUtils;
 public abstract class Binary {
 
 	// CORE VARS
-	private final int FRAMERATE = 17;
-	protected final Vector2 VIEWPORT = new Vector2(800, 600);
+	protected int FRAMERATE = 17;
+	protected Vector2 VIEWPORT = new Vector2(800, 600);
 
 	private JFrame frame;
 
@@ -78,15 +78,9 @@ public abstract class Binary {
 			@Override
 			public void run() {
 				coreLogic();
-			}
-		}, 0, FRAMERATE);
-		
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
 				panel.repaint();
 			}
-		}, 0, FRAMERATE);
+		}, 0, FRAMERATE/2);
 	}
 	
 	private boolean loadingLevel = false;

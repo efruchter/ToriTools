@@ -36,7 +36,7 @@ public class VolcanoParticleScript implements EntityScript {
 		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 
 		if (--timer == 0) {
-			ScriptUtils.getCurrentLevel().killEntity(self);
+			ScriptUtils.getCurrentLevel().despawnEntity(self);
 		}
 
 	}
