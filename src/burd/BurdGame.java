@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JOptionPane;
 
@@ -36,29 +37,23 @@ public class BurdGame extends Binary {
 	private int levelNumber = 1;
 
 	@Override
-	protected void loadResources() {
-		SKY_BACKGROUND = Toolkit.getDefaultToolkit().getImage(
-				"burd/backgrounds/sky.jpg");
+	protected void initialize() {
+		SKY_BACKGROUND = Toolkit.getDefaultToolkit().getImage("burd/backgrounds/sky.jpg");
 		FontLoader.loadFonts(new File("burd/fonts"));
 		uIFont = new Font("Earth's Mightiest", Font.TRUETYPE_FONT, 40);
-	}
-
-	@Override
-	protected void initialize() {
 		camera = new MidpointChain(new Vector2(), new Vector2(), 10);
 		stopWatch = new StopWatch();
 	}
 
 	@Override
-	protected File getCurrentLevel() {
+	protected File getStartingLevel() {
 		return new File("burd/level" + ++levelNumber + ".xml");
 	}
 
 	@Override
 	public void logic() {
 
-		if (ScriptUtils.getCurrentLevel().getEntitiesWithType("bread")
-				.isEmpty()) {
+		if (ScriptUtils.getCurrentLevel().getEntitiesWithType("bread").isEmpty()) {
 			nextLevel();
 		}
 
@@ -72,10 +67,8 @@ public class BurdGame extends Binary {
 
 			if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_L)) {
 				try {
-					Entity e = Importer.importEntity(new File(
-							"burd/objects/bread.entity"), null);
-					e.setPos(ScriptUtils.getCurrentLevel()
-							.getEntityWithId("player").getPos().clone());
+					Entity e = Importer.importEntity(new File("burd/objects/bread.entity"), null);
+					e.setPos(ScriptUtils.getCurrentLevel().getEntityWithId("player").getPos().clone());
 					e.setScript(new BreadScript());
 					ScriptUtils.getCurrentLevel().spawnEntity(e);
 				} catch (final Exception w) {
@@ -94,17 +87,14 @@ public class BurdGame extends Binary {
 
 		ScriptUtils.getKeyHolder().freeQueuedKeys();
 
-		camera.setA(ScriptUtils.getCurrentLevel().getEntityWithId("player")
-				.getPos().clone());
+		camera.setA(ScriptUtils.getCurrentLevel().getEntityWithId("player").getPos().clone());
 		camera.smoothTowardA();
 
-		ScriptUtils.getCurrentLevel().setViewportData(
-				camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
+		ScriptUtils.getCurrentLevel().setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
 	}
 
 	public boolean render(final Graphics rootCanvas) {
 		try {
-
 			Level level = ScriptUtils.getCurrentLevel();
 
 			rootCanvas.setFont(uIFont);
@@ -132,8 +122,7 @@ public class BurdGame extends Binary {
 			level.getEntityWithId("player").draw(rootCanvas, offset);
 
 			rootCanvas.setColor(Color.BLACK);
-			String infoString = "[Esc] Quit  [K] Debug Mode: "
-					+ ScriptUtils.isDebugMode();
+			String infoString = "[Esc] Quit  [K] Debug Mode: " + ScriptUtils.isDebugMode();
 			if (ScriptUtils.isDebugMode())
 				infoString = infoString + "  [P] Next Level  [L] SPAWN EGGS";
 			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
@@ -158,16 +147,13 @@ public class BurdGame extends Binary {
 	}
 
 	@Override
-	protected void setupCurrentLevel() {
+	protected void setupCurrentLevel(final Level level) {
 		try {
-			ScriptUtils.getCurrentLevel().getEntityWithId("player").setScript(new BurdScript());
-			ScriptUtils.getCurrentLevel().getEntityWithId("player").setVisible(false);
-			camera = new MidpointChain(ScriptUtils.getCurrentLevel()
-					.getEntityWithId("player").getPos(), ScriptUtils
-					.getCurrentLevel().getEntityWithId("player").getPos(), 10);
+			level.getEntityWithId("player").setScript(new BurdScript());
+			level.getEntityWithId("player").setVisible(false);
+			camera = new MidpointChain(level.getEntityWithId("player").getPos(), level.getEntityWithId("player").getPos(), 10);
 		} catch (final NullPointerException e) {
-			JOptionPane.showMessageDialog(null,
-					"This level is missing a Burd (player.entity)!");
+			JOptionPane.showMessageDialog(null, "This level is missing a Burd (player.entity)!");
 			System.exit(0);
 		}
 
@@ -175,11 +161,11 @@ public class BurdGame extends Binary {
 		 * Special spawns, will be fixed.
 		 */
 
-		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType("bread")) {
+		for (Entity e : level.getEntitiesWithType("bread")) {
 			e.setScript(new BreadScript());
 		}
 
-		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType("puffer")) {
+		for (Entity e : level.getEntitiesWithType("puffer")) {
 			e.setScript(new PufferfishScript());
 		}
 
@@ -188,5 +174,17 @@ public class BurdGame extends Binary {
 		ScriptUtils.getCurrentLevel().onSpawn();
 
 		stopWatch.start();
+	}
+	
+	public void nextLevel() {
+		try {
+			File f = new File("burd/level" + ++levelNumber + ".xml");
+			if(!f.canRead())
+				throw new FileNotFoundException();
+			ScriptUtils.queueLevelSwitch(Importer.importLevel(f));
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "You beat all the levels!");
+			System.exit(0);
+		}
 	}
 }

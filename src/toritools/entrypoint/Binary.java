@@ -9,9 +9,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
@@ -31,26 +31,46 @@ public abstract class Binary {
 
 	private JFrame frame;
 
-	/**
+	/*
 	 * SUBCLASS
+	 */
+
+	/**
+	 * Render your game.
+	 * 
+	 * @param rootCanvas
+	 *            the panel's drawing surface.
+	 * @return true if drawing was successful, false otherwise.
 	 */
 	protected abstract boolean render(final Graphics rootCanvas);
 
-	protected abstract void loadResources();
-
+	/**
+	 * Load anything you need (besides entities), be it large background images
+	 * or fonts. This is your time to prepare for the update logic which will
+	 * begin ticking after this method is run.
+	 */
 	protected abstract void initialize();
 
+	/**
+	 * The logic loop. Poll controls here if you want, check for win condition,
+	 * etc. Entity updating should not be done here.
+	 */
 	protected abstract void logic();
 
-	protected abstract void setupCurrentLevel();
+	/**
+	 * Configure the current level to be loaded. Set up your special entity
+	 * types and scripts here. Spawning will be done elsewhere.
+	 * 
+	 * @param levelBeingLoaded
+	 */
+	protected abstract void setupCurrentLevel(Level levelBeingLoaded);
 
-	protected abstract File getCurrentLevel();
+	protected abstract File getStartingLevel();
 
 	@SuppressWarnings("serial")
 	protected Binary() {
-		if (System.getProperty("os.name").contains("Windows ")) {
+		if (System.getProperty("os.name").contains("Windows")) {
 			System.setProperty("sun.java2d.d3d", "True");
-			// System.setProperty("sun.java2d.accthreshold", "0");
 		} else {
 			System.setProperty("sun.java2d.opengl=true", "True");
 		}
@@ -62,24 +82,21 @@ public abstract class Binary {
 			}
 		};
 		frame.add(panel);
-
 		frame.addKeyListener(ScriptUtils.getKeyHolder());
 		frame.setFocusable(true);
 		frame.setVisible(true);
 		panel.setPreferredSize(new Dimension((int) VIEWPORT.x, (int) VIEWPORT.y));
 		frame.pack();
 
-		loadResources();
 		initialize();
 
 		try {
-			ScriptUtils.queueLevelSwitch(Importer
-					.importLevel(getCurrentLevel()));
+			ScriptUtils.queueLevelSwitch(Importer.importLevel(getStartingLevel()));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		setupCurrentLevel();
+		setupCurrentLevel(ScriptUtils.getCurrentLevel());
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
 				new Thread() {
 					public void run() {
@@ -96,7 +113,7 @@ public abstract class Binary {
 			loadingLevel = true;
 			ScriptUtils.getCurrentLevel().onDeath(true);
 			ScriptUtils.moveToQueuedLevel();
-			setupCurrentLevel();
+			setupCurrentLevel(ScriptUtils.getCurrentLevel());
 			loadingLevel = false;
 		}
 		if (!ScriptUtils.isLevelQueued()) {
@@ -108,26 +125,8 @@ public abstract class Binary {
 		if (loadingLevel || !render(rootCanvas)) {
 			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
-					(int) VIEWPORT.y / 2);
+			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2, (int) VIEWPORT.y / 2);
 			return;
-		}
-		;
-	}
-
-	protected void nextLevel() {
-		try {
-			File levelFile = getCurrentLevel();
-			if (levelFile.canRead()) {
-				System.out.println(levelFile);
-				ScriptUtils.queueLevelSwitch(Importer.importLevel(levelFile));
-			} else {
-				JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
-				System.exit(0);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(0);
 		}
 	}
 }
