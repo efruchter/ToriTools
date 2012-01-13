@@ -1,9 +1,0 @@
-type = blood;
-description = blood!;
-dimensions.x = 8;
-dimensions.y = 8;
-solid = false;
-
-sprite.sheet = blood.png;
-
-

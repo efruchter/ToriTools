@@ -1,9 +1,10 @@
 A tiled xml level editor and set of classes to make 2D game-making easier.
 
+The core game being built with ToriTools, Burd, is in a private repo.
+
 The top level packages are 
 1) toritools, the level editor and all the supporting classes for levels and entities.
 2) samplegame, the tiny zelda clone that will be built alongside toritools to flesh out the features.
-3) burd, a difficult platformer where you are burd.
 
 HOW-TO INSTALL for development:
 Create a blank java project in eclipse called ToriTools, 

@@ -1,9 +1,0 @@
-type = sparkle;
-description = sparkle!;
-dimensions.x = 25;
-dimensions.y = 25;
-solid = false;
-
-sprite.sheet = sparkle.png;
-
-

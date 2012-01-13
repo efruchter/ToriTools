@@ -1,9 +1,0 @@
-type = block64;
-description = 64;
-dimensions.x = 64;
-dimensions.y = 64;
-solid = false;
-
-sprite.sheet = block.png;
-
-

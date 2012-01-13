@@ -1,7 +1,0 @@
-type = puffer;
-description = a puffer that chases the player;
-dimensions.x =32;
-dimensions.y = 32;
-solid = false;
-
-sprite.sheet = puffer.png, 2, 1;

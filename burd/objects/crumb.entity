@@ -1,9 +1,0 @@
-type = crumb;
-description = crumbs!;
-dimensions.x = 16;
-dimensions.y = 16;
-solid = false;
-
-sprite.sheet = crumb.png;
-
-
