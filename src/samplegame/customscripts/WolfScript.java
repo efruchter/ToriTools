@@ -40,7 +40,7 @@ public class WolfScript implements EntityScript {
 		if (rand.nextDouble() > .8) {
 			self.setPos(self.getPos()
 					.add(Vector2.buildVector(direction).scale(speed)));
-			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids);
+			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 			self.getSprite().nextFrame();
 		}
 

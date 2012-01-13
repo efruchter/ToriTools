@@ -47,7 +47,7 @@ public class BurdScript implements EntityScript {
 		Vector2 delta = physicsModule.onUpdate();
 
 		self.setPos(self.getPos().add(delta));
-		boolean onGround = ScriptUtils.moveOut(self, true, ScriptUtils.getCurrentLevel().solids).mag() != 0;
+		boolean onGround = ScriptUtils.moveOut(self, true, ScriptUtils.getCurrentLevel().getSolids()).mag() != 0;
 
 		if (onGround || !inAir)
 			physicsModule.setgDrag(.92f);

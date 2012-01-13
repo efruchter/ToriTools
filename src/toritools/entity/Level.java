@@ -12,12 +12,12 @@ import toritools.scripting.ScriptUtils;
 public class Level extends Entity {
 
 	private HashMap<String, Entity> idMap = new HashMap<String, Entity>();
-	public List<List<Entity>> layers = new ArrayList<List<Entity>>();
+	private List<List<Entity>> layers = new ArrayList<List<Entity>>();
 
 	/**
 	 * The entity lists.
 	 */
-	public List<Entity> solids = new ArrayList<Entity>(),
+	private List<Entity> solids = new ArrayList<Entity>(),
 			nonSolids = new ArrayList<Entity>();
 
 	/**
@@ -25,8 +25,8 @@ public class Level extends Entity {
 	 */
 	private HashMap<String, List<Entity>> typeMap = new HashMap<String, List<Entity>>();
 
-	public List<Entity> trash = new ArrayList<Entity>();
-	public List<Entity> newEntities = new ArrayList<Entity>();
+	private List<Entity> trash = new ArrayList<Entity>();
+	private List<Entity> newEntities = new ArrayList<Entity>();
 
 	private Entity viewPort;
 
@@ -58,7 +58,7 @@ public class Level extends Entity {
 	}
 
 	public void spawnEntity(final Entity entity) {
-		newEntities.add(entity);
+		getNewEntities().add(entity);
 		String id;
 		if ((id = entity.getVariableCase().getVar("id")) != null) {
 			idMap.put(id, entity);
@@ -70,8 +70,8 @@ public class Level extends Entity {
 	}
 
 	private void spawnNewEntities() {
-		List<Entity> tempList = new ArrayList<Entity>(newEntities);
-		newEntities.clear();
+		List<Entity> tempList = new ArrayList<Entity>(getNewEntities());
+		getNewEntities().clear();
 		for (Entity e : tempList) {
 			addEntity(e);
 		}
@@ -193,5 +193,21 @@ public class Level extends Entity {
 
 	public Image getBakedBackground() {
 		return baked;
+	}
+	
+	public List<List<Entity>> getLayers() {
+		return layers;
+	}
+
+	public List<Entity> getSolids() {
+		return solids;
+	}
+
+	public List<Entity> getNonSolids() {
+		return nonSolids;
+	}
+
+	public List<Entity> getNewEntities() {
+		return newEntities;
 	}
 }

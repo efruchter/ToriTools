@@ -23,7 +23,7 @@ public class ScrollScript implements EntityScript {
 	public void onUpdate(Entity self) {
 		self.setPos(self.getPos().add(hor ? new Vector2(speed, 0) : new Vector2(0,
 				speed)));
-		for (Entity e : ScriptUtils.getCurrentLevel().solids) {
+		for (Entity e : ScriptUtils.getCurrentLevel().getSolids()) {
 			if (e != self && ScriptUtils.isColliding(self, e)) {
 				speed = speed * -1;
 			}

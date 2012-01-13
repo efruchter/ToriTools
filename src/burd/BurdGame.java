@@ -129,8 +129,8 @@ public class BurdGame extends Binary {
 			rootCanvas.drawImage(level.getBakedBackground(), (int) offset.x,
 					(int) offset.y, (int) level.getDim().x,
 					(int) level.getDim().y, null);
-			for (int i = level.layers.size() - 1; i >= 0; i--)
-				for (Entity e : level.layers.get(i)) {
+			for (int i = level.getLayers().size() - 1; i >= 0; i--)
+				for (Entity e : level.getLayers().get(i)) {
 					if (e.isVisible() && e.isInView())
 						e.draw(rootCanvas, offset);
 					if (!"BACKGROUND".equals(e.getType())

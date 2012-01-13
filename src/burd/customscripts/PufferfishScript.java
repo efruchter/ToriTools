@@ -22,7 +22,7 @@ public class PufferfishScript implements EntityScript {
 			self.setPos(self.getPos().add(move = Vector2.toward(self.getPos(), player.getPos()).unit()));
 			self.getSprite().setFrame(move.x > 0 ? 1 : 0);
 			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getEntitiesWithType("inAir"));
-			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids);
+			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 			if (Math.random() < .04) {
 				Entity bubble = BubbleScript.getBubbleEntity();
 				bubble.setPos(self.getPos().clone());

@@ -52,7 +52,7 @@ public class PlayerScript implements EntityScript {
 
 		self.setPos(self.getPos().add(delta));
 
-		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids);
+		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 
 		if (walked)
 			self.getSprite().nextFrame();

@@ -339,7 +339,7 @@ public class LevelEditor {
 			levelSize.setSize(level.getDim().x, level.getDim().y);
 			entities.clear();
 			layerEditor.clear();
-			for (Entity e : level.newEntities) {
+			for (Entity e : level.getNewEntities()) {
 				File file = new File(e.getFile());
 				if (file.canRead()) {
 					importEntity(file);

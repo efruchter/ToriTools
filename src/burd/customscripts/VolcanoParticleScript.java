@@ -33,7 +33,7 @@ public class VolcanoParticleScript implements EntityScript {
 
 	public void onUpdate(Entity self) {
 		self.setPos(self.getPos().add(physicsModule.onUpdate()));
-		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids);
+		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 
 		if (--timer == 0) {
 			ScriptUtils.getCurrentLevel().killEntity(self);

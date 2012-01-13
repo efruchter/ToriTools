@@ -218,7 +218,7 @@ public class SampleGame {
 
 				public void onUpdate(Entity self) {
 					ScriptUtils.moveOut(self, true, player);
-					ScriptUtils.moveOut(self, true, level.solids);
+					ScriptUtils.moveOut(self, true, level.getSolids());
 					ScriptUtils.moveOut(player, true, self);
 				}
 
@@ -250,8 +250,8 @@ public class SampleGame {
 
 		rootCanvas.setColor(Color.BLACK);
 		rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-		for (int i = level.layers.size() - 1; i >= 0; i--)
-			for (Entity e : level.layers.get(i)) {
+		for (int i = level.getLayers().size() - 1; i >= 0; i--)
+			for (Entity e : level.getLayers().get(i)) {
 				if (e.isVisible() && e.isInView())
 					e.draw(rootCanvas, offset);
 				if (!"BACKGROUND".equals(e.getType()) && ScriptUtils.isDebugMode()) {

@@ -36,7 +36,7 @@ public class ChickScript implements EntityScript {
 
 		self.setPos(self.getPos().add(delta));
 		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getEntitiesWithType("inWater"));
-		boolean onGround = ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids).mag() != 0;
+		boolean onGround = ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids()).mag() != 0;
 
 		if (onGround)
 			physicsModule.setgDrag(.95f);

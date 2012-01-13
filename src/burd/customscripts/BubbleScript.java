@@ -20,7 +20,7 @@ public class BubbleScript implements EntityScript {
 	@Override
 	public void onUpdate(Entity self) {
 		self.setPos(self.getPos().add(new Vector2(-1 + (float) Math.random() * 3, -1)));
-		for (Entity wall : ScriptUtils.getCurrentLevel().solids) {
+		for (Entity wall : ScriptUtils.getCurrentLevel().getSolids()) {
 			if (ScriptUtils.isColliding(self, wall)) {
 				ScriptUtils.getCurrentLevel().killEntity(self);
 				break;
