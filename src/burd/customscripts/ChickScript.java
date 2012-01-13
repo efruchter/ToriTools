@@ -1,7 +1,6 @@
 package burd.customscripts;
 
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -15,7 +14,7 @@ public class ChickScript implements EntityScript {
 	int timer = 0;
 
 	@Override
-	public void onSpawn(Level level, Entity self) {
+	public void onSpawn(Entity self) {
 		physicsModule = new PhysicsModule(new Vector2(0, 0.06f), 1f, self);
 		physicsModule.clearVelocity();
 		flapTime = 100;
@@ -23,7 +22,7 @@ public class ChickScript implements EntityScript {
 	}
 
 	@Override
-	public void onUpdate(Level level, Entity self) {
+	public void onUpdate(Entity self) {
 
 		if (--timer < 0) {
 			timer = (int) (flapTime * Math.random());
@@ -36,8 +35,8 @@ public class ChickScript implements EntityScript {
 		Vector2 delta = physicsModule.onUpdate();
 
 		self.setPos(self.getPos().add(delta));
-		ScriptUtils.moveOut(self, false, level.getEntitiesWithType("inWater"));
-		boolean onGround = ScriptUtils.moveOut(self, false, level.solids).mag() != 0;
+		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getEntitiesWithType("inWater"));
+		boolean onGround = ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids).mag() != 0;
 
 		if (onGround)
 			physicsModule.setgDrag(.95f);
@@ -65,7 +64,7 @@ public class ChickScript implements EntityScript {
 	}
 
 	@Override
-	public void onDeath(Level level, Entity self, boolean isRoomExit) {
+	public void onDeath(Entity self, boolean isRoomExit) {
 
 	}
 

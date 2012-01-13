@@ -165,7 +165,7 @@ public class SampleGame {
 		displayString = null;
 
 		if (newLevel != null) {
-			level.onDeath(level, true);
+			level.onDeath(true);
 			level = newLevel;
 			setupLevel();
 			newLevel = null;
@@ -212,17 +212,17 @@ public class SampleGame {
 			temp.setScript(new EntityScript() {
 				Entity player;
 
-				public void onSpawn(Level level, Entity self) {
+				public void onSpawn(Entity self) {
 					player = level.getEntityWithId("player");
 				}
 
-				public void onUpdate(Level level, Entity self) {
+				public void onUpdate(Entity self) {
 					ScriptUtils.moveOut(self, true, player);
 					ScriptUtils.moveOut(self, true, level.solids);
 					ScriptUtils.moveOut(player, true, self);
 				}
 
-				public void onDeath(Level level, Entity self, boolean isRoomExit) {
+				public void onDeath(Entity self, boolean isRoomExit) {
 				}
 			});
 		}
@@ -232,7 +232,7 @@ public class SampleGame {
 		// Set up world portals.
 		for (Entity e : level.getEntitiesWithType("worldPortal")) {
 			e.setScript(new WorldPortalScript());
-			e.onSpawn(level);
+			e.onSpawn();
 		}
 	}
 

@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 
 import samplegame.SampleGame;
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -25,13 +24,13 @@ public class WorldPortalScript implements EntityScript {
     boolean isWarp;
 
     @Override
-    public void onSpawn(Level level, Entity self) {
-        player = level.getEntityWithId("player");
+    public void onSpawn(Entity self) {
+        player = ScriptUtils.getCurrentLevel().getEntityWithId("player");
         isWarp = self.getVariableCase().getVar("warpTo") != null;
     }
 
     @Override
-    public void onUpdate(Level level, Entity self) {
+    public void onUpdate(Entity self) {
         self.setVisible(ScriptUtils.isDebugMode());
         if (isWarp && ScriptUtils.isColliding(self, player)) {
             SampleGame.setDisplayPrompt("Enter <SPACE>");
@@ -47,7 +46,7 @@ public class WorldPortalScript implements EntityScript {
     }
 
     @Override
-    public void onDeath(Level level, Entity self, boolean isRoomExit) {
+    public void onDeath(Entity self, boolean isRoomExit) {
 
     }
 

@@ -1,5 +1,7 @@
 package toritools.math;
 
+import java.awt.Graphics;
+
 /**
  * Midpoint-smoothing chain of vectors that can be used to fake momentum or
  * create smooth paths. Anchors around goals on opposing sides of the chain.
@@ -83,5 +85,14 @@ public class MidpointChain {
 
 	public Vector2[] getChain() {
 		return chain;
+	}
+
+	public void draw(final Graphics g, final Vector2 offset) {
+		for (int i = 1; i < chain.length; i++) {
+			g.drawLine((int) (chain[i - 1].x + offset.x),
+					(int) (chain[i - 1].y + offset.y),
+					(int) (chain[i].x + offset.x),
+					(int) (chain[i].y + offset.y));
+		}
 	}
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.io.Importer;
 import toritools.math.Vector2;
@@ -23,7 +22,7 @@ public class VolcanoParticleScript implements EntityScript {
 		this.up = up;
 	}
 
-	public void onSpawn(Level level, Entity self) {
+	public void onSpawn(Entity self) {
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
 
@@ -32,17 +31,17 @@ public class VolcanoParticleScript implements EntityScript {
 		physicsModule.addVelocity(new Vector2(x, y));
 	}
 
-	public void onUpdate(Level level, Entity self) {
+	public void onUpdate(Entity self) {
 		self.setPos(self.getPos().add(physicsModule.onUpdate()));
-		ScriptUtils.moveOut(self, false, level.solids);
+		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().solids);
 
 		if (--timer == 0) {
-			level.killEntity(self);
+			ScriptUtils.getCurrentLevel().killEntity(self);
 		}
 
 	}
 
-	public void onDeath(Level level, Entity self, boolean isRoomExit) {
+	public void onDeath(Entity self, boolean isRoomExit) {
 
 	}
 

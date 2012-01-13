@@ -76,7 +76,7 @@ public class Level extends Entity {
 			addEntity(e);
 		}
 		for (Entity e : tempList) {
-			e.onSpawn(this);
+			e.onSpawn();
 		}
 	}
 
@@ -87,31 +87,23 @@ public class Level extends Entity {
 			removeEntityUnsafe(e);
 		}
 		for (Entity e : tempList) {
-			e.onDeath(this, false);
+			e.onDeath(false);
 		}
 	}
 
-	public void onSpawn() {
-		onSpawn(this);
-	}
-
 	@Override
-	public void onSpawn(final Level level) {
+	public void onSpawn() {
 		spawnNewEntities();
 	}
 
-	public void onUpdate() {
-		onUpdate(this);
-	}
-
 	@Override
-	public void onUpdate(final Level level) {
+	public void onUpdate() {
 		spawnNewEntities();
 		for (Entity e : solids) {
-			e.onUpdate(level);
+			e.onUpdate();
 		}
 		for (Entity e : nonSolids) {
-			e.onUpdate(level);
+			e.onUpdate();
 		}
 		takeOutTrash();
 
@@ -146,17 +138,13 @@ public class Level extends Entity {
 		}
 	}
 
-	public void onDeath(final boolean isRoomExit) {
-		onDeath(this, isRoomExit);
-	}
-
 	@Override
-	public void onDeath(final Level level, final boolean isRoomExit) {
+	public void onDeath(final boolean isRoomExit) {
 		for (Entity e : solids) {
-			e.onDeath(level, isRoomExit);
+			e.onDeath(isRoomExit);
 		}
 		for (Entity e : nonSolids) {
-			e.onDeath(level, isRoomExit);
+			e.onDeath(isRoomExit);
 		}
 	}
 

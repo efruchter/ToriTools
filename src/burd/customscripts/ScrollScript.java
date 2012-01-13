@@ -1,7 +1,6 @@
 package burd.customscripts;
 
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -16,15 +15,15 @@ public class ScrollScript implements EntityScript {
 	}
 
 	@Override
-	public void onSpawn(Level level, Entity self) {
+	public void onSpawn(Entity self) {
 		speed = self.getVariableCase().getFloatOrDefault("speed", speed);
 	}
 
 	@Override
-	public void onUpdate(Level level, Entity self) {
+	public void onUpdate(Entity self) {
 		self.setPos(self.getPos().add(hor ? new Vector2(speed, 0) : new Vector2(0,
 				speed)));
-		for (Entity e : level.solids) {
+		for (Entity e : ScriptUtils.getCurrentLevel().solids) {
 			if (e != self && ScriptUtils.isColliding(self, e)) {
 				speed = speed * -1;
 			}
@@ -33,8 +32,7 @@ public class ScrollScript implements EntityScript {
 	}
 
 	@Override
-	public void onDeath(Level level, Entity self, boolean isRoomExit) {
-		// TODO Auto-generated method stub
+	public void onDeath(Entity self, boolean isRoomExit) {
 
 	}
 

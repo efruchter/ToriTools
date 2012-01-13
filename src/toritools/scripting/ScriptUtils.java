@@ -7,6 +7,7 @@ import java.util.List;
 
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
@@ -24,6 +25,9 @@ public class ScriptUtils {
 	private final static String PROFILE = "profile.save";
 	private static KeyHolder keyHolder = new KeyHolder();
 	private static boolean debugMode = false;
+	
+	private static Level level;
+	private static Level newLevel;
 
 	public static KeyHolder getKeyHolder() {
 		return keyHolder;
@@ -181,5 +185,35 @@ public class ScriptUtils {
 
 	public static void setDebugMode(boolean debugMode) {
 		ScriptUtils.debugMode = debugMode;
+	}
+
+	public static Level getCurrentLevel() {
+		return level;
+	}
+	
+	/**
+	 * Queue a level switch. If there is no current level, then it is switched to automatically.
+	 * 
+	 * @param newLevel
+	 *            the level to switch to.
+	 */
+	public static void queueLevelSwitch(final Level newLevel) {
+		ScriptUtils.newLevel = newLevel;
+		if(level == null) {
+			moveToQueuedLevel();
+		}
+	}
+	
+	public static boolean isLevelQueued() {
+		return newLevel != null;
+	}
+	
+	/**
+	 * Move to the queued level.
+	 */
+	public static void moveToQueuedLevel() {
+		keyHolder.clearKeys();
+		level = newLevel;
+		newLevel = null;
 	}
 }

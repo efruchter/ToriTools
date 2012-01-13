@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -13,23 +12,23 @@ import toritools.scripting.ScriptUtils;
 public class BubbleScript implements EntityScript {
 
 	@Override
-	public void onSpawn(Level level, Entity self) {
+	public void onSpawn(Entity self) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onUpdate(Level level, Entity self) {
+	public void onUpdate(Entity self) {
 		self.setPos(self.getPos().add(new Vector2(-1 + (float) Math.random() * 3, -1)));
-		for (Entity wall : level.solids) {
+		for (Entity wall : ScriptUtils.getCurrentLevel().solids) {
 			if (ScriptUtils.isColliding(self, wall)) {
-				level.killEntity(self);
+				ScriptUtils.getCurrentLevel().killEntity(self);
 				break;
 			}
 		}
-		for (Entity wall : level.getEntitiesWithType("inAir")) {
+		for (Entity wall : ScriptUtils.getCurrentLevel().getEntitiesWithType("inAir")) {
 			if (ScriptUtils.isColliding(self, wall)) {
-				level.killEntity(self);
+				ScriptUtils.getCurrentLevel().killEntity(self);
 				break;
 			}
 		}
@@ -37,8 +36,7 @@ public class BubbleScript implements EntityScript {
 	}
 
 	@Override
-	public void onDeath(Level level, Entity self, boolean isRoomExit) {
-		// TODO Auto-generated method stub
+	public void onDeath(Entity self, boolean isRoomExit) {
 
 	}
 

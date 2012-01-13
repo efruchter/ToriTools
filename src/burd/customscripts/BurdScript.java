@@ -3,7 +3,6 @@ package burd.customscripts;
 import java.awt.event.KeyEvent;
 
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -21,14 +20,14 @@ public class BurdScript implements EntityScript {
 
 	public boolean inAir = true;
 
-	public void onSpawn(Level level, Entity self) {
+	public void onSpawn(Entity self) {
 
 		startPos = self.getPos().clone();
 
 		physicsModule = new PhysicsModule(new Vector2(0, 0.2f), 1f, self);
 	}
 
-	public void onUpdate(Level level, Entity self) {
+	public void onUpdate(Entity self) {
 
 		boolean flapped = false;
 
@@ -48,7 +47,7 @@ public class BurdScript implements EntityScript {
 		Vector2 delta = physicsModule.onUpdate();
 
 		self.setPos(self.getPos().add(delta));
-		boolean onGround = ScriptUtils.moveOut(self, true, level.solids).mag() != 0;
+		boolean onGround = ScriptUtils.moveOut(self, true, ScriptUtils.getCurrentLevel().solids).mag() != 0;
 
 		if (onGround || !inAir)
 			physicsModule.setgDrag(.92f);
@@ -75,15 +74,15 @@ public class BurdScript implements EntityScript {
 		}
 
 		if (!ScriptUtils.isDebugMode()) {
-			for (Entity spike : level.getEntitiesWithType("spike", "puffer")) {
+			for (Entity spike : ScriptUtils.getCurrentLevel().getEntitiesWithType("spike", "puffer")) {
 				if (spike.isInView() && ScriptUtils.isColliding(spike, self)) {
-					for (Entity bread : level.getEntitiesWithType("bread")) {
+					for (Entity bread : ScriptUtils.getCurrentLevel().getEntitiesWithType("bread")) {
 						bread.setActive(true);
 					}
 					for (int i = 0; i < 15; i++) {
 						Entity blood = VolcanoParticleScript.getBlood();
 						blood.setPos(self.getPos().clone());
-						level.spawnEntity(blood);
+						ScriptUtils.getCurrentLevel().spawnEntity(blood);
 					}
 					self.setPos(startPos.clone());
 					physicsModule.clearVelocity();
@@ -93,7 +92,7 @@ public class BurdScript implements EntityScript {
 			}
 		}
 
-		for (Entity flag : level.getEntitiesWithType("flag"))
+		for (Entity flag : ScriptUtils.getCurrentLevel().getEntitiesWithType("flag"))
 			if (flag.isInView() && ScriptUtils.isColliding(flag, self)
 					&& (flag != latestFlag)) {
 				if (latestFlag != null)
@@ -103,11 +102,11 @@ public class BurdScript implements EntityScript {
 				startPos = flag.getPos().clone();
 			}
 
-		for (Entity air : level.getEntitiesWithType("inAir"))
+		for (Entity air : ScriptUtils.getCurrentLevel().getEntitiesWithType("inAir"))
 			if (air.isInView() && ScriptUtils.isColliding(air, self)) {
 				inAir = true;
 			}
-		for (Entity water : level.getEntitiesWithType("inWater"))
+		for (Entity water : ScriptUtils.getCurrentLevel().getEntitiesWithType("inWater"))
 			if (water.isInView() && ScriptUtils.isColliding(water, self)) {
 				inAir = false;
 			}
@@ -115,10 +114,10 @@ public class BurdScript implements EntityScript {
 		if (!inAir && Math.random() < .04) {
 			Entity bubble = BubbleScript.getBubbleEntity();
 			bubble.setPos(self.getPos().clone());
-			level.spawnEntity(bubble);
+			ScriptUtils.getCurrentLevel().spawnEntity(bubble);
 		}
 	}
 
-	public void onDeath(Level level, Entity self, boolean isRoomExit) {
+	public void onDeath(Entity self, boolean isRoomExit) {
 	}
 }

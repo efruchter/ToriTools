@@ -76,16 +76,16 @@ public class Entity {
 	 * CONTROL METHODS
 	 */
 
-	public void onSpawn(final Level world) {
-		script.onSpawn(world, this);
+	public void onSpawn() {
+		script.onSpawn(this);
 	}
 
-	public void onUpdate(final Level world) {
-		script.onUpdate(world, this);
+	public void onUpdate() {
+		script.onUpdate(this);
 	}
 
-	public void onDeath(final Level world, final boolean isRoomExit) {
-		script.onDeath(world, this, isRoomExit);
+	public void onDeath(final boolean isRoomExit) {
+		script.onDeath(this, isRoomExit);
 	}
 
 	public void draw(final Graphics g, final Vector2 offset) {

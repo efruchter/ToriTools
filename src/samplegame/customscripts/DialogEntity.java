@@ -8,7 +8,6 @@ import java.util.List;
 import samplegame.SampleGame;
 import toritools.dialog.DialogNode;
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.entity.sprite.Sprite;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -42,12 +41,12 @@ public class DialogEntity extends Entity {
         setScript(new EntityScript() {
 
             @Override
-            public void onSpawn(Level level, Entity self) {
+            public void onSpawn(Entity self) {
                 SampleGame.inDialog = true;
             }
 
             @Override
-            public void onUpdate(Level level, Entity self) {
+            public void onUpdate(Entity self) {
 
                 SampleGame.setDisplayPrompt("Next <SPACE>");
 
@@ -59,16 +58,16 @@ public class DialogEntity extends Entity {
                         || ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_SPACE)) {
                     setCurrentDisplay(dialogNode.getNextLines(3));
                     if (getCurrentDisplay().isEmpty()) {
-                        level.killEntity(self);
+                    	ScriptUtils.getCurrentLevel().killEntity(self);
                     }
                 }
 
             }
 
             @Override
-            public void onDeath(Level level, Entity self, boolean isRoomExit) {
+            public void onDeath(Entity self, boolean isRoomExit) {
                 SampleGame.inDialog = false;
-                dialogNode.doAction(level);
+                dialogNode.doAction(ScriptUtils.getCurrentLevel());
             }
 
         });

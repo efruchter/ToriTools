@@ -17,26 +17,18 @@
 package burd;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.TimerTask;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.entrypoint.Binary;
 import toritools.io.FontLoader;
 import toritools.io.Importer;
 import toritools.math.MidpointChain;
@@ -47,148 +39,46 @@ import burd.customscripts.BreadScript;
 import burd.customscripts.BurdScript;
 import burd.customscripts.PufferfishScript;
 
-public class BurdGame {
+public class BurdGame extends Binary {
 
-	{
+	public static void main(String[] args) {
+		new BurdGame();
+	}
+
+	private static StopWatch stopWatch;
+	private Image SKY_BACKGROUND;
+	private Font uIFont;
+	private MidpointChain camera;
+	private int levelNumber = 1;
+
+	@Override
+	protected void loadResources() {
+		SKY_BACKGROUND = Toolkit.getDefaultToolkit().getImage(
+				"burd/backgrounds/sky.jpg");
 		FontLoader.loadFonts(new File("burd/fonts"));
+		uIFont = new Font("Earth's Mightiest", Font.TRUETYPE_FONT, 40);
 	}
 
-	public static String savePrefix = "burd2";
-
-	private int resolutionWidth = 800, resolutionHeight = 600;
-	private final Vector2 VIEWPORT = new Vector2(resolutionWidth,
-			resolutionHeight);
-
-	private MidpointChain camera = new MidpointChain(new Vector2(),
-			new Vector2(), 10);
-	/**
-	 * The current working level.
-	 */
-	private Level level;
-	public static Level newLevel;
-	public static boolean inDialog = false;
-	private static String displayString = "";
-	private static StopWatch stopWatch = new StopWatch();
-
-	/**
-	 * Application initiation
-	 * 
-	 * @param args
-	 *            Commandline arguments
-	 * @throws Exception
-	 */
-	public static void main(String[] args) throws Exception {
-
-		if (System.getProperty("os.name").contains("Windows ")) {
-			System.setProperty("sun.java2d.d3d", "True");
-			// System.setProperty("sun.java2d.accthreshold", "0");
-		}
-		else {
-			System.setProperty("sun.java2d.opengl=true", "True");
-		}
-
-		BurdGame sampleGame = new BurdGame();
-
-		sampleGame.init();
-		sampleGame.run();
+	@Override
+	protected void initialize() {
+		camera = new MidpointChain(new Vector2(), new Vector2(), 10);
+		stopWatch = new StopWatch();
 	}
 
-	/**
-	 * JFrame with game title
-	 */
-	private JFrame frame = new JFrame("burd");
-	@SuppressWarnings("serial")
-	private JPanel panel = new JPanel() {
-
-		public void paintComponent(final Graphics g) {
-			render(g);
-		}
-	};
-
-	Cursor hiddenCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-			new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
-			new Point(0, 0), "Hidden Cursor");
-
-	Entity viewPortEntity;
-
-	/**
-	 * Initialize the game
-	 * 
-	 * @throws Exception
-	 *             if init fails
-	 */
-	public void init() throws IOException {
-		viewPortEntity = new Entity();
-
-		frame.setCursor(hiddenCursor); // Hide cursor by default
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(800, 600)); // Default windowed
-															// dimensions
-		frame.add(panel);
-		frame.addKeyListener(ScriptUtils.getKeyHolder());
-		frame.setFocusable(true);
-		frame.setVisible(true);
-		frame.pack();
-
-		try {
-			ScriptUtils.loadProfileVariables(savePrefix);
-		}
-		catch (Exception e) {
-			ScriptUtils.saveProfileVariables(savePrefix);
-		}
-
-		level = Importer.importLevel(new File("burd/level" + ++currLevel
-				+ ".xml"));
-
-		setupLevel();
-
-		frame.requestFocusInWindow();
+	@Override
+	protected File getCurrentLevel() {
+		return new File("burd/level" + ++levelNumber + ".xml");
 	}
 
-	/**
-	 * Runs the game (the "main loop")
-	 */
-	private void run() {
-		/*
-		 * This is not 60 fps, but really close!
-		 */
-		new java.util.Timer().scheduleAtFixedRate(new TimerTask() {
+	@Override
+	public void logic() {
 
-			@Override
-			public void run() {
-				logic();
-			}
-		}, 0, 17);
-
-		new java.util.Timer().scheduleAtFixedRate(new TimerTask() {
-
-			@Override
-			public void run() {
-				frame.repaint();
-			}
-		}, 0, 17);
-	}
-
-	/**
-	 * Do all calculations, handle input, etc.
-	 */
-	private void logic() {
-
-		// Win condition
-		if (level.getEntitiesWithType("bread").isEmpty()) {
+		if (ScriptUtils.getCurrentLevel().getEntitiesWithType("bread")
+				.isEmpty()) {
 			nextLevel();
 		}
 
-		displayString = null;
-
-		if (newLevel != null) {
-			level.onDeath(level, true);
-			level = newLevel;
-			setupLevel();
-			newLevel = null;
-		}
-
-		level.onUpdate();
+		ScriptUtils.getCurrentLevel().onUpdate();
 
 		if (ScriptUtils.isDebugMode()) {
 
@@ -200,184 +90,126 @@ public class BurdGame {
 				try {
 					Entity e = Importer.importEntity(new File(
 							"burd/objects/bread.entity"), null);
-					e.setPos(level.getEntityWithId("player").getPos().clone());
+					e.setPos(ScriptUtils.getCurrentLevel()
+							.getEntityWithId("player").getPos().clone());
 					e.setScript(new BreadScript());
-					level.spawnEntity(e);
-				}
-				catch (final Exception w) {
+					ScriptUtils.getCurrentLevel().spawnEntity(e);
+				} catch (final Exception w) {
 					w.printStackTrace();
 				}
 			}
 		}
 
-		ScriptUtils.setDebugMode(ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_K) ? !ScriptUtils.isDebugMode() : ScriptUtils.isDebugMode());
+		ScriptUtils.setDebugMode(ScriptUtils.getKeyHolder()
+				.isPressedThenRelease(KeyEvent.VK_K) ? !ScriptUtils
+				.isDebugMode() : ScriptUtils.isDebugMode());
 
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
-			frame.setCursor(null); // Restore cursor for menu
 			System.exit(0);
 		}
 
 		ScriptUtils.getKeyHolder().freeQueuedKeys();
 
-		camera.setA(level.getEntityWithId("player").getPos().clone());
+		camera.setA(ScriptUtils.getCurrentLevel().getEntityWithId("player")
+				.getPos().clone());
 		camera.smoothTowardA();
-
-		level.setViewportData(camera.getB().sub(VIEWPORT.scale(.5f)), VIEWPORT);
 	}
 
-	private void setupLevel() {
-
-		stopWatch.start();
-
+	public boolean render(final Graphics rootCanvas) {
 		try {
-			level.getEntityWithId("player").setScript(new BurdScript());
-			level.getEntityWithId("player").setVisible(false);
+
+			Level level = ScriptUtils.getCurrentLevel();
+
+			rootCanvas.setFont(uIFont);
+
+			Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
+
+			rootCanvas.drawImage(SKY_BACKGROUND, 0, 0, (int) VIEWPORT.x,
+					(int) VIEWPORT.y, null);
+			rootCanvas.drawImage(level.getBakedBackground(), (int) offset.x,
+					(int) offset.y, (int) level.getDim().x,
+					(int) level.getDim().y, null);
+			for (int i = level.layers.size() - 1; i >= 0; i--)
+				for (Entity e : level.layers.get(i)) {
+					if (e.isVisible() && e.isInView())
+						e.draw(rootCanvas, offset);
+					if (!"BACKGROUND".equals(e.getType())
+							&& ScriptUtils.isDebugMode()) {
+						rootCanvas.setColor(Color.RED);
+						rootCanvas.drawRect((int) (e.getPos().x + offset.x),
+								(int) (e.getPos().y + offset.y),
+								(int) e.getDim().x, (int) e.getDim().y);
+					}
+
+				}
+			level.getEntityWithId("player").draw(rootCanvas, offset);
+
+			rootCanvas.setColor(Color.BLACK);
+			String infoString = "[Esc] Quit  [K] Debug Mode: "
+					+ ScriptUtils.isDebugMode();
+			if (ScriptUtils.isDebugMode())
+				infoString = infoString + "  [P] Next Level  [L] SPAWN EGGS";
+			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
+
+			/*
+			 * HUD
+			 */
+			String title = level.getVariableCase().getVar("title");
+			title = (title == null) ? "" : title;
+			rootCanvas.drawString(
+					title + "        Time: " + stopWatch.getElapsedTimeSecs(),
+					(int) 20, 40);
+
+			int xIndex = 0;
+			for (Entity bread : level.getEntitiesWithType("bread")) {
+				bread.getSprite()
+						.draw(rootCanvas,
+								bread,
+								new Vector2(20 + xIndex++ * bread.getDim().x
+										* 1.5f, 50), bread.getDim());
+			}
+		} catch (final Exception e) {
+			return false;
 		}
-		catch (final NullPointerException e) {
+		return true;
+	}
+
+	@Override
+	protected void setupCurrentLevel() {
+		try {
+			ScriptUtils.getCurrentLevel().getEntityWithId("player")
+					.setScript(new BurdScript());
+			ScriptUtils.getCurrentLevel().getEntityWithId("player")
+					.setVisible(false);
+			camera = new MidpointChain(ScriptUtils.getCurrentLevel()
+					.getEntityWithId("player").getPos(), ScriptUtils
+					.getCurrentLevel().getEntityWithId("player").getPos(), 10);
+		} catch (final NullPointerException e) {
 			JOptionPane.showMessageDialog(null,
 					"This level is missing a Burd (player.entity)!");
 			System.exit(0);
 		}
 
-		level.onSpawn();
+		ScriptUtils.getCurrentLevel().onSpawn();
 
 		/*
 		 * Special spawns, will be fixed.
 		 */
 
-		for (Entity e : level.getEntitiesWithType("bread")) {
+		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType(
+				"bread")) {
 			e.setScript(new BreadScript());
-			e.onSpawn(level);
+			e.onSpawn();
 		}
 
-		for (Entity e : level.getEntitiesWithType("puffer")) {
+		for (Entity e : ScriptUtils.getCurrentLevel().getEntitiesWithType(
+				"puffer")) {
 			e.setScript(new PufferfishScript());
-			e.onSpawn(level);
-		}
-		
-		level.preBakeBackground();
-	}
-
-	private Image bg = Toolkit.getDefaultToolkit().getImage(
-			"burd/backgrounds/sky.jpg");
-
-	private void render(final Graphics rootCanvas) {
-		rootCanvas
-				.setFont(new Font("Earth's Mightiest", Font.TRUETYPE_FONT, 40));
-		if (level == null) {
-			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
-					(int) VIEWPORT.y / 2);
-			return;
+			e.onSpawn();
 		}
 
-		Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
+		ScriptUtils.getCurrentLevel().preBakeBackground();
 
-		rootCanvas
-				.drawImage(bg, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
-		rootCanvas.drawImage(level.getBakedBackground(), (int) offset.x,
-				(int) offset.y, (int) level.getDim().x, (int) level.getDim().y, null);
-		for (int i = level.layers.size() - 1; i >= 0; i--)
-			for (Entity e : level.layers.get(i)) {
-				if (e.isVisible() && e.isInView())
-					e.draw(rootCanvas, offset);
-				if (!"BACKGROUND".equals(e.getType()) && ScriptUtils.isDebugMode()) {
-					rootCanvas.setColor(Color.RED);
-					rootCanvas.drawRect((int) (e.getPos().x + offset.x),
-							(int) (e.getPos().y + offset.y), (int) e.getDim().x,
-							(int) e.getDim().y);
-				}
-
-			}
-		level.getEntityWithId("player").draw(rootCanvas, offset);
-
-		rootCanvas.setColor(Color.BLACK);
-		String infoString = "[Esc] Quit  [K] Debug Mode: " + ScriptUtils.isDebugMode();
-		if (ScriptUtils.isDebugMode())
-			infoString = infoString + "  [P] Next Level  [L] SPAWN EGGS";
-		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
-
-		/*
-		 * HUD
-		 */
-		String title = level.getVariableCase().getVar("title");
-		title = (title == null) ? "" : title;
-		rootCanvas.drawString(
-				title + "        Time: " + stopWatch.getElapsedTimeSecs(),
-				(int) 20, 40);
-
-		// List<Entity> breads;
-		// if (!(breads = level.getEntitiesWithType("bread")).isEmpty()) {
-		int xIndex = 0;
-		for (Entity bread : level.getEntitiesWithType("bread")) {
-			bread.getSprite().draw(rootCanvas, bread, new Vector2(20 + xIndex++
-					* bread.getDim().x * 1.5f, 50), bread.getDim());
-		}
-		// } else {
-		// int xIndex = 0;
-		// for (Entity nest : level.getEntitiesWithType("nest")) {
-		// level.getEntitiesWithType("nest").get(0).sprite.draw(
-		// rootCanvas, nest, new Vector2(20 + xIndex++
-		// * nest.dim.x * 1.5f, 50), nest.dim);
-		// }
-		// }
-
-		if (displayString != null) {
-			rootCanvas.drawString(displayString, (int) VIEWPORT.x / 2,
-					(int) VIEWPORT.y / 2 + 64);
-		}
-	}
-
-	/**
-	 * On next update, switch to a new level.
-	 * 
-	 * @param newLevel
-	 *            the level to switch to.
-	 */
-	public static void warpToLevel(final Level newLevel) {
-		BurdGame.newLevel = newLevel;
-		ScriptUtils.getKeyHolder().clearKeys();
-	}
-
-	/**
-	 * Set a string to be displayed in a prompt on screen for 1 frame.
-	 * 
-	 * @param s
-	 *            the string to set.
-	 */
-	public static void setDisplayPrompt(final String s) {
-		displayString = s;
-	}
-
-	private static int currLevel = 0;
-
-	public static void nextLevel() {
-		try {
-			File levelFile = new File("burd/level" + ++currLevel + ".xml");
-			if (levelFile.canRead()) {
-				System.out.println(currLevel);
-				warpToLevel(Importer.importLevel(levelFile));
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "YOU BEAT THE GAME!");
-				System.exit(0);
-			}
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void drawChain(final Graphics g, final Vector2[] chain,
-			final Vector2 offset) {
-		for (int i = 1; i < chain.length; i++) {
-			g.drawLine((int) (chain[i - 1].x + offset.x),
-					(int) (chain[i - 1].y + offset.y),
-					(int) (chain[i].x + offset.x),
-					(int) (chain[i].y + offset.y));
-		}
+		stopWatch.start();
 	}
 }

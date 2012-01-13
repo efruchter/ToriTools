@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import toritools.entity.Entity;
-import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
@@ -31,9 +30,9 @@ public class BreadScript implements EntityScript {
 	Entity player, trailBread;
 
 	@Override
-	public void onSpawn(Level level, Entity self) {
+	public void onSpawn(Entity self) {
 
-		player = level.getEntityWithId("player");
+		player = ScriptUtils.getCurrentLevel().getEntityWithId("player");
 
 		// First spawn
 		if (origPos == null) {
@@ -44,7 +43,7 @@ public class BreadScript implements EntityScript {
 	}
 
 	@Override
-	public void onUpdate(Level level, Entity self) {
+	public void onUpdate(Entity self) {
 		boolean grabeable = Vector2.dist(chain.getA(), chain.getB()) < 10;
 		if (self.isActive()) {
 			chain.setB(origPos);
@@ -68,20 +67,20 @@ public class BreadScript implements EntityScript {
 			chain.smoothTowardB();
 		self.setPos(chain.getA());
 
-		for (Entity nest : level.getEntitiesWithType("nest")) {
+		for (Entity nest : ScriptUtils.getCurrentLevel().getEntitiesWithType("nest")) {
 			if (ScriptUtils.isColliding(self, nest)) {
-				level.killEntity(self);
+				ScriptUtils.getCurrentLevel().killEntity(self);
 			}
 		}
 	}
 
 	@Override
-	public void onDeath(Level level, Entity self, boolean isRoomExit) {
+	public void onDeath(Entity self, boolean isRoomExit) {
 		trailingQueue.remove(self);
 		for (int i = 0; i < 5; i++) {
 			Entity blood = VolcanoParticleScript.getSparkle();
 			blood.setPos(self.getPos().clone());
-			level.spawnEntity(blood);
+			ScriptUtils.getCurrentLevel().spawnEntity(blood);
 		}
 		Entity e;
 		try {
@@ -92,7 +91,7 @@ public class BreadScript implements EntityScript {
 			e.setDim(e.getDim().scale(.5f));
 			e.setActive(false);
 			e.setPos(self.getPos().clone());
-			level.spawnEntity(e);
+			ScriptUtils.getCurrentLevel().spawnEntity(e);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
