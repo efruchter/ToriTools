@@ -127,6 +127,18 @@ public class QuadraticKeyFrameInterpolator {
 			this.mag = mag;
 			this.time = time;
 		}
+		
+		/**
+		 * A keyFrame for a hermite curve path. No velocity handle.
+		 * 
+		 * @param pos
+		 *            the position at the given time.
+		 * @param time
+		 *            the time.
+		 */
+		public HermiteKeyFrame(final Vector2 pos, final float time) {
+			this(pos, new Vector2(), time);
+		}
 
 		@Override
 		public int compareTo(HermiteKeyFrame other) {

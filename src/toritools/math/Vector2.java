@@ -3,14 +3,14 @@ package toritools.math;
 import java.awt.Point;
 
 /**
- * 2D Float Vector with basic math functions
+ * 2D Float Vector with basic math functions. Immutable.
  * 
  * @author efruchter
  * 
  */
 public class Vector2 implements Comparable<Vector2> {
 
-	public float x, y;
+	public final float x, y;
 
 	public Vector2(final float x, final float y) {
 		this.x = x;
@@ -37,24 +37,6 @@ public class Vector2 implements Comparable<Vector2> {
 
 	public float getY() {
 		return this.y;
-	}
-
-	public void setX(final float x) {
-		this.x = x;
-	}
-
-	public void setY(final float y) {
-		this.y = y;
-	}
-
-	public void set(final float x, final float y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	public void set(final Vector2 o) {
-		x = o.x;
-		y = o.y;
 	}
 
 	public Vector2 add(final Vector2 o) {
@@ -87,10 +69,6 @@ public class Vector2 implements Comparable<Vector2> {
 
 	public float dot(final Vector2 o) {
 		return this.x * o.getX() + this.y * o.getY();
-	}
-
-	public Vector2 clone() {
-		return new Vector2(this);
 	}
 
 	public float mag() {
@@ -182,13 +160,5 @@ public class Vector2 implements Comparable<Vector2> {
 	@Override
 	public int compareTo(Vector2 o) {
 		return new Float(this.mag()).compareTo(new Float(o.mag()));
-	}
-
-	/**
-	 * Clears the current vector.
-	 */
-	public void clear() {
-		x = 0;
-		y = 0;
 	}
 }

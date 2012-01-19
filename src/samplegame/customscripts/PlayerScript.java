@@ -14,7 +14,7 @@ public class PlayerScript implements EntityScript {
 		if ((warpTo = ScriptUtils.getVar("warpTo")) != null) {
 			Entity portal;
 			if ((portal = ScriptUtils.getCurrentLevel().getEntityWithId(warpTo)) != null) {
-				self.setPos(portal.getPos().clone());
+				self.setPos(portal.getPos());
 				ScriptUtils.setVar("warpTo", null);
 			} else {
 				System.out.println("Could not warp player to " + warpTo + "!");
@@ -29,24 +29,24 @@ public class PlayerScript implements EntityScript {
 
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A)) {
 			walked = true;
-			delta.x -= speed;
+			delta = delta.add(-speed, 0);
 			self.getSprite().setCycle(1);
 		}
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D)) {
 			walked = true;
-			delta.x += speed;
+			delta = delta.add(speed, 0);
 			self.getSprite().setCycle(2);
 		}
 
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_W)) {
 			walked = true;
-			delta.y -= speed;
+			delta = delta.add(0, -speed);
 			self.getSprite().setCycle(3);
 		}
 
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_S)) {
 			walked = true;
-			delta.y += speed;
+			delta = delta.add(0, speed);
 			self.getSprite().setCycle(0);
 		}
 

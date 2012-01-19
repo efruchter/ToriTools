@@ -139,8 +139,7 @@ public class Importer {
 				.getElementsByTagName("level").item(0).getAttributes()
 				.getNamedItem("map").getNodeValue());
 		level.getVariableCase().setVariables(props);
-		level.getDim().x = level.getVariableCase().getFloat("width");
-		level.getDim().y = level.getVariableCase().getFloat("height");
+		level.setDim(new Vector2(level.getVariableCase().getFloat("width"), level.getVariableCase().getFloat("height")));
 
 		// Extract level instance info
 		// levelSize.width = Integer.parseInt(props.get("width"));
@@ -204,8 +203,8 @@ public class Importer {
 			final Image image, final String relativeLink, final int x,
 			final int y, final int xTiles, final int yTiles) {
 		Entity bg = new Entity();
-		bg.setPos(pos.clone());
-		bg.setDim(dim.clone());
+		bg.setPos(pos);
+		bg.setDim(dim);
 
 		bg.getVariableCase().setVar("xTiles", xTiles + "");
 		bg.getVariableCase().setVar("yTiles", yTiles + "");
@@ -225,8 +224,8 @@ public class Importer {
 
 	public static Entity makeWall(final Vector2 pos, final Vector2 dim) {
 		Entity wall = new Entity();
-		wall.setPos(pos.clone());
-		wall.setDim(dim.clone());
+		wall.setPos(pos);
+		wall.setDim(dim);
 		wall.getVariableCase().setVar("dimensions.x", dim.x + "");
 		wall.getVariableCase().setVar("dimensions.y", dim.y + "");
 		wall.setSolid(true);

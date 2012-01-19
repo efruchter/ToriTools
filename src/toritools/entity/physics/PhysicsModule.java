@@ -51,9 +51,9 @@ public class PhysicsModule {
 		
 		velocity = velocity.unit().scale(velocity.mag() * getgDrag());
 
-		prePos = self.getPos().clone();
+		prePos = self.getPos();
 
-		acc.clear();
+		acc = new Vector2();
 		
 		return velocity;
 	}
@@ -67,15 +67,15 @@ public class PhysicsModule {
 	}
 	
 	public void clearVelocity() {
-		prePos = self.getPos().clone();
+		prePos = self.getPos();
 	}
 	
 	public void clearXVelocity() {
-		prePos.x = self.getPos().x;
+		prePos = new Vector2(self.getPos().x, prePos.y);
 	}
 	
 	public void clearYVelocity() {
-		prePos.y = self.getPos().y;
+		prePos = new Vector2(prePos.x, self.getPos().y);
 	}
 	
 	public void addAcceleration(final Vector2 a) {

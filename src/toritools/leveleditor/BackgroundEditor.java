@@ -56,16 +56,16 @@ public class BackgroundEditor extends JPanel {
 				mouseDragged(m);
 				if (selEnd.x < selStart.x) {
 					float temp = selStart.x;
-					selStart.x = selEnd.x;
-					selEnd.x = temp;
+					selStart = new Vector2(selEnd.x, selStart.y);
+					selEnd = new Vector2(temp, selEnd.y);
 				}
 				if (selEnd.y < selStart.y) {
 					float temp = selStart.y;
-					selStart.y = selEnd.y;
-					selEnd.y = temp;
+					selStart = new Vector2(selStart.x, selEnd.y);
+					selEnd = new Vector2(selEnd.x, temp);
 				}
 				if (selStart.x == selEnd.x && selStart.y == selEnd.y) {
-					selEnd.set(selEnd.add(getGrid().width, getGrid().height));
+					selEnd = selEnd.add(getGrid().width, getGrid().height);
 				}
 				repaint();
 			}

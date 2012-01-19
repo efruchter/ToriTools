@@ -206,13 +206,13 @@ public class LevelEditor {
 				mouseDragged(m);
 				if (wallEnd.x < wallStart.x) {
 					float temp = wallStart.x;
-					wallStart.x = wallEnd.x;
-					wallEnd.x = temp;
+					wallStart = new Vector2(wallEnd.x, wallStart.y);
+					wallEnd = new Vector2(temp, wallEnd.y);
 				}
 				if (wallEnd.y < wallStart.y) {
 					float temp = wallStart.y;
-					wallStart.y = wallEnd.y;
-					wallEnd.y = temp;
+					wallStart = new Vector2(wallStart.x, wallEnd.y);
+					wallEnd = new Vector2(wallEnd.x, temp);
 				}
 				Vector2 wallDim = wallEnd.sub(wallStart);
 				if (wallDim.x != 0 && wallDim.y != 0)
@@ -240,11 +240,11 @@ public class LevelEditor {
 					if (current != null) {
 						Vector2 p = new Vector2(arg0.getPoint());
 						deleteOverlapping(p);
-						p.set(getClosestGridPoint(p));
+						p = getClosestGridPoint(p);
 						Entity e = new Entity();
 						e.setFile(current.getFile());
-						e.setPos(p.clone());
-						e.setDim(current.getDim().clone());
+						e.setPos(p);
+						e.setDim(current.getDim());
 						e.setSprite(current.getSprite());
 						e.setLayer(layerEditor.getCurrentLayer());
 						addEntity(e);

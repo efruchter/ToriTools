@@ -123,14 +123,14 @@ public class Level extends Entity {
 		String data;
 		if ((data = e.getVariableCase().getVar("vScroll")) != null) {
 			float val = Float.parseFloat(data);
-			e.getPos().y += val;
+			e.setPos(e.getPos().add(0, val));
 			if (ScriptUtils.isColliding(e, solids)) {
 				e.getVariableCase().setVar("vScroll", -val + "");
 			}
 		}
 		if ((data = e.getVariableCase().getVar("hScroll")) != null) {
 			float val = Float.parseFloat(data);
-			e.getPos().x += val;
+			e.setPos(e.getPos().add(val, 0));
 			if (ScriptUtils.isColliding(e, solids)) {
 				e.getVariableCase().setVar("hScroll", -val + "");
 			}
