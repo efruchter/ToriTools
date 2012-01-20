@@ -26,10 +26,61 @@ import toritools.scripting.ScriptUtils;
 public abstract class Binary {
 
 	// CORE VARS
-	protected int FRAMERATE = 60;
-	protected Vector2 VIEWPORT = new Vector2(800, 600);
+	protected final int FRAMERATE;
+	protected final Vector2 VIEWPORT;
+	
 
 	private JFrame frame;
+	
+	/**
+	 * Some basic settings.
+	 * @param VIEWPORT_SIZE the dimensions of the viewport/window.
+	 * @param frameRate the frame-rate as a ratio. 60FPS would be 60, for example.
+	 */
+	public Binary(final Vector2 VIEWPORT_SIZE, final int frameRate) {
+		this.FRAMERATE = frameRate;
+		this.VIEWPORT = VIEWPORT_SIZE;
+		
+		//Hardware accel.
+		if (System.getProperty("os.name").contains("Windows")) {
+			System.setProperty("sun.java2d.d3d", "True");
+		} else {
+			System.setProperty("sun.java2d.opengl=true", "True");
+		}
+
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		@SuppressWarnings("serial")
+		final JPanel panel = new JPanel() {
+			public void paintComponent(final Graphics g) {
+				renderAll(g);
+			}
+		};
+		frame.add(panel);
+		frame.addKeyListener(ScriptUtils.getKeyHolder());
+		frame.setFocusable(true);
+		frame.setVisible(true);
+		panel.setPreferredSize(new Dimension((int) VIEWPORT.x, (int) VIEWPORT.y));
+		frame.pack();
+
+		initialize();
+
+		try {
+			ScriptUtils.queueLevelSwitch(Importer
+					.importLevel(getStartingLevel()));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		setupCurrentLevel(ScriptUtils.getCurrentLevel());
+		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
+				new Thread() {
+					public void run() {
+						coreLogic();
+						panel.repaint();
+					}
+				}, 0, 1000/ FRAMERATE, TimeUnit.MILLISECONDS);
+	}
 
 	/*
 	 * SUBCLASS
@@ -70,47 +121,6 @@ public abstract class Binary {
 	protected abstract void setupCurrentLevel(Level levelBeingLoaded);
 
 	protected abstract File getStartingLevel();
-
-	@SuppressWarnings("serial")
-	protected Binary() {
-		if (System.getProperty("os.name").contains("Windows")) {
-			System.setProperty("sun.java2d.d3d", "True");
-		} else {
-			System.setProperty("sun.java2d.opengl=true", "True");
-		}
-
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final JPanel panel = new JPanel() {
-			public void paintComponent(final Graphics g) {
-				renderAll(g);
-			}
-		};
-		frame.add(panel);
-		frame.addKeyListener(ScriptUtils.getKeyHolder());
-		frame.setFocusable(true);
-		frame.setVisible(true);
-		panel.setPreferredSize(new Dimension((int) VIEWPORT.x, (int) VIEWPORT.y));
-		frame.pack();
-
-		initialize();
-
-		try {
-			ScriptUtils.queueLevelSwitch(Importer
-					.importLevel(getStartingLevel()));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		setupCurrentLevel(ScriptUtils.getCurrentLevel());
-		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
-				new Thread() {
-					public void run() {
-						coreLogic();
-						panel.repaint();
-					}
-				}, 0, 1000/ FRAMERATE, TimeUnit.MILLISECONDS);
-	}
 
 	private boolean loadingLevel = false;
 
