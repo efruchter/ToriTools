@@ -26,7 +26,7 @@ import toritools.scripting.ScriptUtils;
 public abstract class Binary {
 
 	// CORE VARS
-	protected int FRAMERATE = 17;
+	protected int FRAMERATE = 60;
 	protected Vector2 VIEWPORT = new Vector2(800, 600);
 
 	private JFrame frame;
@@ -109,7 +109,7 @@ public abstract class Binary {
 						coreLogic();
 						panel.repaint();
 					}
-				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
+				}, 0, 1000/ FRAMERATE, TimeUnit.MILLISECONDS);
 	}
 
 	private boolean loadingLevel = false;
@@ -129,12 +129,13 @@ public abstract class Binary {
 	}
 
 	private void renderAll(final Graphics rootCanvas) {
-		if (loadingLevel || !render(rootCanvas)) {
+		if (loadingLevel) {
 			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 			rootCanvas.setColor(Color.BLACK);
 			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
 					(int) VIEWPORT.y / 2);
 			return;
 		}
+		render(rootCanvas);
 	}
 }

@@ -183,8 +183,8 @@ public class Level extends Entity {
 		for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {
 			despawnEntity(e);
 			e.draw(baked.getGraphics(), new Vector2());
-			System.out.println("BAKING: " + e.getType());
 		}
+		System.out.println("Baking Backgrounds...");
 		return baked;
 	}
 
