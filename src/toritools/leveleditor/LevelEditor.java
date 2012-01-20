@@ -864,7 +864,8 @@ public class LevelEditor {
 			HashMap<String, String> map = new HashMap<String, String>();
 			File f = new File(e.getFile());
 			if (f.canRead()) {
-				map.put("template", f.getPath().substring(f.getPath().indexOf(workingDirectory.getName()) + workingDirectory.getName().length()));
+				map.put("template", fixFileString(f.getPath().substring(
+						f.getPath().indexOf(workingDirectory.getName()) + workingDirectory.getName().length())));
 			}
 			map.put("layer", e.getLayer() + "");
 			map.putAll(e.getVariableCase().getVariables());
@@ -1105,5 +1106,14 @@ public class LevelEditor {
 			final Vector2 p) {
 		return new Vector2(((int) p.x / (int) gridSize.width) * gridSize.width,
 				((int) p.y / (int) gridSize.height) * gridSize.height);
+	}
+	
+	/**
+	 * Windows sucks!
+	 * @param f the file to have \ replaced with /.
+	 * @return new file name.
+	 */
+	private static String fixFileString (final String f) {
+		return f.replace("\\", "/");
 	}
 }

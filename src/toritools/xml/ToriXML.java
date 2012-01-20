@@ -72,7 +72,7 @@ public class ToriXML {
 		trans.transform(source, result);
 		String xmlString = sw.toString();
 
-		System.out.println(xmlString);
+		System.err.println(xmlString);
 
 		try {
 			FileWriter f = new FileWriter(file);
