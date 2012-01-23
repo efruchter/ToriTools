@@ -33,59 +33,58 @@ public class PhysicsModule {
 	}
 
 	/**
-	 * Calculates forces on entity, and generates the movement vector.
+	 * Calculates forces on entity, and generates the movement vector. The
+	 * acceleration is then cleared.
 	 * 
-	 * @param self
-	 *            the entity.
-	 * @return
+	 * @param time
+	 *            the time in milliseconds between frame delays.
+	 * @return the displacement vector.
 	 */
-	public Vector2 onUpdate() {
+	public Vector2 onUpdate(final float time) {
 
 		// Add global accel
 		acc = acc.add(g);
+		acc = acc.unit().scale(acc.mag() * time);
 
 		Vector2 velocity = self.getPos().sub(prePos).add(acc);
 
-		// cap the speed
-		velocity = velocity.unit().scale(velocity.mag());
-		
 		velocity = velocity.unit().scale(velocity.mag() * getgDrag());
 
 		prePos = self.getPos();
 
 		acc = new Vector2();
-		
+
 		return velocity;
 	}
 
 	public void addVelocity(final Vector2 vel) {
 		prePos = prePos.sub(vel);
 	}
-	
+
 	public Vector2 getCurrentVelocity() {
 		return self.getPos().sub(prePos);
 	}
-	
+
 	public void clearVelocity() {
 		prePos = self.getPos();
 	}
-	
+
 	public void clearXVelocity() {
 		prePos = new Vector2(self.getPos().x, prePos.y);
 	}
-	
+
 	public void clearYVelocity() {
 		prePos = new Vector2(prePos.x, self.getPos().y);
 	}
-	
+
 	public void addAcceleration(final Vector2 a) {
 		acc = acc.add(a);
 	}
-	
+
 	public float getMass() {
 		return 1f;
 	}
-	
+
 	public void setgDrag(final float drag) {
 		gDrag = drag;
 	}

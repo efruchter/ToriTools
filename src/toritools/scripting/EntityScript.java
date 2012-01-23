@@ -21,6 +21,8 @@ public interface EntityScript {
 	 *
 	 * @param self
 	 *            the entity running the script.
+	 * @param time
+	 * 			  the time in milliseconds between frame delays.
 	 */
 	public void onUpdate(final Entity self, final float time);
 
