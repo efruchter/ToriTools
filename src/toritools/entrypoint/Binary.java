@@ -38,7 +38,7 @@ public abstract class Binary {
 	 * @param frameRate the frame-rate as a ratio. 60FPS would be 60, for example.
 	 */
 	public Binary(final Vector2 VIEWPORT_SIZE, final int frameRate) {
-		this.FRAMERATE = frameRate;
+		this.FRAMERATE = 1000 / frameRate;
 		this.VIEWPORT = VIEWPORT_SIZE;
 		
 		//Hardware accel.
@@ -79,7 +79,7 @@ public abstract class Binary {
 						coreLogic();
 						panel.repaint();
 					}
-				}, 0, 1000/ FRAMERATE, TimeUnit.MILLISECONDS);
+				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
 	}
 
 	/*
@@ -133,7 +133,7 @@ public abstract class Binary {
 			loadingLevel = false;
 		} else {
 			globalLogic();
-			ScriptUtils.getCurrentLevel().onUpdate(1000 / (float) FRAMERATE);
+			ScriptUtils.getCurrentLevel().onUpdate((float) FRAMERATE);
 			ScriptUtils.getKeyHolder().freeQueuedKeys();
 		}
 	}
