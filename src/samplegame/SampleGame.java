@@ -109,22 +109,22 @@ public class SampleGame extends Binary {
 		 * This custom script attaching for player, wolf and block will soon by
 		 * nullified by a the Rhino module.
 		 */
-		level.getEntityWithId("player").setScript(new PlayerScript());
+		level.getEntityWithId("player").addScript(new PlayerScript());
 
 		Entity temp = level.getEntityWithId("wolf");
 		if (temp != null)
-			temp.setScript(new WolfScript());
+			temp.addScript(new WolfScript());
 
 		temp = level.getEntityWithId("pushblock1");
 		if (temp != null) {
-			temp.setScript(new EntityScript() {
+			temp.addScript(new EntityScript() {
 				Entity player;
 
 				public void onSpawn(Entity self) {
 					player = level.getEntityWithId("player");
 				}
 
-				public void onUpdate(Entity self) {
+				public void onUpdate(Entity self, float time) {
 					ScriptUtils.moveOut(self, true, player);
 					ScriptUtils.moveOut(self, true, level.getSolids());
 					ScriptUtils.moveOut(player, true, self);
@@ -137,7 +137,7 @@ public class SampleGame extends Binary {
 
 		// Set up world portals.
 		for (Entity e : level.getEntitiesWithType("worldPortal")) {
-			e.setScript(new WorldPortalScript());
+			e.addScript(new WorldPortalScript());
 		}
 
 	}

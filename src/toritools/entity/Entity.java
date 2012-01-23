@@ -1,7 +1,9 @@
 package toritools.entity;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -35,7 +37,7 @@ public class Entity {
 	/**
 	 * The control script for this entity.
 	 */
-	private EntityScript script = EntityScript.BLANK;
+	private List<EntityScript> scripts = new ArrayList<EntityScript>();
 
 	/*
 	 * INSTANCE ENTITY VARIABLES
@@ -58,35 +60,23 @@ public class Entity {
 
 	private int direction = 0;
 
-	/**
-	 * This variable case will be passed in containing the additional data from
-	 * the xml level file, as well as entity data from the entity xml.
-	 * 
-	 * @param variables
-	 */
-	public Entity() {
-		
-	}
-
-	public Entity(final EntityScript script) {
-		this();
-		this.script = script;
-	}
-
 	/*
 	 * CONTROL METHODS
 	 */
 
 	public void onSpawn() {
-		script.onSpawn(this);
+		for(EntityScript script: scripts)
+			script.onSpawn(this);
 	}
 
-	public void onUpdate() {
-		script.onUpdate(this);
+	public void onUpdate(final float time) {
+		for(EntityScript script: scripts)
+			script.onUpdate(this, time);
 	}
 
 	public void onDeath(final boolean isRoomExit) {
-		script.onDeath(this, isRoomExit);
+		for(EntityScript script: scripts)
+			script.onDeath(this, isRoomExit);
 	}
 
 	public void draw(final Graphics g, final Vector2 offset) {
@@ -185,8 +175,12 @@ public class Entity {
 		this.file = file;
 	}
 
-	public void setScript(EntityScript script) {
-		this.script = script;
+	public void addScript(EntityScript script) {
+		scripts.add(script);
+	}
+	
+	public void clearScripts() {
+		scripts.clear();
 	}
 
 	public void setLayer(int layer) {

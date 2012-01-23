@@ -96,13 +96,13 @@ public class Level extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(final float time) {
 		spawnNewEntities();
 		for (Entity e : solids) {
-			e.onUpdate();
+			e.onUpdate(time);
 		}
 		for (Entity e : nonSolids) {
-			e.onUpdate();
+			e.onUpdate(time);
 		}
 		takeOutTrash();
 

@@ -133,7 +133,7 @@ public abstract class Binary {
 			loadingLevel = false;
 		} else {
 			globalLogic();
-			ScriptUtils.getCurrentLevel().onUpdate();
+			ScriptUtils.getCurrentLevel().onUpdate(FRAMERATE / 1000);
 			ScriptUtils.getKeyHolder().freeQueuedKeys();
 		}
 	}

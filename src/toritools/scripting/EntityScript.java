@@ -22,7 +22,7 @@ public interface EntityScript {
 	 * @param self
 	 *            the entity running the script.
 	 */
-	public void onUpdate(final Entity self);
+	public void onUpdate(final Entity self, final float time);
 
 	/**
 	 * This is called upon entity deletion not including room exit.
@@ -42,7 +42,7 @@ public interface EntityScript {
 		@Override
 		public void onSpawn(Entity self) {}
 		@Override
-		public void onUpdate(Entity self) {}
+		public void onUpdate(Entity self, float time) {}
 		@Override
 		public void onDeath(Entity self, boolean isRoomExit) {}
 	};

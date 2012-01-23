@@ -40,7 +40,7 @@ public class DialogEntity extends Entity {
 
         setDim(new Vector2(500, 75));
 
-        setScript(new EntityScript() {
+        addScript(new EntityScript() {
 
             @Override
             public void onSpawn(Entity self) {
@@ -48,7 +48,7 @@ public class DialogEntity extends Entity {
             }
 
             @Override
-            public void onUpdate(Entity self) {
+            public void onUpdate(Entity self, float time) {
 
                 SampleGame.setDisplayPrompt("Next <SPACE>");
 
