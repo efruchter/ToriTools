@@ -22,7 +22,7 @@ import toritools.scripting.ScriptUtils.Direction;
  */
 public class WolfScript implements EntityScript {
 	private Random rand = new Random();
-	private float speed = 4;
+	private float speed = .2f;
 	private float direction = 0;
 
 	private Entity player;
@@ -39,7 +39,7 @@ public class WolfScript implements EntityScript {
 			newDirection();
 		if (rand.nextDouble() > .8) {
 			self.setPos(self.getPos()
-					.add(Vector2.buildVector(direction).scale(speed)));
+					.add(Vector2.buildVector(direction).scale(time * speed)));
 			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 			self.getSprite().nextFrame();
 		}
