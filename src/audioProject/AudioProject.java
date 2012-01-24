@@ -1,5 +1,6 @@
 package audioProject;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -27,6 +28,8 @@ public class AudioProject extends Binary{
 
 	@Override
 	protected boolean render(Graphics rootCanvas) {
+		rootCanvas.setColor(Color.red);
+		rootCanvas.drawRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
 		try {
 			for(Entity ent: ScriptUtils.getCurrentLevel().getAll())
 				ent.draw(rootCanvas, Vector2.ZERO);
