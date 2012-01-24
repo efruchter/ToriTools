@@ -18,7 +18,7 @@ public class Level extends Entity {
 	 * The entity lists.
 	 */
 	private List<Entity> solids = new ArrayList<Entity>(),
-			nonSolids = new ArrayList<Entity>();
+			nonSolids = new ArrayList<Entity>(), all = new ArrayList<Entity>();
 
 	/**
 	 * The type map
@@ -37,6 +37,7 @@ public class Level extends Entity {
 		} else {
 			nonSolids.add(e);
 		}
+		all.add(e);
 	}
 
 	private void removeEntityUnsafe(final Entity e) {
@@ -45,6 +46,7 @@ public class Level extends Entity {
 			solids.remove(e);
 		else
 			nonSolids.remove(e);
+		all.remove(e);
 		String id;
 		if ((id = e.getVariableCase().getVar("id")) != null) {
 			idMap.remove(id);
@@ -179,7 +181,8 @@ public class Level extends Entity {
 	private Image baked;
 
 	public Image bakeBackground() {
-		baked = new BufferedImage((int) getDim().x, (int) getDim().y, BufferedImage.TYPE_INT_ARGB);
+		baked = new BufferedImage((int) getDim().x, (int) getDim().y,
+				BufferedImage.TYPE_INT_ARGB);
 		for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {
 			despawnEntity(e);
 			e.draw(baked.getGraphics(), new Vector2());
@@ -207,6 +210,10 @@ public class Level extends Entity {
 
 	public List<Entity> getNonSolids() {
 		return nonSolids;
+	}
+
+	public List<Entity> getAll() {
+		return all;
 	}
 
 	/**

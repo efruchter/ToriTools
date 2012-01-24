@@ -25,40 +25,40 @@ public class Entity {
 	/**
 	 * Static vars for optimization.
 	 */
-	private static Vector2 BASE_VECT = new Vector2();
-	private static AbstractSprite BASE_SPRITE = new ImageSprite(new ImageIcon(
+	protected static Vector2 BASE_VECT = new Vector2();
+	protected static AbstractSprite BASE_SPRITE = new ImageSprite(new ImageIcon(
 			"resources/nope.png").getImage(), 1, 1);
 
 	/**
 	 * Holds all variables for the entity.
 	 */
-	private VariableCase variables = new VariableCase();
+	protected VariableCase variables = new VariableCase();
 
 	/**
 	 * The control script for this entity.
 	 */
-	private List<EntityScript> scripts = new ArrayList<EntityScript>();
+	protected List<EntityScript> scripts = new ArrayList<EntityScript>();
 
 	/*
 	 * INSTANCE ENTITY VARIABLES
 	 */
-	private Vector2 pos = BASE_VECT, dim = BASE_VECT;
-	private boolean solid = false;
-	private String type = "";
-	private int layer = 0;
-	private boolean visible = true;
-	private boolean active = true;
+	protected Vector2 pos = BASE_VECT, dim = BASE_VECT;
+	protected boolean solid = false;
+	protected String type = "";
+	protected int layer = 0;
+	protected boolean visible = true;
+	protected boolean active = true;
 
-	private AbstractSprite sprite = BASE_SPRITE;
+	protected AbstractSprite sprite = BASE_SPRITE;
 
-	private boolean inView = true;
+	protected boolean inView = true;
 
 	/*
 	 * Editor variables!
 	 */
-	private String file = "";
+	protected String file = "";
 
-	private int direction = 0;
+	protected int direction = 0;
 
 	/*
 	 * CONTROL METHODS

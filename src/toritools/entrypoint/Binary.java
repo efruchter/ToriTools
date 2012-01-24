@@ -3,8 +3,6 @@ package toritools.entrypoint;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import toritools.entity.Level;
-import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
@@ -28,20 +25,22 @@ public abstract class Binary {
 	// CORE VARS
 	protected final int FRAMERATE;
 	protected final Vector2 VIEWPORT;
-	
 
 	private JFrame frame;
-	
+
 	/**
 	 * Some basic settings.
-	 * @param VIEWPORT_SIZE the dimensions of the viewport/window.
-	 * @param frameRate the frame-rate as a ratio. 60FPS would be 60, for example.
+	 * 
+	 * @param VIEWPORT_SIZE
+	 *            the dimensions of the viewport/window.
+	 * @param frameRate
+	 *            the frame-rate as a ratio. 60FPS would be 60, for example.
 	 */
 	public Binary(final Vector2 VIEWPORT_SIZE, final int frameRate) {
 		this.FRAMERATE = 1000 / frameRate;
 		this.VIEWPORT = VIEWPORT_SIZE;
-		
-		//Hardware accel.
+
+		// Hardware accel.
 		if (System.getProperty("os.name").contains("Windows")) {
 			System.setProperty("sun.java2d.d3d", "True");
 		} else {
@@ -53,6 +52,7 @@ public abstract class Binary {
 		@SuppressWarnings("serial")
 		final JPanel panel = new JPanel() {
 			public void paintComponent(final Graphics g) {
+				super.paintComponent(g);
 				renderAll(g);
 			}
 		};
@@ -65,12 +65,7 @@ public abstract class Binary {
 
 		initialize();
 
-		try {
-			ScriptUtils.queueLevelSwitch(Importer
-					.importLevel(getStartingLevel()));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		ScriptUtils.queueLevelSwitch(getStartingLevel());
 
 		setupCurrentLevel(ScriptUtils.getCurrentLevel());
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
@@ -120,7 +115,13 @@ public abstract class Binary {
 	 */
 	protected abstract void setupCurrentLevel(Level levelBeingLoaded);
 
-	protected abstract File getStartingLevel();
+	/**
+	 * Get the starting level. Feel free to spawn a blank one if you don't want
+	 * to do this.
+	 * 
+	 * @return a level.
+	 */
+	protected abstract Level getStartingLevel();
 
 	private boolean loadingLevel = false;
 
@@ -140,7 +141,6 @@ public abstract class Binary {
 
 	private void renderAll(final Graphics rootCanvas) {
 		if (loadingLevel) {
-			rootCanvas.clearRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 			rootCanvas.setColor(Color.BLACK);
 			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
 					(int) VIEWPORT.y / 2);

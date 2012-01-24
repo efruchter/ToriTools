@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import samplegame.customscripts.PlayerScript;
 import samplegame.customscripts.WolfScript;
@@ -18,6 +19,7 @@ import samplegame.customscripts.WorldPortalScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -137,8 +139,14 @@ public class SampleGame extends Binary {
 	}
 
 	@Override
-	protected File getStartingLevel() {
-		return new File("levels/MoreLevel.xml");
+	protected Level getStartingLevel() {
+		try {
+			return Importer.importLevel(new File("levels/MoreLevel.xml"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return null;
 	}
 
 	/**

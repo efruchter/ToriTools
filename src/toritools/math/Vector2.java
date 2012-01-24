@@ -11,6 +11,8 @@ import java.awt.Point;
 public class Vector2 implements Comparable<Vector2> {
 
 	public final float x, y;
+	
+	public final static Vector2 ZERO = new Vector2();
 
 	public Vector2(final float x, final float y) {
 		this.x = x;
@@ -63,7 +65,7 @@ public class Vector2 implements Comparable<Vector2> {
 		return new Vector2(this.x * scalar, this.y * scalar);
 	}
 
-	public Vector2 scale(final float x, final Float y) {
+	public Vector2 scale(final float x, final float y) {
 		return new Vector2(this.x * x, this.y * y);
 	}
 
