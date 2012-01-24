@@ -48,4 +48,20 @@ public interface EntityScript {
 		@Override
 		public void onDeath(Entity self, boolean isRoomExit) {}
 	};
+	
+	/**
+	 * An Entity Script with the methods all concrete, in standard java adapter style.
+	 * @author toriscope
+	 *
+	 */
+	public static class EntityScriptAdapter implements EntityScript {
+		@Override
+		public void onSpawn(Entity self) {}
+
+		@Override
+		public void onUpdate(Entity self, float time) {}
+
+		@Override
+		public void onDeath(Entity self, boolean isRoomExit) {}
+	}
 }
