@@ -1,5 +1,6 @@
 package toritools.io;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -58,7 +59,12 @@ public class Importer {
 			
 			VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null), VolatileImage.TRANSLUCENT);
 			i.validate(Binary.gc);
-			//((Graphics2D) i.getGraphics()).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
+			Graphics2D g = (Graphics2D)i.getGraphics();
+			g.setColor(new Color(0,0,0,0));
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT));
+			g.fillRect(0, 0, i.getWidth(), i.getHeight());
+			
 			i.getGraphics().drawImage(image, 0, 0, image.getWidth(null), image.getHeight(null), null);
 			i.getGraphics().dispose();
 			imageCache.put(file, i);

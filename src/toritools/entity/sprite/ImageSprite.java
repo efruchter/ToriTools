@@ -85,12 +85,16 @@ public class ImageSprite implements AbstractSprite {
 		Vector2 pos = position.sub(sizeOffset);
 
 		if (self.getDirection() != 0) {
-			VolatileImage bimage = 
-					Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y, VolatileImage.TRANSLUCENT);
-			((Graphics2D) bimage.getGraphics()).setComposite(AlphaComposite.Src);
-			bimage.getGraphics().setColor(Color.black);
-			bimage.getGraphics().clearRect(0, 0, bimage.getWidth(), bimage.getHeight()); // Clears the image.
-			bimage.getGraphics().drawImage(image, (int) 0, (int) 0,
+			
+			VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null), VolatileImage.TRANSLUCENT);
+			i.validate(Binary.gc);
+
+			Graphics2D gr = (Graphics2D)i.getGraphics();
+			gr.setColor(new Color(0,0,0,0));
+			gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT));
+			gr.fillRect(0, 0, i.getWidth(), i.getHeight());
+			
+			gr.drawImage(image, (int) 0, (int) 0,
 					(int) dim.x, (int) dim.y, x * (int) bRight.x,
 					y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
 					y * (int) bRight.y + (int) bRight.y, null);
@@ -101,7 +105,7 @@ public class ImageSprite implements AbstractSprite {
 			affineTransform.rotate(Math.toRadians(self.getDirection()), dim.x / 2,
 					dim.y / 2);
 
-			((Graphics2D) g).drawImage(bimage, affineTransform, null);
+			((Graphics2D) g).drawImage(i, affineTransform, null);
 		} else {
 			g.drawImage(image, (int) pos.x, (int) pos.y, (int) (pos.x + dim.x),
 					(int) (pos.y + dim.y), x * (int) bRight.x, y
