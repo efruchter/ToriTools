@@ -14,6 +14,9 @@ import toritools.scripting.ScriptUtils;
 public class PlayerShip extends Entity {
 
 	public PlayerShip() {
+		
+		variables.setVar("id", "player");
+		
 		pos = new Vector2(50, 50);
 		dim = new Vector2(30, 30);
 
@@ -53,8 +56,7 @@ public class PlayerShip extends Entity {
 				}
 
 				if (keys.isPressed(SHOOT)) {
-					for(int i = 0; i < 30; i++)
-						ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos().add(self.getDim().scale(.5f))));
+					ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos().add(self.getDim().scale(.5f))));
 				}
 			}
 		});

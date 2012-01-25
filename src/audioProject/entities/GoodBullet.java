@@ -14,21 +14,30 @@ public class GoodBullet extends Entity {
 	public GoodBullet(final Vector2 position) {
 		type = "GoodBullet";
 
-		variables.setVar("damage", 10 + "");
-
 		pos = position;
 		dim = new Vector2(10, 10);
 
 		addScript(new EntityScriptAdapter() {
-
-			Vector2 speed = new Vector2(.5f, -.5f + 1 * (float) Math.random());
-
+			
+			float damage = 5;
+			
+			Vector2 speed = new Vector2(.5f, 0);
+			
 			@Override
 			public void onUpdate(Entity self, float time) {
 				if (!ScriptUtils.isColliding(ScriptUtils.getCurrentLevel(), self)) {
 					ScriptUtils.getCurrentLevel().despawnEntity(self);
 				}
+				
 				self.setPos(self.getPos().add(speed.scale(time)));
+				
+				for (Entity enemy: ScriptUtils.getCurrentLevel().getEntitiesWithType("enemy")) {
+					if(ScriptUtils.isColliding(self, enemy)) {
+						ScriptUtils.getCurrentLevel().despawnEntity(self);
+						enemy.getVariableCase().setVar("health", enemy.getVariableCase().getFloat("health") - damage + "");
+						break;
+					}
+				}
 			}
 		});
 

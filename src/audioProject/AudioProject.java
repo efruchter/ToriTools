@@ -9,6 +9,7 @@ import toritools.entity.Level;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
+import audioProject.entities.BadShip;
 import audioProject.entities.PlayerShip;
 
 /**
@@ -49,6 +50,12 @@ public class AudioProject extends Binary{
 		if(ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
+		
+		if(ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_E)) {
+			ScriptUtils.getCurrentLevel().spawnEntity(new BadShip(new Vector2(VIEWPORT.x, (float) Math.random() * VIEWPORT.y)));
+		}
+		
+		//System.err.println(ScriptUtils.getCurrentLevel().getAll().size());
 	}
 
 	@Override
