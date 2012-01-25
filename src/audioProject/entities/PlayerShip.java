@@ -3,6 +3,8 @@ package audioProject.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
@@ -27,6 +29,8 @@ public class PlayerShip extends Entity {
 					SHOOT = KeyEvent.VK_SPACE;
 
 			float speed = .2f;
+			
+			boolean canShoot = true;
 
 			KeyHolder keys;
 
@@ -56,17 +60,36 @@ public class PlayerShip extends Entity {
 				}
 
 				if (keys.isPressed(SHOOT)) {
-					ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos().add(self.getDim().scale(.5f))));
+					if(canShoot = !canShoot) {
+						ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos()));
+						Entity boolet = new GoodBullet(Vector2.ZERO);
+						boolet.setPos(self.getPos().add(0, self.getDim().y - boolet.getDim().y));
+						ScriptUtils.getCurrentLevel().spawnEntity(boolet);
+					}
 				}
 			}
 		});
 
 		setSprite(new AbstractSpriteAdapter() {
+			
+			List<Vector2> pastPos = new LinkedList<Vector2>();
+			final int MAX_HISTORY = 5;
 
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position,	Vector2 dimension) {
-				g.setColor(Color.black);
-				g.drawOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				
+				pastPos.add(0, position);
+				
+				if(pastPos.size() > MAX_HISTORY) {
+					pastPos.remove(MAX_HISTORY);
+				}
+				
+				int alpha = 255;
+				for(Vector2 hPos: pastPos) {
+					g.setColor(new Color(0,0,0, alpha));
+					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
+					alpha = alpha / 2;
+				}
 			}
 		});
 	}

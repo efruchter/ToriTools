@@ -2,6 +2,8 @@ package audioProject.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.LinkedList;
+import java.util.List;
 
 import toritools.entity.Entity;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
@@ -13,6 +15,8 @@ public class GoodBullet extends Entity {
 
 	public GoodBullet(final Vector2 position) {
 		type = "GoodBullet";
+		
+		layer = 1;
 
 		pos = position;
 		dim = new Vector2(10, 10);
@@ -41,14 +45,27 @@ public class GoodBullet extends Entity {
 			}
 		});
 
-		setSprite(new AbstractSpriteAdapter() {
+setSprite(new AbstractSpriteAdapter() {
+			
+			List<Vector2> pastPos = new LinkedList<Vector2>();
+			final int MAX_HISTORY = 3;
 
 			@Override
-			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-				g.setColor(Color.green);
-				g.drawOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+			public void draw(Graphics g, Entity self, Vector2 position,	Vector2 dimension) {
+				
+				pastPos.add(0, position);
+				
+				if(pastPos.size() > MAX_HISTORY) {
+					pastPos.remove(MAX_HISTORY);
+				}
+				
+				int alpha = 255;
+				for(Vector2 hPos: pastPos) {
+					g.setColor(new Color(0, 255, 0, alpha));
+					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
+					alpha = alpha / 2;
+				}
 			}
-
 		});
 	}
 }

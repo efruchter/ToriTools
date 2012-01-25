@@ -3,6 +3,8 @@ package toritools.entrypoint;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +70,12 @@ public abstract class Binary {
 		ScriptUtils.queueLevelSwitch(getStartingLevel());
 
 		setupCurrentLevel(ScriptUtils.getCurrentLevel());
+		
+		b1 = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
+				BufferedImage.TYPE_INT_RGB);
+		b2 = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
+				BufferedImage.TYPE_INT_RGB);
+		
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
 				new Thread() {
 					public void run() {
@@ -138,14 +146,25 @@ public abstract class Binary {
 			ScriptUtils.getKeyHolder().freeQueuedKeys();
 		}
 	}
+	
+	BufferedImage b1, b2;
+	boolean buffer1 = true;
 
-	private void renderAll(final Graphics rootCanvas) {
+	private void renderAll(final Graphics finalCanvas) {
+		
+		Image drawSurface = (buffer1) ? b1 : b2;
+		Image renderSurface = (buffer1) ? b2 : b1;
+		
+		finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
+			
 		if (loadingLevel) {
-			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
+			finalCanvas.setColor(Color.BLACK);
+			finalCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
 					(int) VIEWPORT.y / 2);
 			return;
 		}
-		render(rootCanvas);
+
+		if (render(drawSurface.getGraphics()))
+			buffer1 = !buffer1;
 	}
 }

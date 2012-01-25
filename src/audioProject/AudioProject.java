@@ -11,6 +11,7 @@ import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 import audioProject.entities.BadShip;
 import audioProject.entities.PlayerShip;
+import audioProject.entities.ScrollingBackground;
 
 /**
  * Template for our possible audio project.
@@ -30,14 +31,14 @@ public class AudioProject extends Binary {
 
 	@Override
 	protected boolean render(Graphics rootCanvas) {
-		rootCanvas.setColor(Color.red);
-		rootCanvas.drawRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
 		try {
+			rootCanvas.setColor(Color.WHITE);
+			rootCanvas.fillRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
 			for (int i = ScriptUtils.getCurrentLevel().getLayers().size() - 1; i >= 0; i--)
 				for (Entity e : ScriptUtils.getCurrentLevel().getLayers().get(i))
 					if (e.isVisible())
 						e.draw(rootCanvas, Vector2.ZERO);
-		} catch (final Exception e) {
+		} catch (final Exception uhoh) {
 			return false;
 		}
 		return true;
@@ -66,6 +67,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
+		levelBeingLoaded.spawnEntity(new ScrollingBackground());
 	}
 
 	@Override
