@@ -1,11 +1,15 @@
 package toritools.entity;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
@@ -179,8 +183,13 @@ public class Level extends Entity {
 	private Image baked;
 
 	public Image bakeBackground() {
-		baked = new BufferedImage((int) getDim().x, (int) getDim().y,
-				BufferedImage.TYPE_INT_ARGB);
+		baked = Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y, VolatileImage.TRANSLUCENT);
+		((VolatileImage) baked).validate(Binary.gc);
+
+		Graphics2D gr = (Graphics2D) baked.getGraphics();
+		gr.setColor(new Color(0,0,0,0));
+		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT));
+		gr.fillRect(0, 0, (int) dim.x, (int) dim.y);
 		for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {
 			despawnEntity(e);
 			e.draw(baked.getGraphics(), new Vector2());
