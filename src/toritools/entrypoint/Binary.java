@@ -32,6 +32,12 @@ public abstract class Binary {
 	private JFrame frame;
 	public static GraphicsConfiguration gc;
 
+	{
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gc = frame.getGraphicsConfiguration();
+	}
+
 	/**
 	 * Some basic settings.
 	 * 
@@ -50,9 +56,8 @@ public abstract class Binary {
 		} else {
 			System.setProperty("sun.java2d.opengl=true", "True");
 		}
+		System.setProperty("sun.java2d.translaccel", "True");
 
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		@SuppressWarnings("serial")
 		final JPanel panel = new JPanel() {
 			public void paintComponent(final Graphics g) {
@@ -72,11 +77,7 @@ public abstract class Binary {
 		ScriptUtils.queueLevelSwitch(getStartingLevel());
 
 		setupCurrentLevel(ScriptUtils.getCurrentLevel());
-		
-		 gc = frame.getGraphicsConfiguration();
-		
-		rebuildBuffers();
-		
+
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
 				new Thread() {
 					public void run() {
@@ -85,10 +86,12 @@ public abstract class Binary {
 					}
 				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
 	}
-	
+
 	private void rebuildBuffers() {
-		b1 = gc.createCompatibleVolatileImage((int) VIEWPORT.x, (int) VIEWPORT.y);
-		b2 = gc.createCompatibleVolatileImage((int) VIEWPORT.x, (int) VIEWPORT.y);
+		b1 = gc.createCompatibleVolatileImage((int) VIEWPORT.x,
+				(int) VIEWPORT.y);
+		b2 = gc.createCompatibleVolatileImage((int) VIEWPORT.x,
+				(int) VIEWPORT.y);
 	}
 
 	/*
@@ -152,22 +155,23 @@ public abstract class Binary {
 			ScriptUtils.getKeyHolder().freeQueuedKeys();
 		}
 	}
-	
+
 	VolatileImage b1, b2;
 	boolean buffer1 = true;
 
 	private void renderAll(final Graphics finalCanvas) {
-		
-		if(b1.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE || 
-				b2.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
+
+		if (b1 == null || b2 == null || b1.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE
+				|| b2.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
 			rebuildBuffers();
 		}
-		
+
 		Image drawSurface = (buffer1) ? b1 : b2;
 		Image renderSurface = (buffer1) ? b2 : b1;
-		
-		finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
-			
+
+		finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x,
+				(int) VIEWPORT.y, null);
+
 		if (loadingLevel) {
 			finalCanvas.setColor(Color.BLACK);
 			finalCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,

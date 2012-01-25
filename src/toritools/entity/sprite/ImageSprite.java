@@ -1,5 +1,7 @@
 package toritools.entity.sprite;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -84,7 +86,10 @@ public class ImageSprite implements AbstractSprite {
 
 		if (self.getDirection() != 0) {
 			VolatileImage bimage = 
-					Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y);
+					Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y, VolatileImage.TRANSLUCENT);
+			((Graphics2D) bimage.getGraphics()).setComposite(AlphaComposite.Src);
+			bimage.getGraphics().setColor(Color.black);
+			bimage.getGraphics().clearRect(0, 0, bimage.getWidth(), bimage.getHeight()); // Clears the image.
 			bimage.getGraphics().drawImage(image, (int) 0, (int) 0,
 					(int) dim.x, (int) dim.y, x * (int) bRight.x,
 					y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,

@@ -6,11 +6,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -21,6 +23,7 @@ import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.AbstractSprite;
 import toritools.entity.sprite.ImageSprite;
+import toritools.entrypoint.Binary;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
@@ -28,7 +31,7 @@ import toritools.xml.ToriXML;
 
 public class Importer {
 
-	private static HashMap<File, Image> imageCache = new HashMap<File, Image>();
+	private static HashMap<File, VolatileImage> imageCache = new HashMap<File, VolatileImage>();
 
 	/**
 	 * Check to see if an image is cached, and get the reference if it is.
@@ -40,12 +43,26 @@ public class Importer {
 	 *            the image reference.
 	 * @return the image reference if cached.
 	 */
-	public static Image cacheImage(final File file, final Image image) {
+	public static VolatileImage cacheImage(final File file) {
 		if (imageCache.containsKey(file)) {
 			return imageCache.get(file);
 		} else {
-			imageCache.put(file, image);
-			return image;
+
+			Image image = null;
+			try {
+				image = ImageIO.read(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			
+			VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null), VolatileImage.TRANSLUCENT);
+			i.validate(Binary.gc);
+			//((Graphics2D) i.getGraphics()).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+			i.getGraphics().drawImage(image, 0, 0, image.getWidth(null), image.getHeight(null), null);
+			i.getGraphics().dispose();
+			imageCache.put(file, i);
+			return i;
 		}
 	}
 
@@ -110,8 +127,7 @@ public class Importer {
 			File spriteFile = new File(file.getParent() + "/" + value[0].trim());
 			if (spriteFile.canRead()) {
 				e.setSprite(new ImageSprite(cacheImage(
-						new File(spriteFile.getAbsolutePath()), new ImageIcon(
-								spriteFile.getAbsolutePath()).getImage()), x, y));
+						new File(spriteFile.getAbsolutePath())), x, y));
 
 			}
 			inGame = entityMap.getVar("sprite.timeScale");
@@ -170,8 +186,7 @@ public class Importer {
 				File imageFile = new File(workingDirectory
 						+ mapData.get("image"));
 
-				Image image = cacheImage(new File(imageFile.getAbsolutePath()),
-						new ImageIcon(imageFile.getAbsolutePath()).getImage());
+				Image image = cacheImage(new File(imageFile.getAbsolutePath()));
 
 				int xTile = Integer.parseInt(mapData.get("xTile"));
 				int yTile = Integer.parseInt(mapData.get("yTile"));
