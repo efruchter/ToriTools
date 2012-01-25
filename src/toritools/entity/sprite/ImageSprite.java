@@ -5,9 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 
 import toritools.entity.Entity;
+import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 
 public class ImageSprite implements AbstractSprite {
@@ -82,9 +83,8 @@ public class ImageSprite implements AbstractSprite {
 		Vector2 pos = position.sub(sizeOffset);
 
 		if (self.getDirection() != 0) {
-			BufferedImage bimage = new BufferedImage((int) dim.x, (int) dim.y,
-					BufferedImage.TYPE_INT_ARGB);
-
+			VolatileImage bimage = 
+					Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y);
 			bimage.getGraphics().drawImage(image, (int) 0, (int) 0,
 					(int) dim.x, (int) dim.y, x * (int) bRight.x,
 					y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,

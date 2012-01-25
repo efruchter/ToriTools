@@ -3,8 +3,9 @@ package toritools.entrypoint;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,7 @@ public abstract class Binary {
 	protected final Vector2 VIEWPORT;
 
 	private JFrame frame;
+	public static GraphicsConfiguration gc;
 
 	/**
 	 * Some basic settings.
@@ -71,10 +73,9 @@ public abstract class Binary {
 
 		setupCurrentLevel(ScriptUtils.getCurrentLevel());
 		
-		b1 = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
-				BufferedImage.TYPE_INT_RGB);
-		b2 = new BufferedImage((int) VIEWPORT.x, (int) VIEWPORT.y,
-				BufferedImage.TYPE_INT_RGB);
+		 gc = frame.getGraphicsConfiguration();
+		
+		rebuildBuffers();
 		
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
 				new Thread() {
@@ -83,6 +84,11 @@ public abstract class Binary {
 						panel.repaint();
 					}
 				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
+	}
+	
+	private void rebuildBuffers() {
+		b1 = gc.createCompatibleVolatileImage((int) VIEWPORT.x, (int) VIEWPORT.y);
+		b2 = gc.createCompatibleVolatileImage((int) VIEWPORT.x, (int) VIEWPORT.y);
 	}
 
 	/*
@@ -147,10 +153,15 @@ public abstract class Binary {
 		}
 	}
 	
-	BufferedImage b1, b2;
+	VolatileImage b1, b2;
 	boolean buffer1 = true;
 
 	private void renderAll(final Graphics finalCanvas) {
+		
+		if(b1.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE || 
+				b2.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
+			rebuildBuffers();
+		}
 		
 		Image drawSurface = (buffer1) ? b1 : b2;
 		Image renderSurface = (buffer1) ? b2 : b1;
