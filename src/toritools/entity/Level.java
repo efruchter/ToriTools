@@ -18,7 +18,7 @@ public class Level extends Entity {
 	 * The entity lists.
 	 */
 	private List<Entity> solids = new ArrayList<Entity>(),
-			nonSolids = new ArrayList<Entity>(), all = new ArrayList<Entity>();
+			nonSolids = new ArrayList<Entity>();
 
 	/**
 	 * The type map
@@ -37,7 +37,6 @@ public class Level extends Entity {
 		} else {
 			nonSolids.add(e);
 		}
-		all.add(e);
 	}
 
 	private void removeEntityUnsafe(final Entity e) {
@@ -46,7 +45,6 @@ public class Level extends Entity {
 			solids.remove(e);
 		else
 			nonSolids.remove(e);
-		all.remove(e);
 		String id;
 		if ((id = e.getVariableCase().getVar("id")) != null) {
 			idMap.remove(id);
@@ -210,10 +208,6 @@ public class Level extends Entity {
 
 	public List<Entity> getNonSolids() {
 		return nonSolids;
-	}
-
-	public List<Entity> getAll() {
-		return all;
 	}
 
 	/**
