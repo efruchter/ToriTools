@@ -29,21 +29,16 @@ public class GoodBullet extends Entity {
 
 			@Override
 			public void onUpdate(Entity self, float time) {
-				if (!ScriptUtils.isColliding(ScriptUtils.getCurrentLevel(),
-						self)) {
+				if (!ScriptUtils.isColliding(ScriptUtils.getCurrentLevel(), self)) {
 					ScriptUtils.getCurrentLevel().despawnEntity(self);
 				}
 
 				self.setPos(self.getPos().add(speed.scale(time)));
 
-				for (Entity enemy : ScriptUtils.getCurrentLevel()
-						.getEntitiesWithType("enemy")) {
+				for (Entity enemy : ScriptUtils.getCurrentLevel().getEntitiesWithType("enemy")) {
 					if (ScriptUtils.isColliding(self, enemy)) {
 						ScriptUtils.getCurrentLevel().despawnEntity(self);
-						enemy.getVariableCase().setVar(
-								"health",
-								enemy.getVariableCase().getFloat("health")
-										- damage + "");
+						enemy.getVariableCase().setVar("health", enemy.getVariableCase().getFloat("health") - damage + "");
 						break;
 					}
 				}
@@ -56,8 +51,7 @@ public class GoodBullet extends Entity {
 			final int MAX_HISTORY = 3;
 
 			@Override
-			public void draw(Graphics g, Entity self, Vector2 position,
-					Vector2 dimension) {
+			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 
 				pastPos.add(0, position);
 
@@ -68,8 +62,7 @@ public class GoodBullet extends Entity {
 				int alpha = 255;
 				for (Vector2 hPos : pastPos) {
 					g.setColor(new Color(0, 255, 0, alpha));
-					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x,
-							(int) dimension.y);
+					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
 					alpha = alpha / 2;
 				}
 			}

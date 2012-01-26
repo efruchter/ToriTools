@@ -22,11 +22,11 @@ import audioProject.entities.ScrollingBackground;
 public class AudioProject extends Binary {
 
 	public static void main(String[] args) {
-		new AudioProject(new Vector2(640, 480), 60);
+		new AudioProject();
 	}
 
-	public AudioProject(Vector2 VIEWPORT_SIZE, int frameRate) {
-		super(VIEWPORT_SIZE, frameRate);
+	public AudioProject() {
+		super(new Vector2(640, 480), 60);
 	}
 
 	@Override
