@@ -82,8 +82,6 @@ public class PlayerShip extends Entity {
 				
 				Vector2 delta  = physics.onUpdate(time);
 				
-				System.out.println(delta);
-				
 				self.setPos(self.getPos().add(delta));
 				
 				ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
