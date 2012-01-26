@@ -8,6 +8,7 @@ import java.util.List;
 
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
+import toritools.entity.physics.PhysicsModule;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
@@ -19,7 +20,7 @@ public class PlayerShip extends Entity {
 		
 		variables.setVar("id", "player");
 		
-		pos = new Vector2(50, 50);
+		pos = new Vector2(100, 10);
 		dim = new Vector2(30, 30);
 
 		addScript(new EntityScriptAdapter() {
@@ -28,35 +29,44 @@ public class PlayerShip extends Entity {
 					RIGHT = KeyEvent.VK_D, LEFT = KeyEvent.VK_A,
 					SHOOT = KeyEvent.VK_SPACE;
 
-			float speed = .2f;
+			float speed = .001f;
 			
 			boolean canShoot = true;
 
 			KeyHolder keys;
+			
+			PhysicsModule physics;
 
 			@Override
 			public void onSpawn(Entity self) {
 				keys = ScriptUtils.getKeyHolder();
+				physics = new PhysicsModule(Vector2.ZERO, 1f, self);
 			}
 
 			@Override
 			public void onUpdate(Entity self, float time) {
 				float speed = this.speed * time;
+				
+				boolean pressed = false;
 
 				if (keys.isPressed(UP)) {
-					self.setPos(self.getPos().add(new Vector2(0, -speed)));
+					physics.addAcceleration(new Vector2(0, -speed));
+					pressed = true;
 				}
 
 				if (keys.isPressed(DOWN)) {
-					self.setPos(self.getPos().add(new Vector2(0, speed)));
+					physics.addAcceleration(new Vector2(0, speed));
+					pressed = true;
 				}
 
 				if (keys.isPressed(LEFT)) {
-					self.setPos(self.getPos().add(new Vector2(-speed, 0)));
+					physics.addAcceleration(new Vector2(-speed, 0));
+					pressed = true;
 				}
 
 				if (keys.isPressed(RIGHT)) {
-					self.setPos(self.getPos().add(new Vector2(speed, 0)));
+					physics.addAcceleration(new Vector2(speed, 0));
+					pressed = true;
 				}
 
 				if (keys.isPressed(SHOOT)) {
@@ -67,6 +77,16 @@ public class PlayerShip extends Entity {
 						ScriptUtils.getCurrentLevel().spawnEntity(boolet);
 					}
 				}
+				
+				physics.setgDrag(pressed ? 1f: .9f);
+				
+				Vector2 delta  = physics.onUpdate(time);
+				
+				System.out.println(delta);
+				
+				self.setPos(self.getPos().add(delta));
+				
+				ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
 			}
 		});
 

@@ -68,6 +68,37 @@ public class AudioProject extends Binary {
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
 		levelBeingLoaded.spawnEntity(new ScrollingBackground());
+		
+		addLevelBounds(levelBeingLoaded);
+	}
+	
+	private void addLevelBounds(final Level levelBeingLoaded) {
+		Entity l, r, u , d;
+
+		l = new Entity();
+		l.setSolid(true);
+		l.setPos(new Vector2(-20, 0));
+		l.setDim(new Vector2(20, VIEWPORT.y));
+		
+		r = new Entity();
+		r.setSolid(true);
+		r.setPos(new Vector2(VIEWPORT.x, 0));
+		r.setDim(new Vector2(VIEWPORT.x, VIEWPORT.y));
+		
+		u = new Entity();
+		u.setSolid(true);
+		u.setPos(new Vector2(0, -20));
+		u.setDim(new Vector2(VIEWPORT.x, 20));
+		
+		d = new Entity();
+		d.setSolid(true);
+		d.setPos(new Vector2(0, VIEWPORT.y));
+		d.setDim(new Vector2(VIEWPORT.x, 20));
+		
+		levelBeingLoaded.spawnEntity(l);
+		levelBeingLoaded.spawnEntity(r);
+		levelBeingLoaded.spawnEntity(u);
+		levelBeingLoaded.spawnEntity(d);
 	}
 
 	@Override

@@ -8,12 +8,12 @@ public class PhysicsModule {
 	/**
 	 * Current acceleration
 	 */
-	private Vector2 acc = new Vector2();
+	private Vector2 acc = Vector2.ZERO;
 
 	/**
 	 * Previous position
 	 */
-	private Vector2 prePos = new Vector2();
+	private Vector2 prePos = Vector2.ZERO;
 
 	/**
 	 * Global accel.
@@ -44,15 +44,15 @@ public class PhysicsModule {
 
 		// Add global accel
 		acc = acc.add(g);
-		acc = acc.unit().scale(acc.mag() * time);
+		acc = acc.scale(time);
 
 		Vector2 velocity = self.getPos().sub(prePos).add(acc);
 
-		velocity = velocity.unit().scale(velocity.mag() * getgDrag());
+		velocity = velocity.scale(gDrag);
 
 		prePos = self.getPos();
 
-		acc = new Vector2();
+		acc = Vector2.ZERO;
 
 		return velocity;
 	}
