@@ -13,10 +13,15 @@ public class Vector2 implements Comparable<Vector2> {
 	public final float x, y;
 	
 	public final static Vector2 ZERO = new Vector2();
+	public final static Vector2 ONE = new Vector2(1, 1);
 
 	public Vector2(final float x, final float y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	public Vector2(final float both) {
+		this(both, both);
 	}
 
 	public Vector2(final Vector2 base) {
@@ -68,6 +73,10 @@ public class Vector2 implements Comparable<Vector2> {
 	public Vector2 scale(final float x, final float y) {
 		return new Vector2(this.x * x, this.y * y);
 	}
+	
+	public Vector2 scale(final Vector2 other) {
+		return scale(other.x, other.y);
+	}
 
 	public float dot(final Vector2 o) {
 		return this.x * o.getX() + this.y * o.getY();
@@ -78,6 +87,8 @@ public class Vector2 implements Comparable<Vector2> {
 	}
 
 	public Vector2 unit() {
+		if(x == 0 && y == 0)
+			return Vector2.ZERO;
 		return this.scale(1f / this.mag());
 	}
 
@@ -162,5 +173,10 @@ public class Vector2 implements Comparable<Vector2> {
 	@Override
 	public int compareTo(Vector2 o) {
 		return new Float(this.mag()).compareTo(new Float(o.mag()));
+	}
+	
+	@Override
+	public boolean equals(final Object o) {
+		return o instanceof Vector2 && (x == ((Vector2) o).x && y == ((Vector2) o).y);
 	}
 }

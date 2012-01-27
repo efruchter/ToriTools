@@ -20,12 +20,12 @@ public class PhysicsModule {
 	 */
 	private final Vector2 g;
 
-	private float gDrag;
+	private Vector2 gDrag;
 
 	private final Entity self;
 
 	public PhysicsModule(final Vector2 globalAcceleration,
-			final float globalDrag, final Entity self) {
+			final Vector2 globalDrag, final Entity self) {
 		g = globalAcceleration;
 		this.self = self;
 		gDrag = globalDrag;
@@ -44,11 +44,11 @@ public class PhysicsModule {
 
 		// Add global accel
 		acc = acc.add(g);
-		acc = acc.scale(time);
-
+		acc = acc.unit().scale(acc.mag() * time);
+		
 		Vector2 velocity = self.getPos().sub(prePos).add(acc);
 
-		velocity = velocity.scale(gDrag);
+		velocity = velocity.unit().scale(gDrag.scale(velocity.mag()));		
 
 		prePos = self.getPos();
 
@@ -85,11 +85,11 @@ public class PhysicsModule {
 		return 1f;
 	}
 
-	public void setgDrag(final float drag) {
+	public void setgDrag(final Vector2 drag) {
 		gDrag = drag;
 	}
 
-	public float getgDrag() {
+	public Vector2 getgDrag() {
 		return gDrag;
 	}
 }

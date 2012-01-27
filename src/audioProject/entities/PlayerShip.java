@@ -40,33 +40,27 @@ public class PlayerShip extends Entity {
 			@Override
 			public void onSpawn(Entity self) {
 				keys = ScriptUtils.getKeyHolder();
-				physics = new PhysicsModule(Vector2.ZERO, 1f, self);
+				physics = new PhysicsModule(Vector2.ZERO, new Vector2(.9f), self);
 			}
 
 			@Override
 			public void onUpdate(Entity self, float time) {
 				float speed = this.speed * time;
-				
-				boolean pressed = false;
 
 				if (keys.isPressed(UP)) {
 					physics.addAcceleration(new Vector2(0, -speed));
-					pressed = true;
 				}
 
 				if (keys.isPressed(DOWN)) {
 					physics.addAcceleration(new Vector2(0, speed));
-					pressed = true;
 				}
 
 				if (keys.isPressed(LEFT)) {
 					physics.addAcceleration(new Vector2(-speed, 0));
-					pressed = true;
 				}
 
 				if (keys.isPressed(RIGHT)) {
 					physics.addAcceleration(new Vector2(speed, 0));
-					pressed = true;
 				}
 
 				if (keys.isPressed(SHOOT)) {
@@ -77,8 +71,6 @@ public class PlayerShip extends Entity {
 						ScriptUtils.getCurrentLevel().spawnEntity(boolet);
 					}
 				}
-				
-				physics.setgDrag(pressed ? 1f: .9f);
 				
 				Vector2 delta  = physics.onUpdate(time);
 				
