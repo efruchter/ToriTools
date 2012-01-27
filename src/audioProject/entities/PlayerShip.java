@@ -22,7 +22,7 @@ public class PlayerShip extends Entity {
 		pos = new Vector2(100, 10);
 		dim = new Vector2(30, 30);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(10);
 
 		addScript(new EntityScriptAdapter() {
 
@@ -66,8 +66,9 @@ public class PlayerShip extends Entity {
 
 				if (keys.isPressed(SHOOT)) {
 					if(canShoot = !canShoot) {
-						ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos()));
-						Entity boolet = new GoodBullet(Vector2.ZERO);
+						float spread = .14f;
+						ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos(), spread));
+						Entity boolet = new GoodBullet(Vector2.ZERO, spread);
 						boolet.setPos(self.getPos().add(0, self.getDim().y - boolet.getDim().y));
 						ScriptUtils.getCurrentLevel().spawnEntity(boolet);
 					}

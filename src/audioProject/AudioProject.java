@@ -48,20 +48,19 @@ public class AudioProject extends Binary {
 	protected void initialize() {
 
 	}
+	
+	int enemyTimer = 0;
 
 	@Override
 	protected void globalLogic() {
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
-
-		if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_E)) {
-			ScriptUtils.getCurrentLevel().spawnEntity(
-					new BadShip(new Vector2(VIEWPORT.x, (float) Math.random()
-							* VIEWPORT.y)));
+		
+		if(enemyTimer-- <= 0) {
+			enemyTimer = 80;
+			ScriptUtils.getCurrentLevel().spawnEntity(new BadShip(new Vector2(VIEWPORT.x, (float) Math.random() * VIEWPORT.y)));
 		}
-
-		// System.err.println(ScriptUtils.getCurrentLevel().getAll().size());
 	}
 
 	@Override

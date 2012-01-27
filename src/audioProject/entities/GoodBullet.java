@@ -12,7 +12,12 @@ import toritools.scripting.ScriptUtils;
 
 public class GoodBullet extends Entity {
 
-	public GoodBullet(final Vector2 position) {
+	/**
+	 * Build a good booooleeeeet
+	 * @param position the starting position of bullet.
+	 * @param spreadFactor the spread factor. 0 is no spread.
+	 */
+	public GoodBullet(final Vector2 position, final float spreadFactor) {
 		type = "GoodBullet";
 
 		layer = 1;
@@ -20,16 +25,19 @@ public class GoodBullet extends Entity {
 		pos = position;
 		dim = new Vector2(10, 10);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
 
 		addScript(new EntityScriptAdapter() {
 
 			float damage = 5;
 
-			Vector2 speed = new Vector2(.5f, 0);
+			
 
 			@Override
 			public void onUpdate(Entity self, float time) {
+				
+				Vector2 speed = new Vector2(.5f, spreadFactor * (float) (-.5f + Math.random()));
+				
 				if (!ScriptUtils.isColliding(ScriptUtils.getCurrentLevel(), self)) {
 					ScriptUtils.getCurrentLevel().despawnEntity(self);
 				}
@@ -45,6 +53,11 @@ public class GoodBullet extends Entity {
 				}
 				
 				pastPos.push(self.getPos());
+			}
+
+			@Override
+			public void onDeath(Entity self, boolean isRoomExit) {
+				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), Color.GREEN, self.getDim().x, 20));
 			}
 		});
 
