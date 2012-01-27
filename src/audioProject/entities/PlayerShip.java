@@ -3,9 +3,8 @@ package audioProject.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.util.LinkedList;
-import java.util.List;
 
+import toritools.additionaltypes.HistoryQueue;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
 import toritools.entity.physics.PhysicsModule;
@@ -22,6 +21,8 @@ public class PlayerShip extends Entity {
 		
 		pos = new Vector2(100, 10);
 		dim = new Vector2(30, 30);
+		
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
 
 		addScript(new EntityScriptAdapter() {
 
@@ -77,22 +78,15 @@ public class PlayerShip extends Entity {
 				self.setPos(self.getPos().add(delta));
 				
 				ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
+				
+				pastPos.push(self.getPos());
 			}
 		});
 
 		setSprite(new AbstractSpriteAdapter() {
-			
-			List<Vector2> pastPos = new LinkedList<Vector2>();
-			final int MAX_HISTORY = 5;
 
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position,	Vector2 dimension) {
-				
-				pastPos.add(0, position);
-				
-				if(pastPos.size() > MAX_HISTORY) {
-					pastPos.remove(MAX_HISTORY);
-				}
 				
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
