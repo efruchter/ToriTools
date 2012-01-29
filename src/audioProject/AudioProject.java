@@ -11,7 +11,6 @@ import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 import audioProject.entities.BadShip;
 import audioProject.entities.PlayerShip;
-import audioProject.entities.ScrollingBackground;
 
 /**
  * Template for our possible audio project.
