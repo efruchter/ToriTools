@@ -66,7 +66,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
-		levelBeingLoaded.spawnEntity(new ScrollingBackground());
+		//levelBeingLoaded.spawnEntity(new ScrollingBackground());
 		
 		addLevelBounds(levelBeingLoaded);
 	}

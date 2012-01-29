@@ -38,6 +38,14 @@ public class BadShip extends Entity {
 
 			@Override
 			public void onUpdate(Entity self, float time) {
+				
+				if(Math.random() < .01) {
+					level.spawnEntity(
+							new BadBullet(
+									self.getPos(), 
+									Vector2.toward(self.getPos(), level.getEntityWithId("player").getPos()).scale(.2f))
+							);
+				}
 
 				self.setPos(self.getPos().add(-speed * time, 0));
 
