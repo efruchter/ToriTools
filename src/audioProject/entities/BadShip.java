@@ -21,7 +21,7 @@ public class BadShip extends Entity {
 		pos = startingPosition;
 		dim = new Vector2(30, 30);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(10);
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
 
 		addScript(new EntityScriptAdapter() {
 
@@ -39,7 +39,7 @@ public class BadShip extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time) {
 				
-				if(Math.random() < .01) {
+				if(Math.random() < .05) {
 					level.spawnEntity(
 							new BadBullet(
 									self.getPos(), 

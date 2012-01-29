@@ -22,7 +22,7 @@ public class PlayerShip extends Entity {
 		pos = new Vector2(100, 10);
 		dim = new Vector2(20, 20);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(10);
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
 
 		addScript(new EntityScriptAdapter() {
 

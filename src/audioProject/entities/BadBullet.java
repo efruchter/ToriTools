@@ -25,7 +25,7 @@ public class BadBullet extends Entity {
 		pos = position;
 		dim = new Vector2(10, 10);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
 
 		addScript(new EntityScriptAdapter() {
 
