@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import maryb.player.Player;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
@@ -19,6 +20,9 @@ import audioProject.entities.PlayerShip;
  * 
  */
 public class AudioProject extends Binary {
+	
+	public static Player soundPlayer = new Player();
+   
 
 	public static void main(String[] args) {
 		new AudioProject();
@@ -37,6 +41,8 @@ public class AudioProject extends Binary {
 				for (Entity e : ScriptUtils.getCurrentLevel().getLayers().get(i))
 					if (e.isVisible())
 						e.draw(rootCanvas, Vector2.ZERO);
+			rootCanvas.setColor(Color.BLACK);
+			rootCanvas.drawString("Time: " + soundPlayer.getCurrentPosition(), 10, 20);
 		} catch (final Exception uhoh) {
 			return false;
 		}
@@ -45,13 +51,16 @@ public class AudioProject extends Binary {
 
 	@Override
 	protected void initialize() {
-
+		soundPlayer.setCurrentVolume(1f);
+		soundPlayer.setSourceLocation("unicorn.mp3");
+		soundPlayer.play();
 	}
 	
 	int enemyTimer = 0;
 
 	@Override
 	protected void globalLogic() {
+		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
