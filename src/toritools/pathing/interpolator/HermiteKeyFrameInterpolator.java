@@ -13,7 +13,7 @@ import toritools.math.Vector2;
  * @author toriscope
  * 
  */
-public class QuadraticKeyFrameInterpolator {
+public class HermiteKeyFrameInterpolator {
 
 	private final List<HermiteKeyFrame> keyFrames;
 
@@ -28,14 +28,14 @@ public class QuadraticKeyFrameInterpolator {
 	 *             if less than two keyframes are provided, this will be thrown
 	 *             with proper error message.
 	 */
-	public QuadraticKeyFrameInterpolator(final List<HermiteKeyFrame> keyFrames) {
+	public HermiteKeyFrameInterpolator(final List<HermiteKeyFrame> keyFrames) {
 		if (keyFrames.size() < 2)
 			throw new RuntimeException("Please include at least two keyframes!");
 		this.keyFrames = new ArrayList<HermiteKeyFrame>(keyFrames);
 		Collections.sort(this.keyFrames);
 	}
 	
-	public QuadraticKeyFrameInterpolator(final HermiteKeyFrame ... keyFrames) {
+	public HermiteKeyFrameInterpolator(final HermiteKeyFrame ... keyFrames) {
 		this(Arrays.asList(keyFrames));
 	}
 
