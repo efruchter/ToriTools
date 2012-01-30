@@ -32,7 +32,7 @@ public class PlayerShip extends Entity {
 
 			float speed = .002f;
 			
-			boolean canShoot = true;
+			int canShoot = 0;
 
 			KeyHolder keys;
 			
@@ -65,7 +65,8 @@ public class PlayerShip extends Entity {
 				}
 
 				if (keys.isPressed(SHOOT)) {
-					if(canShoot = !canShoot) {
+					if(canShoot-- < 0) {
+						canShoot = 5;
 						float spread = .14f;
 						ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos(), spread));
 						Entity boolet = new GoodBullet(Vector2.ZERO, spread);

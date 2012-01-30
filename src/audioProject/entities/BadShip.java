@@ -23,14 +23,16 @@ public class BadShip extends Entity {
 		pos = startingPosition;
 		dim = new Vector2(30, 30);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
+		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(1);
 
 		addScript(new EntityScriptAdapter() {
 
-			float speed = .2f;
+			float speed = .2f * (float) Math.random();
 
 			// Entity player;
 			Level level;
+			
+			boolean explodeDeath = false;
 
 			@Override
 			public void onSpawn(Entity self) {
@@ -51,8 +53,11 @@ public class BadShip extends Entity {
 
 				self.setPos(self.getPos().add(-speed * time, 0));
 
-				if (!ScriptUtils.isColliding(level, self) || variables.getFloat("health") <= 0) {
+				if (!ScriptUtils.isColliding(level, self)) {
 					level.despawnEntity(self);
+				} else if (variables.getFloat("health") <= 0) {
+					level.despawnEntity(self);
+					explodeDeath = true;
 				}
 				
 				pastPos.push(self.getPos());
@@ -60,7 +65,8 @@ public class BadShip extends Entity {
 			
 			@Override
 			public void onDeath(Entity self, boolean isRoomExit) {
-				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 20));
+				if (explodeDeath)
+					ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 20));
 			}
 		});
 

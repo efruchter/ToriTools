@@ -3,7 +3,6 @@ package audioProject.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import toritools.additionaltypes.HistoryQueue;
 import toritools.entity.Entity;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
@@ -25,7 +24,7 @@ public class BadBullet extends Entity {
 		pos = position;
 		dim = new Vector2(10, 10);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
+		final Color color = new Color(255, 128, 0);
 
 		addScript(new EntityScriptAdapter() {
 
@@ -38,30 +37,22 @@ public class BadBullet extends Entity {
 
 				self.setPos(self.getPos().add(speed.scale(time)));
 
-					if (ScriptUtils.isColliding(self, ScriptUtils.getCurrentLevel().getEntityWithId("player"))) {
-						ScriptUtils.getCurrentLevel().despawnEntity(self);
-					}
-				
-				pastPos.push(self.getPos());
+				if (ScriptUtils.isColliding(self, ScriptUtils.getCurrentLevel().getEntityWithId("player"))) {
+					ScriptUtils.getCurrentLevel().despawnEntity(self);
+				}
 			}
 
 			@Override
 			public void onDeath(Entity self, boolean isRoomExit) {
-				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), new Color(255, 128, 0), self.getDim().x, 20));
+				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
 			}
 		});
 
 		setSprite(new AbstractSpriteAdapter() {
-
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-
-				int alpha = 255;
-				for (Vector2 hPos : pastPos) {
-					g.setColor(new Color(255, 128, 0, alpha));
-					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
-					alpha = alpha / 2;
-				}
+				g.setColor(color);
+				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}

@@ -11,8 +11,8 @@ public class WaveController {
 	private double feel = 0.0;
 
 	public void setTime(final long newTime) {
-		double s = Math.sin(newTime);
-		isBeat = s > .5;
+		double s = Math.sin(newTime * .01);
+		isBeat = Math.abs(s) > .99;
 		System.out.println(s);
 		feel = Math.cos(newTime * .0000001);
 	}

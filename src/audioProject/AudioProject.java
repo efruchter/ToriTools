@@ -71,7 +71,7 @@ public class AudioProject extends Binary {
 		}
 		
 		if(enemyTimer-- <= 0) {
-			enemyTimer = 100;
+			enemyTimer = 40;
 			ScriptUtils.getCurrentLevel().spawnEntity(new BadShip(new Vector2(VIEWPORT.x, (float) Math.random() * VIEWPORT.y)));
 		}
 	}

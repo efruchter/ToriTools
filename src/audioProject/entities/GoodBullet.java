@@ -3,7 +3,6 @@ package audioProject.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import toritools.additionaltypes.HistoryQueue;
 import toritools.entity.Entity;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
@@ -25,13 +24,13 @@ public class GoodBullet extends Entity {
 		pos = position;
 		dim = new Vector2(10, 10);
 		
-		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
-		
-		final Color color = Color.BLACK; //ColorUtils.blend(Color.BLACK, Color., Math.abs(AudioProject.controller.getFeel()));
+		final Color color = Color.BLACK; //ColorUtils.blend(Color.WHITE, Color.BLACK, Math.abs(AudioProject.controller.getFeel()));
 
 		addScript(new EntityScriptAdapter() {
 			
-			float damage = 5;			
+			float damage = 10;
+			
+			boolean explodeDeath = false;
 
 			@Override
 			public void onUpdate(Entity self, float time) {
@@ -48,30 +47,24 @@ public class GoodBullet extends Entity {
 					if (ScriptUtils.isColliding(self, enemy)) {
 						ScriptUtils.getCurrentLevel().despawnEntity(self);
 						enemy.getVariableCase().setVar("health", enemy.getVariableCase().getFloat("health") - damage + "");
+						explodeDeath = true;
 						break;
 					}
 				}
-				
-				pastPos.push(self.getPos());
 			}
 
 			@Override
 			public void onDeath(Entity self, boolean isRoomExit) {
-				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
+				if (explodeDeath)
+					ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
 			}
 		});
 
 		setSprite(new AbstractSpriteAdapter() {
-
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-
-				int alpha = 255;
-				for (Vector2 hPos : pastPos) {
-					g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha));
-					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
-					alpha = alpha / 2;
-				}
+				g.setColor(color);
+				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}
