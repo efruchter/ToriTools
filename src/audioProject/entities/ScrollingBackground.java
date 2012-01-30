@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import audioProject.AudioProject;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
@@ -49,7 +50,7 @@ public class ScrollingBackground extends Entity {
 
 		addScript(new EntityScriptAdapter() {
 			@Override
-			public void onUpdate(Entity self, float time) {
+			public void onUpdate(Entity self, float time, Level level) {
 				setColor(ColorUtils.blend(Color.CYAN, Color.PINK, Math.abs(AudioProject.controller.getFeel())));
 			}
 		});

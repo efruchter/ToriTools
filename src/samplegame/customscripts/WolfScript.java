@@ -27,12 +27,12 @@ public class WolfScript implements EntityScript {
 
 	private Entity player;
 
-	public void onSpawn(Entity self) {
-		player = ScriptUtils.getCurrentLevel().getEntityWithId("player");
+	public void onSpawn(Entity self, Level level) {
+		player = level.getEntityWithId("player");
 		newDirection();
 	}
 
-	public void onUpdate(final Entity self, float time) {
+	public void onUpdate(final Entity self, float time, Level level) {
 		if (SampleGame.inDialog)
 			return;
 		if (rand.nextDouble() > .99)
@@ -40,7 +40,7 @@ public class WolfScript implements EntityScript {
 		if (rand.nextDouble() > .8) {
 			self.setPos(self.getPos()
 					.add(Vector2.buildVector(direction).scale(time * speed)));
-			ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
+			ScriptUtils.moveOut(self, false, level.getSolids());
 			self.getSprite().nextFrame();
 		}
 
@@ -74,7 +74,7 @@ public class WolfScript implements EntityScript {
 			 * chain dialog, or give the player items, etc..
 			 */
 			if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_SPACE)) {
-				ScriptUtils.getCurrentLevel().spawnEntity(new DialogEntity(
+				level.spawnEntity(new DialogEntity(
 						new DialogNode(
 								"The 1689 Boston revolt was a popular uprising against the rule of Sir Edmund Andros (pictured), governor of the Dominion of New England that followed the Glorious Revolution deposing James II of England, who had appointed Andros. During the revolt, on April 18, 1689, a well-organized body of Puritan citizens and militiamen entered the dominion capital of Boston and arrested officials of the dominion, a colonial entity composed of present-day Maine, New Hampshire, Vermont, Massachusetts, Rhode Island, Connecticut, New York, and New Jersey. The rebellion was inspired by actions taken by Andros and dominion administrators, including promoting the Church of England, invalidating land titles, and famously attempting to seize the colonial charter of Connecticut.",
 								new DialogAction() {
@@ -86,7 +86,7 @@ public class WolfScript implements EntityScript {
 		}
 	}
 
-	public void onDeath(Entity self, boolean isRoomExit) {
+	public void onDeath(Entity self, Level level, boolean isRoomExit) {
 	}
 
 	private void newDirection() {

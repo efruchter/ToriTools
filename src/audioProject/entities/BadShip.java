@@ -28,20 +28,11 @@ public class BadShip extends Entity {
 		addScript(new EntityScriptAdapter() {
 
 			float speed = .2f * (float) Math.random();
-
-			// Entity player;
-			Level level;
 			
 			boolean explodeDeath = false;
 
 			@Override
-			public void onSpawn(Entity self) {
-				level = ScriptUtils.getCurrentLevel();
-				// player = level.getEntityWithId("player");
-			}
-
-			@Override
-			public void onUpdate(Entity self, float time) {
+			public void onUpdate(Entity self, float time, Level level) {
 				
 				if(AudioProject.controller.isBeat()) {
 					level.spawnEntity(
@@ -64,9 +55,9 @@ public class BadShip extends Entity {
 			}
 			
 			@Override
-			public void onDeath(Entity self, boolean isRoomExit) {
+			public void onDeath(Entity self, Level level, boolean isRoomExit) {
 				if (explodeDeath)
-					ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 20));
+					level.spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 20));
 			}
 		});
 

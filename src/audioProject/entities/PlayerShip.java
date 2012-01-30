@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import toritools.additionaltypes.HistoryQueue;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
@@ -39,13 +40,13 @@ public class PlayerShip extends Entity {
 			PhysicsModule physics;
 
 			@Override
-			public void onSpawn(Entity self) {
+			public void onSpawn(Entity self, Level level) {
 				keys = ScriptUtils.getKeyHolder();
 				physics = new PhysicsModule(Vector2.ZERO, new Vector2(.9f), self);
 			}
 
 			@Override
-			public void onUpdate(Entity self, float time) {
+			public void onUpdate(Entity self, float time, Level level) {
 				float speed = this.speed * time;
 
 				if (keys.isPressed(UP)) {
@@ -68,10 +69,10 @@ public class PlayerShip extends Entity {
 					if(canShoot-- < 0) {
 						canShoot = 5;
 						float spread = .14f;
-						ScriptUtils.getCurrentLevel().spawnEntity(new GoodBullet(self.getPos(), spread));
+						level.spawnEntity(new GoodBullet(self.getPos(), spread));
 						Entity boolet = new GoodBullet(Vector2.ZERO, spread);
 						boolet.setPos(self.getPos().add(0, self.getDim().y - boolet.getDim().y));
-						ScriptUtils.getCurrentLevel().spawnEntity(boolet);
+						level.spawnEntity(boolet);
 					}
 				}
 				
@@ -79,7 +80,7 @@ public class PlayerShip extends Entity {
 				
 				self.setPos(self.getPos().add(delta));
 				
-				ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
+				ScriptUtils.moveOut(self, false, level.getSolids());
 				
 				pastPos.push(self.getPos());
 			}

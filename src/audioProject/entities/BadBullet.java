@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
@@ -29,22 +30,22 @@ public class BadBullet extends Entity {
 		addScript(new EntityScriptAdapter() {
 
 			@Override
-			public void onUpdate(Entity self, float time) {
+			public void onUpdate(Entity self, float time, Level level) {
 				
-				if (!ScriptUtils.isColliding(ScriptUtils.getCurrentLevel(), self)) {
-					ScriptUtils.getCurrentLevel().despawnEntity(self);
+				if (!ScriptUtils.isColliding(level, self)) {
+					level.despawnEntity(self);
 				}
 
 				self.setPos(self.getPos().add(speed.scale(time)));
 
-				if (ScriptUtils.isColliding(self, ScriptUtils.getCurrentLevel().getEntityWithId("player"))) {
-					ScriptUtils.getCurrentLevel().despawnEntity(self);
+				if (ScriptUtils.isColliding(self, level.getEntityWithId("player"))) {
+					level.despawnEntity(self);
 				}
 			}
 
 			@Override
-			public void onDeath(Entity self, boolean isRoomExit) {
-				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
+			public void onDeath(Entity self, Level level, boolean isRoomExit) {
+				level.spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
 			}
 		});
 

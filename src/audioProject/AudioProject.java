@@ -36,12 +36,12 @@ public class AudioProject extends Binary {
 	}
 
 	@Override
-	protected boolean render(Graphics rootCanvas) {
+	protected boolean render(Graphics rootCanvas, Level level) {
 		try {
 			rootCanvas.setColor(Color.WHITE);
 			rootCanvas.fillRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
-			for (int i = ScriptUtils.getCurrentLevel().getLayers().size() - 1; i >= 0; i--)
-				for (Entity e : ScriptUtils.getCurrentLevel().getLayers().get(i))
+			for (int i = level.getLayers().size() - 1; i >= 0; i--)
+				for (Entity e : level.getLayers().get(i))
 					if (e.isVisible())
 						e.draw(rootCanvas, Vector2.ZERO);
 			rootCanvas.setColor(Color.BLACK);
@@ -62,7 +62,7 @@ public class AudioProject extends Binary {
 	int enemyTimer = 0;
 
 	@Override
-	protected void globalLogic() {
+	protected void globalLogic(Level level) {
 		
 		controller.setTime(soundPlayer.getCurrentPosition());
 		
@@ -72,7 +72,7 @@ public class AudioProject extends Binary {
 		
 		if(enemyTimer-- <= 0) {
 			enemyTimer = 40;
-			ScriptUtils.getCurrentLevel().spawnEntity(new BadShip(new Vector2(VIEWPORT.x, (float) Math.random() * VIEWPORT.y)));
+			level.spawnEntity(new BadShip(new Vector2(VIEWPORT.x, (float) Math.random() * VIEWPORT.y)));
 		}
 	}
 

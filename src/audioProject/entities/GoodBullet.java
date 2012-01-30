@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
@@ -33,19 +34,19 @@ public class GoodBullet extends Entity {
 			boolean explodeDeath = false;
 
 			@Override
-			public void onUpdate(Entity self, float time) {
+			public void onUpdate(Entity self, float time, Level level) {
 				
 				Vector2 speed = new Vector2(.5f, spreadFactor * (float) (-.5f + Math.random()));
 				
-				if (!ScriptUtils.isColliding(ScriptUtils.getCurrentLevel(), self)) {
-					ScriptUtils.getCurrentLevel().despawnEntity(self);
+				if (!ScriptUtils.isColliding(level, self)) {
+					level.despawnEntity(self);
 				}
 
 				self.setPos(self.getPos().add(speed.scale(time)));
 
-				for (Entity enemy : ScriptUtils.getCurrentLevel().getEntitiesWithType("enemy")) {
+				for (Entity enemy : level.getEntitiesWithType("enemy")) {
 					if (ScriptUtils.isColliding(self, enemy)) {
-						ScriptUtils.getCurrentLevel().despawnEntity(self);
+						level.despawnEntity(self);
 						enemy.getVariableCase().setVar("health", enemy.getVariableCase().getFloat("health") - damage + "");
 						explodeDeath = true;
 						break;
@@ -54,9 +55,9 @@ public class GoodBullet extends Entity {
 			}
 
 			@Override
-			public void onDeath(Entity self, boolean isRoomExit) {
+			public void onDeath(Entity self, Level level, boolean isRoomExit) {
 				if (explodeDeath)
-					ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
+					level.spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
 			}
 		});
 

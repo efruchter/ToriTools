@@ -64,19 +64,19 @@ public class Entity {
 	 * CONTROL METHODS
 	 */
 
-	public void onSpawn() {
+	public void onSpawn(final Level level) {
 		for(EntityScript script: scripts)
-			script.onSpawn(this);
+			script.onSpawn(this, level);
 	}
 
-	public void onUpdate(final float time) {
+	public void onUpdate(final float time, final Level level) {
 		for(EntityScript script: scripts)
-			script.onUpdate(this, time);
+			script.onUpdate(this, time, level);
 	}
 
-	public void onDeath(final boolean isRoomExit) {
+	public void onDeath(final Level level, final boolean isRoomExit) {
 		for(EntityScript script: scripts)
-			script.onDeath(this, isRoomExit);
+			script.onDeath(this, level, isRoomExit);
 	}
 
 	public void draw(final Graphics g, final Vector2 offset) {

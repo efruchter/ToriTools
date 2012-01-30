@@ -79,7 +79,7 @@ public class Level extends Entity {
 			addEntityUnsafe(e);
 		}
 		for (Entity e : tempList) {
-			e.onSpawn();
+			e.onSpawn(this);
 		}
 	}
 
@@ -90,64 +90,41 @@ public class Level extends Entity {
 			removeEntityUnsafe(e);
 		}
 		for (Entity e : tempList) {
-			e.onDeath(false);
+			e.onDeath(this, false);
 		}
 	}
 
 	@Override
-	public void onSpawn() {
+	public void onSpawn(final Level level) {
 		spawnNewEntities();
 	}
 
-	@Override
 	public void onUpdate(final float time) {
 		spawnNewEntities();
 		for (Entity e : solids) {
-			e.onUpdate(time);
+			e.onUpdate(time, this);
 		}
 		for (Entity e : nonSolids) {
-			e.onUpdate(time);
+			e.onUpdate(time, this);
 		}
 		takeOutTrash();
 
 		if (viewPort != null) {
 			for (Entity e : solids) {
 				e.setInView(ScriptUtils.isColliding(viewPort, e));
-				specialActions(e);
 			}
 			for (Entity e : nonSolids) {
 				e.setInView(ScriptUtils.isColliding(viewPort, e));
-				specialActions(e);
 			}
 		}
 	}
 
-	private void specialActions(final Entity e) {
-		// Scrolling
-		String data;
-		if ((data = e.getVariableCase().getVar("vScroll")) != null) {
-			float val = Float.parseFloat(data);
-			e.setPos(e.getPos().add(0, val));
-			if (ScriptUtils.isColliding(e, solids)) {
-				e.getVariableCase().setVar("vScroll", -val + "");
-			}
-		}
-		if ((data = e.getVariableCase().getVar("hScroll")) != null) {
-			float val = Float.parseFloat(data);
-			e.setPos(e.getPos().add(val, 0));
-			if (ScriptUtils.isColliding(e, solids)) {
-				e.getVariableCase().setVar("hScroll", -val + "");
-			}
-		}
-	}
-
-	@Override
 	public void onDeath(final boolean isRoomExit) {
 		for (Entity e : solids) {
-			e.onDeath(isRoomExit);
+			e.onDeath(this, isRoomExit);
 		}
 		for (Entity e : nonSolids) {
-			e.onDeath(isRoomExit);
+			e.onDeath(this, isRoomExit);
 		}
 	}
 
@@ -183,11 +160,12 @@ public class Level extends Entity {
 	private Image baked;
 
 	public Image bakeBackground() {
-		baked = Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y, VolatileImage.TRANSLUCENT);
+		baked = Binary.gc.createCompatibleVolatileImage((int) dim.x,
+				(int) dim.y, VolatileImage.TRANSLUCENT);
 		((VolatileImage) baked).validate(Binary.gc);
 
 		Graphics2D gr = (Graphics2D) baked.getGraphics();
-		gr.setColor(new Color(0,0,0,0));
+		gr.setColor(new Color(0, 0, 0, 0));
 		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT));
 		gr.fillRect(0, 0, (int) dim.x, (int) dim.y);
 		for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {

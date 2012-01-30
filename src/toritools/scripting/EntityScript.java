@@ -1,6 +1,7 @@
 package toritools.scripting;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 
 /**
  * The scripts that entities load should implement this interface.
@@ -14,7 +15,7 @@ public interface EntityScript {
 	 * This is called upon entity creation, after all entities have loaded.
 	 * Happens once each room load, or upon dynamic spawn.
 	 */
-	public void onSpawn(final Entity self);
+	public void onSpawn(final Entity self, final Level level);
 
 	/**
 	 * This is called upon entity update.
@@ -24,7 +25,7 @@ public interface EntityScript {
 	 * @param time
 	 * 			  the time in milliseconds between frame delays.
 	 */
-	public void onUpdate(final Entity self, final float time);
+	public void onUpdate(final Entity self, final float time, final Level level);
 
 	/**
 	 * This is called upon entity deletion not including room exit.
@@ -35,18 +36,18 @@ public interface EntityScript {
 	 *            True if the room is exiting, false if the deletion was natural
 	 *            (player killed it, etc.).
 	 */
-	public void onDeath(final Entity self, boolean isRoomExit);
+	public void onDeath(final Entity self, final Level level, boolean isRoomExit);
 
 	/**
 	 * A Blank entity script.
 	 */
 	public static EntityScript BLANK = new EntityScript() {
 		@Override
-		public void onSpawn(Entity self) {}
+		public void onSpawn(Entity self, Level level) {}
 		@Override
-		public void onUpdate(Entity self, float time) {}
+		public void onUpdate(Entity self, float time, Level level) {}
 		@Override
-		public void onDeath(Entity self, boolean isRoomExit) {}
+		public void onDeath(Entity self, Level level, boolean isRoomExit) {}
 	};
 	
 	/**
@@ -56,12 +57,12 @@ public interface EntityScript {
 	 */
 	public static class EntityScriptAdapter implements EntityScript {
 		@Override
-		public void onSpawn(Entity self) {}
+		public void onSpawn(Entity self, final Level level) {}
 
 		@Override
-		public void onUpdate(Entity self, float time) {}
+		public void onUpdate(Entity self, float time, final Level level) {}
 
 		@Override
-		public void onDeath(Entity self, boolean isRoomExit) {}
+		public void onDeath(Entity self, final Level level, boolean isRoomExit) {}
 	}
 }

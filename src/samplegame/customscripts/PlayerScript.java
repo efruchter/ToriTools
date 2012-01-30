@@ -3,17 +3,18 @@ package samplegame.customscripts;
 import java.awt.event.KeyEvent;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
 public class PlayerScript implements EntityScript {
-	public void onSpawn(Entity self) {
+	public void onSpawn(Entity self, Level level) {
 		System.out.println("The kid is spawned!");
 		String warpTo;
 		if ((warpTo = ScriptUtils.getVar("warpTo")) != null) {
 			Entity portal;
-			if ((portal = ScriptUtils.getCurrentLevel().getEntityWithId(warpTo)) != null) {
+			if ((portal = level.getEntityWithId(warpTo)) != null) {
 				self.setPos(portal.getPos());
 				ScriptUtils.setVar("warpTo", null);
 			} else {
@@ -22,7 +23,7 @@ public class PlayerScript implements EntityScript {
 		}
 	}
 
-	public void onUpdate(Entity self, float time) {
+	public void onUpdate(Entity self, float time, Level level) {
 		float speed = time * .15f;
 		boolean walked = false;
 		Vector2 delta = new Vector2();
@@ -52,13 +53,13 @@ public class PlayerScript implements EntityScript {
 
 		self.setPos(self.getPos().add(delta));
 
-		ScriptUtils.moveOut(self, false, ScriptUtils.getCurrentLevel().getSolids());
+		ScriptUtils.moveOut(self, false, level.getSolids());
 
 		if (walked)
 			self.getSprite().nextFrame();
 	}
 
-	public void onDeath(Entity self, boolean isRoomExit) {
+	public void onDeath(Entity self, Level level, boolean isRoomExit) {
 		if (isRoomExit)
 			System.out.println("The kid has been lost forever (room closed).");
 	}

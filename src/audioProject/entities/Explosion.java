@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import toritools.entity.Entity;
+import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
-import toritools.scripting.ScriptUtils;
 
 public class Explosion extends Entity {
 	
@@ -22,11 +22,11 @@ public class Explosion extends Entity {
 		addScript(new EntityScriptAdapter(){
 
 			@Override
-			public void onUpdate(Entity self, float time) {
+			public void onUpdate(Entity self, float time, Level level) {
 				self.setDim(self.getDim().add(2));
 				self.setPos(self.getPos().sub(1));
 				if (self.getDim().x >= MAX_RADIUS) {
-					ScriptUtils.getCurrentLevel().despawnEntity(self);
+					level.despawnEntity(self);
 				}
 			}
 		});

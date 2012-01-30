@@ -98,14 +98,6 @@ public abstract class Binary {
 	 * SUBCLASS
 	 */
 
-	/**
-	 * Render your game.
-	 * 
-	 * @param rootCanvas
-	 *            the panel's drawing surface.
-	 * @return true if drawing was successful, false otherwise.
-	 */
-	protected abstract boolean render(final Graphics rootCanvas);
 
 	/**
 	 * Load anything you need (besides entities), be it large background images
@@ -122,7 +114,16 @@ public abstract class Binary {
 	 * etc. The level will update after this method is run, followed by a
 	 * graphical repaint. Keys queued for release are also released after this.
 	 */
-	protected abstract void globalLogic();
+	protected abstract void globalLogic(final Level level);
+	
+	/**
+	 * Render your game.
+	 * 
+	 * @param rootCanvas
+	 *            the panel's drawing surface.
+	 * @return true if drawing was successful, false otherwise.
+	 */
+	protected abstract boolean render(final Graphics rootCanvas, final Level level);
 
 	/**
 	 * Configure the current level to be loaded. Set up your special entity
@@ -148,9 +149,10 @@ public abstract class Binary {
 			ScriptUtils.getCurrentLevel().onDeath(true);
 			ScriptUtils.moveToQueuedLevel();
 			setupCurrentLevel(ScriptUtils.getCurrentLevel());
+			ScriptUtils.getCurrentLevel().onSpawn(null);
 			loadingLevel = false;
 		} else {
-			globalLogic();
+			globalLogic(ScriptUtils.getCurrentLevel());
 			ScriptUtils.getCurrentLevel().onUpdate((float) FRAMERATE);
 			ScriptUtils.getKeyHolder().freeQueuedKeys();
 		}
@@ -179,7 +181,7 @@ public abstract class Binary {
 			return;
 		}
 
-		if (render(drawSurface.getGraphics()))
+		if (render(drawSurface.getGraphics(), ScriptUtils.getCurrentLevel()))
 			buffer1 = !buffer1;
 	}
 }

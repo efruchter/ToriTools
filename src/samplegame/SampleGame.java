@@ -40,12 +40,11 @@ public class SampleGame extends Binary {
 	private static String displayString = "";
 
 	@Override
-	protected boolean render(Graphics rootCanvas) {
+	protected boolean render(Graphics rootCanvas, Level level) {
 		try {
 			((Graphics2D) rootCanvas).setRenderingHint(
 					RenderingHints.KEY_TEXT_ANTIALIASING,
 					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			Level level = ScriptUtils.getCurrentLevel();
 			Vector2 playerPos = level.getEntityWithId("player").getPos();
 			Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
@@ -87,7 +86,7 @@ public class SampleGame extends Binary {
 	}
 
 	@Override
-	protected void globalLogic() {
+	protected void globalLogic(Level level) {
 		displayString = null;
 
 		ScriptUtils.setDebugMode(ScriptUtils.getKeyHolder()
@@ -116,17 +115,17 @@ public class SampleGame extends Binary {
 			temp.addScript(new EntityScript() {
 				Entity player;
 
-				public void onSpawn(Entity self) {
+				public void onSpawn(Entity self, Level level) {
 					player = level.getEntityWithId("player");
 				}
 
-				public void onUpdate(Entity self, float time) {
+				public void onUpdate(Entity self, float time, Level level) {
 					ScriptUtils.moveOut(self, true, player);
 					ScriptUtils.moveOut(self, true, level.getSolids());
 					ScriptUtils.moveOut(player, true, self);
 				}
 
-				public void onDeath(Entity self, boolean isRoomExit) {
+				public void onDeath(Entity self, Level level, boolean isRoomExit) {
 				}
 			});
 		}
