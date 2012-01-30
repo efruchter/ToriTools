@@ -1,6 +1,5 @@
 package toritools.entrypoint;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -76,15 +75,13 @@ public abstract class Binary {
 
 		ScriptUtils.queueLevelSwitch(getStartingLevel());
 
-		setupCurrentLevel(ScriptUtils.getCurrentLevel());
-
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
-				new Thread() {
-					public void run() {
-						coreLogic();
-						panel.repaint();
-					}
-				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
+			new Thread() {
+				public void run() {
+					coreLogic();
+					panel.repaint();
+				}
+			}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
 	}
 
 	private void rebuildBuffers() {
@@ -141,16 +138,16 @@ public abstract class Binary {
 	 */
 	protected abstract Level getStartingLevel();
 
-	private boolean loadingLevel = false;
-
 	private void coreLogic() {
 		if (ScriptUtils.isLevelQueued()) {
-			loadingLevel = true;
-			ScriptUtils.getCurrentLevel().onDeath(true);
+			if(ScriptUtils.getCurrentLevel()!= null) {
+				System.out.println("Closing level.");
+				ScriptUtils.getCurrentLevel().onDeath(true);
+			}
 			ScriptUtils.moveToQueuedLevel();
 			setupCurrentLevel(ScriptUtils.getCurrentLevel());
+			System.out.println("Spawning entities.");
 			ScriptUtils.getCurrentLevel().onSpawn(null);
-			loadingLevel = false;
 		} else {
 			globalLogic(ScriptUtils.getCurrentLevel());
 			ScriptUtils.getCurrentLevel().onUpdate((float) FRAMERATE);
@@ -171,15 +168,7 @@ public abstract class Binary {
 		Image drawSurface = (buffer1) ? b1 : b2;
 		Image renderSurface = (buffer1) ? b2 : b1;
 
-		finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x,
-				(int) VIEWPORT.y, null);
-
-		if (loadingLevel) {
-			finalCanvas.setColor(Color.BLACK);
-			finalCanvas.drawString("Loading...", (int) VIEWPORT.x / 2,
-					(int) VIEWPORT.y / 2);
-			return;
-		}
+		finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
 
 		if (render(drawSurface.getGraphics(), ScriptUtils.getCurrentLevel()))
 			buffer1 = !buffer1;

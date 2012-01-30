@@ -199,9 +199,7 @@ public class ScriptUtils {
 	 */
 	public static void queueLevelSwitch(final Level newLevel) {
 		ScriptUtils.newLevel = newLevel;
-		if(level == null) {
-			moveToQueuedLevel();
-		}
+		System.out.println("New level queued.");
 	}
 	
 	public static boolean isLevelQueued() {
@@ -212,6 +210,7 @@ public class ScriptUtils {
 	 * Move to the queued level.
 	 */
 	public static void moveToQueuedLevel() {
+		System.out.println("Moving to the queued level.");
 		keyHolder.clearKeys();
 		level = newLevel;
 		newLevel = null;
