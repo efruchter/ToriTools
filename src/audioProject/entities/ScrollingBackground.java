@@ -1,15 +1,33 @@
 package audioProject.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
+
+import audioProject.AudioProject;
 
 import toritools.entity.Entity;
 import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
+import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 
 public class ScrollingBackground extends Entity {
-	public ScrollingBackground() {
+	
+	private Color color;
+	
+	public void setColor(final Color c) {
+		color = c;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public ScrollingBackground(final Vector2 dim) {
+		
+		setPos(Vector2.ZERO);
+		setDim(dim);
 
 		type = ReservedTypes.BACKGROUND.toString();
 		
@@ -19,20 +37,20 @@ public class ScrollingBackground extends Entity {
 
 			@Override
 			public void nextFrame() {
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-				g.draw3DRect(10, 20, 300, 300, true);
+				g.setColor(getColor());
+				g.fillRect((int) self.getPos().x, (int) self.getPos().y, (int) self.getDim().x, (int) self.getDim().y);
 			}
 		});
 
 		addScript(new EntityScriptAdapter() {
 			@Override
-			public void onSpawn(Entity self) {
-				self.getSprite().nextFrame();
+			public void onUpdate(Entity self, float time) {
+				setColor(ColorUtils.blend(Color.CYAN, Color.PINK, Math.abs(AudioProject.controller.getFeel())));
 			}
 		});
 	}

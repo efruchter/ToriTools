@@ -30,7 +30,7 @@ public class PlayerShip extends Entity {
 					RIGHT = KeyEvent.VK_D, LEFT = KeyEvent.VK_A,
 					SHOOT = KeyEvent.VK_SPACE;
 
-			float speed = .001f;
+			float speed = .002f;
 			
 			boolean canShoot = true;
 

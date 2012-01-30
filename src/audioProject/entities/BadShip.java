@@ -3,6 +3,8 @@ package audioProject.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import audioProject.AudioProject;
+
 import toritools.additionaltypes.HistoryQueue;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -15,7 +17,7 @@ public class BadShip extends Entity {
 
 	public BadShip(final Vector2 startingPosition) {
 
-		variables.setVar("health", "40");
+		variables.setVar("health", "100");
 		type = "enemy";
 
 		pos = startingPosition;
@@ -39,7 +41,7 @@ public class BadShip extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time) {
 				
-				if(Math.random() < .05) {
+				if(AudioProject.controller.isBeat()) {
 					level.spawnEntity(
 							new BadBullet(
 									self.getPos(), 

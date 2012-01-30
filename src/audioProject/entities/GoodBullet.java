@@ -26,12 +26,12 @@ public class GoodBullet extends Entity {
 		dim = new Vector2(10, 10);
 		
 		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(3);
+		
+		final Color color = Color.BLACK; //ColorUtils.blend(Color.BLACK, Color., Math.abs(AudioProject.controller.getFeel()));
 
 		addScript(new EntityScriptAdapter() {
-
-			float damage = 5;
-
 			
+			float damage = 5;			
 
 			@Override
 			public void onUpdate(Entity self, float time) {
@@ -57,7 +57,7 @@ public class GoodBullet extends Entity {
 
 			@Override
 			public void onDeath(Entity self, boolean isRoomExit) {
-				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), Color.GREEN, self.getDim().x, 20));
+				ScriptUtils.getCurrentLevel().spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
 			}
 		});
 
@@ -68,7 +68,7 @@ public class GoodBullet extends Entity {
 
 				int alpha = 255;
 				for (Vector2 hPos : pastPos) {
-					g.setColor(new Color(0, 255, 0, alpha));
+					g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha));
 					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
 					alpha = alpha / 2;
 				}

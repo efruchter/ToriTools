@@ -10,8 +10,10 @@ import toritools.entity.Level;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
+import audioProject.controller.WaveController;
 import audioProject.entities.BadShip;
 import audioProject.entities.PlayerShip;
+import audioProject.entities.ScrollingBackground;
 
 /**
  * Template for our possible audio project.
@@ -22,6 +24,7 @@ import audioProject.entities.PlayerShip;
 public class AudioProject extends Binary {
 	
 	public static Player soundPlayer = new Player();
+	public static WaveController controller = new WaveController();
    
 
 	public static void main(String[] args) {
@@ -61,6 +64,8 @@ public class AudioProject extends Binary {
 	@Override
 	protected void globalLogic() {
 		
+		controller.setTime(soundPlayer.getCurrentPosition());
+		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
@@ -74,7 +79,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
-		//levelBeingLoaded.spawnEntity(new ScrollingBackground());
+		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT));
 		
 		addLevelBounds(levelBeingLoaded);
 	}
