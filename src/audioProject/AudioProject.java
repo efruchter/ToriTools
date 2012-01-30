@@ -11,7 +11,6 @@ import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 import audioProject.controller.WaveController;
-import audioProject.entities.BadShip;
 import audioProject.entities.PlayerShip;
 import audioProject.entities.ScrollingBackground;
 
@@ -58,8 +57,6 @@ public class AudioProject extends Binary {
 		soundPlayer.setSourceLocation("unicorn.mp3");
 		soundPlayer.play();
 	}
-	
-	int enemyTimer = 0;
 
 	@Override
 	protected void globalLogic(Level level) {
@@ -68,11 +65,6 @@ public class AudioProject extends Binary {
 		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
-		}
-		
-		if(enemyTimer-- <= 0) {
-			enemyTimer = 40;
-			level.spawnEntity(new BadShip(new Vector2(VIEWPORT.x, (float) Math.random() * VIEWPORT.y)));
 		}
 	}
 
