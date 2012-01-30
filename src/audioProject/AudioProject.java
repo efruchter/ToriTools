@@ -9,8 +9,11 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
+import toritools.pathing.interpolator.HermiteKeyFrameInterpolator;
+import toritools.pathing.interpolator.HermiteKeyFrameInterpolator.HermiteKeyFrame;
 import toritools.scripting.ScriptUtils;
 import audioProject.controller.WaveController;
+import audioProject.entities.BadShipFactory;
 import audioProject.entities.PlayerShip;
 import audioProject.entities.ScrollingBackground;
 
@@ -66,6 +69,16 @@ public class AudioProject extends Binary {
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
+		
+		if (Math.random() < .01) {
+			HermiteKeyFrame s = new HermiteKeyFrame(VIEWPORT.scale(1, (float) Math.random()), 0);
+			HermiteKeyFrame s2 = new HermiteKeyFrame(new Vector2(-100, VIEWPORT.y * (float) Math.random()), (float) Math.random() * 1000 + 4000);
+			HermiteKeyFrameInterpolator path = new HermiteKeyFrameInterpolator(s, s2);
+			System.out.println("BOOM");
+			level.spawnEntity(BadShipFactory.makePathedEnemy(path, .5f));
+		}
+		
+		System.out.println(level.getNonSolids().size());
 	}
 
 	@Override
