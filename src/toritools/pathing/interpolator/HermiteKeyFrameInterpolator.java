@@ -139,6 +139,10 @@ public class HermiteKeyFrameInterpolator {
 		public HermiteKeyFrame(final Vector2 pos, final float time) {
 			this(pos, new Vector2(), time);
 		}
+		
+		public HermiteKeyFrame clone() {
+			return new HermiteKeyFrame(pos, mag, time);
+		}
 
 		@Override
 		public int compareTo(HermiteKeyFrame other) {

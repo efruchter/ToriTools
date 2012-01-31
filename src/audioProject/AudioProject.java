@@ -70,15 +70,15 @@ public class AudioProject extends Binary {
 			System.exit(0);
 		}
 		
-		if (Math.random() < .01) {
-			HermiteKeyFrame s = new HermiteKeyFrame(VIEWPORT.scale(1, (float) Math.random()), 0);
-			HermiteKeyFrame s2 = new HermiteKeyFrame(new Vector2(-100, VIEWPORT.y * (float) Math.random()), (float) Math.random() * 1000 + 4000);
-			HermiteKeyFrameInterpolator path = new HermiteKeyFrameInterpolator(s, s2);
+		if (Math.random() < .02) {
+			HermiteKeyFrame s1 = new HermiteKeyFrame(VIEWPORT.scale(1, (float) Math.random()), 0);
+			HermiteKeyFrame s2 = new HermiteKeyFrame(new Vector2(VIEWPORT.x * (float) Math.random(), VIEWPORT.y * (float) Math.random()), (float) Math.random() * 1000 + 4000);
+			HermiteKeyFrame s3 = s1.clone();
+			s3.time = s2.time * 2;
+			HermiteKeyFrameInterpolator path = new HermiteKeyFrameInterpolator(s1, s2, s3);
 			System.out.println("BOOM");
 			level.spawnEntity(BadShipFactory.makePathedEnemy(path, .5f));
 		}
-		
-		System.out.println(level.getNonSolids().size());
 	}
 
 	@Override

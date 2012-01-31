@@ -3,6 +3,8 @@ package audioProject.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import audioProject.AudioProject;
+
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
@@ -15,7 +17,7 @@ public class BadShipFactory {
 	public static Entity makePathedEnemy(final HermiteKeyFrameInterpolator path, final float aggressionRatio) {
 
 		final Entity entity = new Entity();
-		entity.setDim(new Vector2(50, 50));
+		entity.setDim(new Vector2(40, 40));
 		entity.setType("enemy");
 
 		entity.addScript(new EntityScriptAdapter() {
@@ -36,6 +38,8 @@ public class BadShipFactory {
 					level.despawnEntity(self);
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
+					if (AudioProject.controller.isBeat())
+						level.spawnEntity(new BadBullet(self.getPos(), Vector2.toward(self.getPos(), level.getEntityWithId("player").getPos()).scale(.2f)));
 				}
 			}
 		});
