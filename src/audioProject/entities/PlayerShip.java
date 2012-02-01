@@ -11,9 +11,11 @@ import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
+import toritools.render.ColorUtils;
 import toritools.render.HealthBar;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
+import audioProject.AudioProject;
 
 public class PlayerShip extends Entity {
 
@@ -53,6 +55,7 @@ public class PlayerShip extends Entity {
 
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
+				
 				float speed = this.speed * time;
 
 				if (keys.isPressed(UP)) {
@@ -106,9 +109,11 @@ public class PlayerShip extends Entity {
 				
 				healthBar.draw(g, new Vector2(10, 50), new Vector2(200, 30));
 				
+				Color c = ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
+				
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
-					g.setColor(new Color(0,0,0, alpha));
+					g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
 					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
 					alpha = alpha / 2;
 				}

@@ -5,6 +5,9 @@ import java.awt.Graphics;
 
 import toritools.math.Vector2;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 /**
  * A health bar that blends two colors as it goes.
  * @author toriscope
@@ -36,6 +39,6 @@ public class HealthBar{
 	}
 
 	public void setHealth(float health) {
-		this.health = health;
+		this.health = min(max(health, 0), maxHealth);
 	}
 }

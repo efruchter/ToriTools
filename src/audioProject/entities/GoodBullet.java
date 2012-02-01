@@ -7,8 +7,10 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
+import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
+import audioProject.AudioProject;
 
 public class GoodBullet extends Entity {
 
@@ -25,7 +27,7 @@ public class GoodBullet extends Entity {
 		pos = position;
 		dim = new Vector2(10, 10);
 		
-		final Color color = Color.BLACK; //ColorUtils.blend(Color.WHITE, Color.BLACK, Math.abs(AudioProject.controller.getFeel()));
+		final Color color = ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
 
 		addScript(new EntityScriptAdapter() {
 			
@@ -65,7 +67,7 @@ public class GoodBullet extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.drawOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}

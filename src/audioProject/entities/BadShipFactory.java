@@ -10,6 +10,7 @@ import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.pathing.interpolator.HermiteKeyFrameInterpolator;
+import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 
 public class BadShipFactory {
@@ -54,10 +55,12 @@ public class BadShipFactory {
 			}
 		});
 		
+		final Color color = ColorUtils.blend(new Color(255, 0, 128), Color.RED, Math.random());
+		
 		entity.setSprite(new AbstractSpriteAdapter() {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-				g.setColor(Color.RED);
+				g.setColor(color);
 				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});

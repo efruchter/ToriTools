@@ -28,7 +28,7 @@ public class BadBullet extends Entity {
 		pos = position;
 		dim = Vector2.ONE.scale(10);
 		
-		final Color color = ColorUtils.blend(Color.ORANGE, Color.RED, Math.random());
+		final Color color = ColorUtils.blend(new Color(255, 0, 128), Color.RED, Math.random());
 
 		addScript(new EntityScriptAdapter() {
 
@@ -52,7 +52,7 @@ public class BadBullet extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.fillRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}
