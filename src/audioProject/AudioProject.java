@@ -1,7 +1,9 @@
 package audioProject;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import maryb.player.Player;
@@ -40,6 +42,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected boolean render(Graphics rootCanvas, Level level) {
 		try {
+			((Graphics2D) rootCanvas).setStroke(new BasicStroke(2));
 			rootCanvas.setColor(Color.WHITE);
 			rootCanvas.fillRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
 			for (int i = level.getLayers().size() - 1; i >= 0; i--)

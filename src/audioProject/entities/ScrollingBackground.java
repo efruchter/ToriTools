@@ -1,9 +1,7 @@
 package audioProject.entities;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -56,7 +54,6 @@ public class ScrollingBackground extends Entity {
 				time = (time - speed) % spacing;
 				
 				for(int i = (int) (time); i < dimension.x; i+= spacing) {
-					((Graphics2D)g).setStroke(new BasicStroke(2));
 					//Middle
 					g.drawLine(i, topSpacing, i, (int) dimension.y - bottomSpacing);
 					//top
