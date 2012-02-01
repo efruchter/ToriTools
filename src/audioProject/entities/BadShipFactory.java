@@ -34,8 +34,11 @@ public class BadShipFactory {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				allTime += time;
-				if (allTime > path.getEndTime() || self.getVariableCase().getFloat("health") <= 0) {
+				if (allTime > path.getEndTime()) {
 					level.despawnEntity(self);
+				} else if (self.getVariableCase().getFloat("health") <= 0) {
+					level.despawnEntity(self);
+					level.spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 30));
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
 					if (AudioProject.controller.isBeat())
