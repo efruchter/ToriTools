@@ -23,7 +23,7 @@ public class BadBullet extends Entity {
 		layer = 1;
 
 		pos = position;
-		dim = new Vector2(10, 10);
+		dim = Vector2.ONE.scale(10);
 		
 		final Color color = new Color(255, 128, 0);
 
@@ -53,7 +53,7 @@ public class BadBullet extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				g.drawRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}

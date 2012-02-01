@@ -46,11 +46,13 @@ public class AudioProject extends Binary {
 			rootCanvas.setColor(Color.WHITE);
 			rootCanvas.fillRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
 			for (int i = level.getLayers().size() - 1; i >= 0; i--)
-				for (Entity e : level.getLayers().get(i))
+				for (Entity e : level.getLayers().get(i)) {
 					if (e.isVisible())
 						e.draw(rootCanvas, Vector2.ZERO);
+				}
 			rootCanvas.setColor(Color.BLACK);
 			rootCanvas.drawString("Time: " + soundPlayer.getCurrentPosition(), 10, 20);
+			rootCanvas.drawString("Entities: " + level.getNonSolids().size(), 10 , 40);
 		} catch (final Exception uhoh) {
 			return false;
 		}
@@ -62,24 +64,29 @@ public class AudioProject extends Binary {
 		soundPlayer.setCurrentVolume(1f);
 		soundPlayer.setSourceLocation("unicorn.mp3");
 		soundPlayer.play();
+		
+		moments = entities = 0;
 	}
+	
+	long moments, entities;
 
 	@Override
 	protected void globalLogic(Level level) {
 		
 		controller.setTime(soundPlayer.getCurrentPosition());
 		
+		//ScrollingBackground bg = (ScrollingBackground) level.getEntityWithId("bg");
+		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
 		
 		if (Math.random() < .02) {
-			HermiteKeyFrame s1 = new HermiteKeyFrame(VIEWPORT.scale(1, (float) Math.random()), 0);
-			HermiteKeyFrame s2 = new HermiteKeyFrame(new Vector2(VIEWPORT.x * (float) Math.random(), VIEWPORT.y * (float) Math.random()), (float) Math.random() * 1000 + 4000);
+			HermiteKeyFrame s1 = new HermiteKeyFrame(VIEWPORT.scale(1, (float) Math.random()), Vector2.ONE.scale(10 * (.5f + (float) Math.random()), 10 * (.5f + (float) Math.random())), 0);
+			HermiteKeyFrame s2 = new HermiteKeyFrame(new Vector2(VIEWPORT.x * (float) Math.random(), VIEWPORT.y * (float) Math.random()),Vector2.ONE.scale(10 * (.5f + (float) Math.random()), 10 * (.5f + (float) Math.random())), (float) Math.random() * 1000 + 4000);
 			HermiteKeyFrame s3 = s1.clone();
 			s3.time = s2.time * 2;
 			HermiteKeyFrameInterpolator path = new HermiteKeyFrameInterpolator(s1, s2, s3);
-			System.out.println("BOOM");
 			level.spawnEntity(BadShipFactory.makePathedEnemy(path, .5f));
 		}
 	}

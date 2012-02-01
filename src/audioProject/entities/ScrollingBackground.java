@@ -43,6 +43,8 @@ public class ScrollingBackground extends Entity {
 		
 		layer = 9;
 		
+		getVariableCase().setVar("id", "bg");
+		
 		setSprite(new AbstractSpriteAdapter() {
 			
 			long time = 0;

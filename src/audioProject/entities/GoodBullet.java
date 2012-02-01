@@ -65,7 +65,7 @@ public class GoodBullet extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				g.drawOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}

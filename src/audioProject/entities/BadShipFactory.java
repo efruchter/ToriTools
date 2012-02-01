@@ -41,8 +41,11 @@ public class BadShipFactory {
 					level.spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 30));
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
-					if (AudioProject.controller.isBeat())
-						level.spawnEntity(new BadBullet(self.getPos(), Vector2.toward(self.getPos(), level.getEntityWithId("player").getPos()).scale(.2f)));
+					if (AudioProject.controller.isBeat()) {
+						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 0).unit().scale(.2f)));
+						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 1).unit().scale(.2f)));
+						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, -1).unit().scale(.2f)));
+					}
 				}
 			}
 		});
