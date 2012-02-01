@@ -7,6 +7,7 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
+import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
 
@@ -20,12 +21,14 @@ public class BadBullet extends Entity {
 	public BadBullet(final Vector2 position, final Vector2 speed) {
 		type = "BadBullet";
 
+		getVariableCase().setVar("damage", "5");
+		
 		layer = 1;
 
 		pos = position;
 		dim = Vector2.ONE.scale(10);
 		
-		final Color color = new Color(255, 128, 0);
+		final Color color = ColorUtils.blend(Color.ORANGE, Color.RED, Math.random());
 
 		addScript(new EntityScriptAdapter() {
 
@@ -37,10 +40,6 @@ public class BadBullet extends Entity {
 				}
 
 				self.setPos(self.getPos().add(speed.scale(time)));
-
-				if (ScriptUtils.isColliding(self, level.getEntityWithId("player"))) {
-					level.despawnEntity(self);
-				}
 			}
 
 			@Override
@@ -53,7 +52,7 @@ public class BadBullet extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.drawRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				g.fillRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}

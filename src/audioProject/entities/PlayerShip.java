@@ -11,6 +11,7 @@ import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
+import toritools.render.HealthBar;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
 
@@ -18,12 +19,16 @@ public class PlayerShip extends Entity {
 
 	public PlayerShip() {
 		
+		layer = 5;
+		
 		variables.setVar("id", "player");
 		
 		pos = new Vector2(100, 10);
 		dim = new Vector2(20, 20);
 		
 		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
+		
+		final HealthBar healthBar = new HealthBar(100, Color.RED, Color.GREEN);
 
 		addScript(new EntityScriptAdapter() {
 
@@ -43,6 +48,7 @@ public class PlayerShip extends Entity {
 			public void onSpawn(Entity self, Level level) {
 				keys = ScriptUtils.getKeyHolder();
 				physics = new PhysicsModule(Vector2.ZERO, new Vector2(.9f), self);
+				healthBar.setHealth(100);
 			}
 
 			@Override
@@ -83,6 +89,13 @@ public class PlayerShip extends Entity {
 				ScriptUtils.moveOut(self, false, level.getSolids());
 				
 				pastPos.push(self.getPos());
+				
+				for (Entity badBullet : level.getEntitiesWithType("BadBullet")) {
+					if (ScriptUtils.isColliding(self, badBullet)) {
+						level.despawnEntity(badBullet);
+						healthBar.setHealth(healthBar.getHealth() - badBullet.getVariableCase().getFloat("damage"));
+					}
+				}
 			}
 		});
 
@@ -90,6 +103,8 @@ public class PlayerShip extends Entity {
 
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position,	Vector2 dimension) {
+				
+				healthBar.draw(g, new Vector2(10, 50), new Vector2(200, 30));
 				
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
