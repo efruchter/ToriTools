@@ -48,6 +48,7 @@ public class PlayerShip extends Entity {
 
 			@Override
 			public void onSpawn(Entity self, Level level) {
+				self.setPos(level.getDim().scale(.25f, .5f));
 				keys = ScriptUtils.getKeyHolder();
 				physics = new PhysicsModule(Vector2.ZERO, new Vector2(.9f), self);
 				healthBar.setHealth(100);
