@@ -27,7 +27,7 @@ import toritools.scripting.ScriptUtils;
 public class SampleGame extends Binary {
 
 	public SampleGame() {
-		super(new Vector2(800, 600), 60);
+		super(new Vector2(800, 600), 60, "Second Chance");
 	}
 
 	public static void main(String[] args) {

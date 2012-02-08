@@ -45,7 +45,10 @@ public abstract class Binary {
 	 * @param frameRate
 	 *            the frame-rate as a ratio. 60FPS would be 60, for example.
 	 */
-	public Binary(final Vector2 VIEWPORT_SIZE, final int frameRate) {
+	public Binary(final Vector2 VIEWPORT_SIZE, final int frameRate, final String windowTitle) {
+		
+		frame.setTitle(windowTitle);
+		
 		this.FRAMERATE = 1000 / frameRate;
 		this.VIEWPORT = VIEWPORT_SIZE;
 

@@ -24,9 +24,6 @@ public class BadShipFactory {
 		entity.addScript(new EntityScriptAdapter() {
 
 			float allTime;
-			final int shootClock = 20;
-			
-			int canShoot = shootClock;
 
 			@Override
 			public void onSpawn(Entity self, Level level) {
@@ -45,8 +42,7 @@ public class BadShipFactory {
 					level.spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 30));
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
-					if (--canShoot < 0 && AudioProject.controller.isBeat()) {
-						canShoot = shootClock;
+					if (AudioProject.controller.isBeat()) {
 						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 0).unit().scale(.2f)));
 						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 1).unit().scale(.2f)));
 						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, -1).unit().scale(.2f)));

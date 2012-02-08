@@ -1,5 +1,7 @@
 package audioProject.entities;
 
+import static java.lang.Math.sin;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -8,9 +10,7 @@ import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
-import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
-import audioProject.AudioProject;
 
 /**
  * A background with controllable perspective and speed.
@@ -20,12 +20,18 @@ import audioProject.AudioProject;
 public class ScrollingBackground extends Entity {
 	
 	private Color color;
-	private int speed;
-	private int barAmount;
+	private float speed;
+	private float barAmount;
 	private float prespectiveRatio;
 	private float centerRatio;
-	private int topSpacing;
-	private int bottomSpacing;
+	private float topSpacing;
+	private float bottomSpacing;
+	private float verticalOffset;
+	
+	public void setFocus(final Vector2 focus, final float verticalOffsetScalar) {
+		centerRatio = focus.x / dim.x;
+		verticalOffset = verticalOffsetScalar * (focus.y - dim.y / 2);
+	}
 
 	public ScrollingBackground(Vector2 dim, int speed,  int barAmount,  float prespectiveRatio,  float centerRatio,  int topSpacing,  int bottomSpacing) {
 		
@@ -35,6 +41,7 @@ public class ScrollingBackground extends Entity {
 		this.centerRatio = centerRatio;
 		this.topSpacing = topSpacing;
 		this.bottomSpacing = bottomSpacing;
+		this.verticalOffset = 0;
 		
 		setPos(Vector2.ZERO);
 		setDim(dim);
@@ -47,26 +54,32 @@ public class ScrollingBackground extends Entity {
 		
 		setSprite(new AbstractSpriteAdapter() {
 			
-			long time = 0;
+			float time = 0;
 			
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-				g.setColor(getColor());
-				g.fillRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
-				g.setColor(Color.GREEN);
+				g.setColor(new Color(232, 243, 178));
+				//g.fillRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 				
-				int spacing = (int) dimension.x / getBarAmount();
-				int center = (int) (dimension.x * getCenterRatio());
+				float spacing = dimension.x / getBarAmount();
+				float center = (dimension.x * getCenterRatio());
+				
+				float bottomSpacingLocal = getBottomSpacing();
+				float topSpacingLocal = getTopSpacing();
 				
 				time = (time - getSpeed()) % spacing;
 				
-				for(int i = (int) (time); i < dimension.x; i+= spacing) {
+				for(float i = time; i < dimension.x; i+= spacing) {
+					
+					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(i * .01);
+					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) sin(i * .01);
+					
 					//Middle
-					g.drawLine(i, getTopSpacing(), i, (int) dimension.y - getBottomSpacing());
+					g.drawLine((int) i,(int) (topSpacingLocal - verticalOffset), (int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset));
 					//top
-					g.drawLine(i, getTopSpacing(), (int) (center - (center - i) * getPrespectiveRatio()), 0);
+					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), 0);
 					//bottom
-					g.drawLine(i, (int) dimension.y - getBottomSpacing(), (int) (center - (center - i) * getPrespectiveRatio()), (int) dimension.y);
+					g.drawLine((int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), (int) dimension.y);
 				}
 			}
 		});
@@ -74,7 +87,7 @@ public class ScrollingBackground extends Entity {
 		addScript(new EntityScriptAdapter() {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
-				setColor(ColorUtils.blend(Color.CYAN, Color.PINK, Math.abs(AudioProject.controller.getFeel())));
+
 			}
 		});
 	}
@@ -87,19 +100,19 @@ public class ScrollingBackground extends Entity {
 		return color;
 	}
 	
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 
-	public int getBarAmount() {
+	public float getBarAmount() {
 		return barAmount;
 	}
 
-	public void setBarAmount(int barAmount) {
+	public void setBarAmount(float barAmount) {
 		this.barAmount = barAmount;
 	}
 
@@ -119,19 +132,27 @@ public class ScrollingBackground extends Entity {
 		this.centerRatio = centerRatio;
 	}
 
-	public int getTopSpacing() {
+	public float getTopSpacing() {
 		return topSpacing;
 	}
 
-	public void setTopSpacing(int topSpacing) {
+	public void setTopSpacing(float topSpacing) {
 		this.topSpacing = topSpacing;
 	}
 
-	public int getBottomSpacing() {
+	public float getBottomSpacing() {
 		return bottomSpacing;
 	}
 
 	public void setBottomSpacing(int bottomSpacing) {
 		this.bottomSpacing = bottomSpacing;
+	}
+
+	public float getVerticalOffset() {
+		return verticalOffset;
+	}
+
+	public void setVerticalOffset(float verticalOffset) {
+		this.verticalOffset = verticalOffset;
 	}
 }

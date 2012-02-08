@@ -9,10 +9,14 @@ public class WaveController {
 
 	private boolean isBeat = false;
 	private float feel = 0.0f;
+	
+	int beatCheat = 0;
 
 	public void setTime(final long newTime) {
-		double s = Math.sin(newTime * .1);
-		isBeat = Math.abs(s) > .99;
+		if(isBeat = beatCheat-- < 0) {
+			beatCheat = 55;
+		}
+
 		//System.out.println(s);
 		feel = (float) Math.cos(newTime * .0000001);
 	}

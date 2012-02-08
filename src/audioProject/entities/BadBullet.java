@@ -31,12 +31,15 @@ public class BadBullet extends Entity {
 		final Color color = ColorUtils.blend(new Color(255, 0, 128), Color.RED, Math.random());
 
 		addScript(new EntityScriptAdapter() {
+			
+			boolean explodeDeath = true;
 
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
 				if (!ScriptUtils.isColliding(level, self)) {
 					level.despawnEntity(self);
+					explodeDeath = false;
 				}
 
 				self.setPos(self.getPos().add(speed.scale(time)));
@@ -44,7 +47,8 @@ public class BadBullet extends Entity {
 
 			@Override
 			public void onDeath(Entity self, Level level, boolean isRoomExit) {
-				level.spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
+				if (explodeDeath)
+					level.spawnEntity(new Explosion(self.getPos(), color, self.getDim().x, 20));
 			}
 		});
 
