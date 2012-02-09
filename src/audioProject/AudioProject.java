@@ -37,7 +37,7 @@ public class AudioProject extends Binary {
 	}
 
 	public AudioProject() {
-		super(new Vector2(640, 480), 60, "Please Unicorn");
+		super(new Vector2(640, 480), 60, "The Search for F.E.E.L.");
 	}
 
 	@Override
@@ -79,7 +79,11 @@ public class AudioProject extends Binary {
 		
 		controller.setTime44100((long) (soundPlayer.getCurrentPosition()* 0.001));
 		
-		((ScrollingBackground) level.getEntityWithId("bg")).setFocus(level.getEntityWithId("player").getPos(), .5f);
+		ScrollingBackground bg = (ScrollingBackground) level.getEntityWithId("bg");
+		PlayerShip player = (PlayerShip) level.getEntityWithId("player");
+		
+		bg.setFocus(player.getPos(), .5f);
+		bg.setSpeed(5 * controller.getFeel());
 		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
@@ -93,8 +97,6 @@ public class AudioProject extends Binary {
 			HermiteKeyFrameInterpolator path = new HermiteKeyFrameInterpolator(s1, s2, s3);
 			level.spawnEntity(BadShipFactory.makePathedEnemy(path, .5f));
 		}
-		
-		((ScrollingBackground) level.getEntityWithId("bg")).setSpeed(5 * controller.getFeel());
 		
 		bgColor =  ColorUtils.blend(new Color(245,137,104), Color.LIGHT_GRAY, .4f * Math.abs(AudioProject.controller.getFeel()));
 	}

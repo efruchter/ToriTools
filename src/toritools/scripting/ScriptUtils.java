@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
@@ -28,6 +29,8 @@ public class ScriptUtils {
 	
 	private static Level level;
 	private static Level newLevel;
+	
+	public static Random random = new Random();
 
 	public static KeyHolder getKeyHolder() {
 		return keyHolder;
