@@ -34,7 +34,7 @@ public class BadShipFactory {
 
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
-				allTime += time;
+				allTime += time * Math.abs(AudioProject.controller.getFeel());
 				if (allTime > path.getEndTime()) {
 					level.despawnEntity(self);
 				} else if (self.getVariableCase().getFloat("health") <= 0) {
@@ -43,9 +43,10 @@ public class BadShipFactory {
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
 					if (AudioProject.controller.isBeat()) {
-						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 0).unit().scale(.2f)));
-						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 1).unit().scale(.2f)));
-						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, -1).unit().scale(.2f)));
+						float scalar = .1f + Math.abs(AudioProject.controller.getFeel()) * .2f;
+						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 0).scale(scalar)));
+						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, .7f).scale(scalar)));
+						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, -.7f).scale(scalar)));
 					}
 				}
 			}

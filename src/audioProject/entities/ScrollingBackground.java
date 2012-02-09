@@ -1,9 +1,11 @@
 package audioProject.entities;
 
-import static java.lang.Math.sin;
+import static java.lang.Math.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import audioProject.AudioProject;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -56,6 +58,8 @@ public class ScrollingBackground extends Entity {
 			
 			float time = 0;
 			
+			float sinTimer = 0;
+			
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(new Color(232, 243, 178));
@@ -69,17 +73,21 @@ public class ScrollingBackground extends Entity {
 				
 				time = (time - getSpeed()) % spacing;
 				
+				sinTimer+=.01;
+				
+				float feel = AudioProject.controller.getFeel();
+				
 				for(float i = time; i < dimension.x; i+= spacing) {
 					
-					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(i * .01);
-					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) sin(i * .01);
+					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
+					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
 					
 					//Middle
 					g.drawLine((int) i,(int) (topSpacingLocal - verticalOffset), (int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset));
 					//top
-					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), 0);
+					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio() + feel), 0);
 					//bottom
-					g.drawLine((int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), (int) dimension.y);
+					g.drawLine((int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio() + feel), (int) dimension.y);
 				}
 			}
 		});

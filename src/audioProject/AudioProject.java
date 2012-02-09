@@ -29,7 +29,7 @@ import audioProject.entities.ScrollingBackground;
 public class AudioProject extends Binary {
 	
 	public static Player soundPlayer = new Player();
-	public static WaveController controller = new WaveController();
+	public static WaveController controller;
    
 
 	public static void main(String[] args) {
@@ -64,9 +64,9 @@ public class AudioProject extends Binary {
 	@Override
 	protected void initialize() {
 		soundPlayer.setCurrentVolume(1f);
-		soundPlayer.setSourceLocation("unicorn.mp3");
+		soundPlayer.setSourceLocation("unicorn.mp3");	
+		controller = new WaveController(432000);
 		soundPlayer.play();
-		
 		moments = entities = 0;
 	}
 	
@@ -77,7 +77,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected void globalLogic(Level level) {
 		
-		controller.setTime(soundPlayer.getCurrentPosition());
+		controller.setTime44100((long) (soundPlayer.getCurrentPosition()* 0.001));
 		
 		((ScrollingBackground) level.getEntityWithId("bg")).setFocus(level.getEntityWithId("player").getPos(), .5f);
 		
@@ -94,7 +94,7 @@ public class AudioProject extends Binary {
 			level.spawnEntity(BadShipFactory.makePathedEnemy(path, .5f));
 		}
 		
-		((ScrollingBackground) level.getEntityWithId("bg")).setSpeed(2 * controller.getFeel());
+		((ScrollingBackground) level.getEntityWithId("bg")).setSpeed(5 * controller.getFeel());
 		
 		bgColor =  ColorUtils.blend(new Color(245,137,104), Color.LIGHT_GRAY, .4f * Math.abs(AudioProject.controller.getFeel()));
 	}
@@ -102,7 +102,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
-		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 37, 2.3f, .614f, 100, 100));
+		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 30, 2.3f, .614f, 100, 100));
 		
 		addLevelBounds(levelBeingLoaded);
 	}

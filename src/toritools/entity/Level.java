@@ -139,14 +139,10 @@ public class Level extends Entity {
 		return idMap.get(id);
 	}
 
-	public List<Entity> getEntitiesWithType(final String... types) {
-		List<Entity> ents = new ArrayList<Entity>();
-		for (String type : types) {
-			List<Entity> tE = typeMap.get(type);
-			if (tE != null)
-				ents.addAll(tE);
-		}
-		return ents;
+	public List<Entity> getEntitiesWithType(final String type) {
+		if (typeMap.containsKey(type))
+			return typeMap.get(type);
+		return new ArrayList<Entity>();
 	}
 
 	public void setViewportData(final Vector2 pos, final Vector2 dim) {

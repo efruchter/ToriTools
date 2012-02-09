@@ -85,6 +85,12 @@ public abstract class Binary {
 					panel.repaint();
 				}
 			}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
+//		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
+//				new Thread() {
+//					public void run() {
+//						
+//					}
+//				}, 0, FRAMERATE, TimeUnit.MILLISECONDS);
 	}
 
 	private void rebuildBuffers() {
