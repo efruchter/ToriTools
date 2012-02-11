@@ -73,7 +73,7 @@ public class ScrollingBackground extends Entity {
 				
 				time = (time - getSpeed()) % spacing;
 				
-				sinTimer+=.01;
+				sinTimer +=.01;
 				
 				float feel = AudioProject.controller.getFeel();
 				
@@ -83,10 +83,10 @@ public class ScrollingBackground extends Entity {
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
 					
 					//Middle
-					g.setColor(new Color(0, 243, 178));
+					g.setColor(new Color(0, 243, 178, 128));
 					g.drawLine((int) i,(int) (topSpacingLocal - verticalOffset), (int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset));
 					//top
-					g.setColor(new Color(20, 243 - 50, 178 - 50));
+					g.setColor(new Color(20, 243 - 50, 178 - 50, 128));
 					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio() + feel), 0);
 					//bottom
 					g.drawLine((int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio() + feel), (int) dimension.y);
