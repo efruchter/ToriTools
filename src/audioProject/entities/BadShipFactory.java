@@ -43,10 +43,11 @@ public class BadShipFactory {
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
 					if (AudioProject.controller.isBeat()) {
+						Vector2 middle = self.getPos().add(self.getDim().scale(.5f));
 						float scalar = .1f + Math.abs(AudioProject.controller.getFeel()) * .1f;
-						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 0).scale(scalar)));
-						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, .7f).scale(scalar)));
-						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, -.7f).scale(scalar)));
+						level.spawnEntity(new BadBullet(middle, new Vector2(-1, 0).scale(scalar)));
+						level.spawnEntity(new BadBullet(middle, new Vector2(-1, .7f).scale(scalar)));
+						level.spawnEntity(new BadBullet(middle, new Vector2(-1, -.7f).scale(scalar)));
 					}
 				}
 			}
@@ -58,7 +59,8 @@ public class BadShipFactory {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				int extra = AudioProject.controller.isBeat() ? 10 : 0;
+				g.fillOval((int) position.x - extra / 2, (int) position.y - extra / 2, (int) dimension.x + extra, (int) dimension.y + extra);
 			}
 		});
 

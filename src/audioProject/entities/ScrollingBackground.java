@@ -82,13 +82,15 @@ public class ScrollingBackground extends Entity {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
 					
+					//Middle
+					g.setColor(new Color(243,120 , 178));
+					g.drawLine((int) i,(int) (topSpacingLocal - verticalOffset), (int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset));
+					
 					//top
 					g.setColor(new Color(20, 243 - 50, 178 - 50));
 					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio() + feel), 0);
 					
-					//Middle
-					g.setColor(new Color(243,120 , 178));
-					g.drawLine((int) i,(int) (topSpacingLocal - verticalOffset), (int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset));
+					
 					
 					
 					//bottom
