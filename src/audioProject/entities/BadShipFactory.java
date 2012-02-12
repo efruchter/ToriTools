@@ -42,7 +42,7 @@ public class BadShipFactory {
 					level.spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 30));
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
-					if (AudioProject.controller.isBeat() || (float) Math.random() < .02f * AudioProject.controller.getFeel() ) {
+					if (AudioProject.controller.isBeat()) {
 						float scalar = .1f + Math.abs(AudioProject.controller.getFeel()) * .1f;
 						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, 0).scale(scalar)));
 						level.spawnEntity(new BadBullet(self.getPos(), new Vector2(-1, .7f).scale(scalar)));
