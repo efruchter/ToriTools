@@ -1,5 +1,9 @@
 package audioProject.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -9,38 +13,41 @@ import java.util.Scanner;
  */
 public class WaveController {
 
-	private boolean isBeat = false;
+	private boolean beat = false;
 	private float feel = 0.0f;
 	
-	final Scanner feelScanner;
-	final Scanner beatScanner;
+	final List<Float> feelArray = new ArrayList<Float>(), beatArray = new ArrayList<Float>();
 			
-	public WaveController(final long maxMilliTime) {
-		StringBuffer feel = new StringBuffer(), beat = new StringBuffer();
-		long beatTimer = -1;
-		for(long i = 0; i <= maxMilliTime; i+= (16)) {		
-			feel.append((float) Math.sin(i * .00005)).append("\n");
-			beat.append(beatTimer < 0 ? 1 : 0).append("\n");
-			if (beatTimer-- < 0) {
-				beatTimer = 100;
-			}
+	public WaveController() throws FileNotFoundException {
+		Scanner feelScan = new Scanner(new File("audioProject/feel.kres"));
+		while(feelScan.hasNextFloat()) {
+			feelArray.add(feelScan.nextFloat());
+		}		
+		Scanner beatScan = new Scanner(new File("audioProject/beats.kres"));
+		while(beatScan.hasNextFloat()) {
+			beatArray.add(beatScan.nextFloat());
 		}
-		feelScanner = new Scanner(feel.toString());
-		beatScanner = new Scanner(beat.toString());
 	}
-	
-	long time = 0;
+
+	long lastTime = 0;
 	
 	public void setTime44100(final long newTime) {
-		System.out.println("tDist: " + (newTime - time));
-		feel = feelScanner.nextFloat();
-		isBeat = beatScanner.nextFloat() == 1;
-		System.out.print(isBeat?isBeat:"");
-		time += 1000 / 60;
+		
+		beat = false;
+		for(int i = (int) lastTime; i < newTime; i++) {
+			beat = beat || beatArray.get(i) == 1;
+		}
+		lastTime = newTime;
+		
+		feel = feelArray.get((int) newTime);
+		
+		if(beat)
+			System.out.println("BEAT");
+		
 	}
 
 	public boolean isBeat() {
-		return isBeat;
+		return beat;
 	}
 
 	public float getFeel() {

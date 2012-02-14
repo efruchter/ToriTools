@@ -144,14 +144,8 @@ public class ScriptUtils {
 			final boolean disregardOutOfView, final List<Entity> entities) {
 		Vector2 delta = new Vector2();
 		for (Entity entity : entities)
-			if (self != entity) {
-				if (!(disregardOutOfView && !entity.isInView())
-						&& isColliding(entity, self)) {
-					self.setPos(self.getPos()
-							.add(delta = findBestVectorOut(self, entity).scale(
-									1.1f)));
-				}
-
+			if (self != entity && !(disregardOutOfView && !entity.isInView()) && isColliding(entity, self)) {
+				self.setPos(self.getPos().add(delta = findBestVectorOut(self, entity).scale(1.1f)));
 			}
 		return delta;
 	}
@@ -159,23 +153,18 @@ public class ScriptUtils {
 	public static Vector2 findBestVectorOut(final Entity toMove,
 			final Entity noMove) {
 		Vector2 test;
-		Vector2 best = new Vector2(0, noMove.getPos().y
-				- (toMove.getPos().y + toMove.getDim().y));
+		Vector2 best = new Vector2(0, noMove.getPos().y	- (toMove.getPos().y + toMove.getDim().y));
 
-		test = new Vector2(0,
-				(toMove.getPos().y - (noMove.getPos().y + noMove.getDim().y))
-						* -1);
+		test = new Vector2(0, (toMove.getPos().y - (noMove.getPos().y + noMove.getDim().y)) * -1);
+		
 		if (test.mag() < best.mag())
 			best = test;
 
-		test = new Vector2(noMove.getPos().x
-				- (toMove.getPos().x + toMove.getDim().x), 0);
+		test = new Vector2(noMove.getPos().x - (toMove.getPos().x + toMove.getDim().x), 0);
 		if (test.mag() < best.mag())
 			best = test;
 
-		test = new Vector2(
-				(toMove.getPos().x - (noMove.getPos().x + noMove.getDim().x))
-						* -1, 0);
+		test = new Vector2((toMove.getPos().x - (noMove.getPos().x + noMove.getDim().x)) * -1, 0);
 		if (test.mag() < best.mag())
 			best = test;
 

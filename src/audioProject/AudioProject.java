@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 
 import maryb.player.Player;
 import toritools.entity.Entity;
@@ -64,8 +65,13 @@ public class AudioProject extends Binary {
 	@Override
 	protected void initialize() {
 		soundPlayer.setCurrentVolume(1f);
-		soundPlayer.setSourceLocation("unicorn.mp3");	
-		controller = new WaveController(432000);
+		soundPlayer.setSourceLocation("audioProject/goo.mp3");
+		try {
+			controller = new WaveController();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		soundPlayer.play();
 		moments = entities = 0;
 	}
