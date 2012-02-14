@@ -75,7 +75,7 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel)
     plot(1:length(beats), beats);
     title('Action Moments');
     xlabel('Time (ms)');
-    ylabel('Amplitude');
+    ylabel('Action (0/1)');
     
     quieterSound = soundMatrix .* .05;
     

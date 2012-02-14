@@ -31,7 +31,7 @@ public class GoodBullet extends Entity {
 
 		addScript(new EntityScriptAdapter() {
 			
-			float damage = 10;
+			float damage = 5;
 			
 			boolean explodeDeath = false;
 

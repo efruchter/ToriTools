@@ -14,14 +14,14 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
-import toritools.pathing.interpolator.HermiteKeyFrameInterpolator;
-import toritools.pathing.interpolator.HermiteKeyFrameInterpolator.HermiteKeyFrame;
 import toritools.render.ColorUtils;
 import toritools.scripting.ScriptUtils;
 import audioProject.controller.WaveController;
 import audioProject.entities.BadShipFactory;
 import audioProject.entities.PlayerShip;
 import audioProject.entities.ScrollingBackground;
+
+import static java.lang.Math.*;
 
 /**
  * Template for our possible audio project.
@@ -34,7 +34,6 @@ public class AudioProject extends Binary {
 	public static Player soundPlayer = new Player();
 	public static WaveController controller;
    
-
 	public static void main(String[] args) {
 		new AudioProject();
 	}
@@ -49,11 +48,12 @@ public class AudioProject extends Binary {
 			((Graphics2D) rootCanvas).setStroke(new BasicStroke(4));
 			rootCanvas.setColor(bgColor);
 			rootCanvas.fillRect(-1, -1, (int) VIEWPORT.x + 2, (int) VIEWPORT.y + 2);
-			for (int i = level.getLayers().size() - 1; i >= 0; i--)
+			for (int i = level.getLayers().size() - 1; i >= 0; i--) {
 				for (Entity e : level.getLayers().get(i)) {
 					if (e.isVisible())
 						e.draw(rootCanvas, Vector2.ZERO);
 				}
+			}
 			rootCanvas.setColor(Color.BLACK);
 			rootCanvas.drawString("Time: " + soundPlayer.getCurrentPosition(), 10, 20);
 			rootCanvas.drawString("Feel: " + controller.getFeel(), 10 , 40);
@@ -66,7 +66,11 @@ public class AudioProject extends Binary {
 
 	@Override
 	protected void initialize() {
-		String songName = JOptionPane.showInputDialog("Name of song? (unicorn/goo)");		
+		String songName = JOptionPane.showInputDialog("Name of song? (unicorn/goo)");
+		if (songName == null) {
+			JOptionPane.showMessageDialog(null, "YOU ARE MAXIMUM LAME");
+			System.exit(1);
+		}
 		soundPlayer.setCurrentVolume(1f);
 		soundPlayer.setSourceLocation("audioProject/" + songName + ".mp3");
 		try {
@@ -92,22 +96,17 @@ public class AudioProject extends Binary {
 		PlayerShip player = (PlayerShip) level.getEntityWithId("player");
 		
 		bg.setFocus(player.getPos(), .5f);
-		bg.setSpeed(5 * controller.getFeel());
+		bg.setSpeed(3 * controller.getFeel());
 		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
 		
-		if (Math.random() < .015 * Math.abs(controller.getFeel())) {
-			HermiteKeyFrame s1 = new HermiteKeyFrame(VIEWPORT.scale(1, (float) Math.random()), Vector2.ONE.scale(10 * (.5f + (float) Math.random()), 10 * (.5f + (float) Math.random())), 0);
-			HermiteKeyFrame s2 = new HermiteKeyFrame(new Vector2(VIEWPORT.x * (float) Math.random(), VIEWPORT.y * (float) Math.random()),Vector2.ONE.scale(10 * (.5f + (float) Math.random()), 10 * (.5f + (float) Math.random())), (float) Math.random() * 1000 + 4000);
-			HermiteKeyFrame s3 = s1.clone();
-			s3.time = s2.time * 2;
-			HermiteKeyFrameInterpolator path = new HermiteKeyFrameInterpolator(s1, s2, s3);
-			level.spawnEntity(BadShipFactory.makePathedEnemy(path, .5f));
+		if (random() < .02 * abs(controller.getFeel())) {
+			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 		}
 		
-		bgColor =  ColorUtils.blend(new Color(245,137,104), Color.LIGHT_GRAY, .4f * Math.abs(AudioProject.controller.getFeel()));
+		bgColor =  ColorUtils.blend(new Color(245,137,104), Color.LIGHT_GRAY, .4f * abs(AudioProject.controller.getFeel()));
 	}
 
 	@Override

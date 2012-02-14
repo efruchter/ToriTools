@@ -18,7 +18,7 @@ public class BadBullet extends Entity {
 	 * @param position the starting position of bullet.
 	 * @param speed the delta per update.
 	 */
-	public BadBullet(final Vector2 position, final Vector2 speed) {
+	public BadBullet(final Vector2 position, final Vector2 speed, final float radius) {
 		type = "BadBullet";
 
 		getVariableCase().setVar("damage", "5");
@@ -26,7 +26,7 @@ public class BadBullet extends Entity {
 		layer = 1;
 
 		pos = position;
-		dim = Vector2.ONE.scale(10);
+		dim = Vector2.ONE.scale(radius);
 		
 		final Color color = ColorUtils.blend(new Color(255, 0, 128), Color.RED, Math.random());
 
