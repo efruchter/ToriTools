@@ -39,7 +39,7 @@ public class AudioProject extends Binary {
 	}
 
 	public AudioProject() {
-		super(new Vector2(640, 480), 60, "The Search for F.E.E.L.");
+		super(new Vector2(640, 480), 60, "Kresendur v.02");
 	}
 
 	@Override
