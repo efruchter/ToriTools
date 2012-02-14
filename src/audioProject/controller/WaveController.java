@@ -18,12 +18,12 @@ public class WaveController {
 	
 	final List<Float> feelArray = new ArrayList<Float>(), beatArray = new ArrayList<Float>();
 			
-	public WaveController() throws FileNotFoundException {
-		Scanner feelScan = new Scanner(new File("audioProject/feel.kres"));
+	public WaveController(final String songName) throws FileNotFoundException {
+		Scanner feelScan = new Scanner(new File("audioProject/" + songName + "_feels.kres"));
 		while(feelScan.hasNextFloat()) {
 			feelArray.add(feelScan.nextFloat());
 		}		
-		Scanner beatScan = new Scanner(new File("audioProject/beats.kres"));
+		Scanner beatScan = new Scanner(new File("audioProject/" + songName + "_beats.kres"));
 		while(beatScan.hasNextFloat()) {
 			beatArray.add(beatScan.nextFloat());
 		}

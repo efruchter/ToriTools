@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 
+import javax.swing.JOptionPane;
+
 import maryb.player.Player;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -64,10 +66,11 @@ public class AudioProject extends Binary {
 
 	@Override
 	protected void initialize() {
+		String songName = JOptionPane.showInputDialog("Name of song? (unicorn/goo)");		
 		soundPlayer.setCurrentVolume(1f);
-		soundPlayer.setSourceLocation("audioProject/goo.mp3");
+		soundPlayer.setSourceLocation("audioProject/" + songName + ".mp3");
 		try {
-			controller = new WaveController();
+			controller = new WaveController(songName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
