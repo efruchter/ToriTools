@@ -1,18 +1,20 @@
 package audioProject.entities;
 
-import static java.lang.Math.*;
+import static audioProject.AudioProject.getFloat;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-import audioProject.AudioProject;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
+import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
+import audioProject.AudioProject;
 
 /**
  * A background with controllable perspective and speed.
@@ -34,8 +36,40 @@ public class ScrollingBackground extends Entity {
 		centerRatio = focus.x / dim.x;
 		verticalOffset = verticalOffsetScalar * (focus.y - dim.y / 2);
 	}
+	
+	private int red = 0, green = 0, blue = 0;
+	private boolean redUp = false, greenUp = false, blueUp = false;
+	private int lowerColor = 128, higherColor = 150;
+	
+	private void cycleColors() {
+		float feel = 5 * AudioProject.controller.getFeel(); 
+		red = (int) (red + getFloat() * feel * (redUp ? 1 : -1));
+		if (red < lowerColor)
+			redUp = true;
+		else if (red > higherColor)
+			redUp = false;
+		
+		green = (int) (green + getFloat() * feel * (greenUp ? 1 : -1));
+		if (green < lowerColor)
+			greenUp = true;
+		else if (green > higherColor)
+			greenUp = false;
+		
+		blue = (int) (blue + getFloat() * feel * (blueUp ? 1 : -1));
+		if (blue < lowerColor)
+			blueUp = true;
+		else if (blue > higherColor)
+			blueUp = false;
+		
+	}
+	
+	private void setColors(final Color color) {
+		red = color.getRed();
+		green = color.getGreen();
+		blue = color.getBlue();
+	}
 
-	public ScrollingBackground(Vector2 dim, int speed,  int barAmount,  float prespectiveRatio,  float centerRatio,  int topSpacing,  int bottomSpacing) {
+	public ScrollingBackground(Vector2 dim, int speed,  int barAmount,  float prespectiveRatio,  float centerRatio,  int topSpacing,  int bottomSpacing, final float averageSin) {
 		
 		this.speed = speed;
 		this.barAmount = barAmount;
@@ -53,6 +87,13 @@ public class ScrollingBackground extends Entity {
 		layer = 9;
 		
 		getVariableCase().setVar("id", "bg");
+		
+		this.addScript(new EntityScriptAdapter(){
+			@Override
+			public void onUpdate(Entity self, float time, Level level) {
+				setColors(ColorUtils.blend(new Color(42, 245, 235), new Color(42, 245, 130), AudioProject.controller.getFeel()));
+			}
+		});
 		
 		setSprite(new AbstractSpriteAdapter() {
 			
@@ -73,12 +114,14 @@ public class ScrollingBackground extends Entity {
 				
 				time = (time - getSpeed()) % spacing;
 				
-				sinTimer +=.01;
+				sinTimer += averageSin;
 				
 				float feel = AudioProject.controller.getFeel();
 				
+				//cycleColors();
+				g.setColor(new Color(red, green, blue));
+				
 				// Middle
-				g.setColor(new Color(243,120 , 178));
 				for(float i = time; i < dimension.x; i+= spacing) {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
@@ -86,14 +129,12 @@ public class ScrollingBackground extends Entity {
 				}
 				
 				// Top
-				g.setColor(new Color(100, 243 - 50, 178 - 50));
 				for(float i = time; i < dimension.x; i+= spacing) {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
 					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), 0);
 				}
 				// Bottom
-				g.setColor(new Color(20, 243 - 50, 178 - 50));
 				for(float i = time; i < dimension.x; i+= spacing) {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);

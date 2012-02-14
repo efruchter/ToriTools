@@ -1,10 +1,10 @@
-function generateFeels (songName, detectLength, beatFactor, smoothLevel)
+function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpacing)
 
     [soundMatrix, sampleRate] = wavread([songName, '.wav']);
     
     soundMatrix = soundMatrix(1:end, 1);
     
-    time = (1:length(soundMatrix))';
+    %time = (1:length(soundMatrix))';
     
     %subplot(2,2,1);
     
@@ -41,8 +41,7 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel)
     %make the feels heavily skewed from center
     for i = 1 : length(smoothedFeels)
         oldOffset = averageFeel - smoothedFeels(i);
-        newOffset = (oldOffset / averageFeel) * .5;
-        smoothedFeels(i) =.5 - newOffset;
+        smoothedFeels(i) = .5 - (oldOffset)* 2;
     end
     
     clf;
@@ -60,14 +59,15 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel)
     %find the beats based on history of length detectLength Milliseconds.
     beats = (1 : length(averages)) .* 0;
 
+    
+    beatWait = 0;
     for i = 1 : length(averages) - detectLength;
-        history = 0;
-        for a = i : i + detectLength
-            history = history + averages(a);
-        end
-        history = history / detectLength;
-        if averages(i + detectLength) / history > beatFactor
-            beats(i)  = 1;
+        beatWait = beatWait - 1;
+        if beatWait < 0
+            if averages(i + detectLength) / mean(averages(i:i + detectLength - 1)) > beatFactor
+                beats(i)  = 1;
+                beatWait = beatSpacing + 1;
+            end
         end
     end
     

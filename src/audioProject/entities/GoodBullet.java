@@ -11,6 +11,7 @@ import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
 import audioProject.AudioProject;
+import static audioProject.AudioProject.getFloat;
 
 public class GoodBullet extends Entity {
 
@@ -38,7 +39,7 @@ public class GoodBullet extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
-				Vector2 speed = new Vector2(.5f, spreadFactor * (float) (-.5f + Math.random()));
+				Vector2 speed = new Vector2(.5f, spreadFactor * (-.5f + getFloat()));
 				
 				if (!ScriptUtils.isColliding(level, self)) {
 					level.despawnEntity(self);

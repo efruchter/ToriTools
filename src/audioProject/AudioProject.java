@@ -1,11 +1,14 @@
 package audioProject;
 
+import static java.lang.Math.abs;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -21,8 +24,6 @@ import audioProject.entities.BadShipFactory;
 import audioProject.entities.PlayerShip;
 import audioProject.entities.ScrollingBackground;
 
-import static java.lang.Math.*;
-
 /**
  * Template for our possible audio project.
  * 
@@ -33,7 +34,13 @@ public class AudioProject extends Binary {
 	
 	public static Player soundPlayer = new Player();
 	public static WaveController controller;
+	
+	public static Random random;
    
+	public static float getFloat() {
+		return random.nextFloat();
+	}
+	
 	public static void main(String[] args) {
 		new AudioProject();
 	}
@@ -81,6 +88,7 @@ public class AudioProject extends Binary {
 		}
 		soundPlayer.play();
 		moments = entities = 0;
+		random = new Random(0);
 	}
 	
 	long moments, entities;
@@ -96,24 +104,23 @@ public class AudioProject extends Binary {
 		PlayerShip player = (PlayerShip) level.getEntityWithId("player");
 		
 		bg.setFocus(player.getPos(), .5f);
-		bg.setSpeed(3 * controller.getFeel());
+		bg.setSpeed(10 * controller.getFeel());
 		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
 		
-		if (random() < .015 * abs(controller.getFeel())) {
+		if (getFloat() < .02 * abs(controller.getFeel())) {
 			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 		}
 		
-		bgColor =  ColorUtils.blend(new Color(245,137,104), Color.LIGHT_GRAY, .4f * abs(AudioProject.controller.getFeel()));
+		bgColor =  ColorUtils.blend(new Color(245,137,104), new Color(43, 194, 224), abs(AudioProject.controller.getFeel()));
 	}
 
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
-		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 50, 2.3f, .614f, 100, 100));
-		
+		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 50, 2.3f, .614f, 100, 100, .05f * controller.getAverageFeel()));
 		addLevelBounds(levelBeingLoaded);
 	}
 	

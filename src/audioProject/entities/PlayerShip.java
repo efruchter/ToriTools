@@ -21,12 +21,12 @@ public class PlayerShip extends Entity {
 
 	public PlayerShip() {
 		
-		layer = 5;
+		layer = 3;
 		
 		variables.setVar("id", "player");
 		
 		pos = new Vector2(100, 10);
-		dim = new Vector2(20, 20);
+		dim = new Vector2(10, 10);
 		
 		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
 		

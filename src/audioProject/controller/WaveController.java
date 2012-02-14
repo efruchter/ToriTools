@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.Math.min;
+
 /**
  * Wave analysis engine. Maps are of size milliseconds.
  * @author toriscope
@@ -35,14 +37,15 @@ public class WaveController {
 		
 		beat = false;
 		for(int i = (int) lastTime; i < newTime; i++) {
-			beat = beat || beatArray.get(i) == 1;
+			if (beat = beatArray.get(i) == 1)
+				break;
 		}
 		lastTime = newTime;
 		
-		feel = feelArray.get((int) newTime);
+		feel = min(1, feelArray.get((int) newTime));
 		
-		if(beat)
-			System.out.println("BEAT");
+		// if(beat)
+		// System.out.println("BEAT");
 		
 	}
 
@@ -52,5 +55,13 @@ public class WaveController {
 
 	public float getFeel() {
 		return feel;
+	}
+	
+	public float getAverageFeel() {
+		float a = 0;
+		for (float b: feelArray) {
+			a += b;
+		}
+		return a / feelArray.size();
 	}
 }

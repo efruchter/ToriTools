@@ -7,7 +7,6 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
-import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
 
@@ -23,12 +22,12 @@ public class BadBullet extends Entity {
 
 		getVariableCase().setVar("damage", "5");
 		
-		layer = 1;
+		layer = 2;
 
 		pos = position;
 		dim = Vector2.ONE.scale(radius);
 		
-		final Color color = ColorUtils.blend(new Color(255, 0, 128), Color.RED, Math.random());
+		final Color color = new Color(150, 27, 27);
 
 		addScript(new EntityScriptAdapter() {
 			
@@ -37,7 +36,7 @@ public class BadBullet extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
-				if (self.getPos().x < level.getDim().x && !ScriptUtils.isColliding(level, self)) {
+				if (!ScriptUtils.isColliding(level, self)) {
 					level.despawnEntity(self);
 					explodeDeath = false;
 				}
