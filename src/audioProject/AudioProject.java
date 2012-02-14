@@ -110,7 +110,7 @@ public class AudioProject extends Binary {
 			System.exit(0);
 		}
 		
-		if (getFloat() < .02 * abs(controller.getFeel())) {
+		if (getFloat() < .025 * abs(controller.getFeel())) {
 			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 		}
 		

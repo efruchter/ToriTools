@@ -61,10 +61,10 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpa
 
     
     beatWait = 0;
-    for i = 1 : length(averages) - detectLength;
+    for i = detectLength + 1 : length(averages) - detectLength;
         beatWait = beatWait - 1;
         if beatWait < 0
-            if averages(i + detectLength) / mean(averages(i:i + detectLength - 1)) > beatFactor
+            if averages(i + detectLength) / mean(averages(i - detectLength : i + detectLength - 1)) > beatFactor
                 beats(i)  = 1;
                 beatWait = beatSpacing + 1;
             end
