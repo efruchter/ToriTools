@@ -1,5 +1,6 @@
-function generateFeels (file, detectLength, beatFactor, smoothLevel)
-    [soundMatrix, sampleRate] = wavread(file);
+function generateFeels (songName, detectLength, beatFactor, smoothLevel)
+
+    [soundMatrix, sampleRate] = wavread([songName, '.wav']);
     
     soundMatrix = soundMatrix(1:end, 1);
     
@@ -34,7 +35,15 @@ function generateFeels (file, detectLength, beatFactor, smoothLevel)
     disp('Length in min: ');
     disp(length(averages) / 1000 / 60);
     
-    smoothedFeels = smooth((averages .* 4)', length(averages) / smoothLevel)';
+    smoothedFeels = smooth((averages)', length(averages) / smoothLevel)';
+    averageFeel = median(smoothedFeels);
+    
+    %make the feels heavily skewed from center
+    for i = 1 : length(smoothedFeels)
+        oldOffset = averageFeel - smoothedFeels(i);
+        newOffset = (oldOffset / averageFeel) * .5;
+        smoothedFeels(i) =.5 - newOffset;
+    end
     
     clf;
     
@@ -64,7 +73,7 @@ function generateFeels (file, detectLength, beatFactor, smoothLevel)
     
     subplot(2,1,2)
     plot(1:length(beats), beats);
-    title('Beat Scan');
+    title('Action Moments');
     xlabel('Time (ms)');
     ylabel('Amplitude');
     
@@ -80,11 +89,11 @@ function generateFeels (file, detectLength, beatFactor, smoothLevel)
     
     %print to file
     
-    fid = fopen('beats.kres','wt');  % Note the 'wt' for writing in text mode
+    fid = fopen([songName, '_beats.kres'],'wt');  % Note the 'wt' for writing in text mode
     fprintf(fid,'%f\n', beats);  % The format string is applied to each element of a
     fclose(fid);
     
-    fid = fopen('feel.kres','wt');  % Note the 'wt' for writing in text mode
+    fid = fopen([songName, '_feels.kres'],'wt');  % Note the 'wt' for writing in text mode
     fprintf(fid,'%f\n', smoothedFeels);  % The format string is applied to each element of a
     fclose(fid);
        
