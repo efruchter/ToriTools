@@ -37,7 +37,7 @@ public class BadBullet extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
-				if (!ScriptUtils.isColliding(level, self)) {
+				if (self.getPos().x < level.getDim().x && !ScriptUtils.isColliding(level, self)) {
 					level.despawnEntity(self);
 					explodeDeath = false;
 				}
@@ -56,7 +56,7 @@ public class BadBullet extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
 				g.setColor(color);
-				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				g.drawOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}

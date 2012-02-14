@@ -55,7 +55,7 @@ public class AudioProject extends Binary {
 				}
 			}
 			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Time: " + soundPlayer.getCurrentPosition(), 10, 20);
+			rootCanvas.drawString("Entities: " + level.getNonSolids().size(), 10, 20);
 			rootCanvas.drawString("Feel: " + controller.getFeel(), 10 , 40);
 			
 		} catch (final Exception uhoh) {
@@ -102,7 +102,7 @@ public class AudioProject extends Binary {
 			System.exit(0);
 		}
 		
-		if (random() < .02 * abs(controller.getFeel())) {
+		if (random() < .015 * abs(controller.getFeel())) {
 			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 		}
 		
@@ -112,7 +112,7 @@ public class AudioProject extends Binary {
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
-		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 30, 2.3f, .614f, 100, 100));
+		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 50, 2.3f, .614f, 100, 100));
 		
 		addLevelBounds(levelBeingLoaded);
 	}

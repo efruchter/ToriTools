@@ -77,31 +77,26 @@ public class ScrollingBackground extends Entity {
 				
 				float feel = AudioProject.controller.getFeel();
 				
+				// Middle
+				g.setColor(new Color(243,120 , 178));
 				for(float i = time; i < dimension.x; i+= spacing) {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
-					
-					//Middle
-					g.setColor(new Color(243,120 , 178));
 					g.drawLine((int) i,(int) (topSpacingLocal - verticalOffset), (int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset));
 				}
 				
+				// Top
+				g.setColor(new Color(100, 243 - 50, 178 - 50));
 				for(float i = time; i < dimension.x; i+= spacing) {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
-					
-					//top
-					g.setColor(new Color(20, 243 - 50, 178 - 50));
 					g.drawLine((int) i, (int) (topSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), 0);
-					
 				}
-				
+				// Bottom
+				g.setColor(new Color(20, 243 - 50, 178 - 50));
 				for(float i = time; i < dimension.x; i+= spacing) {
 					topSpacingLocal = getTopSpacing() - getTopSpacing() * (float) sin(sinTimer + i * .01 * feel);
 					bottomSpacingLocal = getBottomSpacing() - getBottomSpacing() * (float) cos(sinTimer + i * .01 * feel);
-					
-					//bottom
-					g.setColor(new Color(20, 243 - 50, 178 - 50));
 					g.drawLine((int) i, (int) (dimension.y - bottomSpacingLocal - verticalOffset), (int) (center - (center - i) * getPrespectiveRatio()), (int) dimension.y);
 				}
 			}
