@@ -60,7 +60,7 @@ public class AudioProject extends Binary {
 	}
 
 	public AudioProject() {
-		super(new Vector2(640, 480), 60, "Audio Technical Project 1");
+		super(new Vector2(800, 600), 60, "Audio Technical Project 1");
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class AudioProject extends Binary {
 			System.exit(0);
 		}
 		
-		if (getFloat() < .025 * abs(controller.getFeel())) {
+		if (getFloat() < .019 * abs(controller.getFeel())) {
 			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 		}
 		

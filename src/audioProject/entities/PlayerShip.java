@@ -36,7 +36,8 @@ public class PlayerShip extends Entity {
 
 			final char UP = KeyEvent.VK_W, DOWN = KeyEvent.VK_S,
 					RIGHT = KeyEvent.VK_D, LEFT = KeyEvent.VK_A,
-					SHOOT = KeyEvent.VK_SPACE;
+					SHOOT = KeyEvent.VK_SPACE, SPREAD_UP = KeyEvent.VK_PERIOD,
+					SPREAD_DOWN = KeyEvent.VK_COMMA;
 
 			float speed = .002f;
 			
@@ -45,6 +46,8 @@ public class PlayerShip extends Entity {
 			KeyHolder keys;
 			
 			PhysicsModule physics;
+			
+			float spread = .1f, spreadFactor = .02f;
 
 			@Override
 			public void onSpawn(Entity self, Level level) {
@@ -74,10 +77,17 @@ public class PlayerShip extends Entity {
 				if (keys.isPressed(RIGHT)) {
 					physics.addAcceleration(new Vector2(speed, 0));
 				}
+				
+				if (keys.isPressed(SPREAD_DOWN)) {
+					spread = Math.max(spread - spreadFactor, 0);
+				}
+				
+				if (keys.isPressed(SPREAD_UP)) {
+					spread = Math.min(spread + spreadFactor, 4);
+				}
 
 				if (canShoot-- < 0 && keys.isPressed(SHOOT)) {
 					canShoot = 10;
-					float spread = .1f;
 					level.spawnEntity(new GoodBullet(self.getPos(), Vector2.UP_RIGHT.scale(1, spread)));
 					level.spawnEntity(new GoodBullet(self.getPos(), Vector2.RIGHT));
 					Entity boolet = new GoodBullet(Vector2.ZERO, Vector2.DOWN_RIGHT.scale(1, spread));
