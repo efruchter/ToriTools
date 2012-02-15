@@ -182,4 +182,12 @@ public abstract class Binary {
 		if (render(drawSurface.getGraphics(), ScriptUtils.getCurrentLevel()))
 			buffer1 = !buffer1;
 	}
+	
+	/**
+	 * Get the core application frame.
+	 * @return the JFrame the whole thing is running in.
+	 */
+	protected JFrame getApplicationFrame() {
+		return frame;
+	}
 }
