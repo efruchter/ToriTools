@@ -35,14 +35,31 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpa
     disp('Length in min: ');
     disp(length(averages) / 1000 / 60);
     
-    smoothedFeels = smooth((averages)', length(averages) / smoothLevel)';
-    averageFeel = median(smoothedFeels);
+    %find the beats based on history of length detectLength Milliseconds.
+    beats = (1 : length(averages)) .* 0;    
+    beatWait = 0;
+    for i = detectLength + 1 : length(averages) - detectLength;
+        beatWait = beatWait - 1;
+        if beatWait < 0
+            if averages(i + detectLength) / mean(averages(i - detectLength : i + detectLength - 1)) > beatFactor
+                beats(i)  = 1;
+                beatWait = beatSpacing + 1;
+            end
+        end
+    end    
+    %{
+        make a skewed vector of feel based on beat values
+        skewedFeels = 1 : length(beats);
+        for i = 1 : length(beats);
+            skewedFeels(i) = (beats(i) * 2 + averages(i)) / 2;
+        end    
+        skewedFeels = smooth((skewedFeels)', length(skewedFeels) / smoothLevel)';
+    %}
+    skewedFeels = smooth((averages)', length(averages) / smoothLevel)';
+    skewedFeels = smooth((skewedFeels)', 1000)';
     
-    %make the feels heavily skewed from center
-    for i = 1 : length(smoothedFeels)
-        oldOffset = averageFeel - smoothedFeels(i);
-        smoothedFeels(i) = .5 - (oldOffset)* 2;
-    end
+    to1Scalar = 1 / max(skewedFeels);
+    skewedFeels = skewedFeels .* to1Scalar;
     
     clf;
     
@@ -54,22 +71,8 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpa
     
     hold all;
     
-    plot(1:length(averages), smoothedFeels);
-    
-    %find the beats based on history of length detectLength Milliseconds.
-    beats = (1 : length(averages)) .* 0;
-
-    
-    beatWait = 0;
-    for i = detectLength + 1 : length(averages) - detectLength;
-        beatWait = beatWait - 1;
-        if beatWait < 0
-            if averages(i + detectLength) / mean(averages(i - detectLength : i + detectLength - 1)) > beatFactor
-                beats(i)  = 1;
-                beatWait = beatSpacing + 1;
-            end
-        end
-    end
+    % plot what will be the feel levels
+    plot(1:length(skewedFeels), skewedFeels);
     
     subplot(2,1,2)
     plot(1:length(beats), beats);
@@ -84,17 +87,15 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpa
             quieterSound(floor(i * samplesPerMillisecond)) = .1;
         end
     end
-    clear playsnd
-    %sound(quieterSound, sampleRate);
     
     %print to file
     
-    fid = fopen([songName, '_beats.kres'],'wt');  % Note the 'wt' for writing in text mode
-    fprintf(fid,'%f\n', beats);  % The format string is applied to each element of a
+    fid = fopen([songName, '_beats.kres'],'wt');
+    fprintf(fid,'%f\n', beats);
     fclose(fid);
     
-    fid = fopen([songName, '_feels.kres'],'wt');  % Note the 'wt' for writing in text mode
-    fprintf(fid,'%f\n', smoothedFeels);  % The format string is applied to each element of a
+    fid = fopen([songName, '_feels.kres'],'wt');
+    fprintf(fid,'%f\n', skewedFeels);
     fclose(fid);
        
 end

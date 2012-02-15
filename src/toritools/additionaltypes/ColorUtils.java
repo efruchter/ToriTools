@@ -1,4 +1,4 @@
-package toritools.render;
+package toritools.additionaltypes;
 
 import java.awt.Color;
 

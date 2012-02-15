@@ -1,6 +1,7 @@
 package audioProject.entities;
 
-import java.awt.Color;
+import static audioProject.AudioProject.getFloat;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,20 +12,17 @@ import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.pathing.interpolator.HermiteKeyFrameInterpolator;
 import toritools.pathing.interpolator.HermiteKeyFrameInterpolator.HermiteKeyFrame;
-import toritools.render.ColorUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import audioProject.AudioProject;
-
-import static audioProject.AudioProject.getFloat;
 
 public class BadShipFactory {
 	
 	public static Entity makeDefaultEnemy(final Vector2 screen) {
 		List<HermiteKeyFrame> keyList = new ArrayList<HermiteKeyFrame>();
 		
-		float time = 10000 * AudioProject.controller.getFeel() * (.2f + getFloat() * .8f);
+		float time = 100000 * AudioProject.controller.getFeel() * (.2f + getFloat() * .8f);
 		
-		int selection = (int) (getFloat() * 4);
+		int selection = (int) (getFloat() * 6);
 
 		keyList.add(new HermiteKeyFrame(new Vector2(screen.x, 100 + getFloat() * (screen.y - 200)), screen.scale(0, .02f * screen.y * (-.5f + getFloat())), 0));
 		
@@ -38,7 +36,7 @@ public class BadShipFactory {
 			// Float to bottom
 			Vector2 mag = new Vector2(0, .2f * getFloat() * screen.y);
 			keyList.add(new HermiteKeyFrame(new Vector2(screen.x * getFloat() - 150,  screen.y), mag, time));
-		} else if (selection == 2 || selection == 3) {
+		} else if (selection > 1) {
 			bulletChase = false;
 			keyList.add(new HermiteKeyFrame(new Vector2(- 150, 100 + getFloat() * (screen.y - 200)), time));
 		}
@@ -72,15 +70,15 @@ public class BadShipFactory {
 					level.despawnEntity(self);
 				} else if (self.getVariableCase().getFloat("health") <= 0) {
 					level.despawnEntity(self);
-					level.spawnEntity(new Explosion(self.getPos(), Color.RED, self.getDim().x, 30));
+					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x, 30));
 				} else {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
 					if (AudioProject.controller.isBeat()) {
 						//Vector2 middle = self.getPos().add(self.getDim().scale(.5f));
 						float scalar = .1f + Math.abs(AudioProject.controller.getFeel()) * .1f;
-						float radius = self.getDim().x / 5 + 5;
+						float radius = self.getDim().x / 7 + 5;
 						if (bulletChase) {
-							Vector2 middle = self.getPos().add(self.getDim().scale(.5f));
+							Vector2 middle = self.getPos().add(self.getDim().scale(0, .5f));
 							level.spawnEntity(new BadBullet(middle, Vector2.toward(middle, level.getEntityWithId("player").getPos()).scale(scalar), radius));
 						} else {
 							Vector2 middle = self.getPos().add(self.getDim().scale(0, .5f));
@@ -93,14 +91,12 @@ public class BadShipFactory {
 			}
 		});
 		
-		final Color color = ColorUtils.blend(new Color(255, 0, 128), Color.RED, AudioProject.controller.getFeel());
-		
 		entity.setSprite(new AbstractSpriteAdapter() {
+			
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
-				g.setColor(color);
-				int extra = 0;//AudioProject.controller.isBeat() ? 10 : 0;
-				g.fillOval((int) position.x - extra / 2, (int) position.y - extra / 2, (int) dimension.x + extra, (int) dimension.y + extra);
+				g.setColor(AudioProject.enemyColor);
+				g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 			}
 		});
 

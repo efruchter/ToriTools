@@ -13,11 +13,12 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 
 import maryb.player.Player;
+import toritools.additionaltypes.ColorCycler;
+import toritools.additionaltypes.ColorUtils;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
-import toritools.render.ColorUtils;
 import toritools.scripting.ScriptUtils;
 import audioProject.controller.WaveController;
 import audioProject.entities.BadShipFactory;
@@ -36,17 +37,30 @@ public class AudioProject extends Binary {
 	public static WaveController controller;
 	
 	public static Random random;
+	
+	/**
+	 * To make it easier to change things.
+	 */
+	public static Color 
+			barsColor = new Color(0, 250, 0),
+			barsLighterColor = new Color(0, 250, 0),
+			barsDarkerColor = new Color(245, 153, 255),
+			shipColor = Color.black,
+			enemyColor = Color.RED,
+			bgColor = null;
    
 	public static float getFloat() {
 		return random.nextFloat();
 	}
+	
+	public static int bars = 100;
 	
 	public static void main(String[] args) {
 		new AudioProject();
 	}
 
 	public AudioProject() {
-		super(new Vector2(640, 480), 60, "Kresendur v.02");
+		super(new Vector2(640, 480), 60, "Audio Technical Project 1");
 	}
 
 	@Override
@@ -81,7 +95,7 @@ public class AudioProject extends Binary {
 		soundPlayer.setCurrentVolume(1f);
 		soundPlayer.setSourceLocation("audioProject/" + songName + ".mp3");
 		try {
-			controller = new WaveController(songName);
+			controller = new WaveController(songName, bars);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -93,7 +107,8 @@ public class AudioProject extends Binary {
 	
 	long moments, entities;
 	
-	Color bgColor = Color.black;
+	ColorCycler enemyColorCycler = new ColorCycler(230, 255, 0, 0, 0, 0);
+	ColorCycler bgColorCycler = new ColorCycler(220, 255, 220, 255, 220, 255);
 
 	@Override
 	protected void globalLogic(Level level) {
@@ -104,7 +119,7 @@ public class AudioProject extends Binary {
 		PlayerShip player = (PlayerShip) level.getEntityWithId("player");
 		
 		bg.setFocus(player.getPos(), .5f);
-		bg.setSpeed(10 * controller.getFeel());
+		bg.setSpeed(2 * controller.getFeel());
 		
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
@@ -114,13 +129,18 @@ public class AudioProject extends Binary {
 			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 		}
 		
-		bgColor =  ColorUtils.blend(new Color(245,137,104), new Color(43, 194, 224), abs(AudioProject.controller.getFeel()));
+		//bgColor = ColorUtils.blend(Color.BLACK, new Color(0, 64, 13), controller.getFeel());
+		//barsColor = ColorUtils.blend(Color.GREEN, new Color(0, 64, 13), 1 - controller.getFeel());
+		
+		bgColor = ColorUtils.blend(Color.BLUE, Color.CYAN, controller.getFeel());
+		Color c = ColorUtils.blend(barsDarkerColor, barsLighterColor, controller.getFeel());
+		barsColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), 220);
 	}
 
 	@Override
 	protected void setupCurrentLevel(Level levelBeingLoaded) {
 		levelBeingLoaded.spawnEntity(new PlayerShip());
-		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, 50, 2.3f, .614f, 100, 100, .05f * controller.getAverageFeel()));
+		levelBeingLoaded.spawnEntity(new ScrollingBackground(VIEWPORT, 1, bars, 2.3f, .614f, 100, 100, .05f * controller.getAverageFeel()));
 		addLevelBounds(levelBeingLoaded);
 	}
 	

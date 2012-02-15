@@ -1,4 +1,4 @@
-package toritools.render;
+package toritools.additionaltypes;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -30,7 +30,6 @@ public class HealthBar{
 		float ratio = health / maxHealth;
 		g.setColor(ColorUtils.blend(maxColor, minColor, ratio));
 		g.fillRect((int) pos.x, (int) pos.y, (int) (dim.x * ratio), (int) dim.y);
-		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.x, (int) pos.y, (int) dim.x, (int) dim.y);
 	}
 	

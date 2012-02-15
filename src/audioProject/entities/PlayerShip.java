@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+import audioProject.AudioProject;
+
+import toritools.additionaltypes.HealthBar;
 import toritools.additionaltypes.HistoryQueue;
 import toritools.controls.KeyHolder;
 import toritools.entity.Entity;
@@ -11,11 +14,8 @@ import toritools.entity.Level;
 import toritools.entity.physics.PhysicsModule;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
-import toritools.render.ColorUtils;
-import toritools.render.HealthBar;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
-import audioProject.AudioProject;
 
 public class PlayerShip extends Entity {
 
@@ -75,15 +75,14 @@ public class PlayerShip extends Entity {
 					physics.addAcceleration(new Vector2(speed, 0));
 				}
 
-				if (keys.isPressed(SHOOT)) {
-					if(canShoot-- < 0) {
-						canShoot = 3;
-						float spread = .6f;
-						level.spawnEntity(new GoodBullet(self.getPos(), spread));
-						Entity boolet = new GoodBullet(Vector2.ZERO, spread);
-						boolet.setPos(self.getPos().add(0, self.getDim().y - boolet.getDim().y));
-						level.spawnEntity(boolet);
-					}
+				if (canShoot-- < 0 && keys.isPressed(SHOOT)) {
+					canShoot = 10;
+					float spread = .1f;
+					level.spawnEntity(new GoodBullet(self.getPos(), Vector2.UP_RIGHT.scale(1, spread)));
+					level.spawnEntity(new GoodBullet(self.getPos(), Vector2.RIGHT));
+					Entity boolet = new GoodBullet(Vector2.ZERO, Vector2.DOWN_RIGHT.scale(1, spread));
+					boolet.setPos(self.getPos().add(0, self.getDim().y - boolet.getDim().y));
+					level.spawnEntity(boolet);
 				}
 				
 				Vector2 delta  = physics.onUpdate(time);
@@ -110,7 +109,7 @@ public class PlayerShip extends Entity {
 				
 				healthBar.draw(g, new Vector2(10, 50), new Vector2(200, 30));
 				
-				Color c = ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
+				Color c = AudioProject.shipColor; //ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
 				
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {

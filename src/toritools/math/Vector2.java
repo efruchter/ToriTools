@@ -14,6 +14,9 @@ public class Vector2 implements Comparable<Vector2> {
 	
 	public final static Vector2 ZERO = new Vector2();
 	public final static Vector2 ONE = new Vector2(1, 1);
+	public final static Vector2 UP_RIGHT = ONE.unit();
+	public final static Vector2 DOWN_RIGHT = ONE.scale(1, -1).unit();
+	public final static Vector2 RIGHT = new Vector2(1, 0);
 
 	public Vector2(final float x, final float y) {
 		this.x = x;
