@@ -134,7 +134,7 @@ public class AudioProject extends Binary {
 		
 		bgColor = ColorUtils.blend(Color.BLUE, Color.CYAN, controller.getFeel());
 		Color c = ColorUtils.blend(barsDarkerColor, barsLighterColor, controller.getFeel());
-		barsColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), 220);
+		barsColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), 120);
 	}
 
 	@Override
