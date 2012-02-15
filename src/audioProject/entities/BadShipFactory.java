@@ -75,7 +75,7 @@ public class BadShipFactory {
 					self.setPos(path.getPositionDeltaAtTime(allTime));
 					if (AudioProject.controller.isBeat()) {
 						//Vector2 middle = self.getPos().add(self.getDim().scale(.5f));
-						float scalar = .1f + Math.abs(AudioProject.controller.getFeel()) * .1f;
+						float scalar = .1f + Math.abs(AudioProject.controller.getFeel()) * .01f;
 						float radius = self.getDim().x / 7 + 5;
 						if (bulletChase) {
 							Vector2 middle = self.getPos().add(self.getDim().scale(0, .5f));

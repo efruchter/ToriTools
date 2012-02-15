@@ -90,9 +90,9 @@ public class PlayerShip extends Entity {
 
 				if (canShoot-- < 0 && keys.isPressed(SHOOT)) {
 					canShoot = 10;
-					level.spawnEntity(new GoodBullet(self.getPos(), Vector2.UP_RIGHT.scale(1, spread)));
+					level.spawnEntity(new GoodBullet(self.getPos(), new Vector2(1, -spread).unit()));
 					level.spawnEntity(new GoodBullet(self.getPos(), Vector2.RIGHT));
-					Entity boolet = new GoodBullet(Vector2.ZERO, Vector2.DOWN_RIGHT.scale(1, spread));
+					Entity boolet = new GoodBullet(Vector2.ZERO, new Vector2(1, spread).unit());
 					boolet.setPos(self.getPos().add(0, self.getDim().y - boolet.getDim().y));
 					level.spawnEntity(boolet);
 				}
@@ -128,12 +128,12 @@ public class PlayerShip extends Entity {
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
 					g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
-					g.fillOval((int) (hPos.x - offsetSize.x), (int) (hPos.y - offsetSize.y), (int) (offsetSize2.x + dimension.x), (int) (offsetSize2.y + dimension.y));
+					g.drawOval((int) (hPos.x - offsetSize.x), (int) (hPos.y - offsetSize.y), (int) (offsetSize2.x + dimension.x), (int) (offsetSize2.y + dimension.y));
 					alpha = alpha / 2;
 				}
 				
-								//g.setColor(Color.orange);
-								//g.fillOval((int) position.x, (int) (position.y), (int) dimension.x, (int) dimension.y);
+				g.setColor(Color.DARK_GRAY);
+				g.fillOval((int) position.x, (int) (position.y), (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}
