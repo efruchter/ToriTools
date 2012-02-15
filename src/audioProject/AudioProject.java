@@ -87,7 +87,7 @@ public class AudioProject extends Binary {
 
 	@Override
 	protected void initialize() {
-		String songName = JOptionPane.showInputDialog("Name of song? (unicorn/goo)");
+		String songName = JOptionPane.showInputDialog("Name of song? (unicorn/goo) \n<WASD> Move \n<SPACE> Shoot \n <.,> Angle Shots");
 		if (songName == null) {
 			JOptionPane.showMessageDialog(null, "YOU ARE MAXIMUM LAME");
 			System.exit(1);

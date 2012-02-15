@@ -60,7 +60,7 @@ public class BadShipFactory {
 				allTime = 0;
 				self.setPos(path.getPositionDeltaAtTime(0));
 				self.getVariableCase().setVar("health", "" + health);
-				entity.setDim(new Vector2(health * .50f));
+				entity.setDim(new Vector2(health * .30f));
 			}
 
 			@Override

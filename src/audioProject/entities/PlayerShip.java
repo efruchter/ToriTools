@@ -26,7 +26,9 @@ public class PlayerShip extends Entity {
 		variables.setVar("id", "player");
 		
 		pos = new Vector2(100, 10);
-		dim = new Vector2(10, 10);
+		dim = new Vector2(2, 2);
+		
+		final Vector2 offsetSize = new Vector2(7, 7), offsetSize2 = offsetSize.scale(2);
 		
 		final HistoryQueue<Vector2> pastPos = new HistoryQueue<Vector2>(5);
 		
@@ -117,6 +119,8 @@ public class PlayerShip extends Entity {
 			@Override
 			public void draw(Graphics g, Entity self, Vector2 position,	Vector2 dimension) {
 				
+				//g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				
 				healthBar.draw(g, new Vector2(10, 50), new Vector2(200, 30));
 				
 				Color c = AudioProject.shipColor; //ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
@@ -124,9 +128,12 @@ public class PlayerShip extends Entity {
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
 					g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
-					g.fillOval((int) hPos.x, (int) hPos.y, (int) dimension.x, (int) dimension.y);
+					g.fillOval((int) (hPos.x - offsetSize.x), (int) (hPos.y - offsetSize.y), (int) (offsetSize2.x + dimension.x), (int) (offsetSize2.y + dimension.y));
 					alpha = alpha / 2;
 				}
+				
+								//g.setColor(Color.orange);
+								//g.fillOval((int) position.x, (int) (position.y), (int) dimension.x, (int) dimension.y);
 			}
 		});
 	}
