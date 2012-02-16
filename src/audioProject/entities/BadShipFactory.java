@@ -174,6 +174,7 @@ public class BadShipFactory {
 				if (healthGone) {
 					JOptionPane.showMessageDialog(null, "You won!");
 					ScriptUtils.getKeyHolder().clearKeys();
+					AudioProject.win = true;
 				}
 			}
 		});

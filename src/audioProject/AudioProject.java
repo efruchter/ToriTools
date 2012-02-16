@@ -4,6 +4,7 @@ import static java.lang.Math.abs;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -56,6 +57,7 @@ public class AudioProject extends Binary {
 	}
 	
 	public static int bars = 100;
+	public static boolean win;
 	
 	public static void main(String[] args) {
 		new AudioProject();
@@ -81,6 +83,12 @@ public class AudioProject extends Binary {
 			rootCanvas.drawString("Entities: " + level.getNonSolids().size(), 10, 20);
 			rootCanvas.drawString("Feel: " + controller.getFeel(), 10 , 40);
 			
+			if (win) {
+				rootCanvas.setColor(Color.RED);
+				rootCanvas.setFont(new Font("LucidaSansOblique", Font.BOLD, 70));
+				rootCanvas.drawString("Victory!", (int) level.getDim().x / 2, (int) level.getDim().y / 2);			
+			}
+			
 		} catch (final Exception uhoh) {
 			return false;
 		}
@@ -89,7 +97,8 @@ public class AudioProject extends Binary {
 
 	@Override
 	protected void initialize() {
-		String songName = JOptionPane.showInputDialog("Name of song? (unicorn/goo/toccata) \n<WASD> Move \n<SPACE> Shoot \n <.,> Angle Shots");
+		win = false;
+		String songName = JOptionPane.showInputDialog("Name of song? (goo / unicorn) \n<WASD> Move \n<SPACE> Shoot \n <.,> Angle Shots");
 		if (songName == null) {
 			JOptionPane.showMessageDialog(null, "YOU ARE MAXIMUM LAME");
 			System.exit(1);
@@ -144,17 +153,19 @@ public class AudioProject extends Binary {
 				bossMode = true;
 				level.spawnEntity(BadShipFactory.makeBoss());
 				System.out.println("Spawning Boss!");
-			} else if (getFloat() < .019 * abs(controller.getFeel())) {
+			} else if (getFloat() < .015 * abs(controller.getFeel())) {
 				level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
 			}
 		}
 
 		if(ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_T)) {
+			String percentage = "";
 			try {
-				String percentage = JOptionPane.showInputDialog("Percentage? (ex .4 = 40%)");
+				percentage = JOptionPane.showInputDialog("Do Something? \nTo warp: (ex .4 = 40%)");
 				seek((int) (soundPlayer.getTotalPlayTimeMcsec() * Float.parseFloat(percentage)), level);
 			} catch (Exception e) {
-				
+				if("win".equals(percentage))
+					win = true;
 			} finally {
 				ScriptUtils.getKeyHolder().clearKeys();
 			}
@@ -166,6 +177,15 @@ public class AudioProject extends Binary {
 		bgColor = ColorUtils.blend(Color.BLUE, Color.CYAN, controller.getFeel());
 		Color c = ColorUtils.blend(barsDarkerColor, barsLighterColor, controller.getFeel());
 		barsColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), 120);
+		
+		if (win) {
+			if (level.getDim().x < 1) {
+				level.setActive(false);
+			} else {
+				level.setDim(level.getDim().add(new Vector2(-.004f, 0)));
+			}
+			
+		}
 	}
 
 	@Override
