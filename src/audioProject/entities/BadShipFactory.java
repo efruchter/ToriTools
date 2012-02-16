@@ -172,7 +172,6 @@ public class BadShipFactory {
 			@Override
 			public void onDeath(Entity self, final Level level, boolean isRoomExit) {
 				if (healthGone) {
-					JOptionPane.showMessageDialog(null, "You won!");
 					ScriptUtils.getKeyHolder().clearKeys();
 					AudioProject.win = true;
 				}
