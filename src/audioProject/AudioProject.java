@@ -38,6 +38,8 @@ public class AudioProject extends Binary {
 	
 	public static Random random;
 	
+	public static boolean bossMode = false;
+	
 	/**
 	 * To make it easier to change things.
 	 */
@@ -60,7 +62,7 @@ public class AudioProject extends Binary {
 	}
 
 	public AudioProject() {
-		super(new Vector2(800, 600), 60, "Audio Technical Project 1");
+		super(new Vector2(800, 600), 60, "Audio Technical Project");
 	}
 
 	@Override
@@ -92,17 +94,20 @@ public class AudioProject extends Binary {
 			JOptionPane.showMessageDialog(null, "YOU ARE MAXIMUM LAME");
 			System.exit(1);
 		}
-		soundPlayer.setCurrentVolume(1f);
-		soundPlayer.setSourceLocation("audioProject/" + songName + ".mp3");
+		
 		try {
 			controller = new WaveController(songName, bars);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		soundPlayer.play();
+		
+		soundPlayer.setSourceLocation("audioProject/" + songName + ".mp3");
+		
+		soundPlayer.seek(1);
+		
 		moments = entities = 0;
-		random = new Random(0);
+		random = new Random();
 	}
 	
 	long moments, entities;
@@ -113,8 +118,17 @@ public class AudioProject extends Binary {
 	@Override
 	protected void globalLogic(Level level) {
 		
-		controller.setTime44100((long) (soundPlayer.getCurrentPosition()* 0.001));
+		long time = (long) (soundPlayer.getCurrentPosition()* 0.001);
 		
+		/*
+		 * The poorly debugged third party mp3 player made me do it!
+		 */
+		if(time == 0) {
+			soundPlayer.play();
+		}
+		
+		controller.setTime44100(time);
+
 		ScrollingBackground bg = (ScrollingBackground) level.getEntityWithId("bg");
 		PlayerShip player = (PlayerShip) level.getEntityWithId("player");
 		
@@ -124,9 +138,26 @@ public class AudioProject extends Binary {
 		if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
 			System.exit(0);
 		}
-		
-		if (getFloat() < .019 * abs(controller.getFeel())) {
-			level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
+
+		if (!bossMode) {
+			if (time > controller.bossTime()) {
+				bossMode = true;
+				level.spawnEntity(BadShipFactory.makeBoss());
+				System.out.println("Spawning Boss!");
+			} else if (getFloat() < .019 * abs(controller.getFeel())) {
+				level.spawnEntity(BadShipFactory.makeDefaultEnemy(VIEWPORT));
+			}
+		}
+
+		if(ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_T)) {
+			try {
+				String percentage = JOptionPane.showInputDialog("Percentage? (ex .4 = 40%)");
+				seek((int) (soundPlayer.getTotalPlayTimeMcsec() * Float.parseFloat(percentage)), level);
+			} catch (Exception e) {
+				
+			} finally {
+				ScriptUtils.getKeyHolder().clearKeys();
+			}
 		}
 		
 		//bgColor = ColorUtils.blend(Color.BLACK, new Color(0, 64, 13), controller.getFeel());
@@ -178,6 +209,20 @@ public class AudioProject extends Binary {
 		Level level = new Level();
 		level.setDim(VIEWPORT);
 		return level;
+	}
+
+	public static void seek(final int time, final Level level) {
+		level.getEntityWithId("player").onSpawn(level);
+		
+		for(Entity enemy: level.getEntitiesWithType("enemy")) {
+			level.despawnEntity(enemy);
+		}
+		
+		for(Entity bullets: level.getEntitiesWithType("BadBullet")) {
+			level.despawnEntity(bullets);
+		}
+		bossMode = false;
+		AudioProject.soundPlayer.seek(time);
 	}
 
 }

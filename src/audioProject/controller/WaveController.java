@@ -23,6 +23,10 @@ public class WaveController {
 	final List<Float> feelArray = new ArrayList<Float>(), beatArray = new ArrayList<Float>();
 	
 	final HistoryQueue<Float> history;
+	
+	private final float averageFeel;
+	
+	int bossTime;
 			
 	public WaveController(final String songName, final int historyLength) throws FileNotFoundException {
 		Scanner feelScan = new Scanner(new File("audioProject/" + songName + "_feels.kres"));
@@ -38,10 +42,19 @@ public class WaveController {
 		for(int i = 0; i < historyLength; i++) {
 			history.push(0f);
 		}
+		
+		// Find average.
+		
+		float a = 0;
+		for (float b: feelArray) {
+			a += b;
+		}
+		averageFeel =  a / feelArray.size();
+		
+		bossTime = (int) (feelArray.size() * .9);
 	}
 
 	long lastTime = 0;
-	long timeDifference = 0;
 	
 	public void setTime44100(final long newTime) {
 		
@@ -52,7 +65,7 @@ public class WaveController {
 		}
 		lastTime = newTime;
 		
-		feel = min(1, feelArray.get((int) newTime));	
+		feel = min(1, feelArray.get((int) newTime));
 		
 		history.push(feel);
 	}
@@ -70,10 +83,14 @@ public class WaveController {
 	}
 	
 	public float getAverageFeel() {
-		float a = 0;
-		for (float b: feelArray) {
-			a += b;
-		}
-		return a / feelArray.size();
+		return averageFeel;
+	}
+	
+	public float getBossTime() {
+		return bossTime;
+	}
+	
+	public int bossTime() {
+		return bossTime;
 	}
 }

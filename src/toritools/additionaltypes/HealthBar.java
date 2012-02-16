@@ -36,6 +36,10 @@ public class HealthBar{
 	public float getHealth() {
 		return health;
 	}
+	
+	public float getMaxHealth() {
+		return maxHealth;
+	}
 
 	public void setHealth(float health) {
 		this.health = min(max(health, 0), maxHealth);

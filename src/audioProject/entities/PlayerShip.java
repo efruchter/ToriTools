@@ -111,6 +111,17 @@ public class PlayerShip extends Entity {
 						healthBar.setHealth(healthBar.getHealth() - badBullet.getVariableCase().getFloat("damage"));
 					}
 				}
+				
+				for (Entity health : level.getEntitiesWithType("health")) {
+					if (ScriptUtils.isColliding(self, health)) {
+						level.despawnEntity(health);
+						healthBar.setHealth(100);
+					}
+				}
+				
+				if(healthBar.getHealth() <= 0) {
+					AudioProject.seek(0, level);					
+				}
 			}
 		});
 

@@ -31,6 +31,22 @@ public class MidpointChain {
 		}
 		this.chain[chain.length - 1] = b;
 	}
+	
+	/**
+	 * Initialize a chain. Every link will be set to a.
+	 * 
+	 * @param a
+	 *            anchor ends
+	 * @param size
+	 *            number of links. Add more for smoother/slower movements
+	 */
+	public MidpointChain(final Vector2 a, final int size) {
+		this.chain = new Vector2[size];
+		for (int i = 0; i < this.chain.length; i++) {
+			this.chain[i] = a;
+		}
+		this.chain[chain.length - 1] = a;
+	}
 
 	/**
 	 * Smoothes chain forward, anchored on a
