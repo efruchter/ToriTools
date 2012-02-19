@@ -73,9 +73,11 @@ public class ScrollingBackground extends Entity {
 				
 				time = (time - getSpeed()) % spacing;
 				
-				sinTimer += averageSin;
-				
 				float feel = AudioProject.controller.getFeel();
+				
+				sinTimer += averageSin * 2 * feel;
+				
+				//feel *= AudioProject.controller.isBeat() ? .5f : 1;
 				
 				//cycleColors();
 				g.setColor(AudioProject.barsColor);

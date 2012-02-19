@@ -1,5 +1,5 @@
 Good feels for for goo.wav
-generateFeels('goo', 40, 3.2, 3, 250);
+generateFeels('goo', 300, 3.2, 20, 250);
 
 unicorn.wav
-generateFeels('unicorn', 40, 3.1, 50000, 250);
+generateFeels('unicorn', 300, 3.1, 50000, 250);
