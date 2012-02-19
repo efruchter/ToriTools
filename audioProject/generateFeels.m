@@ -38,10 +38,10 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpa
     %find the beats based on history of length detectLength Milliseconds.
     beats = (1 : length(averages)) .* 0;    
     beatWait = 0;
-    for i = detectLength + 1 : length(averages) - detectLength;
+    for i = detectLength + 1 : length(averages);
         beatWait = beatWait - 1;
         if beatWait < 0
-            if averages(i + detectLength) / mean(averages(i - detectLength : i + detectLength - 1)) > beatFactor
+            if averages(i) / mean((averages(i - detectLength : i))) > beatFactor
                 beats(i)  = 1;
                 beatWait = beatSpacing + 1;
             end
@@ -74,19 +74,12 @@ function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpa
     % plot what will be the feel levels
     plot(1:length(skewedFeels), skewedFeels);
     
+    % plot beats
     subplot(2,1,2)
     plot(1:length(beats), beats);
     title('Action Moments');
     xlabel('Time (ms)');
     ylabel('Action (0/1)');
-    
-    quieterSound = soundMatrix .* .05;
-    
-    for i = 1 : length(beats)
-        if beats(i) == 1
-            quieterSound(floor(i * samplesPerMillisecond)) = .1;
-        end
-    end
     
     %print to file
     

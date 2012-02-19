@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
-import audioProject.AudioProject;
-
 import toritools.additionaltypes.HealthBar;
 import toritools.additionaltypes.HistoryQueue;
 import toritools.controls.KeyHolder;
@@ -16,8 +14,21 @@ import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
+import audioProject.AudioProject;
 
 public class PlayerShip extends Entity {
+
+	protected boolean vincible = true;
+	
+	public boolean isVincible() {
+		return vincible;
+	}
+
+	public void setVincible(boolean vincible) {
+		this.vincible = vincible;
+	}
+
+
 
 	public PlayerShip() {
 		
@@ -62,6 +73,8 @@ public class PlayerShip extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
+				//setDim(Vector2.ONE.scale(AudioProject.controller() * 100));
+				
 				float speed = this.speed * time;
 
 				if (keys.isPressed(UP)) {
@@ -86,6 +99,13 @@ public class PlayerShip extends Entity {
 				
 				if (keys.isPressed(SPREAD_UP)) {
 					spread = Math.min(spread + spreadFactor, 4);
+				}
+				
+				if (keys.isPressedThenRelease(KeyEvent.VK_P)) {
+					setVincible(!isVincible());
+				}
+				if (!isVincible()) {
+					healthBar.setHealth(100);
 				}
 
 				if (canShoot-- < 0 && keys.isPressed(SHOOT)) {
@@ -134,8 +154,7 @@ public class PlayerShip extends Entity {
 				
 				healthBar.draw(g, new Vector2(10, 50), new Vector2(200, 30));
 				
-				Color c = AudioProject.shipColor; //ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
-				
+				Color c = isVincible() ? AudioProject.shipColor : Color.GREEN; //ColorUtils.blend(Color.BLACK, Color.BLUE, Math.abs(AudioProject.controller.getFeel()));
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
 					g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));

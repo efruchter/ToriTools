@@ -7,8 +7,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import toritools.additionaltypes.HealthBar;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -17,7 +15,6 @@ import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.pathing.interpolator.HermiteKeyFrameInterpolator;
 import toritools.pathing.interpolator.HermiteKeyFrameInterpolator.HermiteKeyFrame;
-import toritools.scripting.ScriptUtils;
 import toritools.scripting.EntityScript.EntityScriptAdapter;
 import audioProject.AudioProject;
 
@@ -26,7 +23,7 @@ public class BadShipFactory {
 	public static Entity makeDefaultEnemy(final Vector2 screen) {
 		List<HermiteKeyFrame> keyList = new ArrayList<HermiteKeyFrame>();
 		
-		float time = 100000 * AudioProject.controller.getFeel() * (.2f + getFloat() * .8f);
+		float time = 50000 * AudioProject.controller.getFeel() * (.5f + getFloat() * .5f);
 		
 		int selection = (int) (getFloat() * 6);
 
@@ -74,7 +71,8 @@ public class BadShipFactory {
 				allTime += time * Math.abs(AudioProject.controller.getFeel());
 				if (allTime > path.getEndTime()) {
 					level.despawnEntity(self);
-				} else if (self.getVariableCase().getFloat("health") <= 0) {
+				} 
+				if (AudioProject.win || self.getVariableCase().getFloat("health") <= 0) {
 					level.despawnEntity(self);
 					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x, 30));
 					if (AudioProject.getFloat() < .10)
@@ -117,10 +115,8 @@ public class BadShipFactory {
 		entity.setType("enemy");
 		entity.setLayer(1);
 		
-		final HealthBar bar  = new HealthBar(10 + 10000 * AudioProject.controller.getAverageFeel(), Color.RED, Color.RED);
+		final HealthBar bar  = new HealthBar(10 + 10000 * AudioProject.controller.getAverageFeel() * .50f, Color.RED, Color.RED);
 
-		
-		
 		entity.addScript(new EntityScriptAdapter() {
 			
 			MidpointChain chain;
@@ -139,7 +135,7 @@ public class BadShipFactory {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
-				if (AudioProject.getFloat() < .05) {
+				if (AudioProject.getFloat()< .005 * AudioProject.controller.getFeel()) {
 					float x = 100 + AudioProject.getFloat() * (level.getDim().x - 100);
 					float y = 100 + AudioProject.getFloat() * (level.getDim().y - 100 - self.getDim().y);
 					chain.setA(new Vector2(x, y));
@@ -151,9 +147,6 @@ public class BadShipFactory {
 				float health;
 				if ((health = self.getVariableCase().getFloat("health")) <= 0) {
 					level.despawnEntity(self);
-					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x, 300));
-					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x / 2, 300));
-					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x / 3, 300));
 					healthGone = true;
 				} else {
 					if (AudioProject.controller.isBeat()) {
@@ -171,9 +164,10 @@ public class BadShipFactory {
 			
 			@Override
 			public void onDeath(Entity self, final Level level, boolean isRoomExit) {
-				if (healthGone) {
-					ScriptUtils.getKeyHolder().clearKeys();
-					AudioProject.win = true;
+				if (healthGone || AudioProject.win) {
+					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x, 300));
+					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x / 2, 300));
+					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x / 3, 300));
 				}
 			}
 		});

@@ -26,8 +26,12 @@ public class WaveController {
 	
 	private final float averageFeel;
 	
-	int bossTime;
-			
+	int bossTime, victoryTime;
+	
+	long lastTime = 0;
+	
+	//private float beatScalar = 0;
+	
 	public WaveController(final String songName, final int historyLength) throws FileNotFoundException {
 		Scanner feelScan = new Scanner(new File("audioProject/" + songName + "_feels.kres"));
 		while(feelScan.hasNextFloat()) {
@@ -51,18 +55,39 @@ public class WaveController {
 		}
 		averageFeel =  a / feelArray.size();
 		
-		bossTime = (int) (feelArray.size() * .9);
-	}
+		bossTime = (int) (feelArray.size() * .5);
+		victoryTime = (int) (feelArray.size() * .99);
 
-	long lastTime = 0;
+		/*
+		ArrayList<Integer> beatIndex = new ArrayList<Integer>();
+		for (int i = 0; i < beatArray.size(); i++) {
+			if (beatArray.get(i) == 1.0f)
+				beatIndex.add(i);
+		}
+		
+		int beatFalloff = 200000;
+		
+		// Add bells, sweep right
+		for (Integer index: beatIndex) {
+			for (int i = index + 1; i < index + beatFalloff; i++) {
+				if (i >= beatArray.size())
+					continue;
+				float newBeat = (float) Math.pow(.99, i - (index));
+				beatArray.set(i, newBeat);
+			}
+		}*/
+	}
 	
 	public void setTime44100(final long newTime) {
 		
 		beat = false;
 		for(int i = (int) lastTime; i < newTime; i++) {
-			if (beat = beatArray.get(i) > 0)
+			if (beat = beatArray.get(i) == 1)
 				break;
 		}
+		
+		//System.out.println(beatScalar = (!beat) ? beatArray.get((int) newTime) : 1);
+		
 		lastTime = newTime;
 		
 		feel = min(1, feelArray.get((int) newTime));
@@ -89,8 +114,12 @@ public class WaveController {
 	public float getBossTime() {
 		return bossTime;
 	}
-	
-	public int bossTime() {
-		return bossTime;
+
+	public long getVictoryTime() {
+		return victoryTime;
 	}
+
+//	public float getBeatScalar() {
+//		return beatScalar;
+//	}
 }
