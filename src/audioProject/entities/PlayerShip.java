@@ -126,14 +126,14 @@ public class PlayerShip extends Entity {
 				pastPos.push(self.getPos());
 				
 				for (Entity badBullet : level.getEntitiesWithType("BadBullet")) {
-					if (ScriptUtils.isColliding(self, badBullet)) {
+					if (ScriptUtils.isCollidingRad(self, badBullet)) {
 						level.despawnEntity(badBullet);
 						healthBar.setHealth(healthBar.getHealth() - badBullet.getVariableCase().getFloat("damage"));
 					}
 				}
 				
 				for (Entity health : level.getEntitiesWithType("health")) {
-					if (ScriptUtils.isColliding(self, health)) {
+					if (ScriptUtils.isCollidingRad(self, health)) {
 						level.despawnEntity(health);
 						healthBar.setHealth(100);
 					}

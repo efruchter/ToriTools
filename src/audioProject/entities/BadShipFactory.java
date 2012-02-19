@@ -130,6 +130,7 @@ public class BadShipFactory {
 				entity.setDim(new Vector2(100));
 				chain = new MidpointChain(level.getDim().scale(1.01f, .5f), 100);
 				chain.setA(level.getDim().scale(.5f));
+				AudioProject.bossIsAlive = true;
 			}
 
 			@Override
@@ -169,6 +170,7 @@ public class BadShipFactory {
 					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x / 2, 300));
 					level.spawnEntity(new Explosion(self.getPos(), AudioProject.enemyColor, self.getDim().x / 3, 300));
 				}
+				AudioProject.bossIsAlive = false;
 			}
 		});
 		

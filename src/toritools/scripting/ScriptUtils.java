@@ -117,6 +117,10 @@ public class ScriptUtils {
 
 		return true;
 	}
+	
+	public static boolean isCollidingRad(final Entity a, final Entity b) {
+		return Vector2.dist(a.getPos().add(a.getDim().scale(.5f)), b.getPos().add(b.getDim().scale(.5f))) < a.getDim().x / 2 + b.getDim().x / 2;
+	}
 
 	public static boolean isColliding(final Entity a, final List<Entity> b) {
 		for (Entity e : b) {

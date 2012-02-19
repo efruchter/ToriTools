@@ -41,7 +41,7 @@ public class GoodBullet extends Entity {
 				self.setPos(self.getPos().add(delta.scale(time)));
 
 				for (Entity enemy : level.getEntitiesWithType("enemy")) {
-					if (ScriptUtils.isColliding(self, enemy)) {
+					if (ScriptUtils.isCollidingRad(self, enemy)) {
 						level.despawnEntity(self);
 						enemy.getVariableCase().setVar("health", enemy.getVariableCase().getFloat("health") - damage + "");
 						explodeDeath = true;

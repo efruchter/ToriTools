@@ -39,7 +39,7 @@ public class AudioProject extends Binary {
 
 	public static Random random;
 
-	public static boolean bossMode = false;
+	public static boolean bossMode = false, bossIsAlive = false;
 
 	/**
 	 * To make it easier to change things.
@@ -61,7 +61,7 @@ public class AudioProject extends Binary {
 	}
 
 	public AudioProject() {
-		super(new Vector2(800, 600), 60, "Audio Technical Project");
+		super(new Vector2(800, 600), 60, "Audio Project tech Demo");
 	}
 
 	@Override
@@ -78,9 +78,10 @@ public class AudioProject extends Binary {
 				}
 			}
 			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.drawString("Entities: " + level.getNonSolids().size(),
-					10, 20);
-			rootCanvas.drawString("Feel: " + controller.getFeel(), 10, 40);
+
+			rootCanvas.drawString("Feel: " + controller.getFeel(), 20, 20);			
+			rootCanvas.drawString("BM: " + bossMode, 20, 40);			
+			rootCanvas.drawString("%: " + controller.getPercentage(), 80, 40);
 
 			if (win) {
 				rootCanvas.setColor(Color.RED);

@@ -54,8 +54,7 @@ public class WaveController {
 			a += b;
 		}
 		averageFeel =  a / feelArray.size();
-		
-		bossTime = (int) (feelArray.size() * .5);
+
 		victoryTime = (int) (feelArray.size() * .99);
 
 		/*
@@ -76,6 +75,13 @@ public class WaveController {
 				beatArray.set(i, newBeat);
 			}
 		}*/
+		
+		bossTime = feelArray.size() / 2;
+		for (int i = feelArray.size() / 4; i < feelArray.size(); i++) {
+			if (feelArray.get(i) > feelArray.get(bossTime))
+				bossTime = i;
+		}
+		System.out.println("Boss Time: " + (float) bossTime / feelArray.size());
 	}
 	
 	public void setTime44100(final long newTime) {
@@ -117,6 +123,10 @@ public class WaveController {
 
 	public long getVictoryTime() {
 		return victoryTime;
+	}
+	
+	public int getPercentage() {
+		return (int) (((float) lastTime / feelArray.size()) * 100);
 	}
 
 //	public float getBeatScalar() {
