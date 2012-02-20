@@ -1,6 +1,6 @@
 function generateFeels (songName, detectLength, beatFactor, smoothLevel, beatSpacing)
-warning off all;
-[soundMatrix, sampleRate] = wavread([songName, '.wav']);
+
+    [soundMatrix, sampleRate] = wavread([songName, '.wav']);
     
     soundMatrix = soundMatrix(1:end, 1);
     
@@ -11,7 +11,7 @@ warning off all;
     %plot(time, soundMatrix);
     %title('Signal Amplitude');
     %xlabel('Time');
-    %ylabel('Amplitude');
+    %ylabel('Amplitude');    
     
     samplesPerMillisecond = sampleRate / 1000;
     
@@ -36,23 +36,23 @@ warning off all;
     disp(length(averages) / 1000 / 60);
     
     %find the beats based on history of length detectLength Milliseconds.
-    beats = (1 : length(averages)) .* 0;
+    beats = (1 : length(averages)) .* 0;    
     beatWait = 0;
     for i = detectLength + 1 : length(averages);
         beatWait = beatWait - 1;
         if beatWait < 0
             if averages(i) / mean((averages(i - detectLength : i))) > beatFactor
-                beats(i) = 1;
+                beats(i)  = 1;
                 beatWait = beatSpacing + 1;
             end
         end
-    end
+    end    
     %{
         make a skewed vector of feel based on beat values
         skewedFeels = 1 : length(beats);
         for i = 1 : length(beats);
             skewedFeels(i) = (beats(i) * 2 + averages(i)) / 2;
-        end
+        end    
         skewedFeels = smooth((skewedFeels)', length(skewedFeels) / smoothLevel)';
     %}
     skewedFeels = smooth((averages)', length(averages) / smoothLevel)';
@@ -63,7 +63,7 @@ warning off all;
     
     clf;
     
-    subplot(3,1,1)
+    subplot(2,1,1)
     plot(1:length(averages), averages);
     title('Avg. Signal Amplitude per ms');
     xlabel('Time (ms)');
@@ -75,29 +75,11 @@ warning off all;
     plot(1:length(skewedFeels), skewedFeels);
     
     % plot beats
-    subplot(3,1,2)
+    subplot(2,1,2)
     plot(1:length(beats), beats);
     title('Action Moments');
     xlabel('Time (ms)');
     ylabel('Action (0/1)');
-    
-    %Plot fundamental frequency stuff.
-    freqs = (1:(length(soundMatrix)/(sampleRate)));
-    ms2=sampleRate/1000;                % maximum speech Fx at 1000Hz
-    ms20=sampleRate/50;                 % minimum speech Fx at 50Hz
-    for i = 1 : length(freqs)
-        samplesToAnalyze = soundMatrix((i-1)*(sampleRate) + 1 : i*(sampleRate));
-        fundFreq = findFundFreq(samplesToAnalyze, sampleRate, ms2, ms20);
-        freqs(i) = fundFreq;
-    end
-    [maxValue, index] = max(freqs);
-    freqs = freqs ./ maxValue;
-    subplot(3,1,3)
-    plot(1:length(freqs), freqs);
-    title('Fundamental Frequencies');
-    xlabel('Time (s)');
-    ylabel('Fundamental Frequency (Hz)');
-    
     
     %print to file
     
@@ -108,17 +90,5 @@ warning off all;
     fid = fopen([songName, '_feels.kres'],'wt');
     fprintf(fid,'%f\n', skewedFeels);
     fclose(fid);
-    
-    fid = fopen([songName, '_fund.kres'], 'wt');
-    fprintf(fid, '%f/n', freqs);
-    fclose(fid);
        
-end
-
-function fundFreq = findFundFreq(x, fs, ms2, ms20)
-    r=xcorr(x,ms20,'coeff');
-    r=r(ms20+1:2*ms20+1);
-    [rmax,tx]=max(r(ms2:ms20));
-    %fprintf('rmax=%g Fx=%gHz\n',rmax,fs/(ms2+tx-1));
-    fundFreq = fs/(ms2 + tx - 1);
 end
