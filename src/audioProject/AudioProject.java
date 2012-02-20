@@ -61,7 +61,7 @@ public class AudioProject extends Binary {
 	}
 
 	public AudioProject() {
-		super(new Vector2(800, 600), 60, "Audio Project tech Demo");
+		super(new Vector2(800, 600), 60, "Audio Project Tech Demo");
 	}
 
 	@Override
