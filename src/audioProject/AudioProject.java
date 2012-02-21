@@ -28,7 +28,7 @@ import audioProject.entities.PlayerShip;
 import audioProject.entities.ScrollingBackground;
 
 /**
- * Template for our possible audio project.
+ * Template for our audio project.
  * 
  * @author toriscope
  * 
