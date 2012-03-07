@@ -73,8 +73,6 @@ public class PlayerShip extends Entity {
 			@Override
 			public void onUpdate(Entity self, float time, Level level) {
 				
-				//setDim(Vector2.ONE.scale(AudioProject.controller() * 100));
-				
 				float speed = this.speed * time;
 
 				if (keys.isPressed(UP)) {

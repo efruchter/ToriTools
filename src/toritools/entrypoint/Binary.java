@@ -38,6 +38,52 @@ public abstract class Binary {
         gc = frame.getGraphicsConfiguration();
     }
 
+    /*
+     * SUBCLASS
+     */
+
+    /**
+     * Load anything you need (besides entities), be it large background images
+     * or fonts. This is your time to prepare for the update logic which will
+     * begin ticking after this method is run.
+     */
+    protected abstract void initialize();
+
+    /**
+     * The global logic loop. Poll controls here if you want, check for win
+     * condition, etc. Entity updating should not be done here. It is a good
+     * idea to package control polling for most entities with their script,
+     * rather than here. This is the place for global menus, state changing,
+     * etc. The level will update after this method is run, followed by a
+     * graphical repaint. Keys queued for release are also released after this.
+     */
+    protected abstract void globalLogic(final Level level);
+
+    /**
+     * Configure the current level to be loaded. Set up your special entity
+     * types and scripts here. Spawning will be done elsewhere.
+     * 
+     * @param levelBeingLoaded
+     */
+    protected abstract void setupCurrentLevel(Level levelBeingLoaded);
+
+    /**
+     * Get the starting level. Feel free to spawn a blank one if you don't want
+     * to do this.
+     * 
+     * @return a level.
+     */
+    protected abstract Level getStartingLevel();
+
+    /**
+     * Render your game.
+     * 
+     * @param rootCanvas
+     *            the panel's drawing surface.
+     * @return true if drawing was successful, false otherwise.
+     */
+    protected abstract boolean render(final Graphics rootCanvas, final Level level);
+
     /**
      * Some basic settings.
      * 
@@ -58,7 +104,8 @@ public abstract class Binary {
             System.setProperty("sun.java2d.d3d", "True");
         } else {
             if (!"True".equalsIgnoreCase(System.getProperty("sun.java2d.opengl"))) {
-                JOptionPane.showMessageDialog(null,
+                JOptionPane
+                        .showMessageDialog(null,
                                 "Please pass in [-Dsun.java2d.opengl=True] as Java virtual machine argument to enable OpenGL hardware acceleration!");
                 System.exit(0);
             }
@@ -85,68 +132,21 @@ public abstract class Binary {
 
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Thread() {
             public void run() {
-                coreLogic();
-                panel.repaint();
+                try {
+                    coreLogic();
+                    panel.repaint();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    System.exit(1);
+                }
             }
         }, 0, FRAMERATE, TimeUnit.MILLISECONDS);
-        // Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
-        // new Thread() {
-        // public void run() {
-        //
-        // }
-        // }, 0, FRAMERATE, TimeUnit.MILLISECONDS);
     }
 
     private void rebuildBuffers() {
         b1 = gc.createCompatibleVolatileImage((int) VIEWPORT.x, (int) VIEWPORT.y);
         b2 = gc.createCompatibleVolatileImage((int) VIEWPORT.x, (int) VIEWPORT.y);
     }
-
-    /*
-     * SUBCLASS
-     */
-
-    /**
-     * Load anything you need (besides entities), be it large background images
-     * or fonts. This is your time to prepare for the update logic which will
-     * begin ticking after this method is run.
-     */
-    protected abstract void initialize();
-
-    /**
-     * The global logic loop. Poll controls here if you want, check for win
-     * condition, etc. Entity updating should not be done here. It is a good
-     * idea to package control polling for most entities with their script,
-     * rather than here. This is the place for global menus, state changing,
-     * etc. The level will update after this method is run, followed by a
-     * graphical repaint. Keys queued for release are also released after this.
-     */
-    protected abstract void globalLogic(final Level level);
-
-    /**
-     * Render your game.
-     * 
-     * @param rootCanvas
-     *            the panel's drawing surface.
-     * @return true if drawing was successful, false otherwise.
-     */
-    protected abstract boolean render(final Graphics rootCanvas, final Level level);
-
-    /**
-     * Configure the current level to be loaded. Set up your special entity
-     * types and scripts here. Spawning will be done elsewhere.
-     * 
-     * @param levelBeingLoaded
-     */
-    protected abstract void setupCurrentLevel(Level levelBeingLoaded);
-
-    /**
-     * Get the starting level. Feel free to spawn a blank one if you don't want
-     * to do this.
-     * 
-     * @return a level.
-     */
-    protected abstract Level getStartingLevel();
 
     private void coreLogic() {
         if (ScriptUtils.isLevelQueued()) {
