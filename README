@@ -15,4 +15,11 @@ and their natives (if they have them) to the build path.
 
 Just peek into the top level classes for each of the sample games to see how setting up entities and their behavior is done.
 
+How to enable hardware acceleration:
+
+Linux / OSX
+-Dsun.java2d.opengl=True
+
+Windows should activate the directx pipeline automatically.
+
 ~toriscope
