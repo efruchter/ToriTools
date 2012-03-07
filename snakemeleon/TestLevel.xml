@@ -1,0 +1,5 @@
+<level map="height = 1000;width = 1000;">
+<objects>
+<entity map="sprite.sizeOffset = 4;dimensions.y = 25;template = /objects/chameleon/player.entity;solid = false;position.y = 288.0;sprite.timeScale = 5;sprite.sheet = playersheet.png, 4, 4;position.x = 448.0;description = The dude you move.;layer = 0;type = player;dimensions.x = 25;"/>
+</objects>
+</level>
