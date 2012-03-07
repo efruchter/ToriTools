@@ -28,10 +28,10 @@ public abstract class Binary {
 	protected final int FRAMERATE;
 	protected final Vector2 VIEWPORT;
 
-	private JFrame frame;
+	private static JFrame frame;
 	public static GraphicsConfiguration gc;
 
-	{
+	static {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gc = frame.getGraphicsConfiguration();
