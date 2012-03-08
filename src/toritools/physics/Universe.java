@@ -3,7 +3,7 @@ package toritools.physics;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -39,29 +39,22 @@ public class Universe {
          * Step the world
          */
         world.step(dt, 8, 3);
-
-        /*
-         * Alter all the entity positions.
-         */
-        for (Entry<Entity, Body> object : bodyMap.entrySet()) {
-            Vector2 newPos = new Vector2(object.getValue().getPosition().x, object.getValue().getPosition().y);
-            object.getKey().setPos(newPos.sub(object.getKey().getDim().scale(.5f)));
-            object.getKey().setDirection((int) (object.getValue().getAngle() * 57.3));
-        }
     }
 
-    public void addEntity(final Entity ent, final boolean dynamic) {
+    public void addEntity(final Entity ent, final boolean dynamic, final boolean circular, final boolean allowRotation) {
         removeEntity(ent);
         BodyDef bd = new BodyDef();
+        bd.fixedRotation = !allowRotation;
+        bd.allowSleep = true;
         bd.type = dynamic ? BodyType.DYNAMIC : BodyType.STATIC;
         bd.position.set(ent.getPos().x, ent.getPos().y);
 
-        CircleShape cs = new CircleShape();
-        cs.m_radius = ent.getDim().x / 2;
+        PolygonShape p = new PolygonShape();
+        p.setAsBox(ent.getDim().x, ent.getDim().y);
 
         // Create a fixture for ball
         FixtureDef fd = new FixtureDef();
-        fd.shape = cs;
+        fd.shape = p;
         fd.density = 0.9f;
         fd.friction = 0.3f;
         fd.restitution = 0.6f;
@@ -73,12 +66,30 @@ public class Universe {
         ent.addScript(serviceScript);
     }
 
-    private final EntityScript serviceScript = new EntityScriptAdapter() {
+    /**
+     * This script keeps the entity model synced with the physics model.
+     */
+    private final EntityScript serviceScript = new EntityScript() {
+
         @Override
         public void onDeath(Entity self, Level level, boolean isRoomExit) {
             if (!isRoomExit) {
                 removeEntity(self);
             }
+        }
+
+        @Override
+        public void onSpawn(Entity self, Level level) {
+
+        }
+
+        @Override
+        public void onUpdate(Entity self, float time, Level level) {
+
+            Body body = bodyMap.get(self);
+
+            self.setPos(new Vector2(body.getPosition().x, body.getPosition().y));
+            self.setDirection((int) (body.getAngle() * 57.3));
         }
     };
 
