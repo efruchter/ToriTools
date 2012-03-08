@@ -8,15 +8,17 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.VolatileImage;
+import java.io.File;
 
 import toritools.entity.Entity;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
+import toritools.scripting.ScriptUtils;
 
 public class ImageSprite implements AbstractSprite {
 
     private int xSplit = 1, ySplit = 1, x = 0, y = 0;// w, h;
-    private Image image;
+    private File imageIndex;
 
     private Vector2 bRight;
     private int timeStretch = 1;
@@ -32,10 +34,11 @@ public class ImageSprite implements AbstractSprite {
      * @param yTiles
      *            tiles in y direction
      */
-    public ImageSprite(final Image image, final int xTiles, final int yTiles) {
-        this.image = image;
+    public ImageSprite(final File imageIndex, final int xTiles, final int yTiles) {
+        this.imageIndex = imageIndex;
         this.xSplit = xTiles;
         this.ySplit = yTiles;
+        Image image = ScriptUtils.fetchImage(imageIndex);
         bRight = new Vector2(image.getWidth(null) / xSplit, image.getHeight(null) / ySplit);
     }
 
@@ -69,6 +72,8 @@ public class ImageSprite implements AbstractSprite {
         this.y = y;
     }
 
+    VolatileImage i;
+
     /**
      * Override this to implement your own drawing mechanism!
      * 
@@ -84,8 +89,8 @@ public class ImageSprite implements AbstractSprite {
 
         if (self.getDirection() != 0) {
 
-            VolatileImage i = Binary.gc.createCompatibleVolatileImage(dim.getWidth(), dim.getHeight(),
-                    VolatileImage.TRANSLUCENT);
+            if (i == null)
+                i = Binary.gc.createCompatibleVolatileImage(dim.getWidth(), dim.getHeight(), VolatileImage.TRANSLUCENT);
             i.validate(Binary.gc);
 
             Graphics2D gr = (Graphics2D) i.getGraphics();
@@ -93,8 +98,9 @@ public class ImageSprite implements AbstractSprite {
             gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT));
             gr.fillRect(0, 0, i.getWidth(), i.getHeight());
 
-            gr.drawImage(image, (int) 0, (int) 0, (int) dim.x, (int) dim.y, x * (int) bRight.x, y * (int) bRight.y, x
-                    * (int) bRight.x + (int) bRight.x, y * (int) bRight.y + (int) bRight.y, null);
+            gr.drawImage(ScriptUtils.fetchImage(imageIndex), (int) 0, (int) 0, (int) dim.x, (int) dim.y, x
+                    * (int) bRight.x, y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x, y * (int) bRight.y
+                    + (int) bRight.y, null);
 
             AffineTransform affineTransform = new AffineTransform();
             // rotate with the anchor point as the mid of the image
@@ -103,14 +109,10 @@ public class ImageSprite implements AbstractSprite {
 
             ((Graphics2D) g).drawImage(i, affineTransform, null);
         } else {
-            g.drawImage(image, (int) pos.x, (int) pos.y, (int) (pos.x + dim.x), (int) (pos.y + dim.y), x
-                    * (int) bRight.x, y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x, y * (int) bRight.y
-                    + (int) bRight.y, null);
+            g.drawImage(ScriptUtils.fetchImage(imageIndex), (int) pos.x, (int) pos.y, (int) (pos.x + dim.x),
+                    (int) (pos.y + dim.y), x * (int) bRight.x, y * (int) bRight.y, x * (int) bRight.x + (int) bRight.x,
+                    y * (int) bRight.y + (int) bRight.y, null);
         }
-    }
-
-    public Image getImage() {
-        return image;
     }
 
     public Dimension getTileDimension() {
@@ -125,5 +127,10 @@ public class ImageSprite implements AbstractSprite {
     @Override
     public void setsizeOffset(int sizeOffset) {
         this.sizeOffset = sizeOffset;
+    }
+
+    @Override
+    public File getImageIndex() {
+        return imageIndex;
     }
 }

@@ -3,8 +3,8 @@ package samplegame.customscripts;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.List;
 
 import samplegame.SampleGame;
@@ -103,8 +103,8 @@ public class DialogEntity extends Entity {
 			public void set(int frame, int cycle) {}
 			public void setTimeStretch(int timeStretch) {}
 			public void setsizeOffset(int sizeOffset) {}
-			public Image getImage() {return null;}
 			public Dimension getTileDimension() {return null;}
+            public File getImageIndex() {return null;}
         });
     }
 

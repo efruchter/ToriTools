@@ -2,7 +2,7 @@ package toritools.entity.sprite;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.io.File;
 
 import toritools.entity.Entity;
 import toritools.math.Vector2;
@@ -56,7 +56,7 @@ public interface AbstractSprite {
 	void draw(final Graphics g, final Entity self, final Vector2 position,
 			final Vector2 dimension);
 
-	Image getImage();
+	File getImageIndex();
 
 	Dimension getTileDimension();
 	
@@ -91,7 +91,7 @@ public interface AbstractSprite {
 		public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {}
 
 		@Override
-		public Image getImage() {return null;}
+		public File getImageIndex() {return null;}
 
 		@Override
 		public Dimension getTileDimension() {return null;}

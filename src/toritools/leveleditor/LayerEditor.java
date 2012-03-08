@@ -25,7 +25,8 @@ public class LayerEditor extends JPanel {
 
 	private final int MAXLAYER = 5;
 
-	public LayerEditor(final LevelEditor editor) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+    public LayerEditor(final LevelEditor editor) {
 		setBorder(BorderFactory.createRaisedBevelBorder());
 		ActionListener action = new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -38,7 +39,7 @@ public class LayerEditor extends JPanel {
 		Integer[] layers = new Integer[MAXLAYER];
 		for (int i = 0; i < MAXLAYER; i++)
 			layers[i] = i;
-		JComboBox combo = new JComboBox(layers);
+        JComboBox combo = new JComboBox(layers);
 		combo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentLayer = (Integer) ((JComboBox) e.getSource())

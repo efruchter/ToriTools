@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import toritools.entity.sprite.AbstractSprite;
-import toritools.entity.sprite.ImageSprite;
 import toritools.map.VariableCase;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -26,8 +23,7 @@ public class Entity {
 	 * Static vars for optimization.
 	 */
 	protected static Vector2 BASE_VECT = new Vector2();
-	protected static AbstractSprite BASE_SPRITE = new ImageSprite(new ImageIcon(
-			"resources/nope.png").getImage(), 1, 1);
+	protected static AbstractSprite BASE_SPRITE;
 
 	/**
 	 * Holds all variables for the entity.
@@ -156,7 +152,7 @@ public class Entity {
 	}
 
 	public void setDirection(int direction) {
-		this.direction = direction;
+		this.direction = direction % 360;
 	}
 
 	public VariableCase getVariableCase() {

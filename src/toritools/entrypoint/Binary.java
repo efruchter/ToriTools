@@ -158,10 +158,12 @@ public abstract class Binary {
             setupCurrentLevel(ScriptUtils.getCurrentLevel());
             System.out.println("Spawning entities.");
             ScriptUtils.getCurrentLevel().onSpawn(null);
+            ScriptUtils.clearImageCache();
         } else {
             globalLogic(ScriptUtils.getCurrentLevel());
             ScriptUtils.getCurrentLevel().onUpdate((float) FRAMERATE);
             ScriptUtils.getKeyHolder().freeQueuedKeys();
+            System.out.println(ScriptUtils.cachedImageAmount());
         }
     }
 
