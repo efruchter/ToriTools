@@ -93,7 +93,6 @@ public class AudioProject extends Binary {
 			}
 
 		} catch (final Exception uhoh) {
-		    uhoh.printStackTrace();
 			return false;
 		}
 		return true;
