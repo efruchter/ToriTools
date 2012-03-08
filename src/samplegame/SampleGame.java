@@ -25,6 +25,11 @@ import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
 public class SampleGame extends Binary {
+    
+    public static String savePrefix = "secondchance";
+    public Vector2 zoom = new Vector2(1, 1);
+    public static boolean inDialog = false;
+    private static String displayString = "";
 
 	public SampleGame() {
 		super(new Vector2(800, 600), 60, "Second Chance");
@@ -32,52 +37,6 @@ public class SampleGame extends Binary {
 
 	public static void main(String[] args) {
 		new SampleGame();
-	}
-
-	public static String savePrefix = "secondchance";
-	public Vector2 zoom = new Vector2(1, 1);
-	public static boolean inDialog = false;
-	private static String displayString = "";
-
-	@Override
-	protected boolean render(Graphics rootCanvas, Level level) {
-		try {
-			((Graphics2D) rootCanvas).setRenderingHint(
-					RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			Vector2 playerPos = level.getEntityWithId("player").getPos();
-			Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
-
-			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-			for (int i = level.getLayers().size() - 1; i >= 0; i--)
-				for (Entity e : level.getLayers().get(i)) {
-					if (e.isVisible() && e.isInView())
-						e.draw(rootCanvas, offset);
-					if (!"BACKGROUND".equals(e.getType())
-							&& ScriptUtils.isDebugMode()) {
-						rootCanvas.setColor(Color.RED);
-						rootCanvas.drawRect((int) (e.getPos().x + offset.x),
-								(int) (e.getPos().y + offset.y),
-								(int) e.getDim().x, (int) e.getDim().y);
-					}
-
-				}
-
-			rootCanvas.setColor(Color.white);
-			String infoString = "[WASD] Move" + "  |  [K] Debug Mode: "
-					+ ScriptUtils.isDebugMode() + "  |  [Esc] Quit";
-
-			rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
-
-			if (displayString != null) {
-				rootCanvas.drawString(displayString, (int) VIEWPORT.x / 2,
-						(int) VIEWPORT.y / 2 + 64);
-			}
-		} catch (final Exception e) {
-			return false;
-		}
-		return true;
 	}
 
 	@Override
@@ -100,10 +59,7 @@ public class SampleGame extends Binary {
 
 	@Override
 	protected void setupCurrentLevel(final Level level) {
-		/*
-		 * This custom script attaching for player, wolf and block will soon by
-		 * nullified by a the Rhino module.
-		 */
+
 		level.getEntityWithId("player").addScript(new PlayerScript());
 
 		Entity temp = level.getEntityWithId("wolf");
@@ -157,4 +113,45 @@ public class SampleGame extends Binary {
 	public static void setDisplayPrompt(final String s) {
 		displayString = s;
 	}
+
+    @Override
+    protected boolean render(Graphics rootCanvas, Level level) {
+    	try {
+    		((Graphics2D) rootCanvas).setRenderingHint(
+    				RenderingHints.KEY_TEXT_ANTIALIASING,
+    				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+    		Vector2 playerPos = level.getEntityWithId("player").getPos();
+    		Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
+    
+    		rootCanvas.setColor(Color.BLACK);
+    		rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+    		for (int i = level.getLayers().size() - 1; i >= 0; i--)
+    			for (Entity e : level.getLayers().get(i)) {
+    				if (e.isVisible() && e.isInView())
+    					e.draw(rootCanvas, offset);
+    				if (!"BACKGROUND".equals(e.getType())
+    						&& ScriptUtils.isDebugMode()) {
+    					rootCanvas.setColor(Color.RED);
+    					rootCanvas.drawRect((int) (e.getPos().x + offset.x),
+    							(int) (e.getPos().y + offset.y),
+    							(int) e.getDim().x, (int) e.getDim().y);
+    				}
+    
+    			}
+    
+    		rootCanvas.setColor(Color.white);
+    		String infoString = "[WASD] Move" + "  |  [K] Debug Mode: "
+    				+ ScriptUtils.isDebugMode() + "  |  [Esc] Quit";
+    
+    		rootCanvas.drawString(infoString, 5, (int) VIEWPORT.y - 5);
+    
+    		if (displayString != null) {
+    			rootCanvas.drawString(displayString, (int) VIEWPORT.x / 2,
+    					(int) VIEWPORT.y / 2 + 64);
+    		}
+    	} catch (final Exception e) {
+    		return false;
+    	}
+    	return true;
+    }
 }

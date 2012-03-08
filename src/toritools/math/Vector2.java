@@ -2,6 +2,8 @@ package toritools.math;
 
 import java.awt.Point;
 
+import org.jbox2d.common.Vec2;
+
 /**
  * 2D Float Vector with basic math functions. Immutable.
  * 
@@ -107,6 +109,10 @@ public class Vector2 {
         return "[" + getX() + ", " + getY() + "]";
     }
 
+    public float dist(final Vector2 o) {
+        return Vector2.dist(this, o);
+    }
+
     public static float dist(final Vector2 a, final Vector2 b) {
         return (float) Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
     }
@@ -190,5 +196,14 @@ public class Vector2 {
      */
     public int getHeight() {
         return (int) y;
+    }
+
+    public Vector2(final Vec2 vec2) {
+        x = vec2.x;
+        y = vec2.y;
+    }
+
+    public Vec2 toVec() {
+        return new Vec2(x, y);
     }
 }
