@@ -15,7 +15,7 @@ import toritools.scripting.ScriptUtils;
  * A level portal! To use it in the editor, set the following two instance
  * params for a particular portal- "level": the relative path to the file.
  * "warpTo": the id of the portal to warp to. Obviously, you should set the id
- * param int he correponding portal!
+ * param in the corresponding portal!
  * 
  * @author toriscope
  * 
