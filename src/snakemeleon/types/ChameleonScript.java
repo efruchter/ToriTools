@@ -9,14 +9,11 @@ public class ChameleonScript implements EntityScript {
 
     @Override
     public void onSpawn(Entity self, Level level) {
-        self.setDim(new Vector2(200, 200));
+        self.setDim(new Vector2(64, 64));
     }
-    
-    float rot = 0;
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
-        self.setDirection((int) (rot += 1));
         self.getSprite().nextFrame();
     }
 
