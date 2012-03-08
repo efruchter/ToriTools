@@ -163,7 +163,7 @@ public abstract class Binary {
             globalLogic(ScriptUtils.getCurrentLevel());
             ScriptUtils.getCurrentLevel().onUpdate((float) FRAMERATE);
             ScriptUtils.getKeyHolder().freeQueuedKeys();
-            System.out.println(ScriptUtils.cachedImageAmount());
+            //System.out.println(ScriptUtils.cachedImageAmount());
         }
     }
 

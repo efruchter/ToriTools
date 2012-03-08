@@ -18,168 +18,168 @@ import toritools.scripting.EntityScript;
  * 
  */
 public class Entity {
-	
-	/**
-	 * Static vars for optimization.
-	 */
-	protected static Vector2 BASE_VECT = new Vector2();
-	protected static AbstractSprite BASE_SPRITE;
 
-	/**
-	 * Holds all variables for the entity.
-	 */
-	protected VariableCase variables = new VariableCase();
+    /**
+     * Static vars for optimization.
+     */
+    protected static Vector2 BASE_VECT = Vector2.ZERO;;
+    protected static AbstractSprite BASE_SPRITE = new AbstractSprite.AbstractSpriteAdapter();
 
-	/**
-	 * The control script for this entity.
-	 */
-	protected List<EntityScript> scripts = new ArrayList<EntityScript>();
+    /**
+     * Holds all variables for the entity.
+     */
+    protected VariableCase variables = new VariableCase();
 
-	/*
-	 * INSTANCE ENTITY VARIABLES
-	 */
-	protected Vector2 pos = BASE_VECT, dim = BASE_VECT;
-	protected boolean solid = false;
-	protected String type = "";
-	protected int layer = 0;
-	protected boolean visible = true;
-	protected boolean active = true;
+    /**
+     * The control script for this entity.
+     */
+    protected List<EntityScript> scripts = new ArrayList<EntityScript>();
 
-	protected AbstractSprite sprite = BASE_SPRITE;
+    /*
+     * INSTANCE ENTITY VARIABLES
+     */
+    protected Vector2 pos = BASE_VECT, dim = BASE_VECT;
+    protected boolean solid = false;
+    protected String type = "";
+    protected int layer = 0;
+    protected boolean visible = true;
+    protected boolean active = true;
 
-	protected boolean inView = true;
+    protected AbstractSprite sprite = BASE_SPRITE;
 
-	/*
-	 * Editor variables!
-	 */
-	protected String file = "";
+    protected boolean inView = true;
 
-	protected int direction = 0;
+    /*
+     * Editor variables!
+     */
+    protected String file = "";
 
-	/*
-	 * CONTROL METHODS
-	 */
+    protected int direction = 0;
 
-	public void onSpawn(final Level level) {
-		for(EntityScript script: scripts)
-			script.onSpawn(this, level);
-	}
+    /*
+     * CONTROL METHODS
+     */
 
-	public void onUpdate(final float time, final Level level) {
-		for(EntityScript script: scripts)
-			script.onUpdate(this, time, level);
-	}
+    public void onSpawn(final Level level) {
+        for (EntityScript script : scripts)
+            script.onSpawn(this, level);
+    }
 
-	public void onDeath(final Level level, final boolean isRoomExit) {
-		for(EntityScript script: scripts)
-			script.onDeath(this, level, isRoomExit);
-	}
+    public void onUpdate(final float time, final Level level) {
+        for (EntityScript script : scripts)
+            script.onUpdate(this, time, level);
+    }
 
-	public void draw(final Graphics g, final Vector2 offset) {
-		sprite.draw(g, this, pos.add(offset), dim);
-	}
+    public void onDeath(final Level level, final boolean isRoomExit) {
+        for (EntityScript script : scripts)
+            script.onDeath(this, level, isRoomExit);
+    }
 
-	public void addVariables(final HashMap<String, String> variables) {
-		this.variables.getVariables().putAll(variables);
-	}
+    public void draw(final Graphics g, final Vector2 offset) {
+        sprite.draw(g, this, pos.add(offset), dim);
+    }
 
-	public Vector2 getPos() {
-		return pos;
-	}
+    public void addVariables(final HashMap<String, String> variables) {
+        this.variables.getVariables().putAll(variables);
+    }
 
-	public void setPos(Vector2 pos) {
-		this.pos = pos;
-	}
+    public Vector2 getPos() {
+        return pos;
+    }
 
-	public Vector2 getDim() {
-		return dim;
-	}
+    public void setPos(Vector2 pos) {
+        this.pos = pos;
+    }
 
-	public void setDim(Vector2 dim) {
-		this.dim = dim;
-	}
+    public Vector2 getDim() {
+        return dim;
+    }
 
-	public boolean isSolid() {
-		return solid;
-	}
+    public void setDim(Vector2 dim) {
+        this.dim = dim;
+    }
 
-	public void setSolid(boolean solid) {
-		this.solid = solid;
-	}
+    public boolean isSolid() {
+        return solid;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setSolid(boolean solid) {
+        this.solid = solid;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public boolean isVisible() {
-		return visible;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
+    public boolean isVisible() {
+        return visible;
+    }
 
-	public boolean isActive() {
-		return active;
-	}
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public boolean isActive() {
+        return active;
+    }
 
-	public AbstractSprite getSprite() {
-		return sprite;
-	}
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-	public void setSprite(AbstractSprite sprite) {
-		this.sprite = sprite;
-	}
+    public AbstractSprite getSprite() {
+        return sprite;
+    }
 
-	public boolean isInView() {
-		return inView;
-	}
+    public void setSprite(AbstractSprite sprite) {
+        this.sprite = sprite;
+    }
 
-	public void setInView(boolean inView) {
-		this.inView = inView;
-	}
+    public boolean isInView() {
+        return inView;
+    }
 
-	public int getDirection() {
-		return direction;
-	}
+    public void setInView(boolean inView) {
+        this.inView = inView;
+    }
 
-	public void setDirection(int direction) {
-		this.direction = direction % 360;
-	}
+    public int getDirection() {
+        return direction;
+    }
 
-	public VariableCase getVariableCase() {
-		return variables;
-	}
+    public void setDirection(int direction) {
+        this.direction = direction % 360;
+    }
 
-	public int getLayer() {
-		return layer;
-	}
+    public VariableCase getVariableCase() {
+        return variables;
+    }
 
-	public String getFile() {
-		return file;
-	}
+    public int getLayer() {
+        return layer;
+    }
 
-	public void setFile(final String file) {
-		this.file = file;
-	}
+    public String getFile() {
+        return file;
+    }
 
-	public void addScript(EntityScript script) {
-		scripts.add(script);
-	}
-	
-	public void clearScripts() {
-		scripts.clear();
-	}
+    public void setFile(final String file) {
+        this.file = file;
+    }
 
-	public void setLayer(int layer) {
-		this.layer = layer;
-	}
+    public void addScript(EntityScript script) {
+        scripts.add(script);
+    }
+
+    public void clearScripts() {
+        scripts.clear();
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
 }
