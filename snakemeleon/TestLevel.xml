@@ -1,5 +1,6 @@
 <level map="height = 1000;width = 1000;">
 <objects>
-<entity map="sprite.sizeOffset = 4;dimensions.y = 25;template = /objects/chameleon/player.entity;solid = false;position.y = 288.0;sprite.timeScale = 5;sprite.sheet = playersheet.png, 4, 4;position.x = 448.0;description = The dude you move.;layer = 0;type = player;dimensions.x = 25;"/>
+<entity map="dimensions.y = 32.0;yTiles = 9;yTile = 7;position.y = 288.0;position.x = 224.0;xTiles = 16;xTile = 7;layer = 4;image = /backgrounds/tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
+<entity map="sprite.sizeOffset = 4;template = /objects/chameleon/player.entity;position.y = 128.0;sprite.timeScale = 5;position.x = 128.0;layer = 0;type = player;id = player;dimensions.y = 25;solid = false;sprite.sheet = playersheet.png, 4, 4;description = The dude you move.;dimensions.x = 25;"/>
 </objects>
 </level>
