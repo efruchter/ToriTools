@@ -15,6 +15,7 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
 import toritools.io.Importer;
+import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.physics.Universe;
 import toritools.scripting.ScriptUtils;
@@ -22,13 +23,22 @@ import toritools.scripting.ScriptUtils;
 public class Snakemeleon extends Binary {
 
     /*
-     * GAME VARIABLES
+     * CONSTANTS!
      */
+
+    final private static int cameraLag = 12;
+    final private static Vector2 gravity = new Vector2(0, 9.81f / 4);
 
     /**
      * The core universe. Reference this to apply forces, etc.
      */
     public static Universe uni;
+
+    /*
+     * The midpoint chain with the a tracking the player, and being the camera
+     * offset.
+     */
+    private static MidpointChain camera;
 
     public static void main(String[] args) {
         new Snakemeleon();
@@ -49,13 +59,20 @@ public class Snakemeleon extends Binary {
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
         }
+
         uni.step(60 / 1000f);
+
+        // Camera step
+        camera.setA(level.getEntityWithId("player").getPos());
+        camera.smoothTowardA();
     }
 
     @Override
     protected void setupCurrentLevel(Level levelBeingLoaded) {
 
-        uni = new Universe(new Vector2(0, 9.81f / 4));
+        uni = new Universe(gravity);
+
+        camera = new MidpointChain(levelBeingLoaded.getEntityWithId("player").getPos(), cameraLag);
 
         for (Entity en : levelBeingLoaded.getEntitiesWithType("player")) {
             en.addScript(new ChameleonScript());
@@ -111,8 +128,8 @@ public class Snakemeleon extends Binary {
                 System.out.println("You need to make an entity with id set to player!");
                 System.exit(1);
             }
-            Vector2 playerPos = player.getPos();
-            Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
+
+            Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
 
             rootCanvas.setColor(Color.BLACK);
             rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
