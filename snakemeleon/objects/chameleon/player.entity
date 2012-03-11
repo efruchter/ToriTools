@@ -1,12 +1,12 @@
 type = player;
 description = The dude you move.;
-dimensions.x = 30;
-dimensions.y = 30;
+dimensions.x = 32;
+dimensions.y = 32;
 solid = false;
 id = player;
 
-sprite.sheet = playersheet.png, 4, 4;
-sprite.timeScale = 5;
+sprite.sheet = playersheet.png, 1, 1;
+sprite.timeScale = 1;
 sprite.sizeOffset = 0;
 
 

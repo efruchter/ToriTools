@@ -54,16 +54,16 @@ public class Snakemeleon extends Binary {
         uni = new Universe(new Vector2(0, 9.81f / 4));
         for (Entity en : levelBeingLoaded.getEntitiesWithType("player")) {
             en.addScript(new ChameleonScript());
-            uni.addEntity(en, true, true);
+            uni.addEntity(en, true, true,true,  1);
         }
         
         for (Entity e : levelBeingLoaded.getEntitiesWithType("WALL")) {
-            uni.addEntity(e, false, false);
+            uni.addEntity(e, false, false, false, .5f);
             // uni.addSpring(e, levelBeingLoaded.getEntityWithId("player"));
         }
         
         for (Entity e : levelBeingLoaded.getEntitiesWithType("crate")) {
-            uni.addEntity(e, true, true);
+            uni.addEntity(e, true, true,false, .5f);
         }
     }
 
@@ -108,8 +108,8 @@ public class Snakemeleon extends Binary {
 
             for (Entity wall : level.getEntitiesWithType("WALL")) {
                 rootCanvas.setColor(Color.RED);
-                rootCanvas.fillRect((int) (wall.getPos().x + offset.x), (int) (wall.getPos().y + offset.y), wall.getDim().getWidth(), wall
-                        .getDim().getHeight());
+                rootCanvas.fillRect((int) (wall.getPos().x + offset.x), (int) (wall.getPos().y + offset.y), wall
+                        .getDim().getWidth(), wall.getDim().getHeight());
 
             }
 

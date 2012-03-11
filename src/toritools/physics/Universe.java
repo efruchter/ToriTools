@@ -2,7 +2,9 @@ package toritools.physics;
 
 import java.util.HashMap;
 
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -45,19 +47,40 @@ public class Universe {
         world.step(dt, 8, 3);
     }
 
-    public void addEntity(final Entity ent, final boolean dynamic, final boolean allowRotation) {
+    /**
+     * Add an entity to the simulation. The entity will be given an additional
+     * script that keeps it synced with its simulation representation..
+     * 
+     * @param ent
+     *            the entity to add.
+     * @param dynamic
+     *            true if the entity should respond to forces.
+     * @param allowRotation
+     *            true if rotation should be allowed.
+     * @param density
+     *            default is 1, adjust accordingly.
+     */
+    public void addEntity(final Entity ent, final boolean dynamic, final boolean allowRotation,
+            final boolean spherical, final float density) {
         BodyDef bd = new BodyDef();
         bd.fixedRotation = !allowRotation;
         bd.type = dynamic ? BodyType.DYNAMIC : BodyType.STATIC;
-        bd.position.set(ent.getPos().x / PTM_RATIO + ent.getDim().x / 2 / PTM_RATIO, ent.getPos().y / PTM_RATIO + ent.getDim().y / 2 / PTM_RATIO);
+        bd.position.set(ent.getPos().x / PTM_RATIO + ent.getDim().x / 2 / PTM_RATIO,
+                ent.getPos().y / PTM_RATIO + ent.getDim().y / 2 / PTM_RATIO);
 
-        PolygonShape p = new PolygonShape();
-        p.setAsBox(ent.getDim().x / PTM_RATIO / 2, ent.getDim().y / PTM_RATIO / 2);
+        Shape p = null;
+        if (!spherical) {
+            p = new PolygonShape();
+            ((PolygonShape) p).setAsBox(ent.getDim().x / PTM_RATIO / 2, ent.getDim().y / PTM_RATIO / 2);
+        } else {
+            p = new CircleShape();
+            p.m_radius = ent.getDim().x / PTM_RATIO / 2;
+        }
 
         // Create a fixture for ball
         FixtureDef fd = new FixtureDef();
         fd.shape = p;
-        fd.density = 1f;
+        fd.density = density;
         fd.friction = 0.3f;
         fd.restitution = 0.5f;
         Body body = world.createBody(bd);
@@ -123,7 +146,9 @@ public class Universe {
         }
     }
 
-    public Body getBody(final Entity entity) {
-        return bodyMap.get(entity);
+    public void applyForce(final Entity e, final Vector2 force) {
+        Body b = bodyMap.get(e);
+        if (b != null)
+            b.applyForce(force.toVec(), b.getWorldCenter());
     }
 }
