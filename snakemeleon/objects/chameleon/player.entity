@@ -1,5 +1,5 @@
 type = player;
-description = The dude you move.;
+description = The player character.;
 dimensions.x = 32;
 dimensions.y = 32;
 solid = false;

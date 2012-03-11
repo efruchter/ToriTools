@@ -124,6 +124,11 @@ public class ScriptUtils {
         return true;
     }
 
+    public static boolean isPointWithin(final Entity a, final Vector2 point) {
+        return point.x > a.getPos().x && point.x < a.getPos().x + a.getDim().x && point.y > a.getPos().y
+                && point.y < a.getPos().y + a.getDim().y;
+    }
+
     public static boolean isCollidingRad(final Entity a, final Entity b) {
         return Vector2.dist(a.getPos().add(a.getDim().scale(.5f)), b.getPos().add(b.getDim().scale(.5f))) < a.getDim().x
                 / 2 + b.getDim().x / 2;

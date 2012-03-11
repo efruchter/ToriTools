@@ -100,7 +100,7 @@ public class Universe {
      */
     public void addHinge(Entity a, Entity b, final Vector2 hingePosition) {
         RevoluteJointDef def = new RevoluteJointDef();
-        def.initialize(bodyMap.get(a), bodyMap.get(b), hingePosition.toVec());
+        def.initialize(bodyMap.get(a), bodyMap.get(b), hingePosition.scale(1f / PTM_RATIO).toVec());
         world.createJoint(def);
     }
 

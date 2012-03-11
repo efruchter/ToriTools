@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -40,12 +41,14 @@ public class Snakemeleon extends Binary {
 
     @Override
     protected void initialize() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     protected void globalLogic(Level level) {
+        if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
+            System.exit(0);
+        }
         uni.step(60 / 1000f);
     }
 
@@ -54,16 +57,31 @@ public class Snakemeleon extends Binary {
         uni = new Universe(new Vector2(0, 9.81f / 4));
         for (Entity en : levelBeingLoaded.getEntitiesWithType("player")) {
             en.addScript(new ChameleonScript());
-            uni.addEntity(en, true, true,true,  1);
+            uni.addEntity(en, true, true, true, 1);
         }
-        
+
         for (Entity e : levelBeingLoaded.getEntitiesWithType("WALL")) {
             uni.addEntity(e, false, false, false, .5f);
-            // uni.addSpring(e, levelBeingLoaded.getEntityWithId("player"));
         }
-        
+
         for (Entity e : levelBeingLoaded.getEntitiesWithType("crate")) {
-            uni.addEntity(e, true, true,false, .5f);
+            uni.addEntity(e, true, true, false, .05f);
+        }
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("hinge")) {
+            levelBeingLoaded.despawnEntity(e);
+            Entity a = null, b = null;
+            Vector2 pos = e.getPos().add(e.getDim().scale(.5f));
+            for (Entity crate : levelBeingLoaded.getEntitiesWithType("crate")) {
+                if (ScriptUtils.isPointWithin(crate, pos) && crate != e) {
+                    if (a == null)
+                        a = crate;
+                    else if (a != null)
+                        b = crate;
+                }
+            }
+
+            if (a != null && b != null)
+                uni.addHinge(a, b, pos);
         }
     }
 

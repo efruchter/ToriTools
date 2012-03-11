@@ -234,10 +234,8 @@ public class LevelEditor {
                     varEditor.setEntity(selected);
                     repaint();
                 } else if (arg0.getButton() == MouseEvent.BUTTON1) {
-                    System.err.println("Click");
                     if (current != null) {
                         Vector2 p = new Vector2(arg0.getPoint());
-                        deleteOverlapping(p);
                         p = getClosestGridPoint(p);
                         Entity e = new Entity();
                         e.setFile(current.getFile());
@@ -919,7 +917,8 @@ public class LevelEditor {
 
         if (!entityExists(e)) {
             ImageIcon bI = new ImageIcon();
-            bI.setImage(ScriptUtils.fetchImage(e.getSprite().getImageIndex()).getScaledInstance(32, 32, 0));
+            bI.setImage(ScriptUtils.fetchImage(e.getSprite().getImageIndex()).getScaledInstance(e.getDim().getWidth(),
+                    e.getDim().getHeight(), 0));
             JButton b = new JButton(bI);
             b.setToolTipText(data.get("description"));
             b.addActionListener(new ActionListener() {
