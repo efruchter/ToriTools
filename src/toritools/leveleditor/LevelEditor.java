@@ -52,6 +52,7 @@ import org.w3c.dom.Node;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.entity.ReservedTypes;
 import toritools.io.Importer;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
@@ -163,7 +164,7 @@ public class LevelEditor {
             } else if (mode == Mode.BG) {
                 if (m.getButton() == MouseEvent.BUTTON3) {
                     for (Entity e : getOverlapping(new Vector2(m.getPoint()))) {
-                        if ("BACKGROUND".equals(e.getType())) {
+                        if (ReservedTypes.BACKGROUND.equals(e.getType())) {
                             entities.remove(e);
                         }
                         repaint();
@@ -971,9 +972,9 @@ public class LevelEditor {
             public int compare(Entity a, Entity b) {
                 int ret = new Integer(b.getLayer()).compareTo(new Integer(a.getLayer()));
                 if (ret == 0) {
-                    if ("WALL".equals(a.getType()))
+                    if (ReservedTypes.WALL.equals(a.getType()))
                         return 1;
-                    else if ("WALL".equals(b.getType()))
+                    else if (ReservedTypes.WALL.equals(b.getType()))
                         return -1;
                     else
                         return 0;

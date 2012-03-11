@@ -1,9 +1,0 @@
-type = crate;
-description = A thinner crate for making planks and bridges.;
-dimensions.x = 50;
-dimensions.y = 20;
-solid = false;
-
-sprite.sheet = crate.png, 1, 1;
-
-

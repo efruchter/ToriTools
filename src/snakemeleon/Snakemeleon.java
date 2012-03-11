@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import snakemeleon.types.ChameleonScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.entity.ReservedTypes;
 import toritools.entrypoint.Binary;
 import toritools.io.Importer;
 import toritools.math.MidpointChain;
@@ -25,9 +26,6 @@ public class Snakemeleon extends Binary {
     /*
      * CONSTANTS!
      */
-
-    final private static int cameraLag = 12;
-    final private static Vector2 gravity = new Vector2(0, 9.81f / 4);
 
     /**
      * The core universe. Reference this to apply forces, etc.
@@ -63,40 +61,40 @@ public class Snakemeleon extends Binary {
         uni.step(60 / 1000f);
 
         // Camera step
-        camera.setA(level.getEntityWithId("player").getPos());
+        camera.setA(level.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos());
         camera.smoothTowardA();
     }
 
     @Override
     protected void setupCurrentLevel(Level levelBeingLoaded) {
 
-        uni = new Universe(gravity);
+        uni = new Universe(SnakemeleonConstants.gravity);
 
-        camera = new MidpointChain(levelBeingLoaded.getEntityWithId("player").getPos(), cameraLag);
+        camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(), SnakemeleonConstants.cameraLag);
 
-        for (Entity en : levelBeingLoaded.getEntitiesWithType("player")) {
+        for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
             en.addScript(new ChameleonScript());
             uni.addEntity(en, true, true, true, 1);
         }
 
-        for (Entity e : levelBeingLoaded.getEntitiesWithType("WALL")) {
+        for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
             uni.addEntity(e, false, false, false, .5f);
         }
 
-        for (Entity e : levelBeingLoaded.getEntitiesWithType("crate")) {
+        for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
             uni.addEntity(e, true, true, false, .05f);
         }
 
-        for (Entity e : levelBeingLoaded.getEntitiesWithType("hinge")) {
+        for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.hingeType)) {
             levelBeingLoaded.despawnEntity(e);
             Entity a = null, b = null;
             Vector2 pos = e.getPos().add(e.getDim().scale(.5f));
-            for (Entity crate : levelBeingLoaded.getEntitiesWithType("crate")) {
-                if (ScriptUtils.isPointWithin(crate, pos) && crate != e) {
+            for (Entity object : levelBeingLoaded.getNewEntities()) {
+                if (!object.getType().equals(ReservedTypes.BACKGROUND) && ScriptUtils.isPointWithin(object, pos) && object != e) {
                     if (a == null)
-                        a = crate;
+                        a = object;
                     else if (a != null)
-                        b = crate;
+                        b = object;
                 }
             }
 
@@ -123,7 +121,7 @@ public class Snakemeleon extends Binary {
         try {
             ((Graphics2D) rootCanvas).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                     RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            Entity player = level.getEntityWithId("player");
+            Entity player = level.getEntityWithId(SnakemeleonConstants.playerTypeId);
             if (player == null) {
                 System.out.println("You need to make an entity with id set to player!");
                 System.exit(1);
@@ -145,7 +143,7 @@ public class Snakemeleon extends Binary {
             }
 
             /*
-             * for (Entity wall : level.getEntitiesWithType("WALL")) {
+             * for (Entity wall : level.getEntitiesWithType(ReservedTypes.WALL)) {
              * rootCanvas.setColor(Color.RED); rootCanvas.fillRect((int)
              * (wall.getPos().x + offset.x), (int) (wall.getPos().y + offset.y),
              * wall .getDim().getWidth(), wall.getDim().getHeight());

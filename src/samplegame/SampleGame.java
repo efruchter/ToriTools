@@ -18,6 +18,7 @@ import samplegame.customscripts.WolfScript;
 import samplegame.customscripts.WorldPortalScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.entity.ReservedTypes;
 import toritools.entrypoint.Binary;
 import toritools.io.Importer;
 import toritools.math.Vector2;
@@ -129,7 +130,7 @@ public class SampleGame extends Binary {
     			for (Entity e : level.getLayers().get(i)) {
     				if (e.isVisible() && e.isInView())
     					e.draw(rootCanvas, offset);
-    				if (!"BACKGROUND".equals(e.getType())
+    				if (!ReservedTypes.BACKGROUND.equals(e.getType())
     						&& ScriptUtils.isDebugMode()) {
     					rootCanvas.setColor(Color.RED);
     					rootCanvas.drawRect((int) (e.getPos().x + offset.x),

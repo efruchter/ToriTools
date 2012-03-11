@@ -175,7 +175,7 @@ public class Importer {
 
         bg.getVariableCase().setVar("dimensions.x", dim.x + "");
         bg.getVariableCase().setVar("dimensions.y", dim.y + "");
-        bg.setType("BACKGROUND");
+        bg.setType(ReservedTypes.BACKGROUND);
         bg.getVariableCase().setVar("type", bg.getType());
         bg.setSprite(new ImageSprite(image, xTiles, yTiles));
         bg.getSprite().setFrame(x);
@@ -191,8 +191,8 @@ public class Importer {
         wall.getVariableCase().setVar("dimensions.y", dim.y + "");
         wall.setSolid(true);
         wall.getVariableCase().setVar("solid", "true");
-        wall.setType("WALL");
-        wall.getVariableCase().setVar("type", "WALL");
+        wall.setType(ReservedTypes.WALL);
+        wall.getVariableCase().setVar("type", ReservedTypes.WALL);
         wall.setVisible(false);
         wall.getVariableCase().setVar("visible", "false");
         wall.setSprite(new AbstractSprite() {
