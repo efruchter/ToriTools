@@ -154,6 +154,14 @@ public class Level extends Entity {
 
     private Image baked;
 
+    /**
+     * Draw every BACKGROUND object to a large volatile image, and delete all
+     * the objects. This speeds up performance by removing pointless iterations
+     * and lookups, but prevents background objects from being in the
+     * foreground.
+     * 
+     * @return the baked image.
+     */
     public Image bakeBackground() {
         baked = Binary.gc.createCompatibleVolatileImage((int) dim.x, (int) dim.y, VolatileImage.TRANSLUCENT);
         ((VolatileImage) baked).validate(Binary.gc);
