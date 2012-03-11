@@ -1,15 +1,17 @@
 package toritools.physics;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.joints.DistanceJointDef;
+import org.jbox2d.dynamics.joints.RevoluteJointDef;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -28,6 +30,8 @@ public class Universe {
     final private World world;
     final private HashMap<Entity, Body> bodyMap;
 
+    final private float PTM_RATIO = 32;
+
     public Universe(final Vector2 gravity) {
         world = new World(new Vec2(gravity.x, gravity.y), true);
         bodyMap = new HashMap<Entity, Body>();
@@ -41,23 +45,21 @@ public class Universe {
         world.step(dt, 8, 3);
     }
 
-    public void addEntity(final Entity ent, final boolean dynamic, final boolean circular, final boolean allowRotation) {
-        removeEntity(ent);
+    public void addEntity(final Entity ent, final boolean dynamic, final boolean allowRotation) {
         BodyDef bd = new BodyDef();
         bd.fixedRotation = !allowRotation;
-        bd.allowSleep = true;
         bd.type = dynamic ? BodyType.DYNAMIC : BodyType.STATIC;
-        bd.position.set(ent.getPos().x, ent.getPos().y);
+        bd.position.set(ent.getPos().x / PTM_RATIO + ent.getDim().x / 2 / PTM_RATIO, ent.getPos().y / PTM_RATIO + ent.getDim().y / 2 / PTM_RATIO);
 
         PolygonShape p = new PolygonShape();
-        p.setAsBox(ent.getDim().x, ent.getDim().y);
+        p.setAsBox(ent.getDim().x / PTM_RATIO / 2, ent.getDim().y / PTM_RATIO / 2);
 
         // Create a fixture for ball
         FixtureDef fd = new FixtureDef();
         fd.shape = p;
-        fd.density = 0.9f;
+        fd.density = 1f;
         fd.friction = 0.3f;
-        fd.restitution = 0.6f;
+        fd.restitution = 0.5f;
         Body body = world.createBody(bd);
         body.createFixture(fd);
 
@@ -67,9 +69,29 @@ public class Universe {
     }
 
     /**
+     * Construct a hinge. Be sure the shapes are overlapping at the given point.
+     * 
+     * @param a
+     * @param b
+     * @param hingePosition
+     */
+    public void addHinge(Entity a, Entity b, final Vector2 hingePosition) {
+        RevoluteJointDef def = new RevoluteJointDef();
+        def.initialize(bodyMap.get(a), bodyMap.get(b), hingePosition.toVec());
+        world.createJoint(def);
+    }
+
+    public void addSpring(Entity a, Entity b) {
+        DistanceJointDef def = new DistanceJointDef();
+        def.initialize(bodyMap.get(a), bodyMap.get(b), bodyMap.get(a).getWorldCenter(), bodyMap.get(b).getWorldCenter());
+        def.collideConnected = true;
+        world.createJoint(def);
+    }
+
+    /**
      * This script keeps the entity model synced with the physics model.
      */
-    private final EntityScript serviceScript = new EntityScript() {
+    private final EntityScript serviceScript = new EntityScriptAdapter() {
 
         @Override
         public void onDeath(Entity self, Level level, boolean isRoomExit) {
@@ -79,24 +101,29 @@ public class Universe {
         }
 
         @Override
-        public void onSpawn(Entity self, Level level) {
-
-        }
-
-        @Override
         public void onUpdate(Entity self, float time, Level level) {
-
-            Body body = bodyMap.get(self);
-
-            self.setPos(new Vector2(body.getPosition().x, body.getPosition().y));
+            Transform body = bodyMap.get(self).getTransform();
+            Vector2 newPos = new Vector2((body.position.x * PTM_RATIO) - self.getDim().x / 2, body.position.y
+                    * PTM_RATIO - self.getDim().y / 2);
+            // System.out.println(newPos + " | " + self.getPos());
+            self.setPos(newPos);
             self.setDirection((int) (body.getAngle() * 57.3));
         }
     };
 
+    /**
+     * Remove an entity, and corresponding body from the map and the simulation.
+     * 
+     * @param ent
+     */
     private void removeEntity(Entity ent) {
         if (bodyMap.containsKey(ent)) {
             world.destroyBody(bodyMap.get(ent));
             bodyMap.remove(ent);
         }
+    }
+
+    public Body getBody(final Entity entity) {
+        return bodyMap.get(entity);
     }
 }

@@ -20,6 +20,15 @@ import toritools.scripting.ScriptUtils;
 
 public class Snakemeleon extends Binary {
 
+    /*
+     * GAME VARIABLES
+     */
+
+    /**
+     * The core universe. Reference this to apply forces, etc.
+     */
+    public static Universe uni;
+
     public static void main(String[] args) {
         new Snakemeleon();
     }
@@ -37,11 +46,36 @@ public class Snakemeleon extends Binary {
 
     @Override
     protected void globalLogic(Level level) {
-
-        // body.applyLinearImpulse(new Vec2(100, 0), body.getPosition());
-        // body.applyTorque(500f);
-
         uni.step(60 / 1000f);
+    }
+
+    @Override
+    protected void setupCurrentLevel(Level levelBeingLoaded) {
+        uni = new Universe(new Vector2(0, 9.81f / 4));
+        for (Entity en : levelBeingLoaded.getEntitiesWithType("player")) {
+            en.addScript(new ChameleonScript());
+            uni.addEntity(en, true, true);
+        }
+        
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("WALL")) {
+            uni.addEntity(e, false, false);
+            // uni.addSpring(e, levelBeingLoaded.getEntityWithId("player"));
+        }
+        
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("crate")) {
+            uni.addEntity(e, true, true);
+        }
+    }
+
+    @Override
+    protected Level getStartingLevel() {
+        try {
+            return Importer.importLevel(new File("snakemeleon/TestLevel.xml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
     }
 
     @Override
@@ -54,8 +88,8 @@ public class Snakemeleon extends Binary {
                 System.out.println("You need to make an entity with id set to player!");
                 System.exit(1);
             }
-            // Vector2 playerPos = player.getPos();
-            Vector2 offset = Vector2.ZERO; // VIEWPORT.scale(.5f).sub(playerPos);
+            Vector2 playerPos = player.getPos();
+            Vector2 offset = VIEWPORT.scale(.5f).sub(playerPos);
 
             rootCanvas.setColor(Color.BLACK);
             rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
@@ -72,10 +106,11 @@ public class Snakemeleon extends Binary {
                 }
             }
 
-            rootCanvas.setColor(Color.RED);
             for (Entity wall : level.getEntitiesWithType("WALL")) {
-                rootCanvas.fillRect(wall.getPos().getWidth(), wall.getPos().getHeight(), wall.getDim().getWidth(), wall
+                rootCanvas.setColor(Color.RED);
+                rootCanvas.fillRect((int) (wall.getPos().x + offset.x), (int) (wall.getPos().y + offset.y), wall.getDim().getWidth(), wall
                         .getDim().getHeight());
+
             }
 
         } catch (final Exception e) {
@@ -83,30 +118,5 @@ public class Snakemeleon extends Binary {
             return false;
         }
         return true;
-    }
-
-    Universe uni;
-
-    @Override
-    protected void setupCurrentLevel(Level levelBeingLoaded) {
-        uni = new Universe(new Vector2(0, 9.81f));
-        for (Entity e : levelBeingLoaded.getEntitiesWithType("player")) {
-            e.addScript(new ChameleonScript());
-            uni.addEntity(e, true, false, true);
-        }
-        for (Entity e : levelBeingLoaded.getEntitiesWithType("WALL")) {
-            uni.addEntity(e, false, true, true);
-        }
-    }
-
-    @Override
-    protected Level getStartingLevel() {
-        try {
-            return Importer.importLevel(new File("snakemeleon/TestLevel.xml"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return null;
     }
 }
