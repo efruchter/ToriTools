@@ -61,17 +61,17 @@ public class Entity {
      */
 
     public void onSpawn(final Level level) {
-        for (EntityScript script : scripts)
+        for (EntityScript script : new ArrayList<EntityScript>(scripts))
             script.onSpawn(this, level);
     }
 
     public void onUpdate(final float time, final Level level) {
-        for (EntityScript script : scripts)
+        for (EntityScript script : new ArrayList<EntityScript>(scripts))
             script.onUpdate(this, time, level);
     }
 
     public void onDeath(final Level level, final boolean isRoomExit) {
-        for (EntityScript script : scripts)
+        for (EntityScript script : new ArrayList<EntityScript>(scripts))
             script.onDeath(this, level, isRoomExit);
     }
 

@@ -5,13 +5,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import javax.swing.ImageIcon;
 
-import maryb.player.Player;
+import org.jbox2d.dynamics.BodyType;
 
+import maryb.player.Player;
 import snakemeleon.types.ChameleonScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -39,6 +43,10 @@ public class Snakemeleon extends Binary {
      * offset.
      */
     private static MidpointChain camera;
+    private static Vector2 offset = Vector2.ZERO;
+
+    public static boolean isMouseDragging = false;
+    public static Vector2 mousePos = Vector2.ZERO;
 
     public static void main(String[] args) {
         new Snakemeleon();
@@ -47,6 +55,51 @@ public class Snakemeleon extends Binary {
     public Snakemeleon() {
         super(new Vector2(800, 600), 60, "Snakemeleon");
         super.getApplicationFrame().setIconImage(new ImageIcon("snakemeleon/chameleon_head.png").getImage());
+
+        /**
+         * Set up a mouse tracker.
+         */
+        super.getApplicationFrame().addMouseMotionListener(new MouseMotionListener() {
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Snakemeleon.isMouseDragging = true;
+                mouseMoved(e);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mousePos = new Vector2(-offset.getWidth() + e.getX(), -offset.getHeight() + e.getY());
+            }
+        });
+
+        super.getApplicationFrame().addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Snakemeleon.isMouseDragging = false;
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                mouseReleased(e);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                mouseReleased(e);
+            }
+        });
     }
 
     @Override
@@ -67,6 +120,10 @@ public class Snakemeleon extends Binary {
         // Camera step
         camera.setA(level.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos());
         camera.smoothTowardA();
+
+        offset = VIEWPORT.scale(.5f).sub(camera.getB());
+
+        // System.out.println(isMouseDragging + " " + mousePos);
     }
 
     @Override
@@ -79,15 +136,15 @@ public class Snakemeleon extends Binary {
 
         for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
             en.addScript(new ChameleonScript());
-            uni.addEntity(en, true, true, true, 1);
+            uni.addEntity(en, BodyType.DYNAMIC, true, true, 1);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
-            uni.addEntity(e, false, false, false, .5f);
+            uni.addEntity(e, BodyType.STATIC, false, false, .5f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
-            uni.addEntity(e, true, true, false, .05f);
+            uni.addEntity(e, BodyType.DYNAMIC, true, false, .05f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.hingeType)) {
@@ -135,8 +192,6 @@ public class Snakemeleon extends Binary {
 
             rootCanvas.setColor(Color.BLACK);
             rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-
-            Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
 
             ((Graphics2D) rootCanvas).translate(offset.getWidth(), offset.getHeight());
 

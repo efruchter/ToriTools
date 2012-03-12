@@ -19,6 +19,9 @@ public class ChameleonScript implements EntityScript {
     @Override
     public void onUpdate(Entity self, float time, Level level) {
 
+        if (Snakemeleon.isMouseDragging && level.getEntityWithId("tongue") == null)
+            level.spawnEntity(new Tongue(self));
+
         float dx = 0, dy = 0;
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
             dx += -1;

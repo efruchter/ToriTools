@@ -10,6 +10,8 @@ import toritools.math.Vector2;
  */
 public class SnakemeleonConstants {
 
+    public static int tongueLength = 20;
+
     private SnakemeleonConstants() {
     }
 

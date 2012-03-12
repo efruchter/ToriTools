@@ -32,7 +32,7 @@ public class Universe {
     final private World world;
     final private HashMap<Entity, Body> bodyMap;
 
-    final private float PTM_RATIO = 32;
+    final public float PTM_RATIO = 32;
 
     public Universe(final Vector2 gravity) {
         world = new World(new Vec2(gravity.x, gravity.y), true);
@@ -53,18 +53,18 @@ public class Universe {
      * 
      * @param ent
      *            the entity to add.
-     * @param dynamic
-     *            true if the entity should respond to forces.
+     * @param bodyType
+     *            the Body type
      * @param allowRotation
      *            true if rotation should be allowed.
      * @param density
      *            default is 1, adjust accordingly.
      */
-    public void addEntity(final Entity ent, final boolean dynamic, final boolean allowRotation,
+    public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
             final boolean spherical, final float density) {
         BodyDef bd = new BodyDef();
         bd.fixedRotation = !allowRotation;
-        bd.type = dynamic ? BodyType.DYNAMIC : BodyType.STATIC;
+        bd.type = bodyType;
         bd.position.set(ent.getPos().x / PTM_RATIO + ent.getDim().x / 2 / PTM_RATIO,
                 ent.getPos().y / PTM_RATIO + ent.getDim().y / 2 / PTM_RATIO);
 
@@ -88,7 +88,10 @@ public class Universe {
 
         bodyMap.put(ent, body);
 
-        ent.addScript(serviceScript);
+        if (bodyType == BodyType.DYNAMIC)
+            ent.addScript(serviceScript);
+
+        return body;
     }
 
     /**
@@ -139,7 +142,7 @@ public class Universe {
      * 
      * @param ent
      */
-    private void removeEntity(Entity ent) {
+    public void removeEntity(Entity ent) {
         if (bodyMap.containsKey(ent)) {
             world.destroyBody(bodyMap.get(ent));
             bodyMap.remove(ent);

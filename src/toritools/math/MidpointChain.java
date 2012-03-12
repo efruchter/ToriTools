@@ -77,8 +77,8 @@ public class MidpointChain {
 	 * "shrink" and smooth.
 	 */
 	public void smooth() {
-		smoothTowardA();
 		smoothTowardB();
+		smoothTowardA();
 	}
 
 	public void setA(final Vector2 a) {
