@@ -33,9 +33,9 @@ public class Explosion extends Entity {
 		
 		setSprite(new AbstractSpriteAdapter(){
 			@Override
-			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
+			public void draw(Graphics g, Entity self) {
 				g.setColor(color);
-				g.drawOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+                g.fillOval((int) self.getPos().x, (int) (self.getPos().y), (int) self.getDim().x, (int) self.getDim().y);
 			}
 		});
 	}

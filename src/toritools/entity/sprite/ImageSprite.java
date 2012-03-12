@@ -82,10 +82,10 @@ public class ImageSprite implements AbstractSprite {
      * @param position
      * @param dimension
      */
-    public void draw(final Graphics g, final Entity self, final Vector2 position, final Vector2 dimension) {
+    public void draw(final Graphics g, final Entity self) {
         int x = this.x / timeStretch;
-        Vector2 dim = dimension.add(sizeOffset * 2);
-        Vector2 pos = position.sub(sizeOffset);
+        Vector2 dim = self.getDim().add(sizeOffset * 2);
+        Vector2 pos = self.getPos().sub(sizeOffset);
 
         if (self.getDirection() != 0) {
 

@@ -79,8 +79,7 @@ public class DialogEntity extends Entity {
 
         setSprite(new AbstractSprite() {
             @Override
-            public void draw(final Graphics g, final Entity self, final Vector2 pos,
-                    final Vector2 dim) {
+            public void draw(final Graphics g, final Entity self) {
                 List<String> displayString = getCurrentDisplay();
                 if (displayString == null) {
                     return;

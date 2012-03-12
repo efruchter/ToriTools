@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.io.File;
 
 import toritools.entity.Entity;
-import toritools.math.Vector2;
 
 /**
  * This represents the visual component of an entity.
@@ -53,8 +52,7 @@ public interface AbstractSprite {
 	 * @param position
 	 * @param dimension
 	 */
-	void draw(final Graphics g, final Entity self, final Vector2 position,
-			final Vector2 dimension);
+	void draw(final Graphics g, final Entity self);
 
 	File getImageIndex();
 
@@ -88,7 +86,7 @@ public interface AbstractSprite {
 		public void setsizeOffset(int sizeOffset) {}
 
 		@Override
-		public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {}
+		public void draw(Graphics g, Entity self) {}
 
 		@Override
 		public File getImageIndex() {return null;}

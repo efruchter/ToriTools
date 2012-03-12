@@ -75,7 +75,7 @@ public class AudioProject extends Binary {
 			for (int i = level.getLayers().size() - 1; i >= 0; i--) {
 				for (Entity e : level.getLayers().get(i)) {
 					if (e.isVisible())
-						e.draw(rootCanvas, Vector2.ZERO);
+						e.draw(rootCanvas);
 				}
 			}
 			rootCanvas.setColor(Color.BLACK);

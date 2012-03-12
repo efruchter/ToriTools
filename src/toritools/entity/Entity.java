@@ -75,8 +75,8 @@ public class Entity {
             script.onDeath(this, level, isRoomExit);
     }
 
-    public void draw(final Graphics g, final Vector2 offset) {
-        sprite.draw(g, this, pos.add(offset), dim);
+    public void draw(final Graphics g) {
+        sprite.draw(g, this);
     }
 
     public void addVariables(final HashMap<String, String> variables) {

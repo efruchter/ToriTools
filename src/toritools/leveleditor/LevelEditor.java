@@ -985,7 +985,7 @@ public class LevelEditor {
         });
         for (Entity e : entities) {
             if (layerEditor.isLayerVisible(e.getLayer()))
-                e.draw(g, new Vector2());
+                e.draw(g);
         }
 
         if (selected != null) {

@@ -146,7 +146,7 @@ public class PlayerShip extends Entity {
 		setSprite(new AbstractSpriteAdapter() {
 
 			@Override
-			public void draw(Graphics g, Entity self, Vector2 position,	Vector2 dimension) {
+			public void draw(Graphics g, Entity self) {
 				
 				//g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 				
@@ -156,12 +156,12 @@ public class PlayerShip extends Entity {
 				int alpha = 255;
 				for(Vector2 hPos: pastPos) {
 					g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
-					g.drawOval((int) (hPos.x - offsetSize.x), (int) (hPos.y - offsetSize.y), (int) (offsetSize2.x + dimension.x), (int) (offsetSize2.y + dimension.y));
+					g.drawOval((int) (hPos.x - offsetSize.x), (int) (hPos.y - offsetSize.y), (int) (offsetSize2.x + self.getDim().x), (int) (offsetSize2.y + self.getDim().y));
 					alpha = alpha / 2;
 				}
 				
 				g.setColor(Color.DARK_GRAY);
-				g.fillOval((int) position.x, (int) (position.y), (int) dimension.x, (int) dimension.y);
+				g.fillOval((int) self.getPos().x, (int) (self.getPos().y), (int) self.getDim().x, (int) self.getDim().y);
 			}
 		});
 	}

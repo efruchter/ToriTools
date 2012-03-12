@@ -61,9 +61,11 @@ public class ScrollingBackground extends Entity {
 			float sinTimer = 0;
 			
 			@Override
-			public void draw(Graphics g, Entity self, Vector2 position, Vector2 dimension) {
+			public void draw(Graphics g, Entity self) {
 				g.setColor(new Color(232, 243, 178));
 				//g.fillRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
+				
+				Vector2 dimension = self.getDim();
 				
 				float spacing = dimension.x / getBarAmount();
 				float center = (dimension.x * getCenterRatio());

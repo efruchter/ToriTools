@@ -197,7 +197,7 @@ public class Importer {
         wall.getVariableCase().setVar("visible", "false");
         wall.setSprite(new AbstractSprite() {
             @Override
-            public void draw(final Graphics g, final Entity self, final Vector2 pos, final Vector2 dim) {
+            public void draw(final Graphics g, final Entity self) {
                 ((Graphics2D) g).setStroke(new BasicStroke(2));
                 g.setColor(Color.RED);
                 g.drawLine((int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x, (int) pos.y + (int) dim.y);

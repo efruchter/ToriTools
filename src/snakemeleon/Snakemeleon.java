@@ -74,7 +74,8 @@ public class Snakemeleon extends Binary {
 
         uni = new Universe(SnakemeleonConstants.gravity);
 
-        camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(), SnakemeleonConstants.cameraLag);
+        camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
+                SnakemeleonConstants.cameraLag);
 
         for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
             en.addScript(new ChameleonScript());
@@ -94,7 +95,8 @@ public class Snakemeleon extends Binary {
             Entity a = null, b = null;
             Vector2 pos = e.getPos().add(e.getDim().scale(.5f));
             for (Entity object : levelBeingLoaded.getNewEntities()) {
-                if (!object.getType().equals(ReservedTypes.BACKGROUND) && ScriptUtils.isPointWithin(object, pos) && object != e) {
+                if (!object.getType().equals(ReservedTypes.BACKGROUND) && ScriptUtils.isPointWithin(object, pos)
+                        && object != e) {
                     if (a == null)
                         a = object;
                     else if (a != null)
@@ -131,24 +133,26 @@ public class Snakemeleon extends Binary {
                 System.exit(1);
             }
 
-            Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
-
             rootCanvas.setColor(Color.BLACK);
             rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 
-            rootCanvas.drawImage(level.getBakedBackground(), (int) offset.x, (int) offset.y, (int) level.getDim().x,
+            Vector2 offset = VIEWPORT.scale(.5f).sub(camera.getB());
+
+            ((Graphics2D) rootCanvas).translate(offset.getWidth(), offset.getHeight());
+
+            rootCanvas.drawImage(level.getBakedBackground(), (int) 0, (int) 0, (int) level.getDim().x,
                     (int) level.getDim().y, null);
 
             for (int i = level.getLayers().size() - 1; i >= 0; i--) {
                 for (Entity e : level.getLayers().get(i)) {
                     if (e.isVisible() && e.isInView())
-                        e.draw(rootCanvas, offset);
+                        e.draw(rootCanvas);
                 }
             }
 
             /*
-             * for (Entity wall : level.getEntitiesWithType(ReservedTypes.WALL)) {
-             * rootCanvas.setColor(Color.RED); rootCanvas.fillRect((int)
+             * for (Entity wall : level.getEntitiesWithType(ReservedTypes.WALL))
+             * { rootCanvas.setColor(Color.RED); rootCanvas.fillRect((int)
              * (wall.getPos().x + offset.x), (int) (wall.getPos().y + offset.y),
              * wall .getDim().getWidth(), wall.getDim().getHeight());
              * 

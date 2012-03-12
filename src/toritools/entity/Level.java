@@ -172,7 +172,7 @@ public class Level extends Entity {
         gr.fillRect(0, 0, (int) dim.x, (int) dim.y);
         for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {
             despawnEntity(e);
-            e.draw(baked.getGraphics(), new Vector2());
+            e.draw(baked.getGraphics());
         }
         System.out.println("Baking Backgrounds...");
         return baked;
