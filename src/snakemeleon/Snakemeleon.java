@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 
 import javax.swing.ImageIcon;
 
+import maryb.player.Player;
+
 import snakemeleon.types.ChameleonScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -49,7 +51,9 @@ public class Snakemeleon extends Binary {
 
     @Override
     protected void initialize() {
-
+        Player player = new Player();
+        player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
+        player.play();
     }
 
     @Override
