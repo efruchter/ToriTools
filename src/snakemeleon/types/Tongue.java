@@ -13,6 +13,7 @@ import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
+import toritools.scripting.ScriptUtils;
 
 public class Tongue extends Entity {
 
@@ -35,33 +36,42 @@ public class Tongue extends Entity {
             @Override
             public void onSpawn(Entity self, Level level) {
                 System.out.println("Tongue spawned");
-                // physicsBody = Snakemeleon.uni.addEntity(self,
-                // BodyType.KINEMATIC, false, true, 5);
             }
+
+            Entity dragging = null;
 
             @Override
             public void onUpdate(Entity self, float time, Level level) {
 
-                if (Snakemeleon.isMouseDragging) {
-                    tongueChain.smooth();
-                    for (Entity prop : level.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
-                        Snakemeleon.uni.applyForce(prop, Vector2.toward(prop.getPos(), tongueChain.getA()));
+                if (Snakemeleon.isMouseDragging && dragging == null) {
+                    for (Entity e : level.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
+                        if (ScriptUtils.isPointWithin(e, Snakemeleon.mousePos)) {
+                            dragging = e;
+                            tongueChain.setA(e.getPos().add(e.getDim().scale(.5f)));
+                            break;
+                        }
                     }
+                }
+
+                if (Snakemeleon.isMouseDragging && dragging != null) {
+                    tongueChain.smooth();
+                    Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
+                    tongueChain.setA(dragAnchor);
+                    Snakemeleon.uni.setVeclocity(
+                            dragging,
+                            Snakemeleon.mousePos.sub(dragAnchor).scale(
+                                    1f / Snakemeleon.uni.PTM_RATIO));
                 } else {
                     tongueChain.smoothTowardB();
                     tongueChain.smoothTowardB();
                     tongueChain.smoothTowardB();
+                    dragging = null;
                     if (tongueChain.getA().dist(tongueChain.getB()) < .5f) {
                         level.despawnEntity(self);
                     }
                 }
 
                 tongueChain.setB(stickToThis.getPos().add(stickToThis.getDim().scale(.5f)));
-
-                if (Snakemeleon.isMouseDragging) {
-                    tongueChain.setA(Snakemeleon.mousePos);
-                }
-
             }
 
             @Override

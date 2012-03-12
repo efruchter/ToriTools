@@ -1,21 +1,28 @@
 package snakemeleon;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
+import maryb.player.Player;
 
 import org.jbox2d.dynamics.BodyType;
 
-import maryb.player.Player;
 import snakemeleon.types.ChameleonScript;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -107,6 +114,21 @@ public class Snakemeleon extends Binary {
         Player player = new Player();
         player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
         player.play();
+
+        // Set up cursor
+        try {
+            BufferedImage image = ImageIO.read(new File("snakemeleon/cursor.png"));
+            // Create a new blank cursor.
+            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(image,
+                    new Point(image.getWidth() / 3, 0), "Green Circle Cursor");
+
+            // Set the blank cursor to the JFrame.
+            super.getApplicationFrame().getContentPane().setCursor(blankCursor);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
     }
 
     @Override
@@ -140,7 +162,7 @@ public class Snakemeleon extends Binary {
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
-            uni.addEntity(e, BodyType.STATIC, false, false, .5f);
+            uni.addEntity(e, BodyType.STATIC, false, false, 1);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {

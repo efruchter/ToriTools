@@ -30,7 +30,7 @@ public class ChameleonScript implements EntityScript {
             dx += 1;
 
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_W))
-            dy += -5;
+            dy += -3;
         if (dx != 0 || dy != 0) {
             Snakemeleon.uni.applyForce(self, new Vector2(dx, dy));
         }

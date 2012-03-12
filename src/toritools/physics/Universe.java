@@ -44,7 +44,7 @@ public class Universe {
         /*
          * Step the world
          */
-        world.step(dt, 8, 3);
+        world.step(dt, 10, 6);
     }
 
     /**
@@ -82,7 +82,7 @@ public class Universe {
         fd.shape = p;
         fd.density = density;
         fd.friction = 0.3f;
-        fd.restitution = 0.5f;
+        fd.restitution = 0f;
         Body body = world.createBody(bd);
         body.createFixture(fd);
 
@@ -149,9 +149,21 @@ public class Universe {
         }
     }
 
+    // public void applyVelocity(final Entity e, final Vector2 force) {
+    // Body b = bodyMap.get(e);
+    // if (b != null)
+    // b.setLinearVelocity(b.getLinearVelocityFromWorldPoint(worldPoint);
+    // }
+
     public void applyForce(final Entity e, final Vector2 force) {
         Body b = bodyMap.get(e);
         if (b != null)
             b.applyForce(force.toVec(), b.getWorldCenter());
+    }
+
+    public void setVeclocity(Entity dragging, Vector2 scale) {
+        Body b = bodyMap.get(dragging);
+        if (b != null)
+            b.setLinearVelocity(scale.toVec());
     }
 }
