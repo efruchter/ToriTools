@@ -17,17 +17,20 @@ import toritools.scripting.ScriptUtils;
 
 public class Tongue extends Entity {
 
-    MidpointChain tongueChain;
+    private MidpointChain tongueChain;
 
-    public Tongue(final Entity stickToThis) {
+    private Vector2 mouthPoint = Vector2.ZERO;
+
+    private boolean mouthClosed = true;
+
+    public Tongue() {
 
         this.getVariableCase().setVar("id", "tongue");
 
         this.setDim(new Vector2(100, 100));
         this.setPos(Snakemeleon.mousePos);
 
-        tongueChain = new MidpointChain(stickToThis.getPos().add(stickToThis.getDim().scale(.5f)),
-                SnakemeleonConstants.tongueLength);
+        tongueChain = new MidpointChain(mouthPoint, SnakemeleonConstants.tongueLength);
 
         this.addScript(new EntityScript() {
 
@@ -48,6 +51,7 @@ public class Tongue extends Entity {
                         if (ScriptUtils.isPointWithin(e, Snakemeleon.mousePos)) {
                             dragging = e;
                             tongueChain.setA(e.getPos().add(e.getDim().scale(.5f)));
+                            mouthClosed = false;
                             break;
                         }
                     }
@@ -57,33 +61,32 @@ public class Tongue extends Entity {
                     tongueChain.smooth();
                     Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
                     tongueChain.setA(dragAnchor);
-                    Snakemeleon.uni.setVeclocity(
-                            dragging,
-                            Snakemeleon.mousePos.sub(dragAnchor).scale(
-                                    1f / Snakemeleon.uni.PTM_RATIO));
+                    Snakemeleon.uni.setVeclocity(dragging,
+                            Snakemeleon.mousePos.sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO));
                 } else {
                     tongueChain.smoothTowardB();
                     tongueChain.smoothTowardB();
                     tongueChain.smoothTowardB();
                     dragging = null;
-                    if (tongueChain.getA().dist(tongueChain.getB()) < .5f) {
-                        level.despawnEntity(self);
-                    }
+
                 }
 
-                tongueChain.setB(stickToThis.getPos().add(stickToThis.getDim().scale(.5f)));
+                tongueChain.setB(mouthPoint);
+
+                mouthClosed = mouthClosed || tongueChain.getA().dist(tongueChain.getB()) < 20;
             }
 
             @Override
             public void onDeath(Entity self, Level level, boolean isRoomExit) {
-                System.out.println("Tongue retracted");
-                Snakemeleon.uni.removeEntity(self);
+
             }
         });
 
         this.setSprite(new AbstractSpriteAdapter() {
             @Override
             public void draw(Graphics g, Entity self) {
+                if (mouthClosed)
+                    return;
                 g.setColor(Color.RED);
                 ((Graphics2D) g).setStroke(new BasicStroke(5));
                 Vector2[] chain = tongueChain.getChain();
@@ -93,5 +96,9 @@ public class Tongue extends Entity {
                 }
             }
         });
+    }
+
+    public void setMouthPoint(Vector2 mouthPoint) {
+        this.mouthPoint = mouthPoint.add(SnakemeleonConstants.headWidth / 2);
     }
 }

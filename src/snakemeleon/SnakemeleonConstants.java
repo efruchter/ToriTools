@@ -40,4 +40,6 @@ public class SnakemeleonConstants {
      * The entity type/id for a the player.
      */
     final public static String playerTypeId = "player";
+    
+    final public static float headWidth = 25;
 }

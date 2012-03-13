@@ -823,6 +823,7 @@ public class LevelEditor {
         // Add the attributes of the level
         HashMap<String, String> props = new HashMap<String, String>();
         props.put("width", levelSize.width + "");
+        
         props.put("height", levelSize.height + "");
         props.putAll(variables.getVariables());
         levelElement.setAttribute("map", ToriMapIO.writeMap(null, props));

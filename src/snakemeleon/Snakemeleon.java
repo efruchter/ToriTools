@@ -158,15 +158,15 @@ public class Snakemeleon extends Binary {
 
         for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
             en.addScript(new ChameleonScript());
-            uni.addEntity(en, BodyType.DYNAMIC, true, true, 1);
+            uni.addEntity(en, BodyType.DYNAMIC, false, true, 1f, .5f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
-            uni.addEntity(e, BodyType.STATIC, false, false, 1);
+            uni.addEntity(e, BodyType.STATIC, false, false, 1f, .5f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
-            uni.addEntity(e, BodyType.DYNAMIC, true, false, .05f);
+            uni.addEntity(e, BodyType.DYNAMIC, true, false, .05f, .5f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.hingeType)) {
@@ -212,7 +212,7 @@ public class Snakemeleon extends Binary {
                 System.exit(1);
             }
 
-            rootCanvas.setColor(Color.BLACK);
+            rootCanvas.setColor(Color.LIGHT_GRAY);
             rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 
             ((Graphics2D) rootCanvas).translate(offset.getWidth(), offset.getHeight());

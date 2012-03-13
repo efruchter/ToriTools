@@ -1,12 +1,12 @@
 type = player;
 description = The player character.;
-dimensions.x = 32;
-dimensions.y = 32;
+dimensions.x = 40;
+dimensions.y = 40;
 solid = false;
 id = player;
 
-sprite.sheet = playersheet.png, 1, 1;
-sprite.timeScale = 1;
+sprite.sheet = cham.png, 2, 2;
+sprite.timeScale = 5;
 sprite.sizeOffset = 0;
 
 

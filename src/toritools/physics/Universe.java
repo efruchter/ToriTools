@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.RevoluteJointDef;
 
@@ -61,7 +62,7 @@ public class Universe {
      *            default is 1, adjust accordingly.
      */
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
-            final boolean spherical, final float density) {
+            final boolean spherical, final float density, final float friction) {
         BodyDef bd = new BodyDef();
         bd.fixedRotation = !allowRotation;
         bd.type = bodyType;
@@ -81,8 +82,8 @@ public class Universe {
         FixtureDef fd = new FixtureDef();
         fd.shape = p;
         fd.density = density;
-        fd.friction = 0.3f;
-        fd.restitution = 0f;
+        fd.friction = friction;
+        fd.restitution = .0f;
         Body body = world.createBody(bd);
         body.createFixture(fd);
 
@@ -165,5 +166,24 @@ public class Universe {
         Body b = bodyMap.get(dragging);
         if (b != null)
             b.setLinearVelocity(scale.toVec());
+    }
+
+    public void addVelocity(Entity dragging, Vector2 scale) {
+        Body b = bodyMap.get(dragging);
+        if (b != null) {
+            b.m_linearVelocity.x += scale.x;
+            b.m_linearVelocity.y += scale.y;
+        }
+    }
+
+    public boolean isStanding(Entity e) {
+        ContactEdge edge = bodyMap.get(e).getContactList();
+        while (edge != null) {
+            if (edge.contact.m_manifold.localNormal.y <= 0) {
+                return true;
+            }
+            edge = edge.next;
+        }
+        return false;
     }
 }
