@@ -1055,8 +1055,8 @@ public class LevelEditor {
             editModeLabel.setText("Click to Place Entity");
         }
         drawPanel.setPreferredSize(levelSize);
-        frame.invalidate();
-        frame.validate();
+        //frame.invalidate();
+        //frame.validate();
         frame.repaint();
     }
 
