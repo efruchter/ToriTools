@@ -2,6 +2,10 @@ package toritools.physics;
 
 import java.util.HashMap;
 
+import org.jbox2d.callbacks.ContactFilter;
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -10,8 +14,10 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
 import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.RevoluteJointDef;
@@ -38,6 +44,29 @@ public class Universe {
     public Universe(final Vector2 gravity) {
         world = new World(new Vec2(gravity.x, gravity.y), true);
         bodyMap = new HashMap<Entity, Body>();
+
+        world.setContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact c) {
+                // System.out.println(c.getFixtureA().m_userData);
+            }
+
+            @Override
+            public void endContact(Contact arg0) {
+
+            }
+
+            @Override
+            public void postSolve(Contact arg0, ContactImpulse arg1) {
+
+            }
+
+            @Override
+            public void preSolve(Contact arg0, Manifold arg1) {
+
+            }
+        });
     }
 
     public void step(final float dt) {
@@ -45,7 +74,7 @@ public class Universe {
         /*
          * Step the world
          */
-        world.step(dt, 10, 6);
+        world.step(dt, 8, 13);
     }
 
     /**
@@ -83,9 +112,16 @@ public class Universe {
         fd.shape = p;
         fd.density = density;
         fd.friction = friction;
-        fd.restitution = .0f;
+        fd.restitution = .001f;
+        // fd.filter.categoryBits = cat;
+        fd.userData = ent;
+
         Body body = world.createBody(bd);
         body.createFixture(fd);
+        body.m_userData = ent;
+
+        world.setContactFilter(new ContactFilter() {
+        });
 
         bodyMap.put(ent, body);
 
@@ -93,6 +129,22 @@ public class Universe {
             ent.addScript(serviceScript);
 
         return body;
+    }
+
+    public Fixture createFloorSensor(final Entity e) {
+        Body body = bodyMap.get(e);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(e.getDim().x / 2 / PTM_RATIO, e.getDim().y / PTM_RATIO);
+
+        FixtureDef fd = new FixtureDef();
+        fd.shape = shape;
+        fd.isSensor = true;
+        fd.userData = e;
+
+        Fixture f = body.createFixture(fd);
+
+        return f;
     }
 
     /**
@@ -150,38 +202,29 @@ public class Universe {
         }
     }
 
-    // public void applyVelocity(final Entity e, final Vector2 force) {
-    // Body b = bodyMap.get(e);
-    // if (b != null)
-    // b.setLinearVelocity(b.getLinearVelocityFromWorldPoint(worldPoint);
-    // }
-
     public void applyForce(final Entity e, final Vector2 force) {
         Body b = bodyMap.get(e);
         if (b != null)
-            b.applyForce(force.toVec(), b.getWorldCenter());
+            b.applyForce(force.scale(1f / b.m_mass).toVec(), b.getWorldCenter());
     }
 
-    public void setVeclocity(Entity dragging, Vector2 scale) {
+    public void applyLinearImpulse(final Entity e, final Vector2 force) {
+        Body b = bodyMap.get(e);
+        if (b != null)
+            b.applyLinearImpulse(force.scale(1f / b.m_mass).toVec(), b.getWorldCenter());
+    }
+
+    public void setVelocity(Entity dragging, Vector2 scale) {
         Body b = bodyMap.get(dragging);
         if (b != null)
             b.setLinearVelocity(scale.toVec());
     }
 
-    public void addVelocity(Entity dragging, Vector2 scale) {
-        Body b = bodyMap.get(dragging);
-        if (b != null) {
-            b.m_linearVelocity.x += scale.x;
-            b.m_linearVelocity.y += scale.y;
-        }
-    }
-
-    public boolean isStanding(Entity e) {
+    public boolean isCollidingWithType(final Entity e, final String type) {
         ContactEdge edge = bodyMap.get(e).getContactList();
         while (edge != null) {
-            if (edge.contact.m_manifold.localNormal.y <= 0) {
+            if (((Entity) edge.other.m_userData).getType().equals(type))
                 return true;
-            }
             edge = edge.next;
         }
         return false;

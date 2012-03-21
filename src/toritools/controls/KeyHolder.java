@@ -57,12 +57,14 @@ public class KeyHolder extends KeyAdapter {
      */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        keyBox.put(keyEvent.getKeyCode(), true);
+        if (keyBox.get(keyEvent.getKeyCode()) == null) {
+            keyBox.put(keyEvent.getKeyCode(), true);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        keyBox.put(keyEvent.getKeyCode(), false);
+        keyBox.remove(keyEvent.getKeyCode());
     }
 
     /**
@@ -70,7 +72,7 @@ public class KeyHolder extends KeyAdapter {
      */
     public void freeQueuedKeys() {
         for (Integer key : freeQueue) {
-            keyBox.remove(key);
+            keyBox.put(key, false);
         }
         freeQueue.clear();
     }

@@ -19,8 +19,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import maryb.player.Player;
-
 import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.types.ChameleonScript;
@@ -34,7 +32,7 @@ import toritools.math.Vector2;
 import toritools.physics.Universe;
 import toritools.scripting.ScriptUtils;
 
-public class Snakemeleon extends Binary {
+public class Snakemeleon extends Binary implements MouseListener, MouseMotionListener {
 
     /*
      * CONSTANTS!
@@ -55,6 +53,9 @@ public class Snakemeleon extends Binary {
     public static boolean isMouseDragging = false;
     public static Vector2 mousePos = Vector2.ZERO;
 
+    private static int currentLevel = 0;
+    private static String[] levels = new String[] { "snakemeleon/TestLevel.xml" };
+
     public static void main(String[] args) {
         new Snakemeleon();
     }
@@ -66,54 +67,14 @@ public class Snakemeleon extends Binary {
         /**
          * Set up a mouse tracker.
          */
-        super.getApplicationFrame().addMouseMotionListener(new MouseMotionListener() {
 
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                Snakemeleon.isMouseDragging = true;
-                mouseMoved(e);
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mousePos = new Vector2(-offset.getWidth() + e.getX(), -offset.getHeight() + e.getY());
-            }
-        });
-
-        super.getApplicationFrame().addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                Snakemeleon.isMouseDragging = false;
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                mouseReleased(e);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                mouseReleased(e);
-            }
-        });
     }
 
     @Override
     protected void initialize() {
-        Player player = new Player();
-        player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
-        player.play();
+        // Player player = new Player();
+        // player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
+        // player.play();
 
         // Set up cursor
         try {
@@ -129,6 +90,8 @@ public class Snakemeleon extends Binary {
             System.exit(1);
         }
 
+        super.getApplicationFrame().addMouseListener(this);
+        super.getApplicationFrame().addMouseMotionListener(this);
     }
 
     @Override
@@ -158,15 +121,20 @@ public class Snakemeleon extends Binary {
 
         for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
             en.addScript(new ChameleonScript());
-            uni.addEntity(en, BodyType.DYNAMIC, false, true, 1f, .5f);
+            uni.addEntity(en, BodyType.DYNAMIC, false, true, 1f, .3f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
-            uni.addEntity(e, BodyType.STATIC, false, false, 1f, .5f);
+            uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
-            uni.addEntity(e, BodyType.DYNAMIC, true, false, .05f, .5f);
+            String isRound = e.getVariableCase().getVar("round");
+            boolean round = false;
+            if (isRound != null && isRound.equalsIgnoreCase("true")) {
+                round = true;
+            }
+            uni.addEntity(e, BodyType.DYNAMIC, true, round, 1f, .3f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.hingeType)) {
@@ -193,7 +161,7 @@ public class Snakemeleon extends Binary {
     @Override
     protected Level getStartingLevel() {
         try {
-            return Importer.importLevel(new File("snakemeleon/TestLevel.xml"));
+            return Importer.importLevel(new File(levels[0]));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(1);
@@ -227,18 +195,74 @@ public class Snakemeleon extends Binary {
                 }
             }
 
-            /*
-             * for (Entity wall : level.getEntitiesWithType(ReservedTypes.WALL))
-             * { rootCanvas.setColor(Color.RED); rootCanvas.fillRect((int)
-             * (wall.getPos().x + offset.x), (int) (wall.getPos().y + offset.y),
-             * wall .getDim().getWidth(), wall.getDim().getHeight());
-             * 
-             * }
-             */
+            rootCanvas.setColor(Color.RED);
+            rootCanvas.drawRect(player.getPos().getWidth(), player.getPos().getHeight(), player.getDim().getWidth(),
+                    player.getDim().getHeight());
 
         } catch (final Exception e) {
             return false;
         }
         return true;
     }
+
+    /*
+     * MOUSE CONTROL METHODS
+     */
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        Snakemeleon.isMouseDragging = true;
+        mousePos = new Vector2(-offset.getWidth() + e.getX(), -offset.getHeight() + e.getY());
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        mouseDragged(e);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Snakemeleon.isMouseDragging = false;
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public static void restartLevel() {
+        try {
+            ScriptUtils.queueLevelSwitch(Importer.importLevel(new File(levels[currentLevel])));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static void nextLevel() {
+        try {
+            ScriptUtils.queueLevelSwitch(Importer.importLevel(new File(levels[++currentLevel])));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException winner) {
+            System.out.println("You won!");
+            System.exit(1);
+        } 
+    }
+
 }

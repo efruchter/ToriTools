@@ -74,7 +74,7 @@ public class ScriptUtils {
      * 
      */
     public static enum Direction {
-        UP, DOWN, LEFT, RIGHT, UP_RIGHT, UP_LEFT, DOWN_LEFT, DOWN_RIGHT;
+        UP, DOWN, LEFT, RIGHT, UP_RIGHT, UP_LEFT, DOWN_LEFT, DOWN_RIGHT, CENTER;
 
         /**
          * Find the proper enum for the direction.

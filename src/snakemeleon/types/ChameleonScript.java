@@ -7,10 +7,12 @@ import snakemeleon.Snakemeleon;
 import snakemeleon.SnakemeleonConstants;
 import toritools.entity.Entity;
 import toritools.entity.Level;
+import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.ImageSprite;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
+import toritools.scripting.ScriptUtils.Direction;
 
 public class ChameleonScript implements EntityScript {
 
@@ -24,7 +26,7 @@ public class ChameleonScript implements EntityScript {
         head.setDim(new Vector2(SnakemeleonConstants.headWidth));
         head.setSprite(new ImageSprite(new File("snakemeleon/objects/chameleon/cham_head.png"), 2, 2));
         level.spawnEntity(head);
-        
+
         head.getSprite().setCycle(1);
         self.getSprite().setCycle(0);
     }
@@ -38,19 +40,18 @@ public class ChameleonScript implements EntityScript {
         head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
 
         float dx = 0, dy = 0;
-        boolean isStanding = Snakemeleon.uni.isStanding(self);
+        boolean isStanding = Snakemeleon.uni.isCollidingWithType(self, ReservedTypes.WALL);
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
-            dx += -3;
+            dx += -.1;
 
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D))
-            dx += 3;
+            dx += .1;
 
         if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_W) && isStanding)
-            dy += -3f;
+            dy += -4f;
 
         if (dx != 0 || dy != 0) {
-            Snakemeleon.uni.applyForce(self, new Vector2(dx, 0));
-            Snakemeleon.uni.addVelocity(self, new Vector2(0, dy));
+            Snakemeleon.uni.applyLinearImpulse(self, new Vector2(dx, dy));
             if (Math.abs(dx) > .1)
                 self.getSprite().nextFrame();
         }
@@ -64,6 +65,14 @@ public class ChameleonScript implements EntityScript {
             head.getSprite().setCycle(0);
             self.getSprite().setCycle(1);
             facing = true;
+        }
+
+        // Adjust head again, just in case
+        Direction headDir = tongue.getTongueFacing();
+        if (headDir == Direction.RIGHT) {
+            head.getSprite().setCycle(0);
+        } else if (headDir == Direction.LEFT) {
+            head.getSprite().setCycle(1);
         }
 
         if (facing)

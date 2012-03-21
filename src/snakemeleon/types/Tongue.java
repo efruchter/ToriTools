@@ -14,6 +14,7 @@ import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
+import toritools.scripting.ScriptUtils.Direction;
 
 public class Tongue extends Entity {
 
@@ -34,11 +35,12 @@ public class Tongue extends Entity {
 
         this.addScript(new EntityScript() {
 
-            // Body physicsBody;
+            //Entity chameleon;
 
             @Override
             public void onSpawn(Entity self, Level level) {
                 System.out.println("Tongue spawned");
+                //chameleon = level.getEntityWithId("player");
             }
 
             Entity dragging = null;
@@ -61,8 +63,9 @@ public class Tongue extends Entity {
                     tongueChain.smooth();
                     Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
                     tongueChain.setA(dragAnchor);
-                    Snakemeleon.uni.setVeclocity(dragging,
-                            Snakemeleon.mousePos.sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO));
+                    Vector2 dragVector = Snakemeleon.mousePos.sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
+                    Snakemeleon.uni.setVelocity(dragging, dragVector);
+                    //Snakemeleon.uni.applyLinearImpulse(chameleon, new Vector2(0, -dragVector.y));
                 } else {
                     tongueChain.smoothTowardB();
                     tongueChain.smoothTowardB();
@@ -96,6 +99,17 @@ public class Tongue extends Entity {
                 }
             }
         });
+    }
+
+    public Direction getTongueFacing() {
+        Vector2[] chain = tongueChain.getChain();
+        float right = chain[chain.length - 1].x - chain[chain.length - 2].x;
+        if (right == 0 || mouthClosed)
+            return Direction.CENTER;
+        if (right < 0)
+            return Direction.RIGHT;
+
+        return Direction.LEFT;
     }
 
     public void setMouthPoint(Vector2 mouthPoint) {
