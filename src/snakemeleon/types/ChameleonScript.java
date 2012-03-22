@@ -75,11 +75,19 @@ public class ChameleonScript implements EntityScript {
             head.getSprite().setCycle(1);
         }
 
-        if (facing)
-            head.setPos(mouthSpot = self.getPos().add(self.getDim().x * 2 / 3, self.getDim().y / 4));
-        else
-            head.setPos(mouthSpot = self.getPos().add(-self.getDim().x / 3, self.getDim().y / 4));
+        if (facing) {
+            mouthSpot = self.getPos().add(self.getDim().scale(.5f));
+            mouthSpot = mouthSpot.add(SnakemeleonConstants.neckWidth * (float) Math.cos(self.getDirection() / 57.3),
+                    SnakemeleonConstants.neckWidth * (float) Math.sin(self.getDirection() / 57.3));
+            mouthSpot = mouthSpot.sub(head.getDim().scale(.5f));
+        } else {
+            mouthSpot = self.getPos().add(self.getDim().scale(.5f));
+            mouthSpot = mouthSpot.sub(SnakemeleonConstants.neckWidth * (float) Math.cos(self.getDirection() / 57.3),
+                    SnakemeleonConstants.neckWidth * (float) Math.sin(self.getDirection() / 57.3));
+            mouthSpot = mouthSpot.sub(head.getDim().scale(.5f));
+        }
 
+        head.setPos(mouthSpot);
         tongue.setMouthPoint(mouthSpot);
     }
 

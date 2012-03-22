@@ -19,7 +19,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.contacts.Contact;
 
 import snakemeleon.types.ChameleonScript;
 import toritools.entity.Entity;
@@ -32,7 +36,7 @@ import toritools.math.Vector2;
 import toritools.physics.Universe;
 import toritools.scripting.ScriptUtils;
 
-public class Snakemeleon extends Binary implements MouseListener, MouseMotionListener {
+public class Snakemeleon extends Binary implements MouseListener, MouseMotionListener, ContactListener {
 
     /*
      * CONSTANTS!
@@ -109,6 +113,14 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
         offset = VIEWPORT.scale(.5f).sub(camera.getB());
 
         // System.out.println(isMouseDragging + " " + mousePos);
+
+        if (k == 1) {
+            k++;
+            if (ab.getType().equals("player"))
+                uni.addWeld(ab, bb);
+            else
+                uni.addWeld(bb, ab);
+        }
     }
 
     @Override
@@ -116,12 +128,14 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
 
         uni = new Universe(SnakemeleonConstants.gravity);
 
+        uni.setContactListener(this);
+
         camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
                 SnakemeleonConstants.cameraLag);
 
         for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
             en.addScript(new ChameleonScript());
-            uni.addEntity(en, BodyType.DYNAMIC, false, true, 1f, .3f);
+            uni.addEntity(en, BodyType.DYNAMIC, true, true, 1f, .3f);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
@@ -237,7 +251,7 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
     }
 
     @Override
@@ -262,7 +276,47 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
         } catch (IndexOutOfBoundsException winner) {
             System.out.println("You won!");
             System.exit(1);
-        } 
+        }
     }
+
+    /*
+     * Shape contact methods. You cant manipulate the universe from within
+     * these. They are only here for temporary testing purposes.
+     */
+
+    @Override
+    public void beginContact(Contact c) {
+
+        Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
+
+        if (a.getType().equals("player") || b.getType().equals("player")) {
+            if (k++ == 0) {
+                System.out.println("WELDED");
+                ab = a;
+                bb = b;
+            }
+        }
+    }
+
+    int k = 0;
+
+    @Override
+    public void endContact(Contact c) {
+
+    }
+
+    @Override
+    public void postSolve(Contact arg0, ContactImpulse arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void preSolve(Contact arg0, Manifold arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private Entity ab, bb;
 
 }

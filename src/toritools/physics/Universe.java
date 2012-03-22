@@ -3,9 +3,7 @@ package toritools.physics;
 import java.util.HashMap;
 
 import org.jbox2d.callbacks.ContactFilter;
-import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -17,10 +15,10 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.contacts.Contact;
 import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.RevoluteJointDef;
+import org.jbox2d.dynamics.joints.WeldJointDef;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -44,29 +42,10 @@ public class Universe {
     public Universe(final Vector2 gravity) {
         world = new World(new Vec2(gravity.x, gravity.y), true);
         bodyMap = new HashMap<Entity, Body>();
+    }
 
-        world.setContactListener(new ContactListener() {
-
-            @Override
-            public void beginContact(Contact c) {
-                // System.out.println(c.getFixtureA().m_userData);
-            }
-
-            @Override
-            public void endContact(Contact arg0) {
-
-            }
-
-            @Override
-            public void postSolve(Contact arg0, ContactImpulse arg1) {
-
-            }
-
-            @Override
-            public void preSolve(Contact arg0, Manifold arg1) {
-
-            }
-        });
+    public void setContactListener(final ContactListener listener) {
+        world.setContactListener(listener);
     }
 
     public void step(final float dt) {
@@ -74,7 +53,7 @@ public class Universe {
         /*
          * Step the world
          */
-        world.step(dt, 8, 13);
+        world.step(dt, 6, 8);
     }
 
     /**
@@ -112,7 +91,7 @@ public class Universe {
         fd.shape = p;
         fd.density = density;
         fd.friction = friction;
-        fd.restitution = .001f;
+        fd.restitution = .3f;
         // fd.filter.categoryBits = cat;
         fd.userData = ent;
 
@@ -164,6 +143,12 @@ public class Universe {
         DistanceJointDef def = new DistanceJointDef();
         def.initialize(bodyMap.get(a), bodyMap.get(b), bodyMap.get(a).getWorldCenter(), bodyMap.get(b).getWorldCenter());
         def.collideConnected = true;
+        world.createJoint(def);
+    }
+
+    public void addWeld(Entity a, Entity b) {
+        WeldJointDef def = new WeldJointDef();
+        def.initialize(bodyMap.get(a), bodyMap.get(b), bodyMap.get(a).getWorldCenter());
         world.createJoint(def);
     }
 

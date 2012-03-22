@@ -70,6 +70,10 @@ public class Vector2 {
     public Vector2 sub(final float o) {
         return new Vector2(this.x - o, this.y - o);
     }
+    
+    public Vector2 sub(final float x, final float y) {
+        return new Vector2(this.x - x, this.y - y);
+    }
 
     public Vector2 scale(final float scalar) {
         return new Vector2(this.x * scalar, this.y * scalar);

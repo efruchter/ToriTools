@@ -42,4 +42,6 @@ public class SnakemeleonConstants {
     final public static String playerTypeId = "player";
     
     final public static float headWidth = 25;
+    
+    final public static float neckWidth = 15;
 }
