@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import toritools.entity.Level;
@@ -39,9 +38,11 @@ public abstract class Binary {
 			System.setProperty("sun.java2d.d3d", "True");
 		} else {
 			System.setProperty("sun.java2d.opengl", "True");
+			System.setProperty("sun.java2d.ddscale", "true");
+			System.setProperty("sun.java2d.translaccel", "true");
+			System.setProperty("sun.java2d.ddforcevram", "true");
 		}
-		System.setProperty("sun.java2d.translaccel", "True");
-
+	
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gc = frame.getGraphicsConfiguration();

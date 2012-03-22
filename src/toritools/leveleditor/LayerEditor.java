@@ -25,7 +25,6 @@ public class LayerEditor extends JPanel {
 
 	private final int MAXLAYER = 5;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
     public LayerEditor(final LevelEditor editor) {
 		setBorder(BorderFactory.createRaisedBevelBorder());
 		ActionListener action = new ActionListener() {
