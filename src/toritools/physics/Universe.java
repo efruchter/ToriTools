@@ -12,11 +12,10 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.ContactEdge;
-import org.jbox2d.dynamics.joints.DistanceJointDef;
+import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.RevoluteJointDef;
 import org.jbox2d.dynamics.joints.WeldJointDef;
 
@@ -53,7 +52,7 @@ public class Universe {
         /*
          * Step the world
          */
-        world.step(dt, 6, 8);
+        world.step(dt, 8, 15);
     }
 
     /**
@@ -110,22 +109,6 @@ public class Universe {
         return body;
     }
 
-    public Fixture createFloorSensor(final Entity e) {
-        Body body = bodyMap.get(e);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(e.getDim().x / 2 / PTM_RATIO, e.getDim().y / PTM_RATIO);
-
-        FixtureDef fd = new FixtureDef();
-        fd.shape = shape;
-        fd.isSensor = true;
-        fd.userData = e;
-
-        Fixture f = body.createFixture(fd);
-
-        return f;
-    }
-
     /**
      * Construct a hinge. Be sure the shapes are overlapping at the given point.
      * 
@@ -133,23 +116,16 @@ public class Universe {
      * @param b
      * @param hingePosition
      */
-    public void addHinge(Entity a, Entity b, final Vector2 hingePosition) {
+    public Joint addHinge(Entity a, Entity b, final Vector2 hingePosition) {
         RevoluteJointDef def = new RevoluteJointDef();
         def.initialize(bodyMap.get(a), bodyMap.get(b), hingePosition.scale(1f / PTM_RATIO).toVec());
-        world.createJoint(def);
+        return world.createJoint(def);
     }
 
-    public void addSpring(Entity a, Entity b) {
-        DistanceJointDef def = new DistanceJointDef();
-        def.initialize(bodyMap.get(a), bodyMap.get(b), bodyMap.get(a).getWorldCenter(), bodyMap.get(b).getWorldCenter());
-        def.collideConnected = true;
-        world.createJoint(def);
-    }
-
-    public void addWeld(Entity a, Entity b) {
+    public Joint addWeld(Entity a, Entity b) {
         WeldJointDef def = new WeldJointDef();
         def.initialize(bodyMap.get(a), bodyMap.get(b), bodyMap.get(a).getWorldCenter());
-        world.createJoint(def);
+        return world.createJoint(def);
     }
 
     /**
@@ -213,5 +189,18 @@ public class Universe {
             edge = edge.next;
         }
         return false;
+    }
+
+    public void setAngularDamping(final Entity e, final int damping) {
+        bodyMap.get(e).setAngularDamping(.5f);
+    }
+
+    public void setRotationDeg(final Entity e, final float rot) {
+        Body b = bodyMap.get(e);
+        b.setTransform(b.getWorldCenter(), rot / 57.3f);
+    }
+
+    public void destroyJoint(final Joint joint) {
+        world.destroyJoint(joint);
     }
 }

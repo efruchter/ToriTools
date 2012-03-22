@@ -1,6 +1,6 @@
 package toritools.entity;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +75,7 @@ public class Entity {
             script.onDeath(this, level, isRoomExit);
     }
 
-    public void draw(final Graphics g) {
+    public void draw(final Graphics2D g) {
         sprite.draw(g, this);
     }
 

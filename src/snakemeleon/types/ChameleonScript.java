@@ -5,9 +5,9 @@ import java.io.File;
 
 import snakemeleon.Snakemeleon;
 import snakemeleon.SnakemeleonConstants;
+import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
-import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.ImageSprite;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
@@ -40,15 +40,17 @@ public class ChameleonScript implements EntityScript {
         head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
 
         float dx = 0, dy = 0;
-        boolean isStanding = Snakemeleon.uni.isCollidingWithType(self, ReservedTypes.WALL);
+        // boolean isStanding = Snakemeleon.uni.isCollidingWithType(self,
+        // ReservedTypes.WALL);
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
             dx += -.1;
 
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D))
             dx += .1;
 
-        if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_W) && isStanding)
-            dy += -4f;
+        // if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_W) &&
+        // isStanding)
+        // dy += -4f;
 
         if (dx != 0 || dy != 0) {
             Snakemeleon.uni.applyLinearImpulse(self, new Vector2(dx, dy));
@@ -93,7 +95,7 @@ public class ChameleonScript implements EntityScript {
 
     @Override
     public void onDeath(Entity self, Level level, boolean isRoomExit) {
-        System.out.println("Removed Chameleon");
+        Debug.print("Removed Chameleon");
     }
 
 }

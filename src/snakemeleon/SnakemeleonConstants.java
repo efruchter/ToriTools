@@ -1,5 +1,7 @@
 package snakemeleon;
 
+import java.io.File;
+
 import toritools.math.Vector2;
 
 /**
@@ -18,7 +20,7 @@ public class SnakemeleonConstants {
     /**
      * How far behind the camera should smooth/lag.
      */
-    final public static int cameraLag = 12;
+    final public static int cameraLag = 10;
 
     /**
      * What is commonly used as gravity. I cannot see why this would have to
@@ -44,4 +46,6 @@ public class SnakemeleonConstants {
     final public static float headWidth = 25;
     
     final public static float neckWidth = 15;
+    
+    final public static File hudImageFile = new File("snakemeleon/cham_hud.png");
 }

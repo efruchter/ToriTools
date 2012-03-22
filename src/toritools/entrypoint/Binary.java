@@ -2,6 +2,7 @@ package toritools.entrypoint;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.image.VolatileImage;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import toritools.debug.Debug;
 import toritools.entity.Level;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
@@ -26,7 +28,7 @@ public abstract class Binary {
 
 	// CORE VARS
 	protected final int FRAMERATE;
-	protected final Vector2 VIEWPORT;
+	protected Vector2 VIEWPORT;
 
 	private static JFrame frame;
 	public static GraphicsConfiguration gc;
@@ -92,7 +94,7 @@ public abstract class Binary {
 	 *            the panel's drawing surface.
 	 * @return true if drawing was successful, false otherwise.
 	 */
-	protected abstract boolean render(final Graphics rootCanvas,
+	protected abstract boolean render(final Graphics2D rootCanvas,
 			final Level level);
 
 	/**
@@ -158,14 +160,13 @@ public abstract class Binary {
 			}
 			ScriptUtils.moveToQueuedLevel();
 			setupCurrentLevel(ScriptUtils.getCurrentLevel());
-			System.out.println("Spawning entities.");
+			Debug.print("Spawning entities.");
 			ScriptUtils.getCurrentLevel().onSpawn(null);
 			ScriptUtils.clearImageCache();
 		} else {
 			globalLogic(ScriptUtils.getCurrentLevel());
 			ScriptUtils.getCurrentLevel().onUpdate((float) FRAMERATE);
 			ScriptUtils.getKeyHolder().freeQueuedKeys();
-			// System.out.println(ScriptUtils.cachedImageAmount());
 		}
 	}
 
@@ -186,7 +187,7 @@ public abstract class Binary {
 		finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x,
 				(int) VIEWPORT.y, null);
 
-		if (render(drawSurface.getGraphics(), ScriptUtils.getCurrentLevel()))
+		if (render((Graphics2D) drawSurface.getGraphics(), ScriptUtils.getCurrentLevel()))
 			buffer1 = !buffer1;
 	}
 

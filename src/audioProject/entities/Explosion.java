@@ -1,7 +1,7 @@
 package audioProject.entities;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -33,7 +33,7 @@ public class Explosion extends Entity {
 		
 		setSprite(new AbstractSpriteAdapter(){
 			@Override
-			public void draw(Graphics g, Entity self) {
+			public void draw(Graphics2D g, Entity self) {
 				g.setColor(color);
                 g.fillOval((int) self.getPos().x, (int) (self.getPos().y), (int) self.getDim().x, (int) self.getDim().y);
 			}

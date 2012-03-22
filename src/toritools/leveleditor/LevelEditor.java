@@ -266,7 +266,7 @@ public class LevelEditor {
         }
 
         public void paintComponent(Graphics g) {
-            draw(g);
+            draw((Graphics2D) g);
         }
     };
 
@@ -823,7 +823,7 @@ public class LevelEditor {
         // Add the attributes of the level
         HashMap<String, String> props = new HashMap<String, String>();
         props.put("width", levelSize.width + "");
-        
+
         props.put("height", levelSize.height + "");
         props.putAll(variables.getVariables());
         levelElement.setAttribute("map", ToriMapIO.writeMap(null, props));
@@ -948,7 +948,7 @@ public class LevelEditor {
      * @param g
      *            graphics!
      */
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, levelSize.width, levelSize.height);
 
@@ -956,7 +956,7 @@ public class LevelEditor {
          * DRAW THE GRID
          */
         if (gridSize.width > 1) {
-            ((Graphics2D) g).setStroke(new BasicStroke(1));
+            g.setStroke(new BasicStroke(1));
             g.setColor(Color.BLACK);
             for (int x = 0; x < levelSize.width; x += gridSize.width)
                 g.drawLine(x, 0, x, levelSize.height);
@@ -1055,8 +1055,8 @@ public class LevelEditor {
             editModeLabel.setText("Click to Place Entity");
         }
         drawPanel.setPreferredSize(levelSize);
-        //frame.invalidate();
-        //frame.validate();
+        // frame.invalidate();
+        // frame.validate();
         frame.repaint();
     }
 

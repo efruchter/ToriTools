@@ -6,7 +6,6 @@ import static java.lang.Math.abs;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
@@ -66,9 +65,9 @@ public class AudioProject extends Binary {
 	}
 
 	@Override
-	protected boolean render(Graphics rootCanvas, Level level) {
+	protected boolean render(Graphics2D rootCanvas, Level level) {
 		try {
-			((Graphics2D) rootCanvas).setStroke(new BasicStroke(4));
+			rootCanvas.setStroke(new BasicStroke(4));
 			rootCanvas.setColor(bgColor);
 			rootCanvas.fillRect(-1, -1, (int) VIEWPORT.x + 2,
 					(int) VIEWPORT.y + 2);

@@ -3,7 +3,6 @@ package toritools.entity.sprite;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -82,7 +81,7 @@ public class ImageSprite implements AbstractSprite {
      * @param position
      * @param dimension
      */
-    public void draw(final Graphics g, final Entity self) {
+    public void draw(final Graphics2D g, final Entity self) {
         int x = this.x / timeStretch;
         Vector2 dim = self.getDim().add(sizeOffset * 2);
         Vector2 pos = self.getPos().sub(sizeOffset);

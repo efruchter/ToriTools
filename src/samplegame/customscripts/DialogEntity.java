@@ -2,7 +2,7 @@ package samplegame.customscripts;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
@@ -79,7 +79,7 @@ public class DialogEntity extends Entity {
 
         setSprite(new AbstractSprite() {
             @Override
-            public void draw(final Graphics g, final Entity self) {
+            public void draw(final Graphics2D g, final Entity self) {
                 List<String> displayString = getCurrentDisplay();
                 if (displayString == null) {
                     return;

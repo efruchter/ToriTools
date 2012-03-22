@@ -1,0 +1,5 @@
+<level map="height = 1000;width = 2000;">
+<objects>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+</objects>
+</level>

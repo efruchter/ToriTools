@@ -2,11 +2,11 @@ package snakemeleon.types;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import snakemeleon.Snakemeleon;
 import snakemeleon.SnakemeleonConstants;
+import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
@@ -35,12 +35,9 @@ public class Tongue extends Entity {
 
         this.addScript(new EntityScript() {
 
-            //Entity chameleon;
-
             @Override
             public void onSpawn(Entity self, Level level) {
-                System.out.println("Tongue spawned");
-                //chameleon = level.getEntityWithId("player");
+                Debug.print("Tongue spawned");
             }
 
             Entity dragging = null;
@@ -65,7 +62,6 @@ public class Tongue extends Entity {
                     tongueChain.setA(dragAnchor);
                     Vector2 dragVector = Snakemeleon.mousePos.sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
                     Snakemeleon.uni.setVelocity(dragging, dragVector);
-                    //Snakemeleon.uni.applyLinearImpulse(chameleon, new Vector2(0, -dragVector.y));
                 } else {
                     tongueChain.smoothTowardB();
                     tongueChain.smoothTowardB();
@@ -87,11 +83,11 @@ public class Tongue extends Entity {
 
         this.setSprite(new AbstractSpriteAdapter() {
             @Override
-            public void draw(Graphics g, Entity self) {
+            public void draw(Graphics2D g, Entity self) {
                 if (mouthClosed)
                     return;
                 g.setColor(Color.RED);
-                ((Graphics2D) g).setStroke(new BasicStroke(5));
+                g.setStroke(new BasicStroke(5));
                 Vector2[] chain = tongueChain.getChain();
                 for (int x = 1; x < SnakemeleonConstants.tongueLength; x++) {
                     g.drawLine(chain[x - 1].getWidth(), chain[x - 1].getHeight(), chain[x].getWidth(),

@@ -6,7 +6,6 @@
 package samplegame;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
@@ -115,9 +114,9 @@ public class SampleGame extends Binary {
     }
 
     @Override
-    protected boolean render(Graphics rootCanvas, Level level) {
+    protected boolean render(Graphics2D rootCanvas, Level level) {
         try {
-            ((Graphics2D) rootCanvas).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+            rootCanvas.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                     RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
             rootCanvas.setColor(Color.BLACK);
@@ -125,7 +124,7 @@ public class SampleGame extends Binary {
 
             Vector2 offset = VIEWPORT.scale(.5f).sub(level.getEntityWithId("player").getPos());
 
-            ((Graphics2D) rootCanvas).translate(offset.getWidth(), offset.getHeight());
+            rootCanvas.translate(offset.getWidth(), offset.getHeight());
 
             for (int i = level.getLayers().size() - 1; i >= 0; i--)
                 for (Entity e : level.getLayers().get(i)) {

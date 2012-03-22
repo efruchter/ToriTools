@@ -1,5 +1,6 @@
 package toritools.math;
 
+import java.awt.Dimension;
 import java.awt.Point;
 
 import org.jbox2d.common.Vec2;
@@ -23,6 +24,11 @@ public class Vector2 {
     public Vector2(final float x, final float y) {
         this.x = x;
         this.y = y;
+    }
+    
+    public Vector2(final Dimension dim) {
+        this.x = dim.width;
+        this.y = dim.height;
     }
 
     public Vector2(final float both) {

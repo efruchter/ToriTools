@@ -3,7 +3,6 @@ package toritools.io;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +15,7 @@ import org.w3c.dom.NodeList;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
-import toritools.entity.sprite.AbstractSprite;
+import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.entity.sprite.ImageSprite;
 import toritools.map.ToriMapIO;
 import toritools.map.VariableCase;
@@ -195,45 +194,14 @@ public class Importer {
         wall.getVariableCase().setVar("type", ReservedTypes.WALL);
         wall.setVisible(false);
         wall.getVariableCase().setVar("visible", "false");
-        wall.setSprite(new AbstractSprite() {
+        wall.setSprite(new AbstractSpriteAdapter() {
             @Override
-            public void draw(final Graphics g, final Entity self) {
-                ((Graphics2D) g).setStroke(new BasicStroke(2));
+            public void draw(final Graphics2D g, final Entity self) {
+                g.setStroke(new BasicStroke(2));
                 g.setColor(Color.RED);
-                g.drawLine((int) pos.x, (int) pos.y, (int) pos.x + (int) dim.x, (int) pos.y + (int) dim.y);
-                g.drawLine((int) pos.x, (int) pos.y + (int) dim.y, (int) pos.x + (int) dim.x, (int) pos.y);
-                g.draw3DRect((int) pos.x, (int) pos.y, (int) dim.x, (int) dim.y, true);
-            }
-
-            public void nextFrame() {
-            }
-
-            public void nextFrameAbsolute() {
-            }
-
-            public void setFrame(int frame) {
-            }
-
-            public void setCycle(int cycle) {
-            }
-
-            public void set(int frame, int cycle) {
-            }
-
-            public void setTimeStretch(int timeStretch) {
-            }
-
-            public void setsizeOffset(int sizeOffset) {
-            }
-
-            public Dimension getTileDimension() {
-                return null;
-            }
-
-            @Override
-            public File getImageIndex() {
-                // TODO Auto-generated method stub
-                return null;
+                g.drawLine(self.getPos().getWidth(), self.getPos().getHeight(), self.getPos().getWidth() + self.getDim().getWidth(), self.getPos().getHeight() + self.getDim().getHeight());
+                g.drawLine(self.getPos().getWidth(), self.getPos().getHeight() + self.getDim().getHeight(), self.getPos().getWidth() + self.getDim().getWidth(), self.getPos().getHeight());
+                g.draw3DRect(self.getPos().getWidth(), self.getPos().getHeight(), self.getDim().getWidth(), self.getDim().getHeight(), true);
             }
         });
         return wall;

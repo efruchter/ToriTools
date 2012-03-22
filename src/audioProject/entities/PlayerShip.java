@@ -1,7 +1,7 @@
 package audioProject.entities;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import toritools.additionaltypes.HealthBar;
@@ -146,7 +146,7 @@ public class PlayerShip extends Entity {
 		setSprite(new AbstractSpriteAdapter() {
 
 			@Override
-			public void draw(Graphics g, Entity self) {
+			public void draw(Graphics2D g, Entity self) {
 				
 				//g.fillOval((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 				

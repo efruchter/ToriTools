@@ -112,6 +112,7 @@ public class VariableEditor extends JPanel {
                 micro.add(field);
                 buttonPanel.add(micro);
             }
+        revalidate();
     }
 
     public void saveCurrent() {

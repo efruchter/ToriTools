@@ -4,7 +4,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -61,7 +61,7 @@ public class ScrollingBackground extends Entity {
 			float sinTimer = 0;
 			
 			@Override
-			public void draw(Graphics g, Entity self) {
+			public void draw(Graphics2D g, Entity self) {
 				g.setColor(new Color(232, 243, 178));
 				//g.fillRect((int) position.x, (int) position.y, (int) dimension.x, (int) dimension.y);
 				

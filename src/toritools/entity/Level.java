@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import toritools.debug.Debug;
 import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
@@ -172,9 +173,9 @@ public class Level extends Entity {
         gr.fillRect(0, 0, (int) dim.x, (int) dim.y);
         for (Entity e : getEntitiesWithType(ReservedTypes.BACKGROUND.toString())) {
             despawnEntity(e);
-            e.draw(baked.getGraphics());
+            e.draw((Graphics2D) baked.getGraphics());
         }
-        System.out.println("Baking Backgrounds...");
+        Debug.print("Baking Backgrounds...");
         return baked;
     }
 

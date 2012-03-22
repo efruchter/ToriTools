@@ -1,7 +1,7 @@
 package toritools.entity.sprite;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.File;
 
 import toritools.entity.Entity;
@@ -52,7 +52,7 @@ public interface AbstractSprite {
 	 * @param position
 	 * @param dimension
 	 */
-	void draw(final Graphics g, final Entity self);
+	void draw(final Graphics2D g, final Entity self);
 
 	File getImageIndex();
 
@@ -86,7 +86,7 @@ public interface AbstractSprite {
 		public void setsizeOffset(int sizeOffset) {}
 
 		@Override
-		public void draw(Graphics g, Entity self) {}
+		public void draw(Graphics2D g, Entity self) {}
 
 		@Override
 		public File getImageIndex() {return null;}

@@ -1,42 +1,39 @@
 package snakemeleon;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.contacts.Contact;
 
 import snakemeleon.types.ChameleonScript;
+import snakemeleon.types.ChameleonStickyScript;
+import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
 import toritools.entrypoint.Binary;
+import toritools.io.FontLoader;
 import toritools.io.Importer;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.physics.Universe;
 import toritools.scripting.ScriptUtils;
 
-public class Snakemeleon extends Binary implements MouseListener, MouseMotionListener, ContactListener {
+public class Snakemeleon extends Binary {
 
     /*
      * CONSTANTS!
@@ -60,46 +57,64 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/TestLevel.xml" };
 
+    private static Font uiFont;
+
+    private static SnakemeleonHUD hud = new SnakemeleonHUD();
+
+    private static File bgFile;
+
     public static void main(String[] args) {
         new Snakemeleon();
     }
 
     public Snakemeleon() {
         super(new Vector2(800, 600), 60, "Snakemeleon");
-        super.getApplicationFrame().setIconImage(new ImageIcon("snakemeleon/chameleon_head.png").getImage());
-
-        /**
-         * Set up a mouse tracker.
-         */
-
+        super.getApplicationFrame().setIconImage(ScriptUtils.fetchImage(new File("snakemeleon/chameleon_head.png")));
     }
 
     @Override
     protected void initialize() {
+
+        try {
+            FontLoader.loadFont(new File("snakemeleon/eartm.ttf"));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        uiFont = new Font("Earth's Mightiest", Font.TRUETYPE_FONT, 40);
+
+        Debug.showDebugPrintouts = true;
+
+        bgFile = new File("snakemeleon/forest1.png");
+
         // Player player = new Player();
         // player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
         // player.play();
 
-        // Set up cursor
-        try {
-            BufferedImage image = ImageIO.read(new File("snakemeleon/cursor.png"));
-            // Create a new blank cursor.
-            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(image,
-                    new Point(image.getWidth() / 3, 0), "Green Circle Cursor");
+        // Create a new blank cursor.
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB), new Point(), "Red Circle Cursor");
+        // Set the blank cursor to the JFrame.
+        super.getApplicationFrame().getContentPane().setCursor(blankCursor);
 
-            // Set the blank cursor to the JFrame.
-            super.getApplicationFrame().getContentPane().setCursor(blankCursor);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        super.getApplicationFrame().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                Snakemeleon.isMouseDragging = true;
 
-        super.getApplicationFrame().addMouseListener(this);
-        super.getApplicationFrame().addMouseMotionListener(this);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                Snakemeleon.isMouseDragging = false;
+
+            }
+        });
     }
 
     @Override
     protected void globalLogic(Level level) {
+        
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
         }
@@ -107,20 +122,24 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
         uni.step(60 / 1000f);
 
         // Camera step
+        // if (isMouseDragging) {
+        // camera.setA(mousePos);
+        // camera.smoothTowardA();
+        // } else {
         camera.setA(level.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos());
         camera.smoothTowardA();
+        // }
 
-        offset = VIEWPORT.scale(.5f).sub(camera.getB());
+        Vector2 halfPort = VIEWPORT.scale(.5f);
 
-        // System.out.println(isMouseDragging + " " + mousePos);
+        float x = Math.min(Math.max(camera.getB().x, halfPort.x), level.getDim().x - halfPort.x);
+        float y = Math.min(Math.max(camera.getB().y, halfPort.y), level.getDim().y - halfPort.y);
+        offset = halfPort.sub(new Vector2(x, y));
 
-        if (k == 1) {
-            k++;
-            if (ab.getType().equals("player"))
-                uni.addWeld(ab, bb);
-            else
-                uni.addWeld(bb, ab);
-        }
+        PointerInfo e = MouseInfo.getPointerInfo();
+        Point frameLoc = super.getApplicationFrame().getLocationOnScreen();
+        mousePos = new Vector2(-offset.getWidth() + e.getLocation().x - frameLoc.x, -offset.getHeight()
+                + e.getLocation().y - frameLoc.y);
     }
 
     @Override
@@ -128,15 +147,16 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
 
         uni = new Universe(SnakemeleonConstants.gravity);
 
-        uni.setContactListener(this);
-
         camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
                 SnakemeleonConstants.cameraLag);
 
-        for (Entity en : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.playerTypeId)) {
-            en.addScript(new ChameleonScript());
-            uni.addEntity(en, BodyType.DYNAMIC, true, true, 1f, .3f);
-        }
+        Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
+        cham.addScript(new ChameleonScript());
+        uni.addEntity(cham, BodyType.DYNAMIC, true, true, 1f, .3f).setAngularDamping(5);
+        // A script to enable the chameleon to stick to things
+        ChameleonStickyScript s = new ChameleonStickyScript();
+        cham.addScript(s);
+        uni.setContactListener(s);
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
             uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f);
@@ -184,10 +204,11 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
     }
 
     @Override
-    protected boolean render(Graphics rootCanvas, Level level) {
+    protected boolean render(Graphics2D rootCanvas, Level level) {
         try {
-            ((Graphics2D) rootCanvas).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            rootCanvas.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            rootCanvas.setFont(uiFont);
+
             Entity player = level.getEntityWithId(SnakemeleonConstants.playerTypeId);
             if (player == null) {
                 System.out.println("You need to make an entity with id set to player!");
@@ -197,7 +218,10 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
             rootCanvas.setColor(Color.LIGHT_GRAY);
             rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
 
-            ((Graphics2D) rootCanvas).translate(offset.getWidth(), offset.getHeight());
+            rootCanvas.translate(offset.getWidth(), offset.getHeight());
+
+            rootCanvas.drawImage(ScriptUtils.fetchImage(bgFile), (int) 0, (int) 0, level.getDim().getWidth(), level
+                    .getDim().getHeight(), null);
 
             rootCanvas.drawImage(level.getBakedBackground(), (int) 0, (int) 0, (int) level.getDim().x,
                     (int) level.getDim().y, null);
@@ -209,54 +233,18 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
                 }
             }
 
+            rootCanvas.setStroke(new BasicStroke(3));
             rootCanvas.setColor(Color.RED);
-            rootCanvas.drawRect(player.getPos().getWidth(), player.getPos().getHeight(), player.getDim().getWidth(),
-                    player.getDim().getHeight());
+            rootCanvas.drawOval(mousePos.getWidth() - 10, mousePos.getHeight() - 10, 20, 20);
+
+            rootCanvas.translate(-offset.getWidth(), -offset.getHeight());
+
+            hud.draw(rootCanvas, VIEWPORT);
 
         } catch (final Exception e) {
             return false;
         }
         return true;
-    }
-
-    /*
-     * MOUSE CONTROL METHODS
-     */
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        Snakemeleon.isMouseDragging = true;
-        mousePos = new Vector2(-offset.getWidth() + e.getX(), -offset.getHeight() + e.getY());
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        mouseDragged(e);
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        Snakemeleon.isMouseDragging = false;
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 
     public static void restartLevel() {
@@ -278,45 +266,4 @@ public class Snakemeleon extends Binary implements MouseListener, MouseMotionLis
             System.exit(1);
         }
     }
-
-    /*
-     * Shape contact methods. You cant manipulate the universe from within
-     * these. They are only here for temporary testing purposes.
-     */
-
-    @Override
-    public void beginContact(Contact c) {
-
-        Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
-
-        if (a.getType().equals("player") || b.getType().equals("player")) {
-            if (k++ == 0) {
-                System.out.println("WELDED");
-                ab = a;
-                bb = b;
-            }
-        }
-    }
-
-    int k = 0;
-
-    @Override
-    public void endContact(Contact c) {
-
-    }
-
-    @Override
-    public void postSolve(Contact arg0, ContactImpulse arg1) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void preSolve(Contact arg0, Manifold arg1) {
-        // TODO Auto-generated method stub
-
-    }
-
-    private Entity ab, bb;
-
 }

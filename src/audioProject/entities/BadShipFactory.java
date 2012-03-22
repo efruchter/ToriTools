@@ -3,7 +3,7 @@ package audioProject.entities;
 import static audioProject.AudioProject.getFloat;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,7 +103,7 @@ public class BadShipFactory {
         entity.setSprite(new AbstractSpriteAdapter() {
 
             @Override
-            public void draw(Graphics g, Entity self) {
+            public void draw(Graphics2D g, Entity self) {
                 g.setColor(AudioProject.enemyColor);
                 g.fillOval((int) self.getPos().x, (int) (self.getPos().y), (int) self.getDim().x, (int) self.getDim().y);
             }
@@ -182,7 +182,7 @@ public class BadShipFactory {
         entity.setSprite(new AbstractSpriteAdapter() {
 
             @Override
-            public void draw(Graphics g, Entity self) {
+            public void draw(Graphics2D g, Entity self) {
 
                 bar.draw(g, new Vector2(10, 90), new Vector2(200, 30));
 
