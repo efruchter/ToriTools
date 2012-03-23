@@ -1,6 +1,5 @@
 package snakemeleon;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -253,10 +252,6 @@ public class Snakemeleon extends Binary {
                         e.draw(rootCanvas);
                 }
             }
-
-            rootCanvas.setStroke(new BasicStroke(3));
-            rootCanvas.setColor(Color.RED);
-            rootCanvas.drawOval(mousePos.getWidth() - 10, mousePos.getHeight() - 10, 20, 20);
 
             rootCanvas.translate(-offset.getWidth(), -offset.getHeight());
 

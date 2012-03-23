@@ -24,6 +24,12 @@ public class Tongue extends Entity {
 
     private boolean mouthClosed = true;
 
+    private boolean mouseInRange = false;
+
+    private float currentDist = 0;
+
+    private Vector2 tongueMaxPos = Vector2.ZERO;
+
     public Tongue() {
 
         this.getVariableCase().setVar("id", "tongue");
@@ -45,7 +51,12 @@ public class Tongue extends Entity {
             @Override
             public void onUpdate(Entity self, float time, Level level) {
 
-                if (Snakemeleon.isMouseDragging && dragging == null) {
+                Tongue.this.mouseInRange = (currentDist = Snakemeleon.mousePos.dist(Tongue.this.mouthPoint)) < SnakemeleonConstants.tongueActualDist;
+
+                tongueMaxPos = mouthPoint.add(Snakemeleon.mousePos.sub(mouthPoint).unit()
+                        .scale(Math.min(currentDist, SnakemeleonConstants.tongueActualDist)));
+
+                if (mouseInRange && Snakemeleon.isMouseDragging && dragging == null) {
                     for (Entity e : level.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
                         if (ScriptUtils.isPointWithin(e, Snakemeleon.mousePos)) {
                             dragging = e;
@@ -56,7 +67,7 @@ public class Tongue extends Entity {
                     }
                 }
 
-                if (Snakemeleon.isMouseDragging && dragging != null) {
+                if (mouseInRange && Snakemeleon.isMouseDragging && dragging != null) {
                     tongueChain.smooth();
                     Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
                     tongueChain.setA(dragAnchor);
@@ -84,15 +95,22 @@ public class Tongue extends Entity {
         this.setSprite(new AbstractSpriteAdapter() {
             @Override
             public void draw(Graphics2D g, Entity self) {
-                if (mouthClosed)
-                    return;
-                g.setColor(Color.RED);
-                g.setStroke(new BasicStroke(5));
-                Vector2[] chain = tongueChain.getChain();
-                for (int x = 1; x < SnakemeleonConstants.tongueLength; x++) {
-                    g.drawLine(chain[x - 1].getWidth(), chain[x - 1].getHeight(), chain[x].getWidth(),
-                            chain[x].getHeight());
+                if (!mouthClosed) {
+                    g.setColor(Color.RED);
+                    g.setStroke(new BasicStroke(5));
+                    Vector2[] chain = tongueChain.getChain();
+                    for (int x = 1; x < SnakemeleonConstants.tongueLength; x++) {
+                        g.drawLine(chain[x - 1].getWidth(), chain[x - 1].getHeight(), chain[x].getWidth(),
+                                chain[x].getHeight());
+                    }
                 }
+
+                g.setStroke(new BasicStroke(3));
+                g.setColor(Color.RED);
+                g.drawOval(Snakemeleon.mousePos.getWidth() - 10, Snakemeleon.mousePos.getHeight() - 10, 20, 20);
+
+                g.setColor(Color.CYAN);
+                g.drawOval(tongueMaxPos.getWidth() - 10, tongueMaxPos.getHeight() - 10, 20, 20);
             }
         });
     }

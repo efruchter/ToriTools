@@ -46,6 +46,8 @@ public class SnakemeleonConstants {
     final public static float headWidth = 25;
 
     final public static float neckWidth = 15;
+    
+    final public static float tongueActualDist = 400;
 
     final public static File hudImageFile = new File("snakemeleon/cham_hud.png");
     final public static File victoryImageFile = new File("snakemeleon/victory1.png");
