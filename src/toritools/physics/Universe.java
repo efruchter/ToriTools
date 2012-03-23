@@ -2,7 +2,6 @@ package toritools.physics;
 
 import java.util.HashMap;
 
-import org.jbox2d.callbacks.ContactFilter;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -55,34 +54,28 @@ public class Universe {
         world.step(dt, 8, 15);
     }
 
-    /**
-     * Add an entity to the simulation. The entity will be given an additional
-     * script that keeps it synced with its simulation representation..
-     * 
-     * @param ent
-     *            the entity to add.
-     * @param bodyType
-     *            the Body type
-     * @param allowRotation
-     *            true if rotation should be allowed.
-     * @param density
-     *            default is 1, adjust accordingly.
-     */
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
-            final boolean spherical, final float density, final float friction) {
+            final boolean spherical, final float density, final float friction, final Vector2[] points) {
         BodyDef bd = new BodyDef();
         bd.fixedRotation = !allowRotation;
         bd.type = bodyType;
-        bd.position.set(ent.getPos().x / PTM_RATIO + ent.getDim().x / 2 / PTM_RATIO,
-                ent.getPos().y / PTM_RATIO + ent.getDim().y / 2 / PTM_RATIO);
 
         Shape p = null;
-        if (!spherical) {
-            p = new PolygonShape();
-            ((PolygonShape) p).setAsBox(ent.getDim().x / PTM_RATIO / 2, ent.getDim().y / PTM_RATIO / 2);
+        if (points == null) {
+            bd.position.set(ent.getPos().x / PTM_RATIO + ent.getDim().x / 2 / PTM_RATIO, ent.getPos().y / PTM_RATIO
+                    + ent.getDim().y / 2 / PTM_RATIO);
+            if (!spherical) {
+                p = new PolygonShape();
+                ((PolygonShape) p).setAsBox(ent.getDim().x / PTM_RATIO / 2, ent.getDim().y / PTM_RATIO / 2);
+            } else {
+                p = new CircleShape();
+                p.m_radius = ent.getDim().x / PTM_RATIO / 2;
+            }
         } else {
-            p = new CircleShape();
-            p.m_radius = ent.getDim().x / PTM_RATIO / 2;
+            bd.position.set(ent.getPos().add(ent.getDim().scale(.5f)).scale(1f / PTM_RATIO).toVec());
+            PolygonShape ss = new PolygonShape();
+            ss.setAsEdge(points[0].scale(1f / PTM_RATIO).toVec(), points[1].scale(1f / PTM_RATIO).toVec());
+            p = ss;
         }
 
         // Create a fixture for ball
@@ -98,15 +91,30 @@ public class Universe {
         body.createFixture(fd);
         body.m_userData = ent;
 
-        world.setContactFilter(new ContactFilter() {
-        });
-
         bodyMap.put(ent, body);
 
         if (bodyType == BodyType.DYNAMIC)
             ent.addScript(serviceScript);
 
         return body;
+    }
+
+    /**
+     * Add an entity to the simulation. The entity will be given an additional
+     * script that keeps it synced with its simulation representation..
+     * 
+     * @param ent
+     *            the entity to add.
+     * @param bodyType
+     *            the Body type
+     * @param allowRotation
+     *            true if rotation should be allowed.
+     * @param density
+     *            default is 1, adjust accordingly.
+     */
+    public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
+            final boolean spherical, final float density, final float friction) {
+        return addEntity(ent, bodyType, allowRotation, spherical, density, friction, null);
     }
 
     /**

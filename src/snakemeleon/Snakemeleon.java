@@ -114,7 +114,7 @@ public class Snakemeleon extends Binary {
 
     @Override
     protected void globalLogic(Level level) {
-        
+
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
         }
@@ -160,6 +160,16 @@ public class Snakemeleon extends Binary {
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
             uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f);
+        }
+
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("RIGHT_DIAG_WALL")) {
+            uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f,
+                    new Vector2[] { (e.getDim().scale(.5f, -.5f)), (e.getDim().scale(-.5f, .5f)) });
+        }
+
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("LEFT_DIAG_WALL")) {
+            uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f,
+                    new Vector2[] { (e.getDim().scale(-.5f, -.5f)), (e.getDim().scale(.5f, .5f)) });
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {

@@ -25,7 +25,7 @@ public class Vector2 {
         this.x = x;
         this.y = y;
     }
-    
+
     public Vector2(final Dimension dim) {
         this.x = dim.width;
         this.y = dim.height;
@@ -76,7 +76,7 @@ public class Vector2 {
     public Vector2 sub(final float o) {
         return new Vector2(this.x - o, this.y - o);
     }
-    
+
     public Vector2 sub(final float x, final float y) {
         return new Vector2(this.x - x, this.y - y);
     }
@@ -97,8 +97,13 @@ public class Vector2 {
         return this.x * o.getX() + this.y * o.getY();
     }
 
+    private float magCache = -1;
+
     public float mag() {
-        return (float) Math.sqrt(x * x + y * y);
+        if (magCache == -1) {
+            magCache = (float) Math.sqrt(x * x + y * y);
+        }
+        return magCache;
     }
 
     public Vector2 unit() {
