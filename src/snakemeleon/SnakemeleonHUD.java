@@ -3,16 +3,43 @@ package snakemeleon;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import snakemeleon.types.Collectable;
+import toritools.entity.Level;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
 public class SnakemeleonHUD {
-    
-    private int w = 270, h = 132;
+
+    private int splashW = 270, splashH = 132;
+
+    long currentTime = 0;
+
+    public void update(long timeStep, final Level level) {
+        if (Collectable.getCollectablesRemaining() == 0) {
+            currentTime += timeStep;
+        } else {
+            currentTime = 0;
+        }
+    }
 
     public void draw(Graphics2D g, final Vector2 viewport) {
-        g.setColor(Color.CYAN);
-        g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.hudImageFile), viewport.getWidth() - w, viewport.getHeight() - h, w, h, null);
-        g.drawString("Apples Remaining", viewport.getWidth() - w, viewport.getHeight() - h);
+        if (currentTime > 60) {
+            /*
+             * Draw the in between level splash screen.
+             */
+            g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.victoryImageFile), 0, 0, viewport.getWidth(), viewport.getHeight(), null);
+            g.setColor(Color.black);
+            g.drawString("Challenge Complete!", viewport.getWidth() / 2, viewport.getHeight() / 5);
+            if(currentTime > 60 * 3) {
+                Snakemeleon.nextLevel();
+                currentTime = 0;
+            }
+        } else {
+            g.setColor(Color.CYAN);
+            g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.hudImageFile), viewport.getWidth() - splashW,
+                    viewport.getHeight() - splashH, splashW, splashH, null);
+            g.drawString("Apples Remaining: " + Collectable.getCollectablesRemaining(), viewport.getWidth() - splashW,
+                    viewport.getHeight() - splashH);
+        }
     }
 }

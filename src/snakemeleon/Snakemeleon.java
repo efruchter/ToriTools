@@ -21,6 +21,8 @@ import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.types.ChameleonScript;
 import snakemeleon.types.ChameleonStickyScript;
+import snakemeleon.types.Collectable;
+import snakemeleon.types.KeyTriggerEntityAction;
 import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -55,7 +57,7 @@ public class Snakemeleon extends Binary {
     public static Vector2 mousePos = Vector2.ZERO;
 
     private static int currentLevel = 0;
-    private static String[] levels = new String[] { "snakemeleon/TestLevel.xml" };
+    private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/TestLevel.xml" };
 
     private static Font uiFont;
 
@@ -140,6 +142,8 @@ public class Snakemeleon extends Binary {
         Point frameLoc = super.getApplicationFrame().getLocationOnScreen();
         mousePos = new Vector2(-offset.getWidth() + e.getLocation().x - frameLoc.x, -offset.getHeight()
                 + e.getLocation().y - frameLoc.y);
+
+        hud.update(1, level);
     }
 
     @Override
@@ -179,6 +183,13 @@ public class Snakemeleon extends Binary {
                 round = true;
             }
             uni.addEntity(e, BodyType.DYNAMIC, true, round, 1f, .3f);
+            if (e.getVariableCase().getVar("key") != null) {
+                e.addScript(new KeyTriggerEntityAction());
+            }
+
+            if (e.getVariableCase().getVar("id") != null && e.getVariableCase().getVar("id").equals("collectable")) {
+                e.addScript(new Collectable());
+            }
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.hingeType)) {

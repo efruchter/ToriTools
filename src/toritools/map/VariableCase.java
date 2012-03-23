@@ -54,7 +54,7 @@ public class VariableCase {
 			System.err.println("The variable with key " + key
 					+ " is not a valid float.");
 		} catch (final Exception e) {
-			System.err.println("No variable with key " + key + "found!");
+			System.err.println("No variable with key " + key + " found!");
 		}
 		System.exit(1);
 		return 0;

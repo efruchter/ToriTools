@@ -37,15 +37,18 @@ public class SnakemeleonConstants {
      * The entity type for a hinge joint to be placed.
      */
     final public static String hingeType = "hinge";
-    
+
     /**
      * The entity type/id for a the player.
      */
     final public static String playerTypeId = "player";
-    
+
     final public static float headWidth = 25;
-    
+
     final public static float neckWidth = 15;
-    
+
     final public static File hudImageFile = new File("snakemeleon/cham_hud.png");
+    final public static File victoryImageFile = new File("snakemeleon/victory1.png");
+
+    final public static String triggerZoneType = "TRIGGER_ZONE";
 }
