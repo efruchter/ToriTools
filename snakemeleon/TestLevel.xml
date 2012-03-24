@@ -1,4 +1,4 @@
-<level map="height = 1000;width = 2000;">
+<level map="dimensions.y = 1000;height = 1000;width = 2000;dimensions.x = 2000;">
 <objects>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 7;position.y = 544.0;position.x = 448.0;xTiles = 16;xTile = 4;layer = 4;image = /backgrounds/tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 7;position.y = 544.0;position.x = 256.0;xTiles = 16;xTile = 4;layer = 4;image = /backgrounds/tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
@@ -423,32 +423,32 @@
 <entity map="dimensions.y = 32;template = /objects/walls/leftDiag.entity;solid = true;position.y = 512.0;sprite.sheet = leftDiag.png, 1, 1;visible = false;position.x = 672.0;description = A blank zone to place triggers in;layer = 0;type = LEFT_DIAG_WALL;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/triggers/triggerzone_32.entity;trigger = 1;solid = false;position.y = 384.0;sprite.sheet = trigger.png, 1, 1;position.x = 608.0;description = A blank zone to place triggers in;layer = 0;type = TRIGGER_ZONE;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/triggers/triggerzone_32.entity;trigger = 2;solid = false;position.y = 224.0;sprite.sheet = trigger.png, 1, 1;position.x = 288.0;description = A blank zone to place triggers in;layer = 0;type = TRIGGER_ZONE;dimensions.x = 32;"/>
-<entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 288.0;sprite.sheet = apple_1.png, 1, 1;position.x = 544.0;description = An edible apple collectable;layer = 0;type = dynamicProp;dimensions.x = 25;"/>
-<entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 128.0;sprite.sheet = apple_1.png, 1, 1;position.x = 416.0;description = An edible apple collectable;layer = 0;type = dynamicProp;dimensions.x = 25;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 512.0;visible = false;position.x = 544.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 96.0;solid = true;position.y = 448.0;visible = false;position.x = 608.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 544.0;visible = false;position.x = 96.0;layer = 0;type = WALL;dimensions.x = 608.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 192.0;visible = false;position.x = 384.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 256.0;visible = false;position.x = 384.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 224.0;visible = false;position.x = 512.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 224.0;visible = false;position.x = 352.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 96.0;layer = 0;type = WALL;dimensions.x = 864.0;"/>
-<entity map="dimensions.y = 416.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 960.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 544.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 544.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
-<entity map="dimensions.y = 736.0;solid = true;position.y = 256.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 992.0;"/>
-<entity map="dimensions.y = 256.0;solid = true;position.y = 0.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 256.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
-<entity map="dimensions.y = 320.0;solid = true;position.y = 640.0;visible = false;position.x = 1376.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 320.0;solid = true;position.y = 640.0;visible = false;position.x = 1056.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 352.0;solid = true;position.y = 608.0;visible = false;position.x = 1728.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 94.0;solid = true;position.y = 31.0;visible = false;position.x = 855.0;layer = 0;type = WALL;dimensions.x = 13.0;"/>
+<entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 288.0;sprite.sheet = apple_1.png, 1, 1;position.x = 544.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
+<entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 128.0;sprite.sheet = apple_1.png, 1, 1;position.x = 416.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 512.0;visible = false;position.x = 640.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 94.0;solid = true;position.y = 31.0;visible = false;position.x = 855.0;layer = 0;type = WALL;dimensions.x = 13.0;"/>
+<entity map="dimensions.y = 352.0;solid = true;position.y = 608.0;visible = false;position.x = 1728.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 320.0;solid = true;position.y = 640.0;visible = false;position.x = 1056.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 320.0;solid = true;position.y = 640.0;visible = false;position.x = 1376.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 256.0;visible = false;position.x = 1152.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
+<entity map="dimensions.y = 256.0;solid = true;position.y = 0.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 992.0;"/>
+<entity map="dimensions.y = 736.0;solid = true;position.y = 256.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 544.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 544.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 960.0;"/>
+<entity map="dimensions.y = 416.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 96.0;layer = 0;type = WALL;dimensions.x = 864.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 224.0;visible = false;position.x = 352.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 224.0;visible = false;position.x = 512.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 256.0;visible = false;position.x = 384.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 192.0;visible = false;position.x = 384.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 544.0;visible = false;position.x = 96.0;layer = 0;type = WALL;dimensions.x = 608.0;"/>
+<entity map="dimensions.y = 96.0;solid = true;position.y = 448.0;visible = false;position.x = 608.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 480.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 512.0;visible = false;position.x = 544.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
 </objects>
 </level>

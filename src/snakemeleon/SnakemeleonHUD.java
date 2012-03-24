@@ -27,19 +27,24 @@ public class SnakemeleonHUD {
             /*
              * Draw the in between level splash screen.
              */
-            g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.victoryImageFile), 0, 0, viewport.getWidth(), viewport.getHeight(), null);
+            g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.victoryImageFile), 0, 0, viewport.getWidth(),
+                    viewport.getHeight(), null);
             g.setColor(Color.black);
             g.drawString("Challenge Complete!", viewport.getWidth() / 2, viewport.getHeight() / 5);
-            if(currentTime > 60 * 3) {
+            if (currentTime > 60 * 3) {
                 Snakemeleon.nextLevel();
                 currentTime = 0;
             }
         } else {
             g.setColor(Color.CYAN);
-            g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.hudImageFile), viewport.getWidth() - splashW,
-                    viewport.getHeight() - splashH, splashW, splashH, null);
-            g.drawString("Apples Remaining: " + Collectable.getCollectablesRemaining(), viewport.getWidth() - splashW,
-                    viewport.getHeight() - splashH);
+            // g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.hudImageFile),
+            // viewport.getWidth() - splashW,
+            // viewport.getHeight() - splashH, splashW, splashH, null);
+            // g.drawString("Apples Remaining: " +
+            // Collectable.getCollectablesRemaining(), viewport.getWidth() -
+            // splashW,
+            // viewport.getHeight() - splashH);
+            g.drawString("Apples Remaining: " + Collectable.getCollectablesRemaining(), 5, 25);
         }
     }
 }

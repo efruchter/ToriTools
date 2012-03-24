@@ -27,4 +27,12 @@ public class Debug {
             System.out.println(s);
         }
     }
+
+    public static void print(final double s) {
+        print("" + s);
+    }
+    
+    public static void print(final int s) {
+        print("" + s);
+    }
 }

@@ -15,9 +15,17 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.contacts.Contact;
 
+import snakemeleon.types.ChameleonFootSensor;
 import snakemeleon.types.ChameleonScript;
 import snakemeleon.types.ChameleonStickyScript;
 import snakemeleon.types.Collectable;
@@ -34,7 +42,7 @@ import toritools.math.Vector2;
 import toritools.physics.Universe;
 import toritools.scripting.ScriptUtils;
 
-public class Snakemeleon extends Binary {
+public class Snakemeleon extends Binary implements ContactListener {
 
     /*
      * CONSTANTS!
@@ -56,7 +64,8 @@ public class Snakemeleon extends Binary {
     public static Vector2 mousePos = Vector2.ZERO;
 
     private static int currentLevel = 0;
-    private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/TestLevel.xml" };
+    private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
+            "snakemeleon/TestLevel.xml" };
 
     private static Font uiFont;
 
@@ -83,8 +92,6 @@ public class Snakemeleon extends Binary {
         }
 
         uiFont = new Font("Earth's Mightiest", Font.TRUETYPE_FONT, 40);
-
-        Debug.showDebugPrintouts = true;
 
         bgFile = new File("snakemeleon/forest1.png");
 
@@ -120,6 +127,14 @@ public class Snakemeleon extends Binary {
             System.exit(0);
         }
 
+        if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_F12)) {
+            nextLevel();
+        }
+        
+        if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_P)) {
+            Debug.showDebugPrintouts = !Debug.showDebugPrintouts;
+        }
+
         uni.step(60 / 1000f);
 
         // Camera step
@@ -148,18 +163,21 @@ public class Snakemeleon extends Binary {
     @Override
     protected void setupCurrentLevel(Level levelBeingLoaded) {
 
+        touchQueue.clear();
+        jumpTouchQueue = 0;
+
         uni = new Universe(SnakemeleonConstants.gravity);
+        uni.setContactListener(this);
 
         camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
                 SnakemeleonConstants.cameraLag);
 
         Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
         cham.addScript(new ChameleonScript());
-        uni.addEntity(cham, BodyType.DYNAMIC, true, true, 1f, .3f).setAngularDamping(5);
+        Body chamBody = uni.addEntity(cham, BodyType.DYNAMIC, true, true, 1f, .3f);
+        chamBody.setAngularDamping(5);
         // A script to enable the chameleon to stick to things
-        ChameleonStickyScript s = new ChameleonStickyScript();
-        cham.addScript(s);
-        uni.setContactListener(s);
+        cham.addScript(new ChameleonStickyScript());
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {
             uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f);
@@ -167,12 +185,12 @@ public class Snakemeleon extends Binary {
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType("RIGHT_DIAG_WALL")) {
             uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f,
-                    new Vector2[] { (e.getDim().scale(.5f, -.5f)), (e.getDim().scale(-.5f, .5f)) });
+                    new Vector2[] { (e.getDim().scale(.5f, -.5f)), (e.getDim().scale(-.5f, .5f)) }, false);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType("LEFT_DIAG_WALL")) {
             uni.addEntity(e, BodyType.STATIC, false, false, 1f, .3f,
-                    new Vector2[] { (e.getDim().scale(-.5f, -.5f)), (e.getDim().scale(.5f, .5f)) });
+                    new Vector2[] { (e.getDim().scale(-.5f, -.5f)), (e.getDim().scale(.5f, .5f)) }, false);
         }
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
@@ -281,5 +299,64 @@ public class Snakemeleon extends Binary {
             System.out.println("You won!");
             System.exit(1);
         }
+    }
+
+    /*
+     * Shape contact methods. You can't manipulate the universe from within
+     * these. They are only here for temporary testing purposes.
+     */
+
+    public static List<Entity> touchQueue = new LinkedList<Entity>();
+    public static int jumpTouchQueue = 0;
+
+    @Override
+    public void beginContact(Contact c) {
+
+        Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
+        boolean playerisA = ((Entity) c.m_fixtureA.m_userData).getType().equals("player");
+        boolean playerisB = ((Entity) c.m_fixtureB.m_userData).getType().equals("player");
+
+        if (playerisA && b.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+            touchQueue.add(b);
+        } else if (playerisB && a.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+            touchQueue.add(a);
+        }
+
+        if (c.m_fixtureA.m_userData instanceof ChameleonFootSensor && !playerisB) {
+            jumpTouchQueue++;
+        } else if (c.m_fixtureB.m_userData instanceof ChameleonFootSensor && !playerisA) {
+            jumpTouchQueue++;
+        }
+
+    }
+
+    @Override
+    public void endContact(Contact c) {
+
+        Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
+        boolean playerisA = ((Entity) c.m_fixtureA.m_userData).getType().equals("player");
+        boolean playerisB = ((Entity) c.m_fixtureB.m_userData).getType().equals("player");
+
+        if (playerisA && b.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+            touchQueue.remove(b);
+        } else if (playerisB && a.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+            touchQueue.remove(a);
+        }
+
+        if (c.m_fixtureA.m_userData instanceof ChameleonFootSensor && !playerisB) {
+            jumpTouchQueue--;
+        } else if (c.m_fixtureB.m_userData instanceof ChameleonFootSensor && !playerisA) {
+            jumpTouchQueue--;
+        }
+    }
+
+    @Override
+    public void postSolve(Contact arg0, ContactImpulse arg1) {
+
+    }
+
+    @Override
+    public void preSolve(Contact arg0, Manifold arg1) {
+
     }
 }

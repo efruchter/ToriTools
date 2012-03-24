@@ -112,11 +112,6 @@ public class LevelEditor {
     private Dimension gridSize = new Dimension(32, 32);
 
     /**
-     * Size of the editing world.
-     */
-    private Dimension levelSize = new Dimension(1000, 1000);
-
-    /**
      * This object handles layering information.
      */
     private LayerEditor layerEditor = new LayerEditor(this);
@@ -330,7 +325,6 @@ public class LevelEditor {
         if (levelFile.exists()) {
             Level level = Importer.importLevel(levelFile);
             variables = level.getVariableCase();
-            levelSize.setSize(level.getDim().x, level.getDim().y);
             entities.clear();
             layerEditor.clear();
             for (Entity e : level.getNewEntities()) {
@@ -575,8 +569,8 @@ public class LevelEditor {
                     String result = JOptionPane
                             .showInputDialog("Input an integer world width, height (ex. 1000, 5000):");
                     String vals[] = result.split(",");
-                    levelSize.width = Integer.parseInt(vals[0].trim());
-                    levelSize.height = Integer.parseInt(vals[1].trim());
+                    variables.setVar("dimensions.x", "" + Integer.parseInt(vals[0].trim()));
+                    variables.setVar("dimensions.y", "" + Integer.parseInt(vals[1].trim()));
                     repaint();
                 } catch (final Exception i) {
                     return;
@@ -822,9 +816,6 @@ public class LevelEditor {
 
         // Add the attributes of the level
         HashMap<String, String> props = new HashMap<String, String>();
-        props.put("width", levelSize.width + "");
-
-        props.put("height", levelSize.height + "");
         props.putAll(variables.getVariables());
         levelElement.setAttribute("map", ToriMapIO.writeMap(null, props));
         // Save the objects
@@ -950,7 +941,7 @@ public class LevelEditor {
      */
     public void draw(Graphics2D g) {
         g.setColor(Color.GRAY);
-        g.fillRect(0, 0, levelSize.width, levelSize.height);
+        g.fillRect(0, 0, (int) variables.getFloat("dimensions.x"), (int) variables.getFloat("dimensions.y"));
 
         /*
          * DRAW THE GRID
@@ -958,8 +949,8 @@ public class LevelEditor {
         if (gridSize.width > 1) {
             g.setStroke(new BasicStroke(1));
             g.setColor(Color.BLACK);
-            for (int x = 0; x < levelSize.width; x += gridSize.width)
-                g.drawLine(x, 0, x, levelSize.height);
+            for (int x = 0; x < variables.getFloat("dimensions.x"); x += gridSize.width)
+                g.drawLine(x, 0, x, (int) variables.getFloat("dimensions.y"));
 
             for (int y = 0; y < drawPanel.getHeight(); y += gridSize.height)
                 g.drawLine(0, y, drawPanel.getWidth(), y);
@@ -996,7 +987,7 @@ public class LevelEditor {
         }
 
         g.setColor(Color.RED);
-        g.draw3DRect(0, 0, levelSize.width, levelSize.height, true);
+        g.draw3DRect(0, 0, (int) variables.getFloat("dimensions.x"), (int) variables.getFloat("dimensions.y"), true);
 
         if (mode == Mode.WALL_MAKING) {
             float wallStartX = wallStart.x;
@@ -1044,7 +1035,8 @@ public class LevelEditor {
         else
             fileLabel.setText("new level");
         gridLabel.setText("Grid: " + (int) gridSize.getWidth() + " x " + (int) gridSize.getHeight());
-        levelSizeLabel.setText("Level Size: " + (int) levelSize.getWidth() + " x " + (int) levelSize.getHeight());
+        levelSizeLabel.setText("Level Size: " + (int) variables.getFloat("dimensions.x") + " x "
+                + (int) variables.getFloat("dimensions.y"));
         if (selected != null) {
             editModeLabel.setText("Editing Single Entity: " + selected.getType());
         } else if (mode == Mode.WALL_QUEUE) {
@@ -1054,9 +1046,9 @@ public class LevelEditor {
         } else {
             editModeLabel.setText("Click to Place Entity");
         }
-        drawPanel.setPreferredSize(levelSize);
-        // frame.invalidate();
-        // frame.validate();
+        drawPanel.setPreferredSize(new Dimension((int) variables.getFloat("dimensions.x"), (int) variables
+                .getFloat("dimensions.y")));
+        frame.validate();
         frame.repaint();
     }
 

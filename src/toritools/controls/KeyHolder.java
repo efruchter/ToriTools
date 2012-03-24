@@ -49,7 +49,8 @@ public class KeyHolder extends KeyAdapter {
         if (!keyBox.containsKey(key))
             return false;
         freeQueue.add(key);
-        return keyBox.get(key);
+        Boolean b = keyBox.get(key);
+        return b == null ? false : b;
     }
 
     /**

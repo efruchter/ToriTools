@@ -107,7 +107,14 @@ public class Importer {
         HashMap<String, String> props = ToriMapIO.readMap(doc.getElementsByTagName("level").item(0).getAttributes()
                 .getNamedItem("map").getNodeValue());
         level.getVariableCase().setVariables(props);
-        level.setDim(new Vector2(level.getVariableCase().getFloat("width"), level.getVariableCase().getFloat("height")));
+        if (level.getVariableCase().getVar("dimensions.x") == null) {
+            level.setDim(new Vector2(1000, 1000));
+            level.getVariableCase().setVar("dimensions.x", "" + 1000);
+            level.getVariableCase().setVar("dimensions.y", "" + 1000);
+        } else {
+            level.setDim(new Vector2(level.getVariableCase().getFloat("dimensions.x"), level.getVariableCase()
+                    .getFloat("dimensions.y")));
+        }
 
         // Extract level instance info
         // levelSize.width = Integer.parseInt(props.get("width"));
@@ -198,9 +205,12 @@ public class Importer {
             public void draw(final Graphics2D g, final Entity self) {
                 g.setStroke(new BasicStroke(2));
                 g.setColor(Color.RED);
-                g.drawLine(self.getPos().getWidth(), self.getPos().getHeight(), self.getPos().getWidth() + self.getDim().getWidth(), self.getPos().getHeight() + self.getDim().getHeight());
-                g.drawLine(self.getPos().getWidth(), self.getPos().getHeight() + self.getDim().getHeight(), self.getPos().getWidth() + self.getDim().getWidth(), self.getPos().getHeight());
-                g.draw3DRect(self.getPos().getWidth(), self.getPos().getHeight(), self.getDim().getWidth(), self.getDim().getHeight(), true);
+                g.drawLine(self.getPos().getWidth(), self.getPos().getHeight(), self.getPos().getWidth()
+                        + self.getDim().getWidth(), self.getPos().getHeight() + self.getDim().getHeight());
+                g.drawLine(self.getPos().getWidth(), self.getPos().getHeight() + self.getDim().getHeight(), self
+                        .getPos().getWidth() + self.getDim().getWidth(), self.getPos().getHeight());
+                g.draw3DRect(self.getPos().getWidth(), self.getPos().getHeight(), self.getDim().getWidth(), self
+                        .getDim().getHeight(), true);
             }
         });
         return wall;

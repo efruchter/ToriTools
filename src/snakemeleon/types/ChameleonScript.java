@@ -18,6 +18,7 @@ public class ChameleonScript implements EntityScript {
 
     Entity head;
     Tongue tongue;
+    ChameleonFootSensor sensor;
 
     @Override
     public void onSpawn(Entity self, Level level) {
@@ -29,6 +30,8 @@ public class ChameleonScript implements EntityScript {
 
         head.getSprite().setCycle(1);
         self.getSprite().setCycle(0);
+        
+        level.spawnEntity(sensor = new ChameleonFootSensor(self));
     }
 
     boolean facing = false;
@@ -40,17 +43,15 @@ public class ChameleonScript implements EntityScript {
         head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
 
         float dx = 0, dy = 0;
-        // boolean isStanding = Snakemeleon.uni.isCollidingWithType(self,
-        // ReservedTypes.WALL);
+        
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
             dx += -.1;
 
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D))
             dx += .1;
 
-        // if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_W) &&
-        // isStanding)
-        // dy += -4f;
+        if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_W) && sensor.canJump())
+            dy += -1f;
 
         if (dx != 0 || dy != 0) {
             Snakemeleon.uni.applyLinearImpulse(self, new Vector2(dx, dy));

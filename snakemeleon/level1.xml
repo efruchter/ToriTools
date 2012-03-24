@@ -1,4 +1,4 @@
-<level map="height = 600;width = 800;">
+<level map="dimensions.y = 600;height = 600;width = 800;dimensions.x = 800;">
 <objects>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 7;position.y = 320.0;position.x = 544.0;xTiles = 16;xTile = 13;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 8;position.y = 352.0;position.x = 544.0;xTiles = 16;xTile = 13;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
@@ -159,19 +159,19 @@
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 5;position.y = 0.0;position.x = 736.0;xTiles = 16;xTile = 11;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 5;position.y = 0.0;position.x = 416.0;xTiles = 16;xTile = 7;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 4;position.y = 0.0;position.x = 768.0;xTiles = 16;xTile = 4;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
-<entity map="template = /objects/chameleon/player.entity;position.y = 352.0;position.x = 128.0;layer = 0;"/>
-<entity map="template = /objects/collectable/apple.entity;position.y = 256.0;position.x = 704.0;layer = 0;"/>
-<entity map="template = /objects/collectable/apple.entity;position.y = 288.0;position.x = 704.0;layer = 0;"/>
-<entity map="template = /objects/walls/rightDiag.entity;position.y = 320.0;position.x = 544.0;layer = 0;"/>
-<entity map="template = /objects/walls/rightDiag.entity;position.y = 352.0;position.x = 512.0;layer = 0;"/>
-<entity map="template = /objects/walls/rightDiag.entity;position.y = 384.0;position.x = 480.0;layer = 0;"/>
-<entity map="template = /objects/walls/rightDiag.entity;position.y = 416.0;position.x = 448.0;layer = 0;"/>
-<entity map="template = /objects/walls/rightDiag.entity;position.y = 544.0;position.x = 416.0;layer = 0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
-<entity map="dimensions.y = 576.0;solid = true;position.y = 32.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
-<entity map="dimensions.y = 544.0;solid = true;position.y = 32.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="sprite.sizeOffset = 0;template = /objects/chameleon/player.entity;position.y = 352.0;sprite.timeScale = 5;position.x = 128.0;layer = 0;type = player;dimensions.y = 40;id = player;solid = false;sprite.sheet = cham.png, 2, 2;description = The player character.;dimensions.x = 40;"/>
+<entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 256.0;sprite.sheet = apple_1.png, 1, 1;position.x = 704.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
+<entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 288.0;sprite.sheet = apple_1.png, 1, 1;position.x = 704.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
+<entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 320.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 544.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 352.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 512.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 384.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 480.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 416.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 448.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
+<entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 544.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 416.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
 <entity map="dimensions.y = 128.0;solid = true;position.y = 448.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 320.0;"/>
+<entity map="dimensions.y = 544.0;solid = true;position.y = 32.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
+<entity map="dimensions.y = 576.0;solid = true;position.y = 32.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
 </objects>
 </level>

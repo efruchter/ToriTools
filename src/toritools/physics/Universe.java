@@ -55,7 +55,8 @@ public class Universe {
     }
 
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
-            final boolean spherical, final float density, final float friction, final Vector2[] points) {
+            final boolean spherical, final float density, final float friction, final Vector2[] points,
+            final boolean isSensor) {
         BodyDef bd = new BodyDef();
         bd.fixedRotation = !allowRotation;
         bd.type = bodyType;
@@ -86,6 +87,7 @@ public class Universe {
         fd.restitution = .3f;
         // fd.filter.categoryBits = cat;
         fd.userData = ent;
+        fd.isSensor = isSensor;
 
         Body body = world.createBody(bd);
         body.createFixture(fd);
@@ -114,7 +116,7 @@ public class Universe {
      */
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
             final boolean spherical, final float density, final float friction) {
-        return addEntity(ent, bodyType, allowRotation, spherical, density, friction, null);
+        return addEntity(ent, bodyType, allowRotation, spherical, density, friction, null, false);
     }
 
     /**
@@ -210,5 +212,9 @@ public class Universe {
 
     public void destroyJoint(final Joint joint) {
         world.destroyJoint(joint);
+    }
+
+    public void setTransform(final Entity e, final Vector2 pos, final float angleDeg) {
+        bodyMap.get(e).setTransform(pos.scale(1f / PTM_RATIO).toVec(), angleDeg / 57.3f);
     }
 }

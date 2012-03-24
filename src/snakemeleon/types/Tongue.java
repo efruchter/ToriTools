@@ -51,7 +51,7 @@ public class Tongue extends Entity {
             @Override
             public void onUpdate(Entity self, float time, Level level) {
 
-                Tongue.this.mouseInRange = (currentDist = Snakemeleon.mousePos.dist(Tongue.this.mouthPoint)) < SnakemeleonConstants.tongueActualDist;
+                mouseInRange = (currentDist = Snakemeleon.mousePos.dist(Tongue.this.mouthPoint)) < SnakemeleonConstants.tongueActualDist;
 
                 tongueMaxPos = mouthPoint.add(Snakemeleon.mousePos.sub(mouthPoint).unit()
                         .scale(Math.min(currentDist, SnakemeleonConstants.tongueActualDist)));
@@ -67,11 +67,11 @@ public class Tongue extends Entity {
                     }
                 }
 
-                if (mouseInRange && Snakemeleon.isMouseDragging && dragging != null) {
+                if (Snakemeleon.isMouseDragging && dragging != null) {
                     tongueChain.smooth();
                     Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
                     tongueChain.setA(dragAnchor);
-                    Vector2 dragVector = Snakemeleon.mousePos.sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
+                    Vector2 dragVector = (tongueMaxPos).sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
                     Snakemeleon.uni.setVelocity(dragging, dragVector);
                 } else {
                     tongueChain.smoothTowardB();
