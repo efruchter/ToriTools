@@ -1,5 +1,6 @@
 package snakemeleon;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -34,6 +35,7 @@ import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
+import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
 import toritools.entrypoint.Binary;
 import toritools.io.FontLoader;
 import toritools.io.Importer;
@@ -66,7 +68,7 @@ public class Snakemeleon extends Binary implements ContactListener {
 
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml","snakemeleon/level4.xml", "snakemeleon/TestLevel.xml" };
+            "snakemeleon/level3.xml", "snakemeleon/level4.xml"};
 
     private static Font uiFont;
 
@@ -252,8 +254,19 @@ public class Snakemeleon extends Binary implements ContactListener {
             e.addScript(spikeScript);
         }
 
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("message")) {
+            final String message = e.getVariableCase().getVar("message");
+            e.setSprite(new AbstractSpriteAdapter() {
+                @Override
+                public void draw(Graphics2D g, Entity self) {
+                    g.setColor(Color.LIGHT_GRAY);
+                    g.drawString(message, self.getPos().getWidth(), self.getPos().getHeight());
+                }
+            });
+        }
+
         levelBeingLoaded.bakeBackground();
-        
+
         camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
                 SnakemeleonConstants.cameraLag);
     }
@@ -268,6 +281,9 @@ public class Snakemeleon extends Binary implements ContactListener {
         }
         return null;
     }
+
+    private final BasicStroke dottedStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10,
+            new float[] { 5, 5, 5, 5 }, 0);
 
     @Override
     protected boolean render(Graphics2D rootCanvas, Level level) {
@@ -291,6 +307,18 @@ public class Snakemeleon extends Binary implements ContactListener {
 
             rootCanvas.drawImage(level.getBakedBackground(), (int) 0, (int) 0, (int) level.getDim().x,
                     (int) level.getDim().y, null);
+
+            if (ChameleonStickyScript.isGrabbing) {
+                rootCanvas.setColor(Color.GREEN);
+                rootCanvas.setStroke(dottedStroke);
+                rootCanvas.drawOval(player.getPos().getWidth(), player.getPos().getHeight(),
+                        player.getDim().getWidth(), player.getDim().getHeight());
+                // Entity other = ChameleonStickyScript.grabbingEntity;
+                // rootCanvas.drawOval(other.getPos().getWidth(),
+                // other.getPos().getHeight(),
+                // other.getDim().getWidth(), other.getDim().getHeight());
+
+            }
 
             for (int i = level.getLayers().size() - 1; i >= 0; i--) {
                 for (Entity e : level.getLayers().get(i)) {

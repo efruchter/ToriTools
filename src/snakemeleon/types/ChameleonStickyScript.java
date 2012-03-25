@@ -23,9 +23,12 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
 
     public static boolean isGrabbing = false;
 
+    public static Entity grabbingEntity = null;
+
     @Override
     public void onSpawn(Entity self, Level level) {
         isGrabbing = false;
+        grabbingEntity = null;
     }
 
     Joint weld = null;
@@ -38,7 +41,7 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
         // Activate weld
         if (grabKey && !isGrabbing && !Snakemeleon.touchQueue.isEmpty()) {
             Snakemeleon.uni.setRotationDeg(self, 0);
-            weld = Snakemeleon.uni.addWeld(self, Snakemeleon.touchQueue.get(0));
+            weld = Snakemeleon.uni.addWeld(self, grabbingEntity = Snakemeleon.touchQueue.get(0));
             isGrabbing = true;
             Debug.print("Joint created");
         }
@@ -48,6 +51,7 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
             Snakemeleon.uni.destroyJoint(weld);
             isGrabbing = false;
             Debug.print("Joint Destroyed");
+            grabbingEntity = null;
         }
 
         if (!isGrabbing)

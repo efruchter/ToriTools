@@ -171,14 +171,16 @@
 <entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 544.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 416.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 384.0;sprite.sheet = apple_1.png, 1, 1;position.x = 480.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 512.0;sprite.sheet = apple_1.png, 1, 1;position.x = 256.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 384.0;visible = false;position.x = 512.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
-<entity map="dimensions.y = 576.0;solid = true;position.y = 32.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
-<entity map="dimensions.y = 544.0;solid = true;position.y = 32.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 448.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 320.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 416.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="message = Drag objects with Left Mouse;dimensions.y = 64;template = /objects/triggers/message.entity;solid = false;position.y = 256.0;sprite.sheet = trigger.png, 2, 2;position.x = 96.0;description = display a line in the message var;layer = 0;type = message;dimensions.x = 64;"/>
+<entity map="message = Move with A and D;template = /objects/triggers/message.entity;position.y = 160.0;position.x = 96.0;layer = 0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 352.0;visible = false;position.x = 544.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 416.0;visible = false;position.x = 480.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 448.0;visible = false;position.x = 448.0;layer = 0;type = WALL;dimensions.x = 320.0;"/>
+<entity map="dimensions.y = 544.0;solid = true;position.y = 32.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
+<entity map="dimensions.y = 576.0;solid = true;position.y = 32.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 320.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 384.0;visible = false;position.x = 512.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 </objects>
 </level>
