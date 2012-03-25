@@ -44,6 +44,7 @@ public class Level extends Entity {
     }
 
     private void removeEntityUnsafe(final Entity e) {
+        e.setActive(false);
         layers.get(e.getLayer()).remove(e);
         if (e.isSolid())
             solids.remove(e);
