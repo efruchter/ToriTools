@@ -51,7 +51,7 @@ public class Universe {
         /*
          * Step the world
          */
-        world.step(dt, 8, 15);
+        world.step(dt, 10, 10);
     }
 
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,

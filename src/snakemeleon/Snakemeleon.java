@@ -40,6 +40,7 @@ import toritools.io.Importer;
 import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.physics.Universe;
+import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
 public class Snakemeleon extends Binary implements ContactListener {
@@ -65,7 +66,7 @@ public class Snakemeleon extends Binary implements ContactListener {
 
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/TestLevel.xml" };
+            "snakemeleon/level3.xml", "snakemeleon/TestLevel.xml" };
 
     private static Font uiFont;
 
@@ -130,7 +131,7 @@ public class Snakemeleon extends Binary implements ContactListener {
         if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_F12)) {
             nextLevel();
         }
-        
+
         if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_P)) {
             Debug.showDebugPrintouts = !Debug.showDebugPrintouts;
         }
@@ -168,9 +169,6 @@ public class Snakemeleon extends Binary implements ContactListener {
 
         uni = new Universe(SnakemeleonConstants.gravity);
         uni.setContactListener(this);
-
-        camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
-                SnakemeleonConstants.cameraLag);
 
         Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
         cham.addScript(new ChameleonScript());
@@ -227,7 +225,37 @@ public class Snakemeleon extends Binary implements ContactListener {
                 uni.addHinge(a, b, pos);
         }
 
+        EntityScript spikeScript = new EntityScript() {
+
+            Entity player;
+
+            @Override
+            public void onSpawn(Entity self, Level level) {
+                player = level.getEntityWithId("player");
+            }
+
+            @Override
+            public void onUpdate(Entity self, float time, Level level) {
+                if (player.isActive() && ScriptUtils.isColliding(self, player)) {
+                    player.setActive(false);
+                }
+            }
+
+            @Override
+            public void onDeath(Entity self, Level level, boolean isRoomExit) {
+
+            }
+
+        };
+
+        for (Entity e : levelBeingLoaded.getEntitiesWithType("spike")) {
+            e.addScript(spikeScript);
+        }
+
         levelBeingLoaded.bakeBackground();
+        
+        camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
+                SnakemeleonConstants.cameraLag);
     }
 
     @Override
@@ -270,6 +298,10 @@ public class Snakemeleon extends Binary implements ContactListener {
                         e.draw(rootCanvas);
                 }
             }
+
+            if (Debug.showDebugPrintouts)
+                for (Entity wall : level.getEntitiesWithType("WALL"))
+                    wall.draw(rootCanvas);
 
             rootCanvas.translate(-offset.getWidth(), -offset.getHeight());
 

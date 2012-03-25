@@ -30,6 +30,8 @@ public class Tongue extends Entity {
 
     private Vector2 tongueMaxPos = Vector2.ZERO;
 
+    Entity cham;
+
     public Tongue() {
 
         this.getVariableCase().setVar("id", "tongue");
@@ -44,46 +46,51 @@ public class Tongue extends Entity {
             @Override
             public void onSpawn(Entity self, Level level) {
                 Debug.print("Tongue spawned");
+                Tongue.this.cham = level.getEntityWithId("player");
             }
 
             Entity dragging = null;
 
             @Override
             public void onUpdate(Entity self, float time, Level level) {
+                if (Tongue.this.cham.isActive()) {
 
-                mouseInRange = (currentDist = Snakemeleon.mousePos.dist(Tongue.this.mouthPoint)) < SnakemeleonConstants.tongueActualDist;
+                    mouseInRange = (currentDist = Snakemeleon.mousePos.dist(Tongue.this.mouthPoint)) < SnakemeleonConstants.tongueActualDist;
 
-                tongueMaxPos = mouthPoint.add(Snakemeleon.mousePos.sub(mouthPoint).unit()
-                        .scale(Math.min(currentDist, SnakemeleonConstants.tongueActualDist)));
+                    tongueMaxPos = mouthPoint.add(Snakemeleon.mousePos.sub(mouthPoint).unit()
+                            .scale(Math.min(currentDist, SnakemeleonConstants.tongueActualDist)));
 
-                if (mouseInRange && Snakemeleon.isMouseDragging && dragging == null) {
-                    for (Entity e : level.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
-                        if (ScriptUtils.isPointWithin(e, Snakemeleon.mousePos)) {
-                            dragging = e;
-                            tongueChain.setA(e.getPos().add(e.getDim().scale(.5f)));
-                            mouthClosed = false;
-                            break;
+                    if (mouseInRange && Snakemeleon.isMouseDragging && dragging == null) {
+                        for (Entity e : level.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
+                            if (ScriptUtils.isPointWithin(e, Snakemeleon.mousePos)) {
+                                dragging = e;
+                                tongueChain.setA(e.getPos().add(e.getDim().scale(.5f)));
+                                mouthClosed = false;
+                                break;
+                            }
                         }
                     }
+                    
+                    boolean draggingSomething = Snakemeleon.isMouseDragging && dragging != null && dragging.isActive();
+
+                    if (draggingSomething) {
+                        tongueChain.smooth();
+                        Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
+                        tongueChain.setA(dragAnchor);
+                        Vector2 dragVector = (tongueMaxPos).sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
+                        Snakemeleon.uni.setVelocity(dragging, dragVector);
+                    } else {
+                        tongueChain.smoothTowardB();
+                        tongueChain.smoothTowardB();
+                        tongueChain.smoothTowardB();
+                        dragging = null;
+
+                    }
+
+                    tongueChain.setB(mouthPoint);
+
+                    mouthClosed = !draggingSomething &&  (mouthClosed || tongueChain.getA().dist(tongueChain.getB()) < 20);
                 }
-
-                if (Snakemeleon.isMouseDragging && dragging != null) {
-                    tongueChain.smooth();
-                    Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
-                    tongueChain.setA(dragAnchor);
-                    Vector2 dragVector = (tongueMaxPos).sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
-                    Snakemeleon.uni.setVelocity(dragging, dragVector);
-                } else {
-                    tongueChain.smoothTowardB();
-                    tongueChain.smoothTowardB();
-                    tongueChain.smoothTowardB();
-                    dragging = null;
-
-                }
-
-                tongueChain.setB(mouthPoint);
-
-                mouthClosed = mouthClosed || tongueChain.getA().dist(tongueChain.getB()) < 20;
             }
 
             @Override
@@ -95,22 +102,24 @@ public class Tongue extends Entity {
         this.setSprite(new AbstractSpriteAdapter() {
             @Override
             public void draw(Graphics2D g, Entity self) {
-                if (!mouthClosed) {
-                    g.setColor(Color.RED);
-                    g.setStroke(new BasicStroke(5));
-                    Vector2[] chain = tongueChain.getChain();
-                    for (int x = 1; x < SnakemeleonConstants.tongueLength; x++) {
-                        g.drawLine(chain[x - 1].getWidth(), chain[x - 1].getHeight(), chain[x].getWidth(),
-                                chain[x].getHeight());
+                if (Tongue.this.cham.isActive()) {
+                    if (!mouthClosed) {
+                        g.setColor(Color.RED);
+                        g.setStroke(new BasicStroke(5));
+                        Vector2[] chain = tongueChain.getChain();
+                        for (int x = 1; x < SnakemeleonConstants.tongueLength; x++) {
+                            g.drawLine(chain[x - 1].getWidth(), chain[x - 1].getHeight(), chain[x].getWidth(),
+                                    chain[x].getHeight());
+                        }
                     }
+
+                    g.setStroke(new BasicStroke(3));
+                    g.setColor(Color.RED);
+                    g.drawOval(Snakemeleon.mousePos.getWidth() - 10, Snakemeleon.mousePos.getHeight() - 10, 20, 20);
+
+                    g.setColor(Color.CYAN);
+                    g.drawOval(tongueMaxPos.getWidth() - 10, tongueMaxPos.getHeight() - 10, 20, 20);
                 }
-
-                g.setStroke(new BasicStroke(3));
-                g.setColor(Color.RED);
-                g.drawOval(Snakemeleon.mousePos.getWidth() - 10, Snakemeleon.mousePos.getHeight() - 10, 20, 20);
-
-                g.setColor(Color.CYAN);
-                g.drawOval(tongueMaxPos.getWidth() - 10, tongueMaxPos.getHeight() - 10, 20, 20);
             }
         });
     }

@@ -468,41 +468,41 @@
 <entity map="dimensions.y = 70;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 504.0;sprite.sheet = crate.png, 1, 1;position.x = 256.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 70;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 64.0;sprite.sheet = apple_1.png, 1, 1;position.x = 1824.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 192.0;sprite.sheet = apple_1.png, 1, 1;position.x = 736.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
-<entity map="dimensions.y = 210;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 384.0;sprite.sheet = crate.png, 1, 1;position.x = 1344.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 20;"/>
-<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 384.0;sprite.sheet = hinge.png, 1, 1;position.x = 1344.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="dimensions.y = 210;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 380.0;sprite.sheet = crate.png, 1, 1;position.x = 1344.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 15;"/>
 <entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 576.0;sprite.sheet = hinge.png, 1, 1;position.x = 1344.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
-<entity map="dimensions.y = 30;template = /objects/physicsTest/wheel.entity;solid = false;position.y = 376.0;sprite.sheet = smiley.png, 1, 1;position.x = 1340.0;description = A smiley wheel;layer = 0;round = true;type = dynamicProp;dimensions.x = 30;"/>
+<entity map="dimensions.y = 30;template = /objects/physicsTest/wheel.entity;solid = false;position.y = 372.0;sprite.sheet = smiley.png, 1, 1;position.x = 1336.0;description = A smiley wheel;layer = 0;round = true;type = dynamicProp;dimensions.x = 30;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 352.0;sprite.sheet = crate.png, 1, 1;position.x = 1888.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="template = /objects/physicsTest/ropeHoriz.entity;position.y = 304.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/physicsTest/ropeHoriz.entity;position.y = 304.0;position.x = 1312.0;layer = 0;"/>
-<entity map="template = /objects/physicsTest/ropeHoriz.entity;position.y = 304.0;position.x = 1248.0;layer = 0;"/>
-<entity map="template = /objects/physicsTest/ropeHoriz.entity;position.y = 304.0;position.x = 1344.0;layer = 0;"/>
-<entity map="template = /objects/physicsTest/ropeHoriz.entity;position.y = 304.0;position.x = 1280.0;layer = 0;"/>
-<entity map="template = /objects/joints/hinge.entity;position.y = 304.0;position.x = 1376.0;layer = 0;"/>
-<entity map="template = /objects/joints/hinge.entity;position.y = 304.0;position.x = 1344.0;layer = 0;"/>
-<entity map="template = /objects/joints/hinge.entity;position.y = 304.0;position.x = 1312.0;layer = 0;"/>
-<entity map="template = /objects/joints/hinge.entity;position.y = 304.0;position.x = 1280.0;layer = 0;"/>
-<entity map="template = /objects/joints/hinge.entity;position.y = 304.0;position.x = 1248.0;layer = 0;"/>
-<entity map="template = /objects/joints/hinge.entity;position.y = 304.0;position.x = 1408.0;layer = 0;"/>
-<entity map="dimensions.y = 288.0;solid = true;position.y = 32.0;visible = false;position.x = 1200.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 512.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
-<entity map="dimensions.y = 224.0;solid = true;position.y = 288.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 384.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 288.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 288.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
-<entity map="dimensions.y = 160.0;solid = true;position.y = 416.0;visible = false;position.x = 1696.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 96.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 192.0;solid = true;position.y = 32.0;visible = false;position.x = 800.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 960.0;"/>
-<entity map="dimensions.y = 544.0;solid = true;position.y = 32.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
-<entity map="dimensions.y = 576.0;solid = true;position.y = 0.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 800.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 256.0;solid = true;position.y = 32.0;visible = false;position.x = 1920.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 1120.0;layer = 0;type = WALL;dimensions.x = 832.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 416.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
-<entity map="dimensions.y = 160.0;solid = true;position.y = 416.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 288.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
+<entity map="sprite.sizeOffset = 2;dimensions.y = 10;template = /objects/physicsTest/ropeHoriz.entity;solid = false;position.y = 304.0;sprite.sheet = rope.png, 1, 1;position.x = 1376.0;description = A thinner rope for making planks and bridges.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
+<entity map="sprite.sizeOffset = 2;dimensions.y = 10;template = /objects/physicsTest/ropeHoriz.entity;solid = false;position.y = 304.0;sprite.sheet = rope.png, 1, 1;position.x = 1312.0;description = A thinner rope for making planks and bridges.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
+<entity map="sprite.sizeOffset = 2;dimensions.y = 10;template = /objects/physicsTest/ropeHoriz.entity;solid = false;position.y = 304.0;sprite.sheet = rope.png, 1, 1;position.x = 1248.0;description = A thinner rope for making planks and bridges.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
+<entity map="sprite.sizeOffset = 2;dimensions.y = 10;template = /objects/physicsTest/ropeHoriz.entity;solid = false;position.y = 304.0;sprite.sheet = rope.png, 1, 1;position.x = 1344.0;description = A thinner rope for making planks and bridges.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
+<entity map="sprite.sizeOffset = 2;dimensions.y = 10;template = /objects/physicsTest/ropeHoriz.entity;solid = false;position.y = 304.0;sprite.sheet = rope.png, 1, 1;position.x = 1280.0;description = A thinner rope for making planks and bridges.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
+<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 304.0;sprite.sheet = hinge.png, 1, 1;position.x = 1376.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 304.0;sprite.sheet = hinge.png, 1, 1;position.x = 1344.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 304.0;sprite.sheet = hinge.png, 1, 1;position.x = 1312.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 304.0;sprite.sheet = hinge.png, 1, 1;position.x = 1280.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 304.0;sprite.sheet = hinge.png, 1, 1;position.x = 1248.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 304.0;sprite.sheet = hinge.png, 1, 1;position.x = 1408.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
+<entity map="template = /objects/joints/hinge.entity;position.y = 380.0;position.x = 1344.0;layer = 0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 288.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
+<entity map="dimensions.y = 160.0;solid = true;position.y = 416.0;visible = false;position.x = 1408.0;layer = 0;type = WALL;dimensions.x = 288.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 416.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 1120.0;layer = 0;type = WALL;dimensions.x = 832.0;"/>
+<entity map="dimensions.y = 256.0;solid = true;position.y = 32.0;visible = false;position.x = 1920.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 800.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 576.0;solid = true;position.y = 0.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 768.0;"/>
+<entity map="dimensions.y = 544.0;solid = true;position.y = 32.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 960.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 32.0;visible = false;position.x = 800.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 96.0;visible = false;position.x = 1792.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 160.0;solid = true;position.y = 416.0;visible = false;position.x = 1696.0;layer = 0;type = WALL;dimensions.x = 256.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 288.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 96.0;"/>
+<entity map="dimensions.y = 192.0;solid = true;position.y = 288.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 224.0;solid = true;position.y = 288.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 384.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 512.0;visible = false;position.x = 576.0;layer = 0;type = WALL;dimensions.x = 352.0;"/>
+<entity map="dimensions.y = 288.0;solid = true;position.y = 32.0;visible = false;position.x = 1200.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
 </objects>
 </level>

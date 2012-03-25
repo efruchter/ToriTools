@@ -2,6 +2,9 @@ package snakemeleon.types;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+
+import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.Snakemeleon;
 import snakemeleon.SnakemeleonConstants;
@@ -9,6 +12,7 @@ import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.sprite.ImageSprite;
+import toritools.io.Importer;
 import toritools.math.Vector2;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
@@ -30,20 +34,50 @@ public class ChameleonScript implements EntityScript {
 
         head.getSprite().setCycle(1);
         self.getSprite().setCycle(0);
-        
+
         level.spawnEntity(sensor = new ChameleonFootSensor(self));
     }
 
     boolean facing = false;
     Vector2 mouthSpot = Vector2.ZERO;
 
+    long deathCounter = 120;
+
     @Override
     public void onUpdate(Entity self, float time, Level level) {
+
+        if (!self.isActive()) {
+            if (self.isVisible()) {
+                try {
+                    for (int j = 0; j < 4; j++)
+                        for (int i = 0; i < 2; i++)
+                            for (int i2 = 0; i2 < 2; i2++) {
+                                Entity e = Importer.importEntity(new File(
+                                        "snakemeleon/objects/collectable/appleBit.entity"), null);
+                                e.setPos(self.getPos());
+                                e.getSprite().set(i, i2);
+                                level.spawnEntity(e);
+                                Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, true, .01f, .03f);
+                                Snakemeleon.uni
+                                        .applyLinearImpulse(e, new Vector2((float) (-.5 + Math.random()) * .000008f,
+                                                (float) (-.5 + Math.random()) * .000008f));
+                            }
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            self.setVisible(false);
+            head.setVisible(false);
+            if (deathCounter-- < 0) {
+                Snakemeleon.restartLevel();
+            }
+        }
 
         head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
 
         float dx = 0, dy = 0;
-        
+
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
             dx += -.1;
 
