@@ -21,7 +21,12 @@ import toritools.scripting.ScriptUtils;
  */
 public class ChameleonStickyScript extends EntityScriptAdapter {
 
-    boolean isGrabbing = false;
+    public static boolean isGrabbing = false;
+
+    @Override
+    public void onSpawn(Entity self, Level level) {
+        isGrabbing = false;
+    }
 
     Joint weld = null;
 

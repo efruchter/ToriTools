@@ -66,7 +66,7 @@ public class Snakemeleon extends Binary implements ContactListener {
 
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml", "snakemeleon/TestLevel.xml" };
+            "snakemeleon/level3.xml","snakemeleon/level4.xml", "snakemeleon/TestLevel.xml" };
 
     private static Font uiFont;
 

@@ -52,6 +52,6 @@ public class ChameleonFootSensor extends Entity {
     }
 
     public boolean canJump() {
-        return Snakemeleon.jumpTouchQueue > 0;
+        return Snakemeleon.jumpTouchQueue > 0 && !ChameleonStickyScript.isGrabbing;
     }
 }
