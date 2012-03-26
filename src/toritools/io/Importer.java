@@ -139,7 +139,7 @@ public class Importer {
                 float w = Float.parseFloat(mapData.get("dimensions.x"));
                 float h = Float.parseFloat(mapData.get("dimensions.y"));
 
-                File imageFile = new File(workingDirectory + mapData.get("image"));
+                File imageFile = new File((workingDirectory + mapData.get("image")).replace("\\", "/"));
 
                 int xTile = Integer.parseInt(mapData.get("xTile"));
                 int yTile = Integer.parseInt(mapData.get("yTile"));
@@ -153,7 +153,7 @@ public class Importer {
                 background.getVariableCase().getVariables().putAll(mapData);
                 level.spawnEntity(background);
             } else {
-                File f = new File(workingDirectory + mapData.get("template"));
+                File f = new File((workingDirectory + mapData.get("template")).replace("\\", "/"));
                 Entity ent = importEntity(f, mapData);
                 ent.setPos(new Vector2((float) x, (float) y));
                 ent.setLayer(Integer.parseInt(mapData.get("layer")));
