@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.image.VolatileImage;
+import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,10 @@ public abstract class Binary {
     private static JFrame frame;
     public static final GraphicsConfiguration gc;
     private ScheduledExecutorService timer;
+
+    private boolean gameRunning = false;
+
+    private final File splash = new File("resources/toritools_splash.png");
 
     static {
 
@@ -116,7 +121,7 @@ public abstract class Binary {
         @SuppressWarnings("serial")
         final JPanel panel = new JPanel() {
             public void paintComponent(final Graphics g) {
-                super.paintComponent(g);
+                // super.paintComponent(g);
                 renderAll(g);
             }
         };
@@ -182,8 +187,13 @@ public abstract class Binary {
 
         finalCanvas.drawImage(renderSurface, 0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y, null);
 
-        if (render((Graphics2D) drawSurface.getGraphics(), ScriptUtils.getCurrentLevel()))
+        if (render((Graphics2D) drawSurface.getGraphics(), ScriptUtils.getCurrentLevel())) {
             buffer1 = !buffer1;
+            gameRunning = true;
+        } else if (!gameRunning) {
+            finalCanvas.drawImage(ScriptUtils.fetchImage(splash), 0, 0, VIEWPORT.getWidth(),
+                    VIEWPORT.getHeight(), null);
+        }
     }
 
     /**

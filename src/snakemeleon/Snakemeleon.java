@@ -284,9 +284,6 @@ public class Snakemeleon extends Binary {
                 System.exit(1);
             }
 
-            rootCanvas.setColor(Color.LIGHT_GRAY);
-            rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
-
             rootCanvas.translate(offset.getWidth(), offset.getHeight());
 
             rootCanvas.drawImage(ScriptUtils.fetchImage(bgFile), (int) 0, (int) 0, level.getDim().getWidth(), level
