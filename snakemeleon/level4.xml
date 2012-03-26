@@ -995,8 +995,6 @@
 <entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 928.0;sprite.sheet = spikeUp.png;position.x = 768.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 928.0;sprite.sheet = spikeUp.png;position.x = 672.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 928.0;sprite.sheet = spikeUp.png;position.x = 544.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
-<entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 928.0;sprite.sheet = spikeUp.png;position.x = 608.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
-<entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 928.0;sprite.sheet = spikeUp.png;position.x = 800.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 928.0;sprite.sheet = spikeUp.png;position.x = 448.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 992.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 384.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/walls/rightDiag.entity;solid = true;position.y = 1024.0;sprite.sheet = rightDiag.png, 1, 1;visible = false;position.x = 352.0;description = A blank zone to place triggers in;layer = 0;type = RIGHT_DIAG_WALL;dimensions.x = 32;"/>
@@ -1013,35 +1011,20 @@
 <entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 1376.0;sprite.sheet = spikeUp.png;position.x = 128.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 32;template = /objects/spikes/spikeUp.entity;solid = false;position.y = 1376.0;sprite.sheet = spikeUp.png;position.x = 32.0;description = a spike;layer = 0;type = spike;dimensions.x = 32;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 1024.0;sprite.sheet = apple_1.png, 1, 1;position.x = 320.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 576.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 640.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 704.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 768.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 832.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 896.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 960.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1280.0;sprite.sheet = crate.png, 1, 1;position.x = 1024.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1216.0;sprite.sheet = crate.png, 1, 1;position.x = 992.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1216.0;sprite.sheet = crate.png, 1, 1;position.x = 928.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1216.0;sprite.sheet = crate.png, 1, 1;position.x = 864.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1216.0;sprite.sheet = crate.png, 1, 1;position.x = 736.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1216.0;sprite.sheet = crate.png, 1, 1;position.x = 672.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1216.0;sprite.sheet = crate.png, 1, 1;position.x = 608.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1152.0;sprite.sheet = crate.png, 1, 1;position.x = 640.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1152.0;sprite.sheet = crate.png, 1, 1;position.x = 704.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1152.0;sprite.sheet = crate.png, 1, 1;position.x = 768.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1152.0;sprite.sheet = crate.png, 1, 1;position.x = 832.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1152.0;sprite.sheet = crate.png, 1, 1;position.x = 896.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1152.0;sprite.sheet = crate.png, 1, 1;position.x = 960.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1088.0;sprite.sheet = crate.png, 1, 1;position.x = 928.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1088.0;sprite.sheet = crate.png, 1, 1;position.x = 864.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1088.0;sprite.sheet = crate.png, 1, 1;position.x = 800.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1088.0;sprite.sheet = crate.png, 1, 1;position.x = 736.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1088.0;sprite.sheet = crate.png, 1, 1;position.x = 672.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1024.0;sprite.sheet = crate.png, 1, 1;position.x = 704.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1024.0;sprite.sheet = crate.png, 1, 1;position.x = 768.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1024.0;sprite.sheet = crate.png, 1, 1;position.x = 832.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1024.0;sprite.sheet = crate.png, 1, 1;position.x = 896.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 1216.0;sprite.sheet = apple_1.png, 1, 1;position.x = 800.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 1248.0;sprite.sheet = apple_1.png, 1, 1;position.x = 832.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 1248.0;sprite.sheet = apple_1.png, 1, 1;position.x = 800.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
@@ -1074,45 +1057,41 @@
 <entity map="sprite.sizeOffset = 2;dimensions.y = 10;template = /objects/physicsTest/ropeHoriz.entity;solid = false;position.y = 1156.0;sprite.sheet = crate.png, 1, 1;position.x = 1896.0;description = A thinner rope for making planks and bridges.;layer = 0;type = dynamicProp;dimensions.x = 70;"/>
 <entity map="dimensions.y = 16;template = /objects/joints/hinge.entity;solid = false;position.y = 1152.0;sprite.sheet = hinge.png, 1, 1;position.x = 1952.0;description = Place this object where you would like to fuse two crates together with a hinge.;layer = 0;type = hinge;dimensions.x = 16;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 1104.0;sprite.sheet = apple_1.png, 1, 1;position.x = 1828.0;description = An edible apple collectable;layer = 0;round = true;type = dynamicProp;dimensions.x = 25;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 608.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 544.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 672.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 736.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 800.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 864.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
 <entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 928.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 992.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 50;template = /objects/physicsTest/testCrate.entity;solid = false;position.y = 1344.0;sprite.sheet = crate.png, 1, 1;position.x = 1056.0;description = A basic crate.;layer = 0;type = dynamicProp;dimensions.x = 50;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 864.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1152.0;visible = false;position.x = 1664.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 352.0;solid = true;position.y = 1056.0;visible = false;position.x = 1344.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 160.0;solid = true;position.y = 1120.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 416.0;solid = true;position.y = 992.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1408.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 704.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1056.0;visible = false;position.x = 320.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
-<entity map="dimensions.y = 288.0;solid = true;position.y = 992.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 928.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 960.0;"/>
-<entity map="dimensions.y = 288.0;solid = true;position.y = 704.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 864.0;"/>
-<entity map="dimensions.y = 704.0;solid = true;position.y = 0.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 352.0;solid = true;position.y = 224.0;visible = false;position.x = 1088.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 928.0;"/>
-<entity map="dimensions.y = 576.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 480.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 256.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 1440.0;layer = 0;type = WALL;dimensions.x = 512.0;"/>
-<entity map="dimensions.y = 384.0;solid = true;position.y = 192.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 480.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 576.0;"/>
-<entity map="dimensions.y = 384.0;solid = true;position.y = 608.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
-<entity map="dimensions.y = 480.0;solid = true;position.y = 992.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 64.0;solid = true;position.y = 1344.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1408.0;visible = false;position.x = 736.0;layer = 0;type = WALL;dimensions.x = 832.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1408.0;visible = false;position.x = 1568.0;layer = 0;type = WALL;dimensions.x = 416.0;"/>
-<entity map="dimensions.y = 32.0;solid = true;position.y = 1216.0;visible = false;position.x = 288.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
-<entity map="dimensions.y = 128.0;solid = true;position.y = 1280.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
 <entity map="dimensions.y = 32.0;solid = true;position.y = 544.0;visible = false;position.x = 864.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 128.0;solid = true;position.y = 1280.0;visible = false;position.x = 1600.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 1216.0;visible = false;position.x = 288.0;layer = 0;type = WALL;dimensions.x = 128.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 1408.0;visible = false;position.x = 1568.0;layer = 0;type = WALL;dimensions.x = 416.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 1408.0;visible = false;position.x = 736.0;layer = 0;type = WALL;dimensions.x = 832.0;"/>
+<entity map="dimensions.y = 64.0;solid = true;position.y = 1344.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 480.0;solid = true;position.y = 992.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 1024.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
+<entity map="dimensions.y = 384.0;solid = true;position.y = 608.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 576.0;"/>
+<entity map="dimensions.y = 384.0;solid = true;position.y = 192.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 480.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 1440.0;layer = 0;type = WALL;dimensions.x = 512.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 256.0;visible = false;position.x = 1312.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 960.0;layer = 0;type = WALL;dimensions.x = 480.0;"/>
+<entity map="dimensions.y = 576.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 928.0;"/>
+<entity map="dimensions.y = 352.0;solid = true;position.y = 224.0;visible = false;position.x = 1088.0;layer = 0;type = WALL;dimensions.x = 192.0;"/>
+<entity map="dimensions.y = 704.0;solid = true;position.y = 0.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 864.0;"/>
+<entity map="dimensions.y = 288.0;solid = true;position.y = 704.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 992.0;layer = 0;type = WALL;dimensions.x = 960.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 928.0;visible = false;position.x = 1216.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 288.0;solid = true;position.y = 992.0;visible = false;position.x = 416.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 960.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 1056.0;visible = false;position.x = 320.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 1408.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 704.0;"/>
+<entity map="dimensions.y = 416.0;solid = true;position.y = 992.0;visible = false;position.x = 1952.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 160.0;solid = true;position.y = 1120.0;visible = false;position.x = 256.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 352.0;solid = true;position.y = 1056.0;visible = false;position.x = 1344.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 1152.0;visible = false;position.x = 1664.0;layer = 0;type = WALL;dimensions.x = 64.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 864.0;layer = 0;type = WALL;dimensions.x = 160.0;"/>
 </objects>
 </level>

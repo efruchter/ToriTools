@@ -39,7 +39,7 @@ public class Importer {
 
         e.getVariableCase().getVariables().putAll(entityMap.getVariables());
 
-        e.setFile(file.getPath());
+        e.setFile(file.getPath().replace("\\", "/"));
 
         /**
          * Extract the basic template data.
@@ -79,7 +79,7 @@ public class Importer {
                 y = Integer.parseInt(value[2].trim());
             }
             // 0: file, 1: x tile, 2: y tile
-            File spriteFile = new File(file.getParent() + "/" + value[0].trim());
+            File spriteFile = new File(file.getParent().replace("\\", "/") + "/" + value[0].trim());
             if (spriteFile.canRead()) {
                 e.setSprite(new ImageSprite(spriteFile, x, y));
 
