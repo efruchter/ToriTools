@@ -35,6 +35,7 @@ public class Importer {
         VariableCase entityMap = ToriMapIO.readVariables(file);
         if (instanceMap != null)
             entityMap.getVariables().putAll(instanceMap);
+        
         Entity e = new Entity();
 
         e.getVariableCase().getVariables().putAll(entityMap.getVariables());
@@ -153,13 +154,13 @@ public class Importer {
                 background.getVariableCase().getVariables().putAll(mapData);
                 level.spawnEntity(background);
             } else {
-                File f = new File((workingDirectory + mapData.get("template")).replace("\\", "/"));
+                File f = new File(workingDirectory + mapData.get("template"));
                 Entity ent = importEntity(f, mapData);
                 ent.setPos(new Vector2((float) x, (float) y));
                 ent.setLayer(Integer.parseInt(mapData.get("layer")));
                 // layerEditor.setLayerVisibility(layer, true);
                 ent.getVariableCase().getVariables().putAll(mapData);
-                ent.setFile(f.getPath());
+                ent.setFile(f.getPath().replace("\\", "/"));
                 level.spawnEntity(ent);
             }
         }

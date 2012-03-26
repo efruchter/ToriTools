@@ -60,7 +60,7 @@ public class Snakemeleon extends Binary {
 
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml", "snakemeleon/level4.xml" };
+            "snakemeleon/level3.xml", "snakemeleon/level4.xml", "snakemeleon/level5.xml" };
 
     private static Font uiFont;
 
@@ -292,7 +292,7 @@ public class Snakemeleon extends Binary {
             rootCanvas.drawImage(level.getBakedBackground(), (int) 0, (int) 0, (int) level.getDim().x,
                     (int) level.getDim().y, null);
 
-            if (ChameleonStickyScript.isGrabbing) {
+            if (ChameleonStickyScript.isGrabbing && player.isActive()) {
                 rootCanvas.setColor(Color.GREEN);
                 rootCanvas.setStroke(dottedStroke);
                 rootCanvas.drawOval(player.getPos().getWidth(), player.getPos().getHeight(),

@@ -328,7 +328,7 @@ public class LevelEditor {
             entities.clear();
             layerEditor.clear();
             for (Entity e : level.getNewEntities()) {
-                File file = new File(e.getFile());
+                File file = new File(e.getFile().replace("\\", "/"));
                 if (file.canRead()) {
                     importEntity(file);
                 }
@@ -823,7 +823,7 @@ public class LevelEditor {
         levelElement.appendChild(objectsElements);
         for (Entity e : entities) {
             HashMap<String, String> map = new HashMap<String, String>();
-            File f = new File(e.getFile());
+            File f = new File(e.getFile().replace("\\", "/"));
             if (f.canRead()) {
                 map.put("template",
                         fixFileString(f.getPath().substring(
@@ -900,7 +900,7 @@ public class LevelEditor {
     public Entity importEntity(final File file) throws FileNotFoundException {
         HashMap<String, String> data = ToriMapIO.readMap(file);
 
-        final Entity e = Importer.importEntity(file, null);
+        final Entity e = Importer.importEntity(new File(file.getPath().replace("\\", "/")), null);
         try {
             String[] s = data.get("sprite.editor").split(",");
             e.getSprite().set(Integer.parseInt(s[0].trim()), Integer.parseInt(s[1].trim()));
@@ -927,8 +927,9 @@ public class LevelEditor {
 
     private boolean entityExists(final Entity e) {
         for (Entity existingEntity : entities) {
-            if (e.getFile().equals(existingEntity.getFile()))
+            if (e.getFile().equals(existingEntity.getFile())) {
                 return true;
+            }
         }
         return false;
     }
