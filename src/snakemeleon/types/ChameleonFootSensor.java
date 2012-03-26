@@ -74,7 +74,6 @@ public class ChameleonFootSensor extends Entity {
             @Override
             public void onUpdate(Entity self, float time, Level level) {
                 Snakemeleon.uni.setTransform(self, chameleon.getPos().add(chameleon.getDim().scale(.5f, 1)), 0);
-                Debug.print(jumpTouchQueue);
             }
 
             @Override

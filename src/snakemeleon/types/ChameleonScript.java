@@ -36,6 +36,8 @@ public class ChameleonScript implements EntityScript {
         self.getSprite().setCycle(0);
 
         level.spawnEntity(sensor = new ChameleonFootSensor(self));
+
+        Snakemeleon.uni.addEntity(self, BodyType.DYNAMIC, true, true, 1f, .3f).setAngularDamping(5);
     }
 
     boolean facing = false;
@@ -58,9 +60,9 @@ public class ChameleonScript implements EntityScript {
                                 e.getSprite().set(i, i2);
                                 level.spawnEntity(e);
                                 Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, true, .01f, .03f);
-                                Snakemeleon.uni
-                                        .applyLinearImpulse(e, new Vector2((float) (-.5 + Math.random()) * .000008f,
-                                                (float) (-.5 + Math.random()) * .000008f));
+                                Snakemeleon.uni.applyLinearImpulse(e, new Vector2(
+                                        (float) (-.5 + Math.random()) * .000008f,
+                                        (float) (-.5 + Math.random()) * .000008f));
                             }
 
                 } catch (FileNotFoundException e) {

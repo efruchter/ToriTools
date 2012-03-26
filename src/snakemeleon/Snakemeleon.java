@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.types.ChameleonScript;
@@ -163,9 +162,8 @@ public class Snakemeleon extends Binary {
 
         Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
         cham.addScript(new ChameleonScript());
-        Body chamBody = uni.addEntity(cham, BodyType.DYNAMIC, true, true, 1f, .3f);
-        chamBody.setAngularDamping(5);
-        // A script to enable the chameleon to stick to things
+        // A script to enable the chameleon to stick to things. Should be the
+        // last script you add to cham.
         cham.addScript(new ChameleonStickyScript());
 
         for (Entity e : levelBeingLoaded.getEntitiesWithType(ReservedTypes.WALL)) {

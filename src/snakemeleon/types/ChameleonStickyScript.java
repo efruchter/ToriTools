@@ -32,7 +32,9 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
 
     public static Entity grabbingEntity = null;
 
-    public List<Entity> touchQueue = new LinkedList<Entity>();
+    private List<Entity> touchQueue = new LinkedList<Entity>();
+
+    Joint weld = null;
 
     @Override
     public void onSpawn(Entity self, Level level) {
@@ -40,6 +42,7 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
         grabbingEntity = null;
 
         Snakemeleon.uni.addContactListener(new ContactListener() {
+
             @Override
             public void beginContact(Contact c) {
 
@@ -78,9 +81,15 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
 
             }
         });
-    }
 
-    Joint weld = null;
+        self.addScript(new EntityScriptAdapter() {
+            @Override
+            public void onUpdate(Entity self, float time, Level level) {
+                if (!isGrabbing)
+                    self.setDirection(0);
+            }
+        });
+    }
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
@@ -102,8 +111,5 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
             Debug.print("Joint Destroyed");
             grabbingEntity = null;
         }
-
-        if (!isGrabbing)
-            self.setDirection(0);
     }
 }
