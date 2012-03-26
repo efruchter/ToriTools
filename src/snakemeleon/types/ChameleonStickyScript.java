@@ -1,10 +1,17 @@
 package snakemeleon.types;
 
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
+import org.jbox2d.dynamics.contacts.Contact;
 import org.jbox2d.dynamics.joints.Joint;
 
 import snakemeleon.Snakemeleon;
+import snakemeleon.SnakemeleonConstants;
 import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -25,10 +32,52 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
 
     public static Entity grabbingEntity = null;
 
+    public List<Entity> touchQueue = new LinkedList<Entity>();
+
     @Override
     public void onSpawn(Entity self, Level level) {
         isGrabbing = false;
         grabbingEntity = null;
+
+        Snakemeleon.uni.addContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact c) {
+
+                Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
+                boolean playerisA = ((Entity) c.m_fixtureA.m_userData).getType().equals("player");
+                boolean playerisB = ((Entity) c.m_fixtureB.m_userData).getType().equals("player");
+
+                if (playerisA && b.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+                    touchQueue.add(b);
+                } else if (playerisB && a.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+                    touchQueue.add(a);
+                }
+            }
+
+            @Override
+            public void endContact(Contact c) {
+
+                Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
+                boolean playerisA = ((Entity) c.m_fixtureA.m_userData).getType().equals("player");
+                boolean playerisB = ((Entity) c.m_fixtureB.m_userData).getType().equals("player");
+
+                if (playerisA && b.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+                    touchQueue.remove(b);
+                } else if (playerisB && a.getType().equals(SnakemeleonConstants.dynamicPropType)) {
+                    touchQueue.remove(a);
+                }
+            }
+
+            @Override
+            public void postSolve(Contact arg0, ContactImpulse arg1) {
+
+            }
+
+            @Override
+            public void preSolve(Contact arg0, Manifold arg1) {
+
+            }
+        });
     }
 
     Joint weld = null;
@@ -39,9 +88,9 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
         boolean grabKey = ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_SPACE);
 
         // Activate weld
-        if (grabKey && !isGrabbing && !Snakemeleon.touchQueue.isEmpty()) {
+        if (grabKey && !isGrabbing && !touchQueue.isEmpty()) {
             Snakemeleon.uni.setRotationDeg(self, 0);
-            weld = Snakemeleon.uni.addWeld(self, grabbingEntity = Snakemeleon.touchQueue.get(0));
+            weld = Snakemeleon.uni.addWeld(self, grabbingEntity = touchQueue.get(0));
             isGrabbing = true;
             Debug.print("Joint created");
         }

@@ -16,17 +16,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.contacts.Contact;
 
-import snakemeleon.types.ChameleonFootSensor;
 import snakemeleon.types.ChameleonScript;
 import snakemeleon.types.ChameleonStickyScript;
 import snakemeleon.types.Collectable;
@@ -45,7 +38,7 @@ import toritools.physics.Universe;
 import toritools.scripting.EntityScript;
 import toritools.scripting.ScriptUtils;
 
-public class Snakemeleon extends Binary implements ContactListener {
+public class Snakemeleon extends Binary {
 
     /*
      * CONSTANTS!
@@ -68,7 +61,7 @@ public class Snakemeleon extends Binary implements ContactListener {
 
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml", "snakemeleon/level4.xml"};
+            "snakemeleon/level3.xml", "snakemeleon/level4.xml" };
 
     private static Font uiFont;
 
@@ -166,11 +159,7 @@ public class Snakemeleon extends Binary implements ContactListener {
     @Override
     protected void setupCurrentLevel(Level levelBeingLoaded) {
 
-        touchQueue.clear();
-        jumpTouchQueue = 0;
-
         uni = new Universe(SnakemeleonConstants.gravity);
-        uni.setContactListener(this);
 
         Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
         cham.addScript(new ChameleonScript());
@@ -359,64 +348,5 @@ public class Snakemeleon extends Binary implements ContactListener {
             System.out.println("You won!");
             System.exit(1);
         }
-    }
-
-    /*
-     * Shape contact methods. You can't manipulate the universe from within
-     * these. They are only here for temporary testing purposes.
-     */
-
-    public static List<Entity> touchQueue = new LinkedList<Entity>();
-    public static int jumpTouchQueue = 0;
-
-    @Override
-    public void beginContact(Contact c) {
-
-        Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
-        boolean playerisA = ((Entity) c.m_fixtureA.m_userData).getType().equals("player");
-        boolean playerisB = ((Entity) c.m_fixtureB.m_userData).getType().equals("player");
-
-        if (playerisA && b.getType().equals(SnakemeleonConstants.dynamicPropType)) {
-            touchQueue.add(b);
-        } else if (playerisB && a.getType().equals(SnakemeleonConstants.dynamicPropType)) {
-            touchQueue.add(a);
-        }
-
-        if (c.m_fixtureA.m_userData instanceof ChameleonFootSensor && !playerisB) {
-            jumpTouchQueue++;
-        } else if (c.m_fixtureB.m_userData instanceof ChameleonFootSensor && !playerisA) {
-            jumpTouchQueue++;
-        }
-
-    }
-
-    @Override
-    public void endContact(Contact c) {
-
-        Entity a = (Entity) c.m_fixtureA.m_userData, b = (Entity) c.m_fixtureB.m_userData;
-        boolean playerisA = ((Entity) c.m_fixtureA.m_userData).getType().equals("player");
-        boolean playerisB = ((Entity) c.m_fixtureB.m_userData).getType().equals("player");
-
-        if (playerisA && b.getType().equals(SnakemeleonConstants.dynamicPropType)) {
-            touchQueue.remove(b);
-        } else if (playerisB && a.getType().equals(SnakemeleonConstants.dynamicPropType)) {
-            touchQueue.remove(a);
-        }
-
-        if (c.m_fixtureA.m_userData instanceof ChameleonFootSensor && !playerisB) {
-            jumpTouchQueue--;
-        } else if (c.m_fixtureB.m_userData instanceof ChameleonFootSensor && !playerisA) {
-            jumpTouchQueue--;
-        }
-    }
-
-    @Override
-    public void postSolve(Contact arg0, ContactImpulse arg1) {
-
-    }
-
-    @Override
-    public void preSolve(Contact arg0, Manifold arg1) {
-
     }
 }

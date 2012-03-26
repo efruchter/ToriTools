@@ -1,8 +1,12 @@
 package toritools.physics;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -13,6 +17,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
 import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.RevoluteJointDef;
@@ -34,16 +39,49 @@ public class Universe {
 
     final private World world;
     final private HashMap<Entity, Body> bodyMap;
+    final private List<ContactListener> contactListeners;
 
     final public float PTM_RATIO = 32;
 
     public Universe(final Vector2 gravity) {
         world = new World(new Vec2(gravity.x, gravity.y), true);
         bodyMap = new HashMap<Entity, Body>();
+        contactListeners = new LinkedList<ContactListener>();
+
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact arg0) {
+                for (ContactListener c : contactListeners)
+                    c.beginContact(arg0);
+            }
+
+            @Override
+            public void endContact(Contact arg0) {
+                for (ContactListener c : contactListeners)
+                    c.endContact(arg0);
+            }
+
+            @Override
+            public void postSolve(Contact arg0, ContactImpulse arg1) {
+                for (ContactListener c : contactListeners)
+                    c.postSolve(arg0, arg1);
+            }
+
+            @Override
+            public void preSolve(Contact arg0, Manifold arg1) {
+                for (ContactListener c : contactListeners)
+                    c.preSolve(arg0, arg1);
+            }
+        });
     }
 
-    public void setContactListener(final ContactListener listener) {
-        world.setContactListener(listener);
+    /**
+     * Add a contact listener to the physics universe.
+     * 
+     * @param listener
+     */
+    public void addContactListener(final ContactListener listener) {
+        contactListeners.add(listener);
     }
 
     public void step(final float dt) {
@@ -51,7 +89,7 @@ public class Universe {
         /*
          * Step the world
          */
-        world.step(dt, 10, 10);
+        world.step(dt, 100, 100);
     }
 
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,

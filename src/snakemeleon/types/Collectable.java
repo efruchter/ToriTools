@@ -34,16 +34,30 @@ public class Collectable implements EntityScript {
     @Override
     public void onDeath(Entity self, Level level, boolean isRoomExit) {
         collectablesRemaining--;
+
         try {
             for (int i = 0; i < 2; i++)
                 for (int i2 = 0; i2 < 2; i2++) {
                     Entity e = Importer.importEntity(new File("snakemeleon/objects/collectable/appleBit.entity"), null);
                     e.setPos(self.getPos());
                     e.getSprite().set(i, i2);
+
+                    e.addScript(new EntityScriptAdapter() {
+                        int killClock = 120;
+
+                        @Override
+                        public void onUpdate(Entity self, float time, Level level) {
+                            if (killClock-- < 0) {
+                                level.despawnEntity(self);
+                            }
+                        }
+
+                    });
+
                     level.spawnEntity(e);
                     Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, true, .01f, .03f);
                 }
-            
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
