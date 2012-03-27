@@ -268,7 +268,8 @@ public class LevelEditor {
     public LevelEditor() throws IOException, ParserConfigurationException, TransformerException {
         /*
          * LOAD THE CONFIG FILE.
-         */try {
+         */
+        try {
             Node configNode = ToriXML.parse(new File(configFile)).getElementsByTagName("config").item(0);
             Node recentNode = configNode.getAttributes().getNamedItem("recent");
             if (recentNode != null) {
@@ -277,7 +278,7 @@ public class LevelEditor {
                     setLevelFile(f);
             }
         } catch (final Exception NullPointer) {
-            // Do nothing
+            
         }
 
         setupGUI();

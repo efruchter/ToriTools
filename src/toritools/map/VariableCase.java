@@ -55,7 +55,7 @@ public class VariableCase {
         } catch (final Exception e) {
             System.err.println("No variable with key " + key + " found!");
         }
-        throw new RuntimeException();
+        return 0;
     }
 
     public float getFloatOrDefault(final String key, final float defaultFloat) {
