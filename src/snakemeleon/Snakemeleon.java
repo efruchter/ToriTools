@@ -55,7 +55,7 @@ public class Snakemeleon extends Binary {
     private static MidpointChain camera;
     private static Vector2 offset = Vector2.ZERO;
 
-    public static boolean isMouseDragging = false;
+    public static boolean isMouseDragging = false, rightSticking = false;
     public static Vector2 mousePos = Vector2.ZERO;
 
     private static int currentLevel = 0;
@@ -103,14 +103,18 @@ public class Snakemeleon extends Binary {
         super.getApplicationFrame().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                Snakemeleon.isMouseDragging = true;
-
+                if (arg0.getButton() == MouseEvent.BUTTON1)
+                    Snakemeleon.isMouseDragging = true;
+                else
+                    Snakemeleon.rightSticking = true;
             }
 
             @Override
             public void mouseReleased(MouseEvent arg0) {
-                Snakemeleon.isMouseDragging = false;
-
+                if (arg0.getButton() == MouseEvent.BUTTON1)
+                    Snakemeleon.isMouseDragging = false;
+                else
+                    Snakemeleon.rightSticking = false;
             }
         });
     }
@@ -246,7 +250,7 @@ public class Snakemeleon extends Binary {
             e.setSprite(new AbstractSpriteAdapter() {
                 @Override
                 public void draw(Graphics2D g, Entity self) {
-                    g.setColor(Color.LIGHT_GRAY);
+                    g.setColor(Color.CYAN);
                     g.drawString(message, self.getPos().getWidth(), self.getPos().getHeight());
                 }
             });

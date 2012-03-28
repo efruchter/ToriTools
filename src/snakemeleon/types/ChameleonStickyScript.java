@@ -94,7 +94,7 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
     @Override
     public void onUpdate(Entity self, float time, Level level) {
 
-        boolean grabKey = ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_SPACE);
+        boolean grabKey = ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_SPACE) || Snakemeleon.rightSticking;
 
         // Activate weld
         if (grabKey && !isGrabbing && !touchQueue.isEmpty()) {
