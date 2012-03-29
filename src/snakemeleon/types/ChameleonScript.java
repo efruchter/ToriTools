@@ -60,24 +60,7 @@ public class ChameleonScript implements EntityScript {
         if (!self.isActive()) {
             if (self.isVisible()) {
                 yellPlayer.play();
-                try {
-                    for (int j = 0; j < 4; j++)
-                        for (int i = 0; i < 2; i++)
-                            for (int i2 = 0; i2 < 2; i2++) {
-                                Entity e = Importer.importEntity(new File(
-                                        "snakemeleon/objects/collectable/appleBit.entity"), null);
-                                e.setPos(self.getPos());
-                                e.getSprite().set(i, i2);
-                                level.spawnEntity(e);
-                                Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, true, .01f, .03f);
-                                Snakemeleon.uni.applyLinearImpulse(e, new Vector2(
-                                        (float) (-.5 + Math.random()) * .000008f,
-                                        (float) (-.5 + Math.random()) * .000008f));
-                            }
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                makeAppleBits(self, level);
             }
             self.setVisible(false);
             head.setVisible(false);
@@ -146,6 +129,28 @@ public class ChameleonScript implements EntityScript {
     @Override
     public void onDeath(Entity self, Level level, boolean isRoomExit) {
         Debug.print("Removed Chameleon");
+    }
+
+    public void makeAppleBits(Entity self, Level level) {
+        try {
+            for (int j = 0; j < 4; j++) {
+                for (int i = 0; i < 2; i++) {
+                    for (int i2 = 0; i2 < 2; i2++) {
+                        Entity e = Importer.importEntity(new File("snakemeleon/objects/collectable/appleBit.entity"),
+                                null);
+                        e.setPos(self.getPos());
+                        e.getSprite().set(i, i2);
+                        level.spawnEntity(e);
+                        Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, true, .01f, .03f);
+                        Snakemeleon.uni.applyLinearImpulse(e, new Vector2((float) (-.5 + Math.random()) * .000008f,
+                                (float) (-.5 + Math.random()) * .000008f));
+                    }
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
