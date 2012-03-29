@@ -231,7 +231,7 @@ public class Snakemeleon extends Binary {
 
             @Override
             public void onUpdate(Entity self, float time, Level level) {
-                if (player.isActive() && ScriptUtils.isColliding(self, player)) {
+                if (!Debug.showDebugPrintouts && player.isActive() && ScriptUtils.isColliding(self, player)) {
                     player.setActive(false);
                 }
             }
