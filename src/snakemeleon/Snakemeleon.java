@@ -92,9 +92,9 @@ public class Snakemeleon extends Binary {
 
         bgFile = new File("snakemeleon/forest1.png");
 
-         Player player = new Player();
-         player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
-         player.play();
+        Player player = new Player();
+        player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
+        player.play();
 
         // Create a new blank cursor.
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
@@ -290,10 +290,10 @@ public class Snakemeleon extends Binary {
                 System.exit(1);
             }
 
-            rootCanvas.translate(offset.getWidth(), offset.getHeight());
+            rootCanvas.drawImage(ScriptUtils.fetchImage(bgFile), (int) 0, (int) 0, VIEWPORT.getWidth(),
+                    VIEWPORT.getHeight(), null);
 
-            rootCanvas.drawImage(ScriptUtils.fetchImage(bgFile), (int) 0, (int) 0, level.getDim().getWidth(), level
-                    .getDim().getHeight(), null);
+            rootCanvas.translate(offset.getWidth(), offset.getHeight());
 
             rootCanvas.drawImage(level.getBakedBackground(), (int) 0, (int) 0, (int) level.getDim().x,
                     (int) level.getDim().y, null);
