@@ -17,6 +17,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import maryb.player.Player;
+
 import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.types.ChameleonScript;
@@ -90,9 +92,9 @@ public class Snakemeleon extends Binary {
 
         bgFile = new File("snakemeleon/forest1.png");
 
-        // Player player = new Player();
-        // player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
-        // player.play();
+         Player player = new Player();
+         player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
+         player.play();
 
         // Create a new blank cursor.
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(

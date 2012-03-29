@@ -3,6 +3,8 @@ package snakemeleon.types;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import maryb.player.Player;
+
 import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.Snakemeleon;
@@ -17,6 +19,13 @@ public class Collectable implements EntityScript {
     private static int collectablesRemaining = 0;
 
     private Entity player;
+    
+    private static Player munchSound;
+    
+    static {        
+        munchSound = new Player();
+        munchSound.setSourceLocation("snakemeleon/sounds/bite.mp3");
+    }
 
     @Override
     public void onSpawn(Entity self, Level level) {
@@ -33,6 +42,10 @@ public class Collectable implements EntityScript {
 
     @Override
     public void onDeath(Entity self, Level level, boolean isRoomExit) {
+        
+        if(!isRoomExit)
+            munchSound.play();
+        
         collectablesRemaining--;
 
         try {
