@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import maryb.player.Player;
+
 import org.jbox2d.dynamics.BodyType;
 
 import snakemeleon.Snakemeleon;
@@ -23,6 +25,13 @@ public class ChameleonScript implements EntityScript {
     Entity head;
     Tongue tongue;
     ChameleonFootSensor sensor;
+
+    private static Player yellPlayer;
+
+    static {
+        yellPlayer = new Player();
+        yellPlayer.setSourceLocation("snakemeleon/sounds/yell.mp3");
+    }
 
     @Override
     public void onSpawn(Entity self, Level level) {
@@ -50,6 +59,7 @@ public class ChameleonScript implements EntityScript {
 
         if (!self.isActive()) {
             if (self.isVisible()) {
+                yellPlayer.play();
                 try {
                     for (int j = 0; j < 4; j++)
                         for (int i = 0; i < 2; i++)
@@ -74,60 +84,63 @@ public class ChameleonScript implements EntityScript {
             if (deathCounter-- < 0) {
                 Snakemeleon.restartLevel();
             }
-        }
-
-        head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
-
-        float dx = 0, dy = 0;
-
-        if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
-            dx += -.1;
-
-        if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D))
-            dx += .1;
-
-        if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_W) && sensor.canJump())
-            dy += -1f;
-
-        if (dx != 0 || dy != 0) {
-            Snakemeleon.uni.applyLinearImpulse(self, new Vector2(dx, dy));
-            if (Math.abs(dx) > .1)
-                self.getSprite().nextFrame();
-        }
-
-        if (dx < 0) {
-            head.getSprite().setCycle(1);
-            self.getSprite().setCycle(0);
-            facing = false;
-
-        } else if (dx > 0) {
-            head.getSprite().setCycle(0);
-            self.getSprite().setCycle(1);
-            facing = true;
-        }
-
-        // Adjust head again, just in case
-        Direction headDir = tongue.getTongueFacing();
-        if (headDir == Direction.RIGHT) {
-            head.getSprite().setCycle(0);
-        } else if (headDir == Direction.LEFT) {
-            head.getSprite().setCycle(1);
-        }
-
-        if (facing) {
-            mouthSpot = self.getPos().add(self.getDim().scale(.5f));
-            mouthSpot = mouthSpot.add(SnakemeleonConstants.neckWidth * (float) Math.cos(self.getDirection() / 57.3),
-                    SnakemeleonConstants.neckWidth * (float) Math.sin(self.getDirection() / 57.3));
-            mouthSpot = mouthSpot.sub(head.getDim().scale(.5f));
         } else {
-            mouthSpot = self.getPos().add(self.getDim().scale(.5f));
-            mouthSpot = mouthSpot.sub(SnakemeleonConstants.neckWidth * (float) Math.cos(self.getDirection() / 57.3),
-                    SnakemeleonConstants.neckWidth * (float) Math.sin(self.getDirection() / 57.3));
-            mouthSpot = mouthSpot.sub(head.getDim().scale(.5f));
-        }
 
-        head.setPos(mouthSpot);
-        tongue.setMouthPoint(mouthSpot);
+            head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
+
+            float dx = 0, dy = 0;
+
+            if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_A))
+                dx += -.1;
+
+            if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_D))
+                dx += .1;
+
+            if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_W) && sensor.canJump())
+                dy += -1f;
+
+            if (dx != 0 || dy != 0) {
+                Snakemeleon.uni.applyLinearImpulse(self, new Vector2(dx, dy));
+                if (Math.abs(dx) > .1)
+                    self.getSprite().nextFrame();
+            }
+
+            if (dx < 0) {
+                head.getSprite().setCycle(1);
+                self.getSprite().setCycle(0);
+                facing = false;
+
+            } else if (dx > 0) {
+                head.getSprite().setCycle(0);
+                self.getSprite().setCycle(1);
+                facing = true;
+            }
+
+            // Adjust head again, just in case
+            Direction headDir = tongue.getTongueFacing();
+            if (headDir == Direction.RIGHT) {
+                head.getSprite().setCycle(0);
+            } else if (headDir == Direction.LEFT) {
+                head.getSprite().setCycle(1);
+            }
+
+            if (facing) {
+                mouthSpot = self.getPos().add(self.getDim().scale(.5f));
+                mouthSpot = mouthSpot.add(
+                        SnakemeleonConstants.neckWidth * (float) Math.cos(self.getDirection() / 57.3),
+                        SnakemeleonConstants.neckWidth * (float) Math.sin(self.getDirection() / 57.3));
+                mouthSpot = mouthSpot.sub(head.getDim().scale(.5f));
+            } else {
+                mouthSpot = self.getPos().add(self.getDim().scale(.5f));
+                mouthSpot = mouthSpot.sub(
+                        SnakemeleonConstants.neckWidth * (float) Math.cos(self.getDirection() / 57.3),
+                        SnakemeleonConstants.neckWidth * (float) Math.sin(self.getDirection() / 57.3));
+                mouthSpot = mouthSpot.sub(head.getDim().scale(.5f));
+            }
+
+            head.setPos(mouthSpot);
+            tongue.setMouthPoint(mouthSpot);
+        }
     }
 
     @Override

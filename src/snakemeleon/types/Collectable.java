@@ -35,7 +35,7 @@ public class Collectable implements EntityScript {
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
-        if (ScriptUtils.isColliding(self, player)) {
+        if (ScriptUtils.isColliding(self, player) && player.isActive()) {
             level.despawnEntity(self);
         }
     }
