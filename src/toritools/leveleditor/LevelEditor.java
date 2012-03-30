@@ -270,15 +270,17 @@ public class LevelEditor {
          * LOAD THE CONFIG FILE.
          */
         try {
-            Node configNode = ToriXML.parse(new File(configFile)).getElementsByTagName("config").item(0);
-            Node recentNode = configNode.getAttributes().getNamedItem("recent");
-            if (recentNode != null) {
-                File f;
-                if ((f = new File(recentNode.getNodeValue())).exists())
-                    setLevelFile(f);
+            if (new File(configFile).canRead()) {
+                Node configNode = ToriXML.parse(new File(configFile)).getElementsByTagName("config").item(0);
+                Node recentNode = configNode.getAttributes().getNamedItem("recent");
+                if (recentNode != null) {
+                    File f;
+                    if ((f = new File(recentNode.getNodeValue())).exists())
+                        setLevelFile(f);
+                }
             }
-        } catch (final Exception NullPointer) {
-            
+        } catch (final Exception n) {
+
         }
 
         setupGUI();
@@ -942,74 +944,78 @@ public class LevelEditor {
      *            graphics!
      */
     public void draw(Graphics2D g) {
-        g.setColor(Color.GRAY);
-        g.fillRect(0, 0, (int) variables.getFloat("dimensions.x"), (int) variables.getFloat("dimensions.y"));
+        try {
+            g.setColor(Color.GRAY);
+            g.fillRect(0, 0, (int) variables.getFloat("dimensions.x"), (int) variables.getFloat("dimensions.y"));
 
-        /*
-         * DRAW THE GRID
-         */
-        if (gridSize.width > 1) {
-            g.setStroke(new BasicStroke(1));
-            g.setColor(Color.BLACK);
-            for (int x = 0; x < variables.getFloat("dimensions.x"); x += gridSize.width)
-                g.drawLine(x, 0, x, (int) variables.getFloat("dimensions.y"));
+            /*
+             * DRAW THE GRID
+             */
+            if (gridSize.width > 1) {
+                g.setStroke(new BasicStroke(1));
+                g.setColor(Color.BLACK);
+                for (int x = 0; x < variables.getFloat("dimensions.x"); x += gridSize.width)
+                    g.drawLine(x, 0, x, (int) variables.getFloat("dimensions.y"));
 
-            for (int y = 0; y < drawPanel.getHeight(); y += gridSize.height)
-                g.drawLine(0, y, drawPanel.getWidth(), y);
-        }
+                for (int y = 0; y < drawPanel.getHeight(); y += gridSize.height)
+                    g.drawLine(0, y, drawPanel.getWidth(), y);
+            }
 
-        /**
-         * DRAW ENTITIES in layer order.
-         */
-        Collections.sort(entities, new Comparator<Entity>() {
-            @Override
-            public int compare(Entity a, Entity b) {
-                int ret = new Integer(b.getLayer()).compareTo(new Integer(a.getLayer()));
-                if (ret == 0) {
-                    if (ReservedTypes.WALL.equals(a.getType()))
-                        return 1;
-                    else if (ReservedTypes.WALL.equals(b.getType()))
-                        return -1;
-                    else
-                        return 0;
-                } else {
-                    return ret;
+            /**
+             * DRAW ENTITIES in layer order.
+             */
+            Collections.sort(entities, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity a, Entity b) {
+                    int ret = new Integer(b.getLayer()).compareTo(new Integer(a.getLayer()));
+                    if (ret == 0) {
+                        if (ReservedTypes.WALL.equals(a.getType()))
+                            return 1;
+                        else if (ReservedTypes.WALL.equals(b.getType()))
+                            return -1;
+                        else
+                            return 0;
+                    } else {
+                        return ret;
+                    }
                 }
+            });
+            for (Entity e : entities) {
+                if (layerEditor.isLayerVisible(e.getLayer()))
+                    e.draw(g);
             }
-        });
-        for (Entity e : entities) {
-            if (layerEditor.isLayerVisible(e.getLayer()))
-                e.draw(g);
-        }
 
-        if (selected != null) {
-            g.setColor(Color.GREEN);
-            g.drawRect((int) selected.getPos().getX(), (int) selected.getPos().getY(), (int) selected.getDim().getX(),
-                    (int) selected.getDim().getY());
-        }
-
-        g.setColor(Color.RED);
-        g.draw3DRect(0, 0, (int) variables.getFloat("dimensions.x"), (int) variables.getFloat("dimensions.y"), true);
-
-        if (mode == Mode.WALL_MAKING) {
-            float wallStartX = wallStart.x;
-            float wallStartY = wallStart.y;
-            float wallEndX = wallEnd.x;
-            float wallEndY = wallEnd.y;
-            if (wallEndX < wallStartX) {
-                float temp = wallStartX;
-                wallStartX = wallEndX;
-                wallEndX = temp;
+            if (selected != null) {
+                g.setColor(Color.GREEN);
+                g.drawRect((int) selected.getPos().getX(), (int) selected.getPos().getY(), (int) selected.getDim()
+                        .getX(), (int) selected.getDim().getY());
             }
-            if (wallEndY < wallStartY) {
-                float temp = wallStartY;
-                wallStartY = wallEndY;
-                wallEndY = temp;
+
+            g.setColor(Color.RED);
+            g.draw3DRect(0, 0, (int) variables.getFloat("dimensions.x"), (int) variables.getFloat("dimensions.y"), true);
+
+            if (mode == Mode.WALL_MAKING) {
+                float wallStartX = wallStart.x;
+                float wallStartY = wallStart.y;
+                float wallEndX = wallEnd.x;
+                float wallEndY = wallEnd.y;
+                if (wallEndX < wallStartX) {
+                    float temp = wallStartX;
+                    wallStartX = wallEndX;
+                    wallEndX = temp;
+                }
+                if (wallEndY < wallStartY) {
+                    float temp = wallStartY;
+                    wallStartY = wallEndY;
+                    wallEndY = temp;
+                }
+                ((Graphics2D) g).setStroke(new BasicStroke(2));
+                g.drawRect((int) wallStartX, (int) wallStartY, (int) wallEndX - (int) wallStartX, (int) wallEndY
+                        - (int) wallStartY);
+                ((Graphics2D) g).setStroke(new BasicStroke(1));
             }
-            ((Graphics2D) g).setStroke(new BasicStroke(2));
-            g.drawRect((int) wallStartX, (int) wallStartY, (int) wallEndX - (int) wallStartX, (int) wallEndY
-                    - (int) wallStartY);
-            ((Graphics2D) g).setStroke(new BasicStroke(1));
+        } catch (Exception f) {
+
         }
     }
 
@@ -1052,6 +1058,7 @@ public class LevelEditor {
                 .getFloat("dimensions.y")));
         frame.validate();
         frame.repaint();
+
     }
 
     public Vector2 getClosestGridPoint(final Vector2 p) {

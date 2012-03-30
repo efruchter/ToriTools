@@ -51,11 +51,10 @@ public class VariableCase {
         try {
             return Float.parseFloat(variables.get(key));
         } catch (final NumberFormatException e) {
-            System.err.println("The variable with key " + key + " is not a valid float.");
+            throw new RuntimeException("The variable with key " + key + " is not a valid float.");
         } catch (final Exception e) {
-            System.err.println("No variable with key " + key + " found!");
+            throw new RuntimeException("No variable with key " + key + " found!");
         }
-        return 0;
     }
 
     public float getFloatOrDefault(final String key, final float defaultFloat) {
