@@ -77,6 +77,7 @@ public class Snakemeleon extends Binary {
     public Snakemeleon() {
         super(new Vector2(800, 600), 60, "Snakemeleon");
         super.getApplicationFrame().setIconImage(ScriptUtils.fetchImage(new File("snakemeleon/chameleon_head.png")));
+        super.getApplicationFrame().setResizable(true);
     }
 
     @Override
