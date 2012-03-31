@@ -16,6 +16,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import toritools.controls.KeyHolder;
+import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
@@ -203,7 +204,7 @@ public class ScriptUtils {
      */
     public static void queueLevelSwitch(final Level newLevel) {
         ScriptUtils.newLevel = newLevel;
-        System.out.println("New level queued.");
+        Debug.print("New level queued.");
     }
 
     public static boolean isLevelQueued() {
@@ -214,7 +215,7 @@ public class ScriptUtils {
      * Move to the queued level.
      */
     public static void moveToQueuedLevel() {
-        System.out.println("Moving to the queued level.");
+        Debug.print("Moving to the queued level.");
         keyHolder.clearKeys();
         level = newLevel;
         newLevel = null;

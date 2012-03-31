@@ -77,7 +77,7 @@ public class Snakemeleon extends Binary {
     public Snakemeleon() {
         super(new Vector2(800, 600), 60, "Snakemeleon");
         super.getApplicationFrame().setIconImage(ScriptUtils.fetchImage(new File("snakemeleon/chameleon_head.png")));
-        super.getApplicationFrame().setResizable(true);
+        super.getApplicationFrame().setResizable(false);
     }
 
     @Override
@@ -304,10 +304,6 @@ public class Snakemeleon extends Binary {
                 rootCanvas.setStroke(dottedStroke);
                 rootCanvas.drawOval(player.getPos().getWidth(), player.getPos().getHeight(),
                         player.getDim().getWidth(), player.getDim().getHeight());
-                // Entity other = ChameleonStickyScript.grabbingEntity;
-                // rootCanvas.drawOval(other.getPos().getWidth(),
-                // other.getPos().getHeight(),
-                // other.getDim().getWidth(), other.getDim().getHeight());
 
             }
 
