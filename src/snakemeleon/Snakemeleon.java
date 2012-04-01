@@ -19,7 +19,12 @@ import java.io.FileNotFoundException;
 
 import maryb.player.Player;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.contacts.Contact;
 
 import snakemeleon.types.ChameleonScript;
 import snakemeleon.types.ChameleonStickyScript;
@@ -30,6 +35,7 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entity.ReservedTypes;
 import toritools.entity.sprite.AbstractSprite.AbstractSpriteAdapter;
+import toritools.entity.sprite.ImageSprite;
 import toritools.entrypoint.Binary;
 import toritools.io.FontLoader;
 import toritools.io.Importer;
@@ -37,6 +43,7 @@ import toritools.math.MidpointChain;
 import toritools.math.Vector2;
 import toritools.physics.Universe;
 import toritools.scripting.EntityScript;
+import toritools.scripting.EntityScript.EntityScriptAdapter;
 import toritools.scripting.ScriptUtils;
 
 public class Snakemeleon extends Binary {
@@ -62,7 +69,7 @@ public class Snakemeleon extends Binary {
 
     private static int currentLevel = 0;
     private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml", "snakemeleon/level4.xml", "snakemeleon/level5.xml" };
+            "snakemeleon/level3.xml", "snakemeleon/level4.xml", "snakemeleon/level5.xml", "snakemeleon/level6.xml" };
 
     private static Font uiFont;
 
@@ -77,7 +84,7 @@ public class Snakemeleon extends Binary {
     public Snakemeleon() {
         super(new Vector2(800, 600), 60, "Snakemeleon");
         super.getApplicationFrame().setIconImage(ScriptUtils.fetchImage(new File("snakemeleon/chameleon_head.png")));
-        super.getApplicationFrame().setResizable(false);
+        super.getApplicationFrame().setResizable(true);
     }
 
     @Override
@@ -139,14 +146,8 @@ public class Snakemeleon extends Binary {
 
         uni.step(60 / 1000f);
 
-        // Camera step
-        // if (isMouseDragging) {
-        // camera.setA(mousePos);
-        // camera.smoothTowardA();
-        // } else {
         camera.setA(level.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos());
         camera.smoothTowardA();
-        // }
 
         Vector2 halfPort = VIEWPORT.scale(.5f);
 
@@ -167,7 +168,7 @@ public class Snakemeleon extends Binary {
 
         uni = new Universe(SnakemeleonConstants.gravity);
 
-        Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
+        final Entity cham = levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId);
         cham.addScript(new ChameleonScript());
         // A script to enable the chameleon to stick to things. Should be the
         // last script you add to cham.
@@ -187,6 +188,37 @@ public class Snakemeleon extends Binary {
                     new Vector2[] { (e.getDim().scale(-.5f, -.5f)), (e.getDim().scale(.5f, .5f)) }, false);
         }
 
+        final EntityScript breakScript = new EntityScriptAdapter() {
+            @Override
+            public void onDeath(Entity self, Level level, boolean isRoomExit) {
+                boolean childrenAreProps = self.getDim().x > 32 && self.getDim().y > 32;
+                for (int i = 0; i < 2; i++) {
+                    for (int i2 = 0; i2 < 2; i2++) {
+                        try {
+                            Entity e = new Entity();
+                            e.setPos(self.getPos().add(self.getDim().scale(i * .5f)));
+                            e.setDim(self.getDim().scale(.5f));
+                            e.setSprite(new ImageSprite(self.getSprite().getImageIndex(), 2, 2));
+                            e.getSprite().set(i, i2);
+                            level.spawnEntity(e);
+                            if (childrenAreProps) {
+                                e.addScript(this);
+                                e.setType(SnakemeleonConstants.dynamicPropType);
+                            }
+                            Body body = Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, false, .2f, .03f);
+                            Snakemeleon.uni.applyLinearImpulse(e, new Vector2((float) (-.5 + Math.random()) * .01f,
+                                    (float) (-.5 + Math.random()) * .01f));
+                            if (!childrenAreProps) {
+                                body.getFixtureList().m_filter.categoryBits = 3;
+                            }
+                        } catch (final Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        };
+
         for (Entity e : levelBeingLoaded.getEntitiesWithType(SnakemeleonConstants.dynamicPropType)) {
             String isRound = e.getVariableCase().getVar("round");
             boolean round = false;
@@ -200,6 +232,8 @@ public class Snakemeleon extends Binary {
 
             if (e.getVariableCase().getVar("id") != null && e.getVariableCase().getVar("id").equals("collectable")) {
                 e.addScript(new Collectable());
+            } else {
+                e.addScript(breakScript);
             }
         }
 
@@ -258,6 +292,48 @@ public class Snakemeleon extends Binary {
                 }
             });
         }
+
+        /*
+         * if a dynamic prop is dangerous, hurt cham
+         */
+        uni.addContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact arg0) {
+                Entity a = (Entity) arg0.m_fixtureA.getUserData();
+                Entity b = (Entity) arg0.m_fixtureB.getUserData();
+
+                if ((a == cham && b.getVariableCase().getVar("hurt") != null)
+                        || (b == cham && a.getVariableCase().getVar("hurt") != null))
+                    if (!Debug.showDebugPrintouts && cham.isActive())
+                        cham.setActive(false);
+
+                if (a.getType().equals(SnakemeleonConstants.dynamicPropType)
+                        && a.getVariableCase().getVar("hurt") == null && b.getVariableCase().getVar("hurt") != null
+                        && !"collectable".equals(a.getVariableCase().getVar("id")))
+                    ScriptUtils.getCurrentLevel().despawnEntity(a);
+                else if (a.getType().equals(SnakemeleonConstants.dynamicPropType)
+                        && b.getVariableCase().getVar("hurt") == null && b.getVariableCase().getVar("hurt") != null
+                        && !"collectable".equals(b.getVariableCase().getVar("id")))
+                    ScriptUtils.getCurrentLevel().despawnEntity(b);
+
+            }
+
+            @Override
+            public void endContact(Contact arg0) {
+
+            }
+
+            @Override
+            public void postSolve(Contact arg0, ContactImpulse arg1) {
+
+            }
+
+            @Override
+            public void preSolve(Contact arg0, Manifold arg1) {
+
+            }
+        });
 
         levelBeingLoaded.bakeBackground();
 

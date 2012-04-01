@@ -253,8 +253,7 @@ public class ScriptUtils {
             System.exit(1);
         }
 
-        VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null),
-                VolatileImage.TRANSLUCENT);
+        VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null), VolatileImage.TRANSLUCENT);
         i.validate(Binary.gc);
 
         Graphics2D g = (Graphics2D) i.getGraphics();

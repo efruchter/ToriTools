@@ -126,6 +126,8 @@ public class Universe {
         // fd.filter.categoryBits = cat;
         fd.userData = ent;
         fd.isSensor = isSensor;
+        
+        fd.filter.categoryBits = 1;
 
         Body body = world.createBody(bd);
         body.createFixture(fd);

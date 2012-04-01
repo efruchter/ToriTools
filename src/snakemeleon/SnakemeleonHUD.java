@@ -34,7 +34,7 @@ public class SnakemeleonHUD {
             g.drawImage(ScriptUtils.fetchImage(SnakemeleonConstants.victoryImageFile), 0, 0, viewport.getWidth(),
                     viewport.getHeight(), null);
             g.setColor(Color.black);
-            g.drawString("Challenge Complete!", viewport.getWidth() / 2, viewport.getHeight() / 5);
+            g.drawString("Challenge Complete!", viewport.getWidth() / 2, viewport.getHeight() / 2);
             if (currentTime > 60 * 3) {
                 Snakemeleon.nextLevel();
                 currentTime = 0;

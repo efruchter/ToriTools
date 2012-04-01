@@ -152,5 +152,4 @@ public class ChameleonScript implements EntityScript {
             e.printStackTrace();
         }
     }
-
 }
