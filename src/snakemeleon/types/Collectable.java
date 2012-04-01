@@ -12,13 +12,10 @@ import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.io.Importer;
 import toritools.scripting.EntityScript;
-import toritools.scripting.ScriptUtils;
 
 public class Collectable implements EntityScript {
 
     private static int collectablesRemaining = 0;
-
-    private Entity player;
     
     private static Player munchSound;
     
@@ -29,15 +26,12 @@ public class Collectable implements EntityScript {
 
     @Override
     public void onSpawn(Entity self, Level level) {
-        player = level.getEntityWithId("player");
         collectablesRemaining++;
     }
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
-        if (ScriptUtils.isColliding(self, player) && player.isActive()) {
-            level.despawnEntity(self);
-        }
+        
     }
 
     @Override

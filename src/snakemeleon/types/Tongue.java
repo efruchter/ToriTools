@@ -77,7 +77,7 @@ public class Tongue extends Entity {
                         tongueChain.smooth();
                         Vector2 dragAnchor = dragging.getPos().add(dragging.getDim().scale(.5f));
                         tongueChain.setA(dragAnchor);
-                        Vector2 dragVector = (tongueMaxPos).sub(dragAnchor).scale(1f / Snakemeleon.uni.PTM_RATIO);
+                        Vector2 dragVector = (tongueMaxPos).sub(dragAnchor).scale(.5f / Snakemeleon.uni.PTM_RATIO);
                         Snakemeleon.uni.setVelocity(dragging, dragVector);
                         //Snakemeleon.uni.setVelocity(level.getEntityWithId("player"), dragVector.scale(0,-1));
                     } else {

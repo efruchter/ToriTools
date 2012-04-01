@@ -1,4 +1,4 @@
-<level map="dimensions.y = 600;height = 600;width = 800;dimensions.x = 2000;">
+<level map="dimensions.y = 600;height = 600;width = 800;dimensions.x = 2000;background = snakemeleon/forest1.png;">
 <objects>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 544.0;sprite.sheet = apple_1.png, 1, 1;position.x = 928.0;description = An edible apple collectable;layer = 4;round = true;type = dynamicProp;dimensions.x = 25;"/>
 <entity map="dimensions.y = 25;id = collectable;template = /objects/collectable/apple.entity;solid = false;position.y = 224.0;sprite.sheet = apple_1.png, 1, 1;position.x = 1312.0;description = An edible apple collectable;layer = 4;round = true;type = dynamicProp;dimensions.x = 25;"/>

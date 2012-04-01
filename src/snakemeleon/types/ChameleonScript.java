@@ -6,7 +6,11 @@ import java.io.FileNotFoundException;
 
 import maryb.player.Player;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.contacts.Contact;
 
 import snakemeleon.Snakemeleon;
 import snakemeleon.SnakemeleonConstants;
@@ -34,7 +38,7 @@ public class ChameleonScript implements EntityScript {
     }
 
     @Override
-    public void onSpawn(Entity self, Level level) {
+    public void onSpawn(final Entity self, final Level level) {
         level.spawnEntity(tongue = new Tongue());
         head = new Entity();
         head.setDim(new Vector2(SnakemeleonConstants.headWidth));
@@ -47,6 +51,36 @@ public class ChameleonScript implements EntityScript {
         level.spawnEntity(sensor = new ChameleonFootSensor(self));
 
         Snakemeleon.uni.addEntity(self, BodyType.DYNAMIC, true, true, 1f, .3f).setAngularDamping(5);
+
+        Snakemeleon.uni.addContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact c) {
+                Entity a = (Entity) c.m_fixtureA.getUserData(), b = (Entity) c.m_fixtureB.getUserData();
+                if (a == self && b.getVariableCase().getVar("id") != null
+                        && b.getVariableCase().getVar("id").equals("collectable"))
+                    level.despawnEntity(b);
+                if (b == self && a.getVariableCase().getVar("id") != null
+                        && a.getVariableCase().getVar("id").equals("collectable"))
+                    level.despawnEntity(a);
+            }
+
+            @Override
+            public void endContact(Contact arg0) {
+
+            }
+
+            @Override
+            public void postSolve(Contact arg0, ContactImpulse arg1) {
+
+            }
+
+            @Override
+            public void preSolve(Contact arg0, Manifold arg1) {
+
+            }
+
+        });
     }
 
     boolean facing = false;
@@ -133,12 +167,13 @@ public class ChameleonScript implements EntityScript {
 
     public void makeAppleBits(Entity self, Level level) {
         try {
+            Vector2 midP = self.getPos().add(self.getDim().scale(.5f));
             for (int j = 0; j < 4; j++) {
                 for (int i = 0; i < 2; i++) {
                     for (int i2 = 0; i2 < 2; i2++) {
                         Entity e = Importer.importEntity(new File("snakemeleon/objects/collectable/appleBit.entity"),
                                 null);
-                        e.setPos(self.getPos());
+                        e.setPos(midP);
                         e.getSprite().set(i, i2);
                         level.spawnEntity(e);
                         Snakemeleon.uni.addEntity(e, BodyType.DYNAMIC, true, true, .01f, .03f);

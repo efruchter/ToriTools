@@ -84,12 +84,14 @@ public class Universe {
         contactListeners.add(listener);
     }
 
-    public void step(final float dt) {
+    public void step(final float totaldt, int numSteps) {
 
         /*
          * Step the world
          */
-        world.step(dt, 10, 10);
+        float tinyStep = totaldt / numSteps;
+        for (float i = 0; i < totaldt; i += tinyStep)
+            world.step(tinyStep, 20, 20);
     }
 
     public Body addEntity(final Entity ent, final BodyType bodyType, final boolean allowRotation,
@@ -126,7 +128,7 @@ public class Universe {
         // fd.filter.categoryBits = cat;
         fd.userData = ent;
         fd.isSensor = isSensor;
-        
+
         fd.filter.categoryBits = 1;
 
         Body body = world.createBody(bd);

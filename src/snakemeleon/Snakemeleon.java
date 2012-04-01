@@ -68,8 +68,8 @@ public class Snakemeleon extends Binary {
     public static Vector2 mousePos = Vector2.ZERO;
 
     private static int currentLevel = 0;
-    private static String[] levels = new String[] { "snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml", "snakemeleon/level4.xml", "snakemeleon/level5.xml", "snakemeleon/level6.xml" };
+    private static String[] levels = new String[] {"snakemeleon/level1.xml", "snakemeleon/level2.xml",
+            "snakemeleon/level3.xml", "snakemeleon/level4.xml", "snakemeleon/level5.xml", "snakemeleon/level6.xml", "snakemeleon/level7.xml", "snakemeleon/end.xml"};
 
     private static Font uiFont;
 
@@ -102,7 +102,7 @@ public class Snakemeleon extends Binary {
 
         Player player = new Player();
         player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
-        // player.play();
+        player.play();
 
         // Create a new blank cursor.
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
@@ -144,7 +144,7 @@ public class Snakemeleon extends Binary {
             Debug.showDebugPrintouts = !Debug.showDebugPrintouts;
         }
 
-        uni.step(60 / 1000f);
+        uni.step(60 / 1000f, 1);
 
         camera.setA(level.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos());
         camera.smoothTowardA();
@@ -338,6 +338,8 @@ public class Snakemeleon extends Binary {
 
         camera = new MidpointChain(levelBeingLoaded.getEntityWithId(SnakemeleonConstants.playerTypeId).getPos(),
                 SnakemeleonConstants.cameraLag);
+        
+        bgFile = new File(levelBeingLoaded.getVariableCase().getString("background"));
     }
 
     @Override

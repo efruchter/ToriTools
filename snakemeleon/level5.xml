@@ -1,4 +1,4 @@
-<level map="dimensions.y = 1440;height = 600;width = 800;dimensions.x = 2000;">
+<level map="dimensions.y = 1440;height = 600;width = 800;dimensions.x = 2000;background = snakemeleon/forest1.png;">
 <objects>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 2;position.y = 192.0;position.x = 32.0;xTiles = 16;xTile = 2;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
 <entity map="dimensions.y = 32.0;yTiles = 9;yTile = 2;position.y = 192.0;position.x = 64.0;xTiles = 16;xTile = 2;layer = 4;image = \backgrounds\tiles-forest.png;type = BACKGROUND;dimensions.x = 32.0;"/>
