@@ -76,6 +76,8 @@ public class Snakemeleon extends Binary {
     private static SnakemeleonHUD hud = new SnakemeleonHUD();
 
     private static File bgFile;
+    
+    Player player;
 
     public static void main(String[] args) {
         new Snakemeleon();
@@ -100,7 +102,7 @@ public class Snakemeleon extends Binary {
 
         bgFile = new File("snakemeleon/forest1.png");
 
-        Player player = new Player();
+        player = new Player();
         player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
         player.play();
 
@@ -161,6 +163,10 @@ public class Snakemeleon extends Binary {
                 + e.getLocation().y - frameLoc.y);
 
         hud.update(1, level);
+        
+        if(player.isEndOfMediaReached()) {
+            player.play();
+        }
     }
 
     @Override

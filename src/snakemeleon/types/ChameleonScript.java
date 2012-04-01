@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import maryb.player.Player;
+import maryb.player.PlayerState;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -43,6 +44,7 @@ public class ChameleonScript implements EntityScript {
         head = new Entity();
         head.setDim(new Vector2(SnakemeleonConstants.headWidth));
         head.setSprite(new ImageSprite(new File("snakemeleon/objects/chameleon/cham_head.png"), 2, 2));
+        head.getVariableCase().setVar("id", "head");
         level.spawnEntity(head);
 
         head.getSprite().setCycle(1);
@@ -91,6 +93,8 @@ public class ChameleonScript implements EntityScript {
     @Override
     public void onUpdate(Entity self, float time, Level level) {
 
+        boolean headChomping = Collectable.munchSound.getState() == PlayerState.PLAYING;
+
         if (!self.isActive()) {
             if (self.isVisible()) {
                 yellPlayer.play();
@@ -103,7 +107,13 @@ public class ChameleonScript implements EntityScript {
             }
         } else {
 
-            head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
+            if (headChomping) {
+                head.getSprite().setTimeStretch(5);
+                head.getSprite().nextFrame();
+            } else {
+                head.getSprite().setTimeStretch(1);
+                head.getSprite().setFrame(Snakemeleon.isMouseDragging ? 1 : 0);
+            }
 
             float dx = 0, dy = 0;
 
@@ -158,6 +168,7 @@ public class ChameleonScript implements EntityScript {
             head.setPos(mouthSpot);
             tongue.setMouthPoint(mouthSpot);
         }
+
     }
 
     @Override

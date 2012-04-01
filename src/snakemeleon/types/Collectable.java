@@ -17,7 +17,7 @@ public class Collectable implements EntityScript {
 
     private static int collectablesRemaining = 0;
     
-    private static Player munchSound;
+    public static Player munchSound;
     
     static {        
         munchSound = new Player();
