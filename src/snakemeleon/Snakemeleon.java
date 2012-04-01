@@ -102,7 +102,7 @@ public class Snakemeleon extends Binary {
 
         Player player = new Player();
         player.setSourceLocation("snakemeleon/sounds/BGM/Wallpaper.mp3");
-        player.play();
+        // player.play();
 
         // Create a new blank cursor.
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
@@ -304,16 +304,15 @@ public class Snakemeleon extends Binary {
                 Entity b = (Entity) arg0.m_fixtureB.getUserData();
 
                 if ((a == cham && b.getVariableCase().getVar("hurt") != null)
-                        || (b == cham && a.getVariableCase().getVar("hurt") != null))
+                        || (b == cham && a.getVariableCase().getVar("hurt") != null)) {
                     if (!Debug.showDebugPrintouts && cham.isActive())
                         cham.setActive(false);
-
-                if (a.getType().equals(SnakemeleonConstants.dynamicPropType)
+                } else if (a.getType().equals(SnakemeleonConstants.dynamicPropType)
                         && a.getVariableCase().getVar("hurt") == null && b.getVariableCase().getVar("hurt") != null
                         && !"collectable".equals(a.getVariableCase().getVar("id")))
                     ScriptUtils.getCurrentLevel().despawnEntity(a);
                 else if (a.getType().equals(SnakemeleonConstants.dynamicPropType)
-                        && b.getVariableCase().getVar("hurt") == null && b.getVariableCase().getVar("hurt") != null
+                        && b.getVariableCase().getVar("hurt") == null && a.getVariableCase().getVar("hurt") != null
                         && !"collectable".equals(b.getVariableCase().getVar("id")))
                     ScriptUtils.getCurrentLevel().despawnEntity(b);
 
