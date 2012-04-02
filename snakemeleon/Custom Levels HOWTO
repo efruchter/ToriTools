@@ -1,0 +1,11 @@
+How to make your own campaign:
+
+Edit the campaign.conf file in the snakemeleon directory, and add your levels to the file.
+The game will automatically load it on startup.
+
+In your levels, make sure you set this level variable in the editor:
+
+var: background
+value: snakemeleon/"path to your background image"
+
+This variable is used to set a nice bg image. To make your life easier, you can just duplicate and edit an existing level.

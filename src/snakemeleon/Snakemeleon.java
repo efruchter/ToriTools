@@ -16,6 +16,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 import maryb.player.Player;
 
@@ -68,9 +72,7 @@ public class Snakemeleon extends Binary {
     public static Vector2 mousePos = Vector2.ZERO;
 
     private static int currentLevel = 0;
-    private static String[] levels = new String[] {"snakemeleon/level1.xml", "snakemeleon/level2.xml",
-            "snakemeleon/level3.xml", "snakemeleon/level4.xml", "snakemeleon/level5.xml", "snakemeleon/level6.xml", "snakemeleon/level7.xml", "snakemeleon/end.xml"};
-
+    private static String[] levels = {};
     private static Font uiFont;
 
     private static SnakemeleonHUD hud = new SnakemeleonHUD();
@@ -91,6 +93,22 @@ public class Snakemeleon extends Binary {
 
     @Override
     protected void initialize() {
+        
+        // Load the campaign
+        try {
+            ArrayList<String> levels = new ArrayList<String>();
+            Scanner fileScanner = new Scanner(new File("snakemeleon/campaign.conf"));
+            while(fileScanner.hasNextLine()) {
+                String levelFile = fileScanner.nextLine();
+                if(levelFile.startsWith("snakemeleon")) {
+                    levels.add(levelFile.trim());
+                }
+            }
+            Snakemeleon.levels = levels.toArray(new String[0]);
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Can't find campaign.conf in the snakemeleon directory!");
+            System.exit(1);
+        }
 
         try {
             FontLoader.loadFont(new File("snakemeleon/eartm.ttf"));
