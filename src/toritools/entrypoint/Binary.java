@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import toritools.debug.Debug;
 import toritools.entity.Level;
@@ -41,6 +42,12 @@ public abstract class Binary {
     private final File splash = new File("resources/toritools_splash.png");
 
     static {
+        
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Hardware accel.
         if (System.getProperty("os.name").contains("Windows")) {
