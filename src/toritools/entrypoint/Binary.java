@@ -1,5 +1,6 @@
 package toritools.entrypoint;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,18 +32,20 @@ public abstract class Binary {
 
     // CORE VARS
     protected final float FRAMERATE;
-    protected Vector2 VIEWPORT;
+    public static Vector2 VIEWPORT = Vector2.ZERO;
 
     private static JFrame frame;
     public static final GraphicsConfiguration gc;
     private ScheduledExecutorService timer;
 
     private boolean gameRunning = false;
+    
+    private final JPanel panel;
 
     private final File splash = new File("resources/toritools_splash.png");
 
     static {
-        
+
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
@@ -118,28 +121,29 @@ public abstract class Binary {
      * @param frameRate
      *            the frame-rate as a ratio. 60FPS would be 60, for example.
      */
+    @SuppressWarnings("serial")
     public Binary(final Vector2 VIEWPORT_SIZE, final int frameRate, final String windowTitle) {
 
         frame.setTitle(windowTitle);
 
         this.FRAMERATE = 1000 / frameRate;
-        this.VIEWPORT = VIEWPORT_SIZE;
+        VIEWPORT = VIEWPORT_SIZE;
 
-        @SuppressWarnings("serial")
-        final JPanel panel = new JPanel() {
+        panel = new JPanel() {
             public void paintComponent(final Graphics g) {
                 // super.paintComponent(g);
                 renderAll(g);
             }
         };
-        frame.add(panel);
+        frame.add(panel, BorderLayout.CENTER);
         frame.addKeyListener(ScriptUtils.getKeyHolder());
         frame.setFocusable(true);
-        frame.setVisible(true);
         panel.setPreferredSize(new Dimension((int) VIEWPORT.x, (int) VIEWPORT.y));
-        frame.pack();
 
         initialize();
+
+        frame.pack();
+        frame.setVisible(true);
 
         ScriptUtils.queueLevelSwitch(getStartingLevel());
 
@@ -198,8 +202,8 @@ public abstract class Binary {
             buffer1 = !buffer1;
             gameRunning = true;
         } else if (!gameRunning) {
-            finalCanvas.drawImage(ScriptUtils.fetchImage(splash), 0, 0, VIEWPORT.getWidth(),
-                    VIEWPORT.getHeight(), null);
+            finalCanvas
+                    .drawImage(ScriptUtils.fetchImage(splash), 0, 0, VIEWPORT.getWidth(), VIEWPORT.getHeight(), null);
         }
     }
 
@@ -210,5 +214,14 @@ public abstract class Binary {
      */
     protected JFrame getApplicationFrame() {
         return frame;
+    }
+    
+    /**
+     * Get the core application panel.
+     * 
+     * @return the JFrame the whole thing is running in.
+     */
+    protected JPanel getApplicationPanel() {
+        return panel;
     }
 }
