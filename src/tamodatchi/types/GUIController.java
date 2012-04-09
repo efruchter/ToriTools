@@ -1,26 +1,26 @@
 package tamodatchi.types;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-@SuppressWarnings("serial")
-public class GUIPanel extends JPanel {
+import tamodatchi.types.Creature.State;
+
+public class GUIController {
 
     private JProgressBar moodBar, energyBar;
     private JLabel nameLabel, messageLabel;
 
-    public GUIPanel(final JLabel messageLabel) {
-
-        this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+    public GUIController(final JLabel messageLabel, final JPanel corePanel) {
 
         this.messageLabel = messageLabel;
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        //corePanel.setLayout(new BoxLayout(corePanel, BoxLayout.Y_AXIS));
 
         nameLabel = new JLabel("Chet the Named One");
+        nameLabel.setForeground(Color.WHITE);
 
         moodBar = new JProgressBar(0, 100);
         moodBar.setString("Mood");
@@ -32,14 +32,25 @@ public class GUIPanel extends JPanel {
         energyBar.setValue(10);
         energyBar.setStringPainted(true);
 
-        add(nameLabel);
-        add(moodBar);
-        add(energyBar);
+        corePanel.add(nameLabel);
+        corePanel.add(moodBar);
+        corePanel.add(energyBar);
     }
 
     public void updateInfo(final Creature creature) {
         moodBar.setValue((int) (creature.getMood() * 100));
         energyBar.setValue((int) (creature.getEnergy() * 100));
         nameLabel.setText(creature.getName());
+
+        // State messages
+        if (creature.getState() == State.ROAM) {
+            messageLabel.setText(creature.getName() + " is roaming around.");
+        }
+        if (creature.getState() == State.SLEEP) {
+            messageLabel.setText(creature.getName() + " is fast asleep.");
+        }
+        if (creature.getState() == State.HUNTING) {
+            messageLabel.setText(creature.getName() + " is looking for food.");
+        }
     }
 }

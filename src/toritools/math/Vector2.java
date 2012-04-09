@@ -25,6 +25,11 @@ public class Vector2 {
         this.x = x;
         this.y = y;
     }
+    
+    public Vector2(final double x, final double y) {
+        this.x = (float) x;
+        this.y = (float) y;
+    }
 
     public Vector2(final Dimension dim) {
         this.x = dim.width;

@@ -9,7 +9,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import tamodatchi.types.Creature;
-import tamodatchi.types.GUIPanel;
+import tamodatchi.types.Food;
+import tamodatchi.types.GUIController;
+import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
 import toritools.entrypoint.Binary;
@@ -21,7 +23,7 @@ public class Tamodatchi extends Binary {
     private Creature creature;
 
     private static JLabel messageLabel = new JLabel("Pet Message!");
-    private static GUIPanel gui = new GUIPanel(messageLabel);
+    private static GUIController gui;
 
     private int timer = 0;
 
@@ -29,16 +31,16 @@ public class Tamodatchi extends Binary {
 
     public Tamodatchi() {
         super(new Vector2(800, 600), 60, "Kawaii Sound Friend Yes!");
-        super.getApplicationFrame().add(gui, BorderLayout.EAST);
-        messageLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        super.getApplicationFrame().add(messageLabel, BorderLayout.SOUTH);
-        super.getApplicationFrame().setResizable(false);
-        super.getApplicationFrame().pack();
     }
 
     @Override
     protected void initialize() {
-
+        Debug.showDebugPrintouts = true;
+        gui = new GUIController(messageLabel, super.getApplicationPanel());
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        super.getApplicationFrame().add(messageLabel, BorderLayout.SOUTH);
+        super.getApplicationFrame().setResizable(false);
+        super.getApplicationFrame().pack();
     }
 
     @Override
@@ -53,6 +55,13 @@ public class Tamodatchi extends Binary {
     protected void setupCurrentLevel(Level levelBeingLoaded) {
         creature = new Creature();
         levelBeingLoaded.spawnEntity(creature);
+        Food f = new Food();
+        f.setPos(levelBeingLoaded.getDim().scale(.5f));
+        levelBeingLoaded.spawnEntity(f);
+        
+        f = new Food();
+        f.setPos(levelBeingLoaded.getDim().scale(.5f, .8f));
+        levelBeingLoaded.spawnEntity(f);
     }
 
     @Override
