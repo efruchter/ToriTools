@@ -54,7 +54,9 @@ public class Creature extends Entity implements EntityScript {
 
         float moveTargetSpeed = this.moveTargetSpeed;
 
-        // Transitions
+        /*
+         * Transitions
+         */
         if (state == State.ROAM) {
             if (!level.getEntitiesWithType("ball").isEmpty()) {
                 state = State.PLAYING;
@@ -65,7 +67,9 @@ public class Creature extends Entity implements EntityScript {
             }
         }
 
-        // Actions
+        /*
+         * State Actions
+         */
         if (state == State.ROAM && Math.random() < .006 * energy * energy) {
             moveTarget = new Vector2((level.getDim().getWidth() - self.getDim().getWidth() / 2) * Math.random(), (level
                     .getDim().getHeight() - self.getDim().getHeight() / 2) * Math.random());
@@ -123,8 +127,14 @@ public class Creature extends Entity implements EntityScript {
                 moveTarget = null;
             }
         }
-        
-        // Maintenance
+
+        /*
+         * State maintenence
+         */
+        if (energy > 0) {
+            energy -= .000009 * moveTargetSpeed;
+        }
+
         if (energy > 0) {
             energy -= .000009 * moveTargetSpeed;
         }
