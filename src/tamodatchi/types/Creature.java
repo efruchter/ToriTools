@@ -84,6 +84,7 @@ public class Creature extends Entity implements EntityScript {
             moveTarget = closest;
             Debug.print("Moving towards food");
         }
+        
         if (moveTarget != null) {
             Vector2 move = moveTarget.sub(self.getPos().add(self.getDim().scale(.5f)));
             if (move.mag() > moveTargetSpeed) {
