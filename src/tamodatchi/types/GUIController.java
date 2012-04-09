@@ -64,11 +64,17 @@ public class GUIController implements ActionListener, MouseListener, MouseMotion
         if (creature.getState() == State.ROAM) {
             messageLabel.setText(creature.getName() + " is roaming around.");
         }
+
         if (creature.getState() == State.SLEEP) {
             messageLabel.setText(creature.getName() + " is fast asleep.");
         }
+
         if (creature.getState() == State.HUNTING) {
             messageLabel.setText(creature.getName() + " is looking for food.");
+        }
+
+        if (creature.getState() == State.PLAYING) {
+            messageLabel.setText(creature.getName() + " is playing with a ball.");
         }
     }
 
@@ -80,6 +86,14 @@ public class GUIController implements ActionListener, MouseListener, MouseMotion
         // Feed
         if (e.getSource() == feedButton) {
             Food f = new Food();
+            f.setPos(new Vector2(100, 100).add(level.getDim().sub(new Vector2(200, 200))
+                    .scale((float) Math.random(), (float) Math.random())));
+            ScriptUtils.getCurrentLevel().spawnEntity(f);
+        }
+
+        // play
+        if (e.getSource() == playButton) {
+            Ball f = new Ball();
             f.setPos(new Vector2(100, 100).add(level.getDim().sub(new Vector2(200, 200))
                     .scale((float) Math.random(), (float) Math.random())));
             ScriptUtils.getCurrentLevel().spawnEntity(f);

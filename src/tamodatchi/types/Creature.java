@@ -28,6 +28,8 @@ public class Creature extends Entity implements EntityScript {
 
     public Creature() {
 
+        this.setType("pet");
+
         setDim(new Vector2(64, 64));
         setPos(new Vector2(100, 100));
 
@@ -49,26 +51,51 @@ public class Creature extends Entity implements EntityScript {
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
-        // Maintenance
-        if (energy > 0) {
-            energy -= .0000005;
-        }
+
+        float moveTargetSpeed = this.moveTargetSpeed;
 
         // Transitions
         if (state == State.ROAM) {
+            if (!level.getEntitiesWithType("ball").isEmpty()) {
+                state = State.PLAYING;
+            }
+
             if (!level.getEntitiesWithType("food").isEmpty()) {
                 state = State.HUNTING;
             }
         }
 
         // Actions
-        if (state == State.ROAM && Math.random() < .06 * energy * energy) {
+        if (state == State.ROAM && Math.random() < .006 * energy * energy) {
             moveTarget = new Vector2((level.getDim().getWidth() - self.getDim().getWidth() / 2) * Math.random(), (level
                     .getDim().getHeight() - self.getDim().getHeight() / 2) * Math.random());
             Debug.print("Moving to: " + moveTarget);
         }
 
+        if (state == State.PLAYING) {
+
+            moveTargetSpeed *= 4;
+
+            if (level.getEntitiesWithType("ball").isEmpty()) {
+                state = State.ROAM;
+            }
+
+            Vector2 closest = null;
+            float bestDist = Float.MAX_VALUE;
+            for (Entity e : level.getEntitiesWithType("ball")) {
+                if (closest == null || self.getPos().dist(e.getPos()) < bestDist) {
+                    closest = e.getPos().add(e.getDim().scale(.5f));
+                    bestDist = self.getPos().dist(e.getPos());
+                }
+            }
+            moveTarget = closest;
+            Debug.print("Moving towards ball");
+        }
+
         if (state == State.HUNTING) {
+
+            moveTargetSpeed *= 2;
+
             Vector2 closest = null;
             float bestDist = Float.MAX_VALUE;
             for (Entity e : level.getEntitiesWithType("food")) {
@@ -84,7 +111,7 @@ public class Creature extends Entity implements EntityScript {
             moveTarget = closest;
             Debug.print("Moving towards food");
         }
-        
+
         if (moveTarget != null) {
             Vector2 move = moveTarget.sub(self.getPos().add(self.getDim().scale(.5f)));
             if (move.mag() > moveTargetSpeed) {
@@ -95,6 +122,11 @@ public class Creature extends Entity implements EntityScript {
             } else {
                 moveTarget = null;
             }
+        }
+        
+        // Maintenance
+        if (energy > 0) {
+            energy -= .000009 * moveTargetSpeed;
         }
     }
 
@@ -130,6 +162,6 @@ public class Creature extends Entity implements EntityScript {
     }
 
     public static enum State {
-        SLEEP, ROAM, HUNTING;
+        SLEEP, ROAM, HUNTING, PLAYING;
     }
 }
