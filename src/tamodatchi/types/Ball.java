@@ -14,6 +14,10 @@ public class Ball extends Entity implements EntityScript {
 
     private PhysicsModule physics;
 
+    private int timer = 0;
+
+    final static private int MAX_TIME = 20 * 1000;
+
     public Ball() {
         this.addScript(this);
 
@@ -25,7 +29,9 @@ public class Ball extends Entity implements EntityScript {
 
     @Override
     public void onSpawn(Entity self, Level level) {
-        physics = new PhysicsModule(Vector2.ZERO, new Vector2(.5f, .5f), self);
+        physics = new PhysicsModule(Vector2.ZERO, new Vector2(.047f, .047f), self);
+        self.setPos(new Vector2(100, 100).add(ScriptUtils.getCurrentLevel().getDim().sub(new Vector2(200, 200))
+                .scale((float) Math.random(), (float) Math.random())));
     }
 
     @Override
@@ -35,18 +41,17 @@ public class Ball extends Entity implements EntityScript {
 
         for (Entity pet : level.getEntitiesWithType("pet")) {
             if (ScriptUtils.isColliding(pet, self)) {
-                physics.addVelocity(self.getPos().sub(pet.getPos()));
+                physics.addVelocity(self.getPos().add(self.getDim().scale(.5f))
+                        .sub(pet.getPos().add(pet.getDim().scale(.5f))));
             }
         }
 
-        for (Entity ball : level.getEntitiesWithType("ball")) {
-            if (ball != self && ScriptUtils.isColliding(ball, self)) {
-                physics.addVelocity(self.getPos().sub(ball.getPos()));
-            }
+        if (timer++ > MAX_TIME) {
+            level.despawnEntity(self);
         }
 
         if (!ScriptUtils.isColliding(level, self)) {
-            level.despawnEntity(self);
+            onSpawn(self, level);
         }
     }
 

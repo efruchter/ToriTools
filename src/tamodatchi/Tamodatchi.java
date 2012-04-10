@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import tamodatchi.types.Creature;
-import tamodatchi.types.Food;
 import tamodatchi.types.GUIController;
 import toritools.debug.Debug;
 import toritools.entity.Entity;
@@ -55,13 +54,6 @@ public class Tamodatchi extends Binary {
     protected void setupCurrentLevel(Level levelBeingLoaded) {
         creature = new Creature();
         levelBeingLoaded.spawnEntity(creature);
-        Food f = new Food();
-        f.setPos(levelBeingLoaded.getDim().scale(.5f));
-        levelBeingLoaded.spawnEntity(f);
-        
-        f = new Food();
-        f.setPos(levelBeingLoaded.getDim().scale(.5f, .8f));
-        levelBeingLoaded.spawnEntity(f);
     }
 
     @Override

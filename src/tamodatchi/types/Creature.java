@@ -2,6 +2,8 @@ package tamodatchi.types;
 
 import java.io.File;
 
+import javax.swing.JOptionPane;
+
 import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -20,6 +22,9 @@ public class Creature extends Entity implements EntityScript {
     private long age;
     private String name;
     private State state;
+    private boolean isSick = false;
+
+    private float maxEnergy = 1f;
 
     // Movement internals
     private Vector2 moveTarget;
@@ -35,14 +40,15 @@ public class Creature extends Entity implements EntityScript {
 
         addScript(this);
 
-        setSprite(new ImageSprite(new File("tamodatchi/rabbit.gif"), 1, 1));
+        setSprite(new ImageSprite(new File("tamodatchi/kitten.png"), 4, 6));
+        getSprite().setTimeStretch(40);
     }
 
     @Override
     public void onSpawn(Entity self, Level level) {
         age = 0;
         mood = .5f;
-        energy = .9f;
+        energy = .5f;
         name = "Mozart";
         moveTarget = self.getPos();
         moveChain = new MidpointChain(self.getPos(), 20);
@@ -52,19 +58,29 @@ public class Creature extends Entity implements EntityScript {
     @Override
     public void onUpdate(Entity self, float time, Level level) {
 
+        Debug.print("Mood: " + mood + " | Energy: " + energy);
+
         float moveTargetSpeed = this.moveTargetSpeed;
 
         /*
          * Transitions
          */
-        if (state == State.ROAM) {
+        if (state == State.ROAM || state == State.PLAYING) {
+
+            if (sneezeTimer <= 0)
+                getSprite().setCycle(mood >= .5 ? 0 : 1);
+
             if (!level.getEntitiesWithType("ball").isEmpty()) {
                 state = State.PLAYING;
             }
 
-            if (!level.getEntitiesWithType("food").isEmpty()) {
+            if ((energy < .5f || mood < .5f) && !level.getEntitiesWithType("food").isEmpty()) {
                 state = State.HUNTING;
             }
+        }
+
+        if (state == State.SICK_INCAP && sickPercentage() < 100) {
+            state = State.ROAM;
         }
 
         /*
@@ -73,7 +89,6 @@ public class Creature extends Entity implements EntityScript {
         if (state == State.ROAM && Math.random() < .006 * energy * energy) {
             moveTarget = new Vector2((level.getDim().getWidth() - self.getDim().getWidth() / 2) * Math.random(), (level
                     .getDim().getHeight() - self.getDim().getHeight() / 2) * Math.random());
-            Debug.print("Moving to: " + moveTarget);
         }
 
         if (state == State.PLAYING) {
@@ -92,8 +107,10 @@ public class Creature extends Entity implements EntityScript {
                     bestDist = self.getPos().dist(e.getPos());
                 }
             }
+
+            mood = Math.min(1, mood + energy * (1f / bestDist) * .004f);
+
             moveTarget = closest;
-            Debug.print("Moving towards ball");
         }
 
         if (state == State.HUNTING) {
@@ -113,13 +130,15 @@ public class Creature extends Entity implements EntityScript {
                 }
             }
             moveTarget = closest;
-            Debug.print("Moving towards food");
         }
+
+        if (state == State.SICK_INCAP)
+            moveTarget = null;
 
         if (moveTarget != null) {
             Vector2 move = moveTarget.sub(self.getPos().add(self.getDim().scale(.5f)));
             if (move.mag() > moveTargetSpeed) {
-                move = move.unit().scale(moveTargetSpeed * energy);
+                move = move.unit().scale(moveTargetSpeed * Math.min(1f, energy));
                 moveChain.setA(moveChain.getA().add(move));
                 moveChain.smoothTowardA();
                 self.setPos(moveChain.getB().sub(self.getDim().scale(.5f)));
@@ -132,18 +151,52 @@ public class Creature extends Entity implements EntityScript {
          * State maintenence
          */
         if (energy > 0) {
-            energy -= .000009 * moveTargetSpeed;
+            energy -= .00001 * moveTargetSpeed * moveTargetSpeed * (energy > 1 ? 5f * energy : 1f);
+            if (energy > 1 || isSick) {
+                isSick = energy > maxEnergy;
+            }
+        }
+        energy = Math.min(energy, maxEnergy * 2f);
+
+        // mood
+        if (mood >= 0 && state != State.SICK_INCAP && state != State.SLEEP) {
+            mood -= (1f / energy) * .00001f * (isSick ? energy * 30 : 1);
         }
 
-        if (energy > 0) {
-            energy -= .000009 * moveTargetSpeed;
+        mood = Math.min(1, Math.max(0, mood));
+
+        if (state != State.SICK_INCAP) {
+            getSprite().setTimeStretch(20);
+            sprite.nextFrame();
+            if (--sneezeTimer <= 0 && Math.random() < .00009) {
+                sprite.setCycle(2);
+                sneezeTimer = 60;
+            }
+        }
+
+        checkForDeaths();
+    }
+
+    int sneezeTimer = 0;
+
+    private void checkForDeaths() {
+        if (energy > maxEnergy * 1.9f) {
+            getSprite().setTimeStretch(1);
+            getSprite().set(1, 5);
+            state = State.SICK_INCAP;
+        }
+
+        if (mood <= 0) {
+            JOptionPane.showMessageDialog(null, name + " hates you! It has run away.");
+            System.exit(0);
         }
     }
 
     private void eatFood(final Food e, final Level level) {
         level.despawnEntity(e);
-        energy = Math.min(1, .3f + energy);
+        energy += .3f;
         state = State.ROAM;
+        mood = mood + .2f * mood;
     }
 
     @Override
@@ -155,8 +208,11 @@ public class Creature extends Entity implements EntityScript {
         return mood;
     }
 
+    /**
+     * Energy relational to maxEnergy
+     */
     public float getEnergy() {
-        return energy;
+        return energy / maxEnergy;
     }
 
     public long getAge() {
@@ -171,7 +227,15 @@ public class Creature extends Entity implements EntityScript {
         return state;
     }
 
+    public int sickPercentage() {
+        return (int) ((energy - maxEnergy) / ((maxEnergy * 1.9f) - maxEnergy) * 100f);
+    }
+
     public static enum State {
-        SLEEP, ROAM, HUNTING, PLAYING;
+        SLEEP, ROAM, HUNTING, PLAYING, SICK_INCAP;
+    }
+
+    public boolean isSick() {
+        return isSick;
     }
 }

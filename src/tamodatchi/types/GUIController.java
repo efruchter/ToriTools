@@ -13,8 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import tamodatchi.types.Creature.State;
-import toritools.entity.Level;
-import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
 public class GUIController implements ActionListener, MouseListener, MouseMotionListener {
@@ -22,6 +20,8 @@ public class GUIController implements ActionListener, MouseListener, MouseMotion
     private JProgressBar moodBar, energyBar;
     private JLabel nameLabel, messageLabel;
     private JButton playButton, feedButton;
+
+    private boolean spawnFood = false, spawnBall = false;
 
     public GUIController(final JLabel messageLabel, final JPanel corePanel) {
 
@@ -56,47 +56,63 @@ public class GUIController implements ActionListener, MouseListener, MouseMotion
     }
 
     public void updateInfo(final Creature creature) {
+
+        if (spawnBall) {
+            spawnBall = false;
+            Ball f = new Ball();
+            ScriptUtils.getCurrentLevel().spawnEntity(f);
+        }
+
+        if (spawnFood) {
+            spawnFood = false;
+            Food f = new Food();
+            ScriptUtils.getCurrentLevel().spawnEntity(f);
+        }
+
         moodBar.setValue((int) (creature.getMood() * 100));
         energyBar.setValue((int) (creature.getEnergy() * 100));
         nameLabel.setText(creature.getName());
 
+        StringBuffer message = new StringBuffer();
+
         // State messages
         if (creature.getState() == State.ROAM) {
-            messageLabel.setText(creature.getName() + " is roaming around.");
+            message.append(" | ").append(creature.getName() + " is roaming around");
         }
 
         if (creature.getState() == State.SLEEP) {
-            messageLabel.setText(creature.getName() + " is fast asleep.");
+            message.append(" | ").append(creature.getName() + " is fast asleep");
         }
 
         if (creature.getState() == State.HUNTING) {
-            messageLabel.setText(creature.getName() + " is looking for food.");
+            message.append(" | ").append(creature.getName() + " is looking for food");
         }
 
         if (creature.getState() == State.PLAYING) {
-            messageLabel.setText(creature.getName() + " is playing with a ball.");
+            message.append(" | ").append(creature.getName() + " is playing with a ball");
         }
+
+        if (creature.isSick()) {
+            message.append(" | ").append(creature.getName() + " is feeling " + creature.sickPercentage() + "% sick from overeating!");
+            if (creature.getMood() < .2f) {
+                message.append(" | ").append(creature.getName() + " is extremely unhappy!");
+            }
+        }
+
+        messageLabel.setText(message.toString());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        Level level = ScriptUtils.getCurrentLevel();
-
         // Feed
         if (e.getSource() == feedButton) {
-            Food f = new Food();
-            f.setPos(new Vector2(100, 100).add(level.getDim().sub(new Vector2(200, 200))
-                    .scale((float) Math.random(), (float) Math.random())));
-            ScriptUtils.getCurrentLevel().spawnEntity(f);
+            spawnFood = true;
         }
 
         // play
         if (e.getSource() == playButton) {
-            Ball f = new Ball();
-            f.setPos(new Vector2(100, 100).add(level.getDim().sub(new Vector2(200, 200))
-                    .scale((float) Math.random(), (float) Math.random())));
-            ScriptUtils.getCurrentLevel().spawnEntity(f);
+            spawnBall = true;
         }
     }
 
