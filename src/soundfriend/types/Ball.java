@@ -16,7 +16,7 @@ public class Ball extends Entity implements EntityScript {
 
     private int timer = 0;
 
-    final static private int MAX_TIME = 20 * 1000;
+    final static private int MAX_TIME = 2 * 1000;
 
     public Ball() {
         this.addScript(this);
