@@ -3,9 +3,6 @@ package tamodatchi.types;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,7 +12,7 @@ import javax.swing.JProgressBar;
 import tamodatchi.types.Creature.State;
 import toritools.scripting.ScriptUtils;
 
-public class GUIController implements ActionListener, MouseListener, MouseMotionListener {
+public class GUIController implements ActionListener {
 
     private JProgressBar moodBar, energyBar;
     private JLabel nameLabel, messageLabel;
@@ -77,29 +74,30 @@ public class GUIController implements ActionListener, MouseListener, MouseMotion
 
         // State messages
         if (creature.getState() == State.ROAM) {
-            message.append(" | ").append(creature.getName() + " is roaming around");
+            message.append(" ").append(creature.getName() + " is roaming around");
         }
 
         if (creature.getState() == State.SLEEP) {
-            message.append(" | ").append(creature.getName() + " is fast asleep");
+            message.append(" ").append(creature.getName() + " is fast asleep");
         }
 
         if (creature.getState() == State.HUNTING) {
-            message.append(" | ").append(creature.getName() + " is looking for food");
+            message.append(" ").append(creature.getName() + " is looking for food");
         }
 
         if (creature.getState() == State.PLAYING) {
-            message.append(" | ").append(creature.getName() + " is playing with a ball");
+            message.append(" ").append(creature.getName() + " is playing with a ball");
         }
 
         if (creature.isSick()) {
-            message.append(" | ").append(creature.getName() + " is feeling " + creature.sickPercentage() + "% sick from overeating!");
+            message.append(" ").append(
+                    creature.getName() + " is feeling " + creature.sickPercentage() + "% sick from overeating!");
             if (creature.getMood() < .2f) {
-                message.append(" | ").append(creature.getName() + " is extremely unhappy!");
+                message.append(" ").append(creature.getName() + " is extremely unhappy!");
             }
         }
 
-        messageLabel.setText(message.toString());
+        messageLabel.setText(message.toString().trim());
     }
 
     @Override
@@ -114,47 +112,5 @@ public class GUIController implements ActionListener, MouseListener, MouseMotion
         if (e.getSource() == playButton) {
             spawnBall = true;
         }
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-
     }
 }

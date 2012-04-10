@@ -2,6 +2,7 @@ package tamodatchi;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
 
@@ -34,9 +35,9 @@ public class Tamodatchi extends Binary {
 
     @Override
     protected void initialize() {
-        Debug.showDebugPrintouts = true;
         gui = new GUIController(messageLabel, super.getApplicationPanel());
         messageLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        super.getApplicationPanel().setFocusable(true);
         super.getApplicationFrame().add(messageLabel, BorderLayout.SOUTH);
         super.getApplicationFrame().setResizable(false);
         super.getApplicationFrame().pack();
@@ -45,6 +46,15 @@ public class Tamodatchi extends Binary {
 
     @Override
     protected void globalLogic(Level level) {
+
+        if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
+            System.exit(0);
+        }
+
+        if (ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_P)) {
+            Debug.showDebugPrintouts = !Debug.showDebugPrintouts;
+        }
+
         if (--timer < 0) {
             timer = 30;
             gui.updateInfo(creature);
@@ -66,9 +76,9 @@ public class Tamodatchi extends Binary {
 
     @Override
     protected boolean render(Graphics2D rootCanvas, Level level) {
-        rootCanvas.drawImage(ScriptUtils.fetchImage(backgroundImage), 0, 0, VIEWPORT.getWidth(), VIEWPORT.getHeight(),
-                null);
         try {
+            rootCanvas.drawImage(ScriptUtils.fetchImage(backgroundImage), 0, 0, VIEWPORT.getWidth(),
+                    VIEWPORT.getHeight(), null);
             for (List<Entity> layer : level.getLayers()) {
                 for (Entity entity : layer) {
                     entity.draw(rootCanvas);

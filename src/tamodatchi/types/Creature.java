@@ -77,10 +77,22 @@ public class Creature extends Entity implements EntityScript {
             if ((energy < .5f || mood < .5f) && !level.getEntitiesWithType("food").isEmpty()) {
                 state = State.HUNTING;
             }
+
+            if (energy < .1) {
+                state = State.SLEEP;
+            }
         }
 
         if (state == State.SICK_INCAP && sickPercentage() < 100) {
             state = State.ROAM;
+        }
+
+        if (state == State.SLEEP) {
+            sprite.set(0, 5);
+            energy += .0001;
+            if (energy > .5f) {
+                state = State.ROAM;
+            }
         }
 
         /*
@@ -132,7 +144,7 @@ public class Creature extends Entity implements EntityScript {
             moveTarget = closest;
         }
 
-        if (state == State.SICK_INCAP)
+        if (state == State.SICK_INCAP || state == State.SLEEP)
             moveTarget = null;
 
         if (moveTarget != null) {
@@ -151,7 +163,7 @@ public class Creature extends Entity implements EntityScript {
          * State maintenence
          */
         if (energy > 0) {
-            energy -= .00001 * moveTargetSpeed * moveTargetSpeed * (energy > 1 ? 5f * energy : 1f);
+            energy -= .00002 * moveTargetSpeed * moveTargetSpeed * (energy > 1 ? 8f * energy : 1f);
             if (energy > 1 || isSick) {
                 isSick = energy > maxEnergy;
             }
