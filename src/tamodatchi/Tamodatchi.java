@@ -40,6 +40,7 @@ public class Tamodatchi extends Binary {
         super.getApplicationFrame().add(messageLabel, BorderLayout.SOUTH);
         super.getApplicationFrame().setResizable(false);
         super.getApplicationFrame().pack();
+        super.getApplicationFrame().setIconImage(ScriptUtils.fetchImage(new File("tamodatchi/kitten_icon.png")));
     }
 
     @Override

@@ -10,7 +10,7 @@ import toritools.scripting.ScriptUtils;
 
 public class SnakemeleonHUD {
 
-    private int splashW = 270, splashH = 132;
+    //private int splashW = 270, splashH = 132;
 
     long currentTime = 0;
 
