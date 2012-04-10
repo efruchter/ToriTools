@@ -1,4 +1,4 @@
-package tamodatchi;
+package soundfriend;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
@@ -9,8 +9,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-import tamodatchi.types.Creature;
-import tamodatchi.types.GUIController;
+import soundfriend.types.Creature;
+import soundfriend.types.GUIController;
 import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -18,7 +18,7 @@ import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
-public class Tamodatchi extends Binary {
+public class SoundFriend extends Binary {
 
     private Creature creature;
 
@@ -29,12 +29,13 @@ public class Tamodatchi extends Binary {
 
     private final File backgroundImage = new File("tamodatchi/grass.png");
 
-    public Tamodatchi() {
+    public SoundFriend() {
         super(new Vector2(800, 600), 60, "Kawaii Sound Friend Yes!");
     }
 
     @Override
     protected void initialize() {
+        Debug.showDebugPrintouts = false;
         gui = new GUIController(messageLabel, super.getApplicationPanel());
         messageLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         super.getApplicationPanel().setFocusable(true);
@@ -91,7 +92,7 @@ public class Tamodatchi extends Binary {
     }
 
     public static void main(String[] args) {
-        new Tamodatchi();
+        new SoundFriend();
     }
 
 }

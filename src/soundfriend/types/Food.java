@@ -1,4 +1,4 @@
-package tamodatchi.types;
+package soundfriend.types;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package tamodatchi.types;
+package soundfriend.types;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import tamodatchi.types.Creature.State;
+import soundfriend.types.Creature.State;
 import toritools.scripting.ScriptUtils;
 
 public class GUIController implements ActionListener {

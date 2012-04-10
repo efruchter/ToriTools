@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import toritools.controls.KeyHolder;
 import toritools.debug.Debug;
@@ -247,13 +248,19 @@ public class ScriptUtils {
     private static Image loadImage(final File imageIndex) {
         Image image = null;
         try {
-            image = ImageIO.read(imageIndex);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            image = (new ImageIcon(ClassLoader.getSystemResource(imageIndex.getPath().replace("\\", "/")))).getImage();
+        } catch (Exception e) {
+            try {
+                image = ImageIO.read(imageIndex);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                System.err.println("Can't find resouce " + imageIndex.toString());
+                System.exit(0);
+            }
         }
 
-        VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null), VolatileImage.TRANSLUCENT);
+        VolatileImage i = Binary.gc.createCompatibleVolatileImage(image.getWidth(null), image.getHeight(null),
+                VolatileImage.TRANSLUCENT);
         i.validate(Binary.gc);
 
         Graphics2D g = (Graphics2D) i.getGraphics();
