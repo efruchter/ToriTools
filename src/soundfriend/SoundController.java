@@ -15,6 +15,7 @@ public class SoundController {
 	public static enum Sounds {
 		SAD("sad.wav"),
 		MUNCH("munch.wav"),
+		MEOW("meow.wav"),
 		HUNGRY("hungry.wav");
 		
 		private String filename;
@@ -28,15 +29,18 @@ public class SoundController {
 		}
 	}
 
-	
+	private static Clip clip;
 
     // play the MP3 file to the sound card
-    public void play(Sounds sound) {
+    public static void play(Sounds sound) {
     	String filepath = sound.filepath();
+    	if (clip != null && clip.isActive()) {
+    		return;
+    	}
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
 					new File(filepath));
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			FloatControl gainControl = 
 					(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

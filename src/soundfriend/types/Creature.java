@@ -4,6 +4,8 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
+import soundfriend.SoundController;
+import soundfriend.SoundController.Sounds;
 import toritools.debug.Debug;
 import toritools.entity.Entity;
 import toritools.entity.Level;
@@ -222,6 +224,9 @@ public class Creature extends Entity implements EntityScript {
             JOptionPane.showMessageDialog(null, name + " hates you! It has run away.");
             System.exit(0);
         }
+        
+        SoundController.play(Sounds.MEOW);
+        
     }
 
     private void eatFood(final Food e, final Level level) {
