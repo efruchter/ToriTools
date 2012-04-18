@@ -51,7 +51,7 @@ public class Ball extends Entity implements EntityScript {
         }
 
         if (!ScriptUtils.isColliding(level, self)) {
-            onSpawn(self, level);
+        	level.despawnEntity(self);
         }
     }
 

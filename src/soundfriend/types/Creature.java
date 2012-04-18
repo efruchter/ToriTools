@@ -33,6 +33,8 @@ public class Creature extends Entity implements EntityScript {
     private float moveTargetSpeed = .6f;
     private MidpointChain moveChain;
     int sneezeTimer = 0;
+    
+    private int genTimer = 0;
 
     public Creature() {
 
@@ -60,6 +62,8 @@ public class Creature extends Entity implements EntityScript {
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
+    	
+    	genTimer = (genTimer + 1) % (60 * 2);
 
         Debug.print("Mood: " + mood + " | Energy: " + energy);
 
@@ -176,17 +180,24 @@ public class Creature extends Entity implements EntityScript {
             if (sneezeTimer <= 0)
                 getSprite().setCycle(mood >= .5 ? 0 : 1);
 
-            if (!level.getEntitiesWithType("ball").isEmpty()) {
+            if (!state.equals(State.PLAYING) && !level.getEntitiesWithType("ball").isEmpty()) {
+            	SoundController.play(Sounds.HAPPY);
                 state = State.PLAYING;
             }
 
             if ((energy < .5f || mood < .5f) && !level.getEntitiesWithType("food").isEmpty()) {
                 state = State.HUNTING;
             }
-
-            if (energy < .1) {
-                state = State.SLEEP;
+            
+            if (!state.equals(State.SLEEP) && energy < .1) {
+            	SoundController.play(Sounds.SLEEPY);
+            	state = State.SLEEP;
             }
+            
+            if (genTimer == 0 && energy < .5f && !state.equals(State.SLEEP) && level.getEntitiesWithType("food").isEmpty()) {
+            	SoundController.play(Sounds.HUNGRY);
+            } 
+
         }
 
         if (state == State.SICK_INCAP && sickPercentage() < 100) {
@@ -225,7 +236,6 @@ public class Creature extends Entity implements EntityScript {
             System.exit(0);
         }
         
-        SoundController.play(Sounds.MEOW);
         
     }
 

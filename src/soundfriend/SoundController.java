@@ -13,10 +13,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundController {
 	
 	public static enum Sounds {
-		SAD("sad.wav"),
-		MUNCH("munch.wav"),
-		MEOW("meow.wav"),
-		HUNGRY("hungry.wav");
+		HAPPY("happy.wav"),
+		HAPPY2("happy2.wav"),
+		HUNGRY("hungry.wav"),
+		SLEEPY("sleepy.wav");
 		
 		private String filename;
 		
@@ -45,16 +45,7 @@ public class SoundController {
 			FloatControl gainControl = 
 					(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			clip.start();
-//			while (clip.isActive()) {
-//				gainControl.setValue(gainControl.getValue()); // Reduce volume by 10 decibels.
-//				System.out.println("lowering volume");
-//				try {
-//					Thread.sleep(100);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
+			
 			
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
