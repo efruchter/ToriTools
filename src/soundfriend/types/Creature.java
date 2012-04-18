@@ -180,14 +180,13 @@ public class Creature extends Entity implements EntityScript {
             if (sneezeTimer <= 0)
                 getSprite().setCycle(mood >= .5 ? 0 : 1);
 
-            if (!state.equals(State.PLAYING) && !level.getEntitiesWithType("ball").isEmpty()) {
+            if ((energy < .5f || mood < .5f) && !level.getEntitiesWithType("food").isEmpty()) {
+            	state = State.HUNTING;
+            } else if (!state.equals(State.PLAYING) && !level.getEntitiesWithType("ball").isEmpty()) {
             	SoundController.play(Sounds.HAPPY);
                 state = State.PLAYING;
             }
 
-            if ((energy < .5f || mood < .5f) && !level.getEntitiesWithType("food").isEmpty()) {
-                state = State.HUNTING;
-            }
             
             if (!state.equals(State.SLEEP) && energy < .1) {
             	SoundController.play(Sounds.SLEEPY);
