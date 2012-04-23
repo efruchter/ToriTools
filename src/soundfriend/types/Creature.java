@@ -33,7 +33,7 @@ public class Creature extends Entity implements EntityScript {
     private float moveTargetSpeed = .6f;
     private MidpointChain moveChain;
     int sneezeTimer = 0;
-    
+
     private int genTimer = 0;
 
     public Creature() {
@@ -62,8 +62,8 @@ public class Creature extends Entity implements EntityScript {
 
     @Override
     public void onUpdate(Entity self, float time, Level level) {
-    	
-    	genTimer = (genTimer + 1) % (60 * 2);
+
+        genTimer = (genTimer + 1) % (60 * 2);
 
         Debug.print("Mood: " + mood + " | Energy: " + energy);
 
@@ -179,23 +179,37 @@ public class Creature extends Entity implements EntityScript {
 
             if (sneezeTimer <= 0)
                 getSprite().setCycle(mood >= .5 ? 0 : 1);
-
+            
+            if(state == State.HUNTING && level.getEntitiesWithType("food").isEmpty())
+                state = State.ROAM;
+            
             if ((energy < .5f || mood < .5f) && !level.getEntitiesWithType("food").isEmpty()) {
-            	state = State.HUNTING;
-            } else if (!state.equals(State.PLAYING) && !level.getEntitiesWithType("ball").isEmpty()) {
-            	SoundController.play(Sounds.HAPPY);
+                state = State.HUNTING;
+            }
+            if (state != State.HUNTING && state != State.PLAYING && !level.getEntitiesWithType("ball").isEmpty()) {
+                SoundController.play(mood < .5f ? Sounds.GRUMBLE : Sounds.HAPPY);
                 state = State.PLAYING;
             }
 
             
+
             if (!state.equals(State.SLEEP) && energy < .1) {
-            	SoundController.play(Sounds.SLEEPY);
-            	state = State.SLEEP;
+                SoundController.play(Sounds.SLEEPY);
+                state = State.SLEEP;
             }
-            
-            if (genTimer == 0 && energy < .5f && !state.equals(State.SLEEP) && level.getEntitiesWithType("food").isEmpty()) {
-            	SoundController.play(Sounds.HUNGRY);
+
+            if (genTimer == 0 && mood < .5f && !state.equals(State.SLEEP)) {
+                if (Math.random() < .02)
+                    SoundController.play(Sounds.GRUMBLE);
             } 
+            
+            if (genTimer == 0 && energy < .5f && !state.equals(State.SLEEP)
+                    && level.getEntitiesWithType("food").isEmpty()) {
+                if (Math.random() < .05)
+                    SoundController.play(Sounds.HUNGRY);
+            } else if (Math.random() < .0005 && mood > .5f) {
+                SoundController.play(Math.random() < .5 ? Sounds.HAPPY2 : Sounds.HAPPY);
+            }
 
         }
 
@@ -210,10 +224,10 @@ public class Creature extends Entity implements EntityScript {
                 state = State.ROAM;
             }
         }
-        
+
         // Play a cute little animation from time to time
         if (state != State.SICK_INCAP && state != State.SLEEP) {
-            getSprite().setTimeStretch((int) (40 * energy));
+            getSprite().setTimeStretch((int) (40 * (1f/energy)));
             sprite.nextFrame();
             if (--sneezeTimer <= 0 && Math.random() < .001) {
                 sprite.setCycle((Math.random() < .95) ? 4 : 2);
@@ -234,8 +248,7 @@ public class Creature extends Entity implements EntityScript {
             JOptionPane.showMessageDialog(null, name + " hates you! It has run away.");
             System.exit(0);
         }
-        
-        
+
     }
 
     private void eatFood(final Food e, final Level level) {

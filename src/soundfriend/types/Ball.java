@@ -14,9 +14,9 @@ public class Ball extends Entity implements EntityScript {
 
     private PhysicsModule physics;
 
-    private int timer = 0;
+    // private int timer = 0;
 
-    final static private int MAX_TIME = 2 * 1000;
+    // final static private int MAX_TIME = 2 * 1000;
 
     public Ball() {
         this.addScript(this);
@@ -46,12 +46,12 @@ public class Ball extends Entity implements EntityScript {
             }
         }
 
-        if (timer++ > MAX_TIME) {
-            level.despawnEntity(self);
-        }
+        // if (timer++ > MAX_TIME) {
+        // level.despawnEntity(self);
+        // }
 
         if (!ScriptUtils.isColliding(level, self)) {
-        	level.despawnEntity(self);
+            level.despawnEntity(self);
         }
     }
 

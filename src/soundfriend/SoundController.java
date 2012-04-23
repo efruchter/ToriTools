@@ -16,7 +16,8 @@ public class SoundController {
 		HAPPY("happy.wav"),
 		HAPPY2("happy2.wav"),
 		HUNGRY("hungry.wav"),
-		SLEEPY("sleepy.wav");
+		SLEEPY("sleepy.wav"),
+		GRUMBLE("grumble.wav");
 		
 		private String filename;
 		
