@@ -33,7 +33,7 @@ public class SoundController {
 	private static Clip clip;
 
     // play the MP3 file to the sound card
-    public static void play(Sounds sound) {
+    public static void play(Sounds sound, float energyLevel) {
     	String filepath = sound.filepath();
     	if (clip != null && clip.isActive()) {
     		return;
@@ -45,6 +45,7 @@ public class SoundController {
 			clip.open(audioInputStream);
 			FloatControl gainControl = 
 					(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(gainControl.getMaximum() * energyLevel);
 			clip.start();
 			
 			
