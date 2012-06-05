@@ -2,7 +2,7 @@ A tiled xml level editor and set of classes to make 2D game-making easier.
 
 -- NOTICE --
 Progress has stopped on this engine, and I've started fresh on a new engine, factoring in new things I've learned.
-For now, the new game and the new engine are in their own private repository.
+It was a fun project! :D
 ------------
 
 The top level packages are 
