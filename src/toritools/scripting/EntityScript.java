@@ -25,7 +25,7 @@ public interface EntityScript {
 	 * @param time
 	 * 			  the time in milliseconds between frame delays.
 	 */
-	public void onUpdate(final Entity self, final float time, final Level level);
+	public void onUpdate(final Entity self, final long time, final Level level);
 
 	/**
 	 * This is called upon entity deletion not including room exit.
@@ -41,14 +41,7 @@ public interface EntityScript {
 	/**
 	 * A Blank entity script.
 	 */
-	public static EntityScript BLANK = new EntityScript() {
-		@Override
-		public void onSpawn(Entity self, Level level) {}
-		@Override
-		public void onUpdate(Entity self, float time, Level level) {}
-		@Override
-		public void onDeath(Entity self, Level level, boolean isRoomExit) {}
-	};
+	public static EntityScript BLANK = new EntityScriptAdapter();
 	
 	/**
 	 * An Entity Script with the methods all concrete, in standard java adapter style.
@@ -60,7 +53,7 @@ public interface EntityScript {
 		public void onSpawn(Entity self, final Level level) {}
 
 		@Override
-		public void onUpdate(Entity self, float time, final Level level) {}
+		public void onUpdate(Entity self, long time, final Level level) {}
 
 		@Override
 		public void onDeath(Entity self, final Level level, boolean isRoomExit) {}

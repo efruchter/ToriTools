@@ -25,7 +25,7 @@ public class HealthPickup extends Entity {
 			boolean explodeDeath = true;
 
 			@Override
-			public void onUpdate(Entity self, float time, Level level) {
+			public void onUpdate(Entity self, long time, Level level) {
 				
 				if (!ScriptUtils.isColliding(level, self)) {
 					level.despawnEntity(self);

@@ -112,7 +112,7 @@ public class ScrollingBackground extends Entity {
 
 		addScript(new EntityScriptAdapter() {
 			@Override
-			public void onUpdate(Entity self, float time, Level level) {
+			public void onUpdate(Entity self, long time, Level level) {
 
 			}
 		});

@@ -100,7 +100,7 @@ public class Level extends Entity {
         spawnNewEntities();
     }
 
-    public void onUpdate(final float time) {
+    public void onUpdate(final long time) {
         spawnNewEntities();
         for (Entity e : solids) {
             e.onUpdate(time, this);

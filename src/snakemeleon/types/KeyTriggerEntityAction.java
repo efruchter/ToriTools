@@ -17,7 +17,7 @@ public class KeyTriggerEntityAction implements EntityScript {
     }
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
         for(Entity e: level.getEntitiesWithType(SnakemeleonConstants.triggerZoneType)) {
             if(ScriptUtils.isColliding(self, e)) {
                 if(number == e.getVariableCase().getFloat("trigger")) {

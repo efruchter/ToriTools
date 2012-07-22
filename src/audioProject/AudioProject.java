@@ -129,7 +129,7 @@ public class AudioProject extends Binary {
 	ColorCycler bgColorCycler = new ColorCycler(220, 255, 220, 255, 220, 255);
 
 	@Override
-	protected void globalLogic(Level level) {
+	protected void globalLogic(Level level, long milliDelay) {
 
 		long time = (long) (soundPlayer.getCurrentPosition() * 0.001);
 

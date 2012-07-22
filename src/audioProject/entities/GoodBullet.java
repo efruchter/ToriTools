@@ -35,7 +35,7 @@ public class GoodBullet extends Entity {
             boolean explodeDeath = false;
 
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
 
                 if (!ScriptUtils.isColliding(level, self)) {
                     level.despawnEntity(self);

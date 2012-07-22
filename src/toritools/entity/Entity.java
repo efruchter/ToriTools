@@ -65,7 +65,7 @@ public class Entity {
             script.onSpawn(this, level);
     }
 
-    public void onUpdate(final float time, final Level level) {
+    public void onUpdate(final long time, final Level level) {
         for (EntityScript script : new ArrayList<EntityScript>(scripts))
             script.onUpdate(this, time, level);
     }

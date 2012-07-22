@@ -22,7 +22,7 @@ public class Explosion extends Entity {
 		addScript(new EntityScriptAdapter(){
 
 			@Override
-			public void onUpdate(Entity self, float time, Level level) {
+			public void onUpdate(Entity self, long time, Level level) {
 				self.setDim(self.getDim().add(2));
 				self.setPos(self.getPos().sub(1));
 				if (self.getDim().x >= MAX_RADIUS) {

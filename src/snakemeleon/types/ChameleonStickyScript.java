@@ -84,7 +84,7 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
 
         self.addScript(new EntityScriptAdapter() {
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
                 if (!isGrabbing)
                     self.setDirection(0);
             }
@@ -92,7 +92,7 @@ public class ChameleonStickyScript extends EntityScriptAdapter {
     }
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
 
         boolean grabKey = ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_SPACE) || Snakemeleon.rightSticking;
 

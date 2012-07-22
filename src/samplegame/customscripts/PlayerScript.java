@@ -23,7 +23,7 @@ public class PlayerScript implements EntityScript {
 		}
 	}
 
-	public void onUpdate(Entity self, float time, Level level) {
+	public void onUpdate(Entity self, long time, Level level) {
 		float speed = time * .15f;
 		boolean walked = false;
 		Vector2 delta = new Vector2();

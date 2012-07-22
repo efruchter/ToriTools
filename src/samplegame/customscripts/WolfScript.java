@@ -32,7 +32,7 @@ public class WolfScript implements EntityScript {
 		newDirection();
 	}
 
-	public void onUpdate(final Entity self, float time, Level level) {
+	public void onUpdate(final Entity self, long time, Level level) {
 		if (SampleGame.inDialog)
 			return;
 		if (rand.nextDouble() > .99)

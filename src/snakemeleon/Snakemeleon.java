@@ -150,7 +150,7 @@ public class Snakemeleon extends Binary {
     }
 
     @Override
-    protected void globalLogic(Level level) {
+    protected void globalLogic(Level level, long milliDelay) {
 
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
@@ -289,7 +289,7 @@ public class Snakemeleon extends Binary {
             }
 
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
                 if (!Debug.showDebugPrintouts && player.isActive() && ScriptUtils.isColliding(self, player)) {
                     player.setActive(false);
                 }

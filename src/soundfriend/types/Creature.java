@@ -61,7 +61,7 @@ public class Creature extends Entity implements EntityScript {
     }
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
 
         genTimer = (genTimer + 1) % (60 * 2);
 

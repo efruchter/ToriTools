@@ -193,7 +193,7 @@ public class Universe {
         }
 
         @Override
-        public void onUpdate(Entity self, float time, Level level) {
+        public void onUpdate(Entity self, long time, Level level) {
             Transform body = bodyMap.get(self).getTransform();
             Vector2 newPos = new Vector2((body.position.x * PTM_RATIO) - self.getDim().x / 2, body.position.y
                     * PTM_RATIO - self.getDim().y / 2);

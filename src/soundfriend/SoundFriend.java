@@ -46,7 +46,7 @@ public class SoundFriend extends Binary {
     }
 
     @Override
-    protected void globalLogic(Level level) {
+    protected void globalLogic(Level level, long milliDelay) {
 
         if (ScriptUtils.getKeyHolder().isPressed(KeyEvent.VK_ESCAPE)) {
             System.exit(0);

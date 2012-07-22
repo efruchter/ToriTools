@@ -49,7 +49,7 @@ public class DialogEntity extends Entity {
             }
 
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
 
                 SampleGame.setDisplayPrompt("Next <SPACE>");
 

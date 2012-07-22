@@ -68,7 +68,7 @@ public class BadShipFactory {
             }
 
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
                 allTime += time * Math.abs(AudioProject.controller.getFeel());
                 if (allTime > path.getEndTime()) {
                     level.despawnEntity(self);
@@ -138,7 +138,7 @@ public class BadShipFactory {
             }
 
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
 
                 if (AudioProject.getFloat() < .005 * AudioProject.controller.getFeel()) {
                     float x = 100 + AudioProject.getFloat() * (level.getDim().x - 100);

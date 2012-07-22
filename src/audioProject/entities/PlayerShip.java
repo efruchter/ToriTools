@@ -71,7 +71,7 @@ public class PlayerShip extends Entity {
 			}
 
 			@Override
-			public void onUpdate(Entity self, float time, Level level) {
+			public void onUpdate(Entity self, long time, Level level) {
 				
 				float speed = this.speed * time;
 

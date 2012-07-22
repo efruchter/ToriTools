@@ -45,7 +45,7 @@ public class SampleGame extends Binary {
     }
 
     @Override
-    protected void globalLogic(Level level) {
+    protected void globalLogic(Level level, long milliDelay) {
         displayString = null;
 
         ScriptUtils.setDebugMode(ScriptUtils.getKeyHolder().isPressedThenRelease(KeyEvent.VK_K) ? !ScriptUtils
@@ -74,7 +74,7 @@ public class SampleGame extends Binary {
                     player = level.getEntityWithId("player");
                 }
 
-                public void onUpdate(Entity self, float time, Level level) {
+                public void onUpdate(Entity self, long time, Level level) {
                     ScriptUtils.moveOut(self, true, player);
                     ScriptUtils.moveOut(self, true, level.getSolids());
                     ScriptUtils.moveOut(player, true, self);

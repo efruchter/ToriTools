@@ -52,7 +52,7 @@ public class Tongue extends Entity {
             Entity dragging = null;
 
             @Override
-            public void onUpdate(Entity self, float time, Level level) {
+            public void onUpdate(Entity self, long time, Level level) {
                 if (Tongue.this.cham.isActive()) {
 
                     mouseInRange = (currentDist = Snakemeleon.mousePos.dist(Tongue.this.mouthPoint)) < SnakemeleonConstants.tongueActualDist;

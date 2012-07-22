@@ -34,7 +34,7 @@ public class Food extends Entity implements EntityScript {
     }
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
         if (timer++ > MAX_TIME) {
             level.despawnEntity(self);
         }

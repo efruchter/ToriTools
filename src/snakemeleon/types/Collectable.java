@@ -30,7 +30,7 @@ public class Collectable implements EntityScript {
     }
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
         
     }
 
@@ -53,7 +53,7 @@ public class Collectable implements EntityScript {
                         int killClock = 120;
 
                         @Override
-                        public void onUpdate(Entity self, float time, Level level) {
+                        public void onUpdate(Entity self, long time, Level level) {
                             if (killClock-- < 0) {
                                 level.despawnEntity(self);
                             }

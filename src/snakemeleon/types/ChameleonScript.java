@@ -91,7 +91,7 @@ public class ChameleonScript implements EntityScript {
     long deathCounter = 120;
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
 
         boolean headChomping = Collectable.munchSound.getState() == PlayerState.PLAYING;
 

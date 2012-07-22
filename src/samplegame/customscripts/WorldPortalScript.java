@@ -31,7 +31,7 @@ public class WorldPortalScript implements EntityScript {
 	}
 
 	@Override
-	public void onUpdate(Entity self, float time, Level level) {
+	public void onUpdate(Entity self, long time, Level level) {
 		self.setVisible(ScriptUtils.isDebugMode());
 		if (isWarp && ScriptUtils.isColliding(self, player)) {
 			SampleGame.setDisplayPrompt("Enter <SPACE>");

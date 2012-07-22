@@ -35,7 +35,7 @@ public class Ball extends Entity implements EntityScript {
     }
 
     @Override
-    public void onUpdate(Entity self, float time, Level level) {
+    public void onUpdate(Entity self, long time, Level level) {
 
         self.setPos(self.getPos().add(physics.onUpdate(time)));
 
