@@ -1,10 +1,5 @@
 A tiled xml level editor and set of classes to make 2D game-making easier.
 
--- NOTICE --
-Progress has stopped on this engine, and I've started fresh on a new engine, factoring in new things I've learned.
-It was a fun project! :D
-------------
-
 The top level packages are 
 1) toritools, the level editor and all the supporting classes for levels and entities. Includes a physics engine and control framework.
 2) samplegame, a small top-down game with dialog bubbles and world doors.
