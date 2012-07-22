@@ -46,20 +46,17 @@ public abstract class Binary {
 
     static {
 
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         // Hardware accel.
         if (System.getProperty("os.name").contains("Windows")) {
             System.setProperty("sun.java2d.d3d", "True");
         } else {
-            System.setProperty("sun.java2d.opengl", "True");
-            System.setProperty("sun.java2d.ddscale", "true");
-            System.setProperty("sun.java2d.translaccel", "true");
-            System.setProperty("sun.java2d.ddforcevram", "true");
+        	System.setProperty("sun.java2d.opengl", "True");
+        }
+        
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         frame = new JFrame();
