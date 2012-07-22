@@ -138,7 +138,7 @@ public class SampleGame extends Binary {
 
                 }
             
-            ((Graphics2D) rootCanvas).translate(-offset.getWidth(), -offset.getHeight());
+            rootCanvas.translate(-offset.getWidth(), -offset.getHeight());
 
             rootCanvas.setColor(Color.white);
             String infoString = "[WASD] Move" + "  |  [K] Debug Mode: " + ScriptUtils.isDebugMode() + "  |  [Esc] Quit";
