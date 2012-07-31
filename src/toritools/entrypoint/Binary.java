@@ -8,7 +8,6 @@ import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.image.VolatileImage;
 import java.io.File;
-import java.util.concurrent.ScheduledExecutorService;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -36,7 +35,6 @@ public abstract class Binary {
 
 	private static JFrame frame;
 	public static final GraphicsConfiguration gc;
-	private ScheduledExecutorService timer;
 
 	private boolean gameRunning = false;
 
