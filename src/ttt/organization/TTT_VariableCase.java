@@ -94,4 +94,8 @@ public class TTT_VariableCase implements XMLSerializeable {
 	public String getElementName() {
 		return "variables";
 	}
+
+	public boolean hasVariable(final String key) {
+		return variables.containsKey(key);
+	}
 }

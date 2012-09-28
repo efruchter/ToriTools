@@ -13,12 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import toritools.debug.Debug;
 import toritools.entity.Level;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 import toritools.timing.RepeatingTimer;
 import toritools.timing.RepeatingTimer.RepeatingTimerAction;
+import ttt.organization.TTT_Project;
+import ttt.organization.TTT_Scene;
 
 public abstract class TTT_Binary {
 	// CORE VARS
@@ -33,6 +34,8 @@ public abstract class TTT_Binary {
 	private final JPanel panel;
 
 	private final File splash = new File("resources/toritools_splash.png");
+
+	private final TTT_Project PROJECT;
 
 	static {
 
@@ -77,20 +80,12 @@ public abstract class TTT_Binary {
 	protected abstract void globalLogic(final Level level, final long milliDelay);
 
 	/**
-	 * Configure the current level to be loaded. Set up your special entity
-	 * types and scripts here. Spawning will be done elsewhere.
-	 * 
-	 * @param levelBeingLoaded
-	 */
-	protected abstract void setupCurrentLevel(Level levelBeingLoaded);
-
-	/**
 	 * Get the starting level. Feel free to spawn a blank one if you don't want
 	 * to do this.
 	 * 
 	 * @return a level.
 	 */
-	protected abstract Level getStartingLevel();
+	protected abstract TTT_Scene getStartingLevel();
 
 	/**
 	 * Render your game.
@@ -113,6 +108,8 @@ public abstract class TTT_Binary {
 	@SuppressWarnings("serial")
 	public TTT_Binary(final Vector2 VIEWPORT_SIZE, final int frameRate,
 			final String windowTitle) {
+		
+		PROJECT = new TTT_Project();
 
 		frame.setTitle(windowTitle);
 
@@ -134,8 +131,6 @@ public abstract class TTT_Binary {
 
 		frame.pack();
 		frame.setVisible(true);
-
-		ScriptUtils.queueLevelSwitch(getStartingLevel());
 
 		RepeatingTimer timer = new RepeatingTimer(new RepeatingTimerAction() {
 
@@ -161,24 +156,23 @@ public abstract class TTT_Binary {
 	}
 
 	private void coreLogic(long delta) {
-		if (ScriptUtils.isLevelQueued()) {
-			if (ScriptUtils.getCurrentLevel() != null) {
-				Debug.print("Closing level.");
-				ScriptUtils.getCurrentLevel().onDeath(true);
-			}
-			ScriptUtils.moveToQueuedLevel();
-			setupCurrentLevel(ScriptUtils.getCurrentLevel());
-			Debug.print("Spawning entities.");
-			ScriptUtils.getCurrentLevel().onSpawn(null);
-		} else {
-			globalLogic(ScriptUtils.getCurrentLevel(), delta);
-			ScriptUtils.getCurrentLevel().onUpdate(delta);
-			ScriptUtils.getKeyHolder().freeQueuedKeys();
-		}
+		/*
+		 * if (ScriptUtils.isLevelQueued()) { if (ScriptUtils.getCurrentLevel()
+		 * != null) { Debug.print("Closing level.");
+		 * ScriptUtils.getCurrentLevel().onDeath(true); }
+		 * ScriptUtils.moveToQueuedLevel();
+		 * setupCurrentLevel(ScriptUtils.getCurrentLevel());
+		 * Debug.print("Spawning entities.");
+		 * ScriptUtils.getCurrentLevel().onSpawn(null); } else {
+		 */
+		globalLogic(ScriptUtils.getCurrentLevel(), delta);
+		ScriptUtils.getCurrentLevel().onUpdate(delta);
+		ScriptUtils.getKeyHolder().freeQueuedKeys();
+		// }
 	}
 
-	VolatileImage b1, b2;
-	boolean buffer1 = true;
+	private VolatileImage b1, b2;
+	private boolean buffer1 = true;
 
 	private void renderAll(final Graphics finalCanvas) {
 

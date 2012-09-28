@@ -30,19 +30,24 @@ public class TTT_Entity implements XMLSerializeable {
 
 	@Override
 	public Element writeToElement() {
-		// TODO Auto-generated method stub
-		return null;
+		Element e = new Element(getElementName());
+		e.appendChild(variables.writeToElement());
+		e.appendChild(types.writeToElement());
+		return e;
 	}
 
 	@Override
 	public void assembleFromElement(Element entity) {
-		// TODO Auto-generated method stub
+		variables.assembleFromElement(entity.getChildElements(
+				variables.getElementName()).get(0));
+		types.assembleFromElement(entity.getChildElements(
+				types.getElementName()).get(0));
 
 	}
 
 	@Override
 	public String getElementName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "entity";
 	}
 }
