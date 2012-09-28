@@ -5,6 +5,7 @@ The top level packages are
 2) samplegame, a small top-down game with dialog bubbles and world doors.
 3) audioProject, music powered bullet-hell for a class assignment. Included here as a code example of how to build a game without using level or entity files.
 4) snakemeleon, a physics platformer that shows off the Box2D integration.
+5) ttt, new draft of the engine, using Filament engine approach.
 
 HOW-TO INSTALL for development:
 Create a blank java project in eclipse called ToriTools, 

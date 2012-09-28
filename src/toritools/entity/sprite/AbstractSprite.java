@@ -57,41 +57,57 @@ public interface AbstractSprite {
 	File getImageIndex();
 
 	Dimension getTileDimension();
-	
+
+	public static AbstractSprite DEFAULT = new AbstractSpriteAdapter();
+
 	/**
-	 * An Sprite adapter with the methods all concrete, in standard java adapter style.
+	 * An Sprite adapter with the methods all concrete, in standard java adapter
+	 * style.
+	 * 
 	 * @author toriscope
-	 *
+	 * 
 	 */
 	public static class AbstractSpriteAdapter implements AbstractSprite {
 		@Override
-		public void nextFrame() {}
+		public void nextFrame() {
+		}
 
 		@Override
-		public void nextFrameAbsolute() {}
+		public void nextFrameAbsolute() {
+		}
 
 		@Override
-		public void setFrame(int frame) {}
+		public void setFrame(int frame) {
+		}
 
 		@Override
-		public void setCycle(int cycle) {}
+		public void setCycle(int cycle) {
+		}
 
 		@Override
-		public void set(int frame, int cycle) {}
+		public void set(int frame, int cycle) {
+		}
 
 		@Override
-		public void setTimeStretch(int timeStretch) {}
+		public void setTimeStretch(int timeStretch) {
+		}
 
 		@Override
-		public void setsizeOffset(int sizeOffset) {}
+		public void setsizeOffset(int sizeOffset) {
+		}
 
 		@Override
-		public void draw(Graphics2D g, Entity self) {}
+		public void draw(Graphics2D g, Entity self) {
+		}
 
 		@Override
-		public File getImageIndex() {return null;}
+		public File getImageIndex() {
+			return null;
+		}
 
 		@Override
-		public Dimension getTileDimension() {return null;}
+		public Dimension getTileDimension() {
+			return null;
+		}
 	}
 }

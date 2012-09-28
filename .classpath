@@ -4,5 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="libraries/java-audio-player-v.0.1.1.2/JavaMediaPlayer.jar"/>
 	<classpathentry kind="lib" path="libraries/jbox2d-testbed-2.1.2.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="libraries/jsyntaxpane-0.9.5-b29.jar"/>
+	<classpathentry kind="lib" path="libraries/jython.jar"/>
+	<classpathentry kind="lib" path="libraries/xom-1.2.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
