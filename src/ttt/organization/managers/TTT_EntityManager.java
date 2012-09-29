@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import ttt.TTT_Constants;
 import ttt.io.XMLSerializeable;
 import ttt.organization.TTT_Entity;
 
@@ -13,10 +14,12 @@ import nu.xom.Elements;
 public class TTT_EntityManager implements XMLSerializeable {
 	private final HashMap<String, List<TTT_Entity>> entitiesByType;
 	private final List<TTT_Entity> entities;
+	private final HashMap<String, TTT_Entity> idMap;
 
 	public TTT_EntityManager() {
 		entitiesByType = new HashMap<String, List<TTT_Entity>>();
 		entities = new LinkedList<TTT_Entity>();
+		idMap = new HashMap<String, TTT_Entity>();
 	}
 
 	public void addEntity(final TTT_Entity entity) {
@@ -27,6 +30,9 @@ public class TTT_EntityManager implements XMLSerializeable {
 			entitiesByType.get(type).add(entity);
 		}
 		entities.add(entity);
+		if (entity.variables.hasVariable(TTT_Constants.ID_KEY)) {
+			idMap.put(entity.variables.getString(TTT_Constants.ID_KEY), entity);
+		}
 	}
 
 	public void removeEntity(final TTT_Entity entity) {
@@ -36,6 +42,9 @@ public class TTT_EntityManager implements XMLSerializeable {
 			}
 		}
 		entities.remove(entity);
+		if (entity.variables.hasVariable(TTT_Constants.ID_KEY)) {
+			idMap.remove(entity.variables.getString(TTT_Constants.ID_KEY));
+		}
 	}
 
 	public List<TTT_Entity> getEntitiesByType(final String... types) {
@@ -48,6 +57,10 @@ public class TTT_EntityManager implements XMLSerializeable {
 		return en;
 	}
 
+	public TTT_Entity getEntityById(final String id) {
+		return idMap.get(id);
+	}
+
 	/**
 	 * Return a shallow copy of the list of entities.
 	 * 
@@ -57,9 +70,14 @@ public class TTT_EntityManager implements XMLSerializeable {
 		return new LinkedList<TTT_Entity>(entities);
 	}
 
-	public void clearAllEntities() {
+	public List<TTT_Entity> getAllEntitiesFast() {
+		return entities;
+	}
+
+	private void clearAllEntities() {
 		entities.clear();
 		entitiesByType.clear();
+		idMap.clear();
 	}
 
 	@Override

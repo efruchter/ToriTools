@@ -1,6 +1,7 @@
 package ttt.organization;
 
 import nu.xom.Element;
+import ttt.TTT_Constants;
 import ttt.io.XMLSerializeable;
 import ttt.organization.managers.TTT_EntityManager;
 
@@ -12,6 +13,7 @@ public class TTT_Scene implements XMLSerializeable {
 	public TTT_Scene() {
 		variables = new TTT_VariableCase();
 		entities = new TTT_EntityManager();
+		variables.set(TTT_Constants.ID_KEY, "DEFAULT");
 	}
 
 	@Override

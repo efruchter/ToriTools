@@ -14,9 +14,11 @@ import ttt.organization.TTT_Scene;
 public class TTT_SceneManager implements XMLSerializeable {
 
 	private HashMap<String, TTT_Scene> scenes;
+	private TTT_Scene currentSceneRef;
 
 	public TTT_SceneManager() {
 		scenes = new HashMap<String, TTT_Scene>();
+		this.moveToBankScene();
 	}
 
 	public TTT_Scene getScene(final String id) {
@@ -24,7 +26,12 @@ public class TTT_SceneManager implements XMLSerializeable {
 	}
 
 	public void addScene(final TTT_Scene scene) {
-		scenes.put(scene.variables.getString(TTT_Constants.LEVEL_ID), scene);
+		String key = scene.variables.getString(TTT_Constants.ID_KEY);
+		while (scenes.containsKey(key)) {
+			key += "+";
+		}
+		scene.variables.setString(TTT_Constants.ID_KEY, key);
+		scenes.put(scene.variables.getString(TTT_Constants.ID_KEY), scene);
 	}
 
 	@Override
@@ -44,19 +51,32 @@ public class TTT_SceneManager implements XMLSerializeable {
 			Element scene = children.get(i);
 			TTT_Scene ts = new TTT_Scene();
 			ts.assembleFromElement(scene);
-			if (!ts.variables.hasVariable(TTT_Constants.LEVEL_ID)) {
-				ts.variables.setString(TTT_Constants.LEVEL_ID, JOptionPane
+			if (!ts.variables.hasVariable(TTT_Constants.ID_KEY)) {
+				ts.variables.setString(TTT_Constants.ID_KEY, JOptionPane
 						.showInputDialog("Please supply a scene name:"));
 			}
-			scenes.put(ts.variables.getString(TTT_Constants.LEVEL_ID), ts);
+			scenes.put(ts.variables.getString(TTT_Constants.ID_KEY), ts);
 		}
 
 	}
 
 	@Override
 	public String getElementName() {
-		// TODO Auto-generated method stub
 		return "scenes";
 	}
 
+	public TTT_Scene getCurrentScene() {
+		return currentSceneRef;
+	}
+
+	public void moveToBankScene() {
+		currentSceneRef = new TTT_Scene();
+	}
+
+	public void moveToScene(final String id) {
+		TTT_Scene s = getScene(id);
+		if (s != null) {
+			currentSceneRef = s;
+		}
+	}
 }

@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 import nu.xom.Element;
 import nu.xom.Elements;
-import ttt.TTT_Constants;
 import ttt.io.XMLSerializeable;
 
 public class TTT_TypeManager implements XMLSerializeable {
@@ -32,7 +31,7 @@ public class TTT_TypeManager implements XMLSerializeable {
 	public Element writeToElement() {
 		Element variables = new Element(getElementName());
 		for (Entry<String, Void> type : types.entrySet()) {
-			Element tt = new Element(TTT_Constants.TYPE_KEY);
+			Element tt = new Element("type");
 			tt.appendChild(type.getKey());
 			variables.appendChild(tt);
 		}
