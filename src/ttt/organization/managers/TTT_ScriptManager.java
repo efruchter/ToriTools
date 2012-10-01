@@ -97,7 +97,6 @@ public class TTT_ScriptManager implements XMLSerializeable, TTT_EntityScript {
 
     public static void reloadLibrary() {
         Set<Entry<String, TTT_EntityScript>> s = library.entrySet();
-        s.clear();
         for (Entry<String, TTT_EntityScript> scr : s) {
             String loc = scr.getKey();
             try {

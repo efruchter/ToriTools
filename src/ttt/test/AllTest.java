@@ -7,9 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import ttt.TTT_Constants;
-import ttt.io.JythonFactory;
 import ttt.organization.TTT_Entity;
-import ttt.organization.TTT_EntityScript;
 import ttt.organization.TTT_Project;
 import ttt.organization.TTT_Scene;
 
@@ -36,7 +34,6 @@ public class AllTest {
         e.types.addType("AAAA", "BBBB");
         e.variables.setString("inEntity", "EEE");
         scene.entities.addEntity(e);
-        e.scripts.addScript("myScript.py");
 
         TTT_Project project2 = new TTT_Project();
         project2.assembleFromElement(project.writeToElement());
@@ -64,16 +61,10 @@ public class AllTest {
         assertTrue("Type list concat broken2", l.size() == 4);
 
         // Jython Test
-        try {
-            TTT_EntityScript script = (TTT_EntityScript) JythonFactory.getJythonObject(
-                    "ttt.organization.TTT_EntityScript", "ttt/test/TestScript.py");
-            assertTrue("script is null", script != null);
-            script.onSpawn(e, scene);
-            script.onUpdate(e, scene, 16);
-            script.onDeath(e, scene, true);
-        } catch (ClassNotFoundException e1) {
-            assertTrue("class not found", false);
-        }
+        e.scripts.addScript("ttt/test/TestScript.py");
+        e.scripts.onSpawn(e, scene);
+        e.scripts.onUpdate(e, scene, 16);
+        e.scripts.onDeath(e, scene, false);
 
     }
 }

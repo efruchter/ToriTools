@@ -5,8 +5,8 @@ class TestScript(TTT_EntityScript):
     def onSpawn(self, entity, scene):
         print "onSpawn() of " + entity.variables.getString("id")
     
-    def onUpdate(self, delta, entity, scene):
-        print "onUpdate()"
+    def onUpdate(self, entity, scene, delta):
+        print "onUpdate() of " + entity.variables.getString("id") + ", with a delta of " + str(delta)
 
-    def onDestroy(self, entity, scene, isRoomEnd):
-        print "onDestroy()"
+    def onDeath(self, entity, scene, isRoomEnd):
+        print "onDestroy() of " + entity.variables.getString("id")
