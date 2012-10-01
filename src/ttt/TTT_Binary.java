@@ -76,15 +76,7 @@ public abstract class TTT_Binary {
      * etc. The level will update after this method is run, followed by a
      * graphical repaint. Keys queued for release are also released after this.
      */
-    protected abstract void globalLogic(final Level level, final long milliDelay);
-
-    /**
-     * Get the starting level. Feel free to spawn a blank one if you don't want
-     * to do this.
-     * 
-     * @return a level.
-     */
-    protected abstract TTT_Scene getStartingLevel();
+    protected abstract void globalLogic(final TTT_Scene level, final long milliDelay);
 
     /**
      * Render your game.
@@ -104,9 +96,10 @@ public abstract class TTT_Binary {
      *            the frame-rate as a ratio. 60FPS would be 60, for example.
      */
     @SuppressWarnings("serial")
-    public TTT_Binary(final Vector2 VIEWPORT_SIZE, final int frameRate, final String windowTitle) {
+    public TTT_Binary(final TTT_Project project, final Vector2 VIEWPORT_SIZE, final int frameRate,
+            final String windowTitle) {
 
-        PROJECT = new TTT_Project();
+        PROJECT = project;
 
         frame.setTitle(windowTitle);
 
@@ -128,6 +121,9 @@ public abstract class TTT_Binary {
 
         frame.pack();
         frame.setVisible(true);
+
+        PROJECT.moveToOpeningScene();
+        PROJECT.sceneManager.getCurrentScene().onSpawn();
 
         RepeatingTimer timer = new RepeatingTimer(new RepeatingTimerAction() {
 
@@ -151,19 +147,12 @@ public abstract class TTT_Binary {
     }
 
     private void coreLogic(long delta) {
-        /*
-         * if (ScriptUtils.isLevelQueued()) { if (ScriptUtils.getCurrentLevel()
-         * != null) { Debug.print("Closing level.");
-         * ScriptUtils.getCurrentLevel().onDeath(true); }
-         * ScriptUtils.moveToQueuedLevel();
-         * setupCurrentLevel(ScriptUtils.getCurrentLevel());
-         * Debug.print("Spawning entities.");
-         * ScriptUtils.getCurrentLevel().onSpawn(null); } else {
-         */
-        globalLogic(ScriptUtils.getCurrentLevel(), delta);
-        ScriptUtils.getCurrentLevel().onUpdate(delta);
+        TTT_Scene current = PROJECT.sceneManager.getCurrentScene();
+        globalLogic(current, delta);
+        current.onUpdate(delta);
         ScriptUtils.getKeyHolder().freeQueuedKeys();
-        // }
+
+        PROJECT.update(delta);
     }
 
     private VolatileImage b1, b2;

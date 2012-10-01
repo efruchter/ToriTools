@@ -1,58 +1,40 @@
 package heatmap;
 
-import heatmap.entities.Player;
-
-import java.awt.Color;
 import java.awt.Graphics2D;
 
-import toritools.entity.Entity;
 import toritools.entity.Level;
-import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
+import ttt.TTT_Binary;
+import ttt.organization.TTT_Project;
+import ttt.organization.TTT_Scene;
 
-public class HeatMap extends Binary {
+public class HeatMap extends TTT_Binary {
 
-	public HeatMap() {
-		super(new Vector2(800, 600), 60, "HeatMap Demo");
-	}
+    public HeatMap(TTT_Project p) {
 
-	@Override
-	protected void initialize() {
-		
-	}
+        super(p, new Vector2(800, 600), 60, "HeatMap Demo");
+    }
 
-	@Override
-	protected void globalLogic(Level level, long milliDelay) {
+    @Override
+    protected void initialize() {
 
-	}
+    }
 
-	@Override
-	protected void setupCurrentLevel(Level levelBeingLoaded) {
-		levelBeingLoaded.spawnEntity(new Player());
-	}
+    @Override
+    protected void globalLogic(TTT_Scene level, long milliDelay) {
+        // TODO Auto-generated method stub
 
-	@Override
-	protected Level getStartingLevel() {
-		return new Level();
-	}
+    }
 
-	@Override
-	protected boolean render(Graphics2D rootCanvas, Level level) {
-		try {
-			rootCanvas.setColor(Color.BLACK);
-			rootCanvas.fillRect(0, 0, (int) VIEWPORT.x, (int) VIEWPORT.y);
+    @Override
+    protected boolean render(Graphics2D rootCanvas, Level level) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-			for (int i = level.getLayers().size() - 1; i >= 0; i--)
-				for (Entity e : level.getLayers().get(i)) {
-					e.draw(rootCanvas);
-				}
-		} catch (final NullPointerException stillLoading) {
-			return false;
-		}
-		return true;
-	}
-
-	public static void main(String[] args) {
-		new HeatMap();
-	}
+    public static void main(String[] args) {
+        TTT_Project proj = new TTT_Project();
+        TTT_Scene s = new TTT_Scene();
+        new HeatMap(proj);
+    }
 }

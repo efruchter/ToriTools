@@ -37,12 +37,15 @@ public class AllTest {
 
         TTT_Project project2 = new TTT_Project();
         project2.assembleFromElement(project.writeToElement());
+        
+        System.out.println(project.writeToElement().toXML().toString());
+        System.out.println(project2.writeToElement().toXML().toString());
+
 
         assertTrue(project.writeToElement().toXML().toString() + "\n" + project2.writeToElement().toXML().toString(),
                 project.writeToElement().toXML().toString().equals(project2.writeToElement().toXML().toString()));
 
-        // System.out.println(project.writeToElement().toXML().toString());
-
+        
         // Test entity sorting, etc
         e = new TTT_Entity();
         e.variables.set(TTT_Constants.ID_KEY, "blooper");
