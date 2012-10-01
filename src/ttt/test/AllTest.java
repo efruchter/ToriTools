@@ -21,13 +21,13 @@ public class AllTest {
 
         // Scene 1
         TTT_Scene scene = new TTT_Scene();
-        project.sceneManager.addScene(scene);
         scene.variables.setString(TTT_Constants.ID_KEY, "TESTO");
+        project.sceneManager.addScene(scene);
 
         // Scene 2
         TTT_Scene scene2 = new TTT_Scene();
-        project.sceneManager.addScene(scene2);
         scene2.variables.setString(TTT_Constants.ID_KEY, "TESTODOS");
+        project.sceneManager.addScene(scene2);
 
         // Entities
         TTT_Entity e = new TTT_Entity();
@@ -68,6 +68,12 @@ public class AllTest {
         e.scripts.onSpawn(e, scene);
         e.scripts.onUpdate(e, scene, 16);
         e.scripts.onDeath(e, scene, false);
+        
+        project.moveToOpeningScene();
+        
+        //moveupdate
+        TTT_Project.switchToLevel("TESTO");
+        project.update(16);
 
     }
 }

@@ -24,7 +24,7 @@ public class TTT_Project implements XMLSerializeable {
 
     public static void switchToLevel(final String levelId) {
         nextLevel = levelId;
-        levelSwitchRequested = false;
+        levelSwitchRequested = true;
     }
 
     @Override
