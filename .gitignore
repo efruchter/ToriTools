@@ -1,1 +1,4 @@
 editor.conf
+bin/
+*~
+~*
