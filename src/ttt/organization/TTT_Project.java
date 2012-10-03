@@ -3,12 +3,14 @@ package ttt.organization;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import ttt.io.XMLSerializeable;
+import ttt.organization.managers.TTT_EntityManager;
 import ttt.organization.managers.TTT_SceneManager;
 
 public class TTT_Project implements XMLSerializeable {
 
     public final TTT_SceneManager sceneManager;
     public final TTT_VariableCase variables;
+    public final TTT_EntityManager entities;
     private String openingScene;
 
     // Updating code
@@ -18,6 +20,7 @@ public class TTT_Project implements XMLSerializeable {
     public TTT_Project() {
         sceneManager = new TTT_SceneManager();
         variables = new TTT_VariableCase();
+        entities = new TTT_EntityManager();
         openingScene = "";
 
     }
@@ -32,6 +35,7 @@ public class TTT_Project implements XMLSerializeable {
         Element e = new Element(getElementName());
         e.appendChild(sceneManager.writeToElement());
         e.appendChild(variables.writeToElement());
+        e.appendChild(entities.writeToElement());
         e.addAttribute(new Attribute("startingScene", openingScene));
         return e;
     }
@@ -40,6 +44,7 @@ public class TTT_Project implements XMLSerializeable {
     public void assembleFromElement(Element entity) {
         sceneManager.assembleFromElement(entity.getChildElements(sceneManager.getElementName()).get(0));
         variables.assembleFromElement(entity.getChildElements(variables.getElementName()).get(0));
+        entities.assembleFromElement(entity.getChildElements(entities.getElementName()).get(0));
         openingScene = entity.getAttribute("startingScene").getValue();
     }
 
@@ -63,5 +68,9 @@ public class TTT_Project implements XMLSerializeable {
 
     public void moveToOpeningScene() {
         sceneManager.moveToScene(openingScene);
+    }
+
+    public String toString() {
+        return getElementName();
     }
 }

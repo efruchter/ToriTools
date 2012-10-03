@@ -108,5 +108,9 @@ public class TTT_ScriptManager implements XMLSerializeable, TTT_EntityScript {
             }
         }
     }
+    
+    public String toString() {
+        return getElementName();
+    }
 
 }

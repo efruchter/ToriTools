@@ -1,6 +1,8 @@
 package ttt.organization.managers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
@@ -13,15 +15,21 @@ import ttt.organization.TTT_Scene;
 
 public class TTT_SceneManager implements XMLSerializeable {
 
-    private HashMap<String, TTT_Scene> scenes;
+    private final HashMap<String, TTT_Scene> scenes;
+    private final List<TTT_Scene> sceneList;
     private TTT_Scene currentSceneRef;
 
     public TTT_SceneManager() {
         scenes = new HashMap<String, TTT_Scene>();
+        sceneList = new ArrayList<TTT_Scene>();
     }
 
     private TTT_Scene getScene(final String id) {
         return scenes.get(id);
+    }
+
+    public List<TTT_Scene> getSceneList() {
+        return sceneList;
     }
 
     public void addScene(final TTT_Scene scene) {
@@ -31,6 +39,9 @@ public class TTT_SceneManager implements XMLSerializeable {
         }
         scene.variables.setString(TTT_Constants.ID_KEY, key);
         scenes.put(scene.variables.getString(TTT_Constants.ID_KEY), scene);
+        if (!sceneList.contains(scene)) {
+            sceneList.add(scene);
+        }
     }
 
     @Override
@@ -45,6 +56,7 @@ public class TTT_SceneManager implements XMLSerializeable {
     @Override
     public void assembleFromElement(Element entity) {
         scenes.clear();
+        sceneList.clear();
         Elements children = entity.getChildElements();
         for (int i = 0; i < children.size(); i++) {
             Element scene = children.get(i);
@@ -54,7 +66,7 @@ public class TTT_SceneManager implements XMLSerializeable {
                 ts.variables
                         .setString(TTT_Constants.ID_KEY, JOptionPane.showInputDialog("Please supply a scene name:"));
             }
-            scenes.put(ts.variables.getString(TTT_Constants.ID_KEY), ts);
+            addScene(ts);
         }
 
     }
@@ -79,5 +91,9 @@ public class TTT_SceneManager implements XMLSerializeable {
         } else {
             moveToBlankScene();
         }
+    }
+
+    public String toString() {
+        return getElementName();
     }
 }

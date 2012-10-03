@@ -52,4 +52,8 @@ public class TTT_Scene implements XMLSerializeable {
             e.scripts.onDeath(e, this, true);
         }
     }
+
+    public String toString() {
+        return getElementName();
+    }
 }
