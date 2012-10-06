@@ -7,6 +7,26 @@
 	<classpathentry kind="lib" path="libraries/jsyntaxpane-0.9.5-b29.jar"/>
 	<classpathentry kind="lib" path="libraries/jython.jar"/>
 	<classpathentry kind="lib" path="libraries/xom-1.2.8.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-2.8.4/jar/jinput.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ToriTools/libraries/lwjgl-2.8.4/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libraries/lwjgl-2.8.4/jar/lwjgl_util.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ToriTools/libraries/lwjgl-2.8.4/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libraries/lwjgl-2.8.4/jar/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ToriTools/libraries/lwjgl-2.8.4/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libraries/slick-util.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ToriTools/libraries/lwjgl-2.8.4/native"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,3 +2,4 @@ editor.conf
 bin/
 *~
 ~*
+*.log
