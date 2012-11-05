@@ -1,15 +1,10 @@
 package ttt.organization;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.awt.image.VolatileImage;
 import java.io.File;
 
-import toritools.entrypoint.Binary;
 import toritools.math.Vector2;
 import toritools.scripting.ScriptUtils;
 
@@ -58,12 +53,11 @@ public interface TTT_EntityView {
 	/**
 	 * Override this to implement your own drawing mechanism!
 	 * 
-	 * @param g
 	 * @param self
 	 * @param position
 	 * @param dimension
 	 */
-	void draw(final Graphics2D g, final TTT_Entity self);
+	void draw(final TTT_Entity self);
 
 	File getImageIndex();
 
@@ -118,7 +112,7 @@ public interface TTT_EntityView {
 		}
 
 		@Override
-		public void draw(Graphics2D g, TTT_Entity self) {
+		public void draw(TTT_Entity self) {
 			// TODO Auto-generated method stub
 
 		}
@@ -197,45 +191,41 @@ public interface TTT_EntityView {
 		 * @param position
 		 * @param dimension
 		 */
-		public void draw(final Graphics2D g, final TTT_Entity self) {
-			int x = this.x / timeStretch;
-			Vector2 dim = self.getDim().add(sizeOffset * 2);
-			Vector2 pos = self.getPos().sub(sizeOffset);
-
-			if (self.getDir() != 0) {
-
-				if (i == null)
-					i = Binary.gc.createCompatibleVolatileImage(dim.getWidth(),
-							dim.getHeight(), VolatileImage.TRANSLUCENT);
-				i.validate(Binary.gc);
-
-				Graphics2D gr = (Graphics2D) i.getGraphics();
-				gr.setColor(new Color(0, 0, 0, 0));
-				gr.setComposite(AlphaComposite
-						.getInstance(AlphaComposite.SRC_OUT));
-				gr.fillRect(0, 0, i.getWidth(), i.getHeight());
-
-				gr.drawImage(ScriptUtils.fetchImage(imageIndex), (int) 0,
-						(int) 0, (int) dim.x, (int) dim.y, x * (int) bRight.x,
-						y * (int) bRight.y,
-						x * (int) bRight.x + (int) bRight.x, y * (int) bRight.y
-								+ (int) bRight.y, null);
-
-				AffineTransform affineTransform = new AffineTransform();
-				// rotate with the anchor point as the mid of the image
-				affineTransform.translate(pos.x, pos.y);
-				affineTransform.rotate(Math.toRadians(self.getDir()),
-						dim.x / 2, dim.y / 2);
-
-				((Graphics2D) g).drawImage(i, affineTransform, null);
-			} else {
-				g.drawImage(ScriptUtils.fetchImage(imageIndex), (int) pos.x,
-						(int) pos.y, (int) (pos.x + dim.x),
-						(int) (pos.y + dim.y), x * (int) bRight.x, y
-								* (int) bRight.y, x * (int) bRight.x
-								+ (int) bRight.x, y * (int) bRight.y
-								+ (int) bRight.y, null);
-			}
+		public void draw(final TTT_Entity self) {
+			/*
+			 * int x = this.x / timeStretch; Vector2 dim =
+			 * self.getDim().add(sizeOffset * 2); Vector2 pos =
+			 * self.getPos().sub(sizeOffset);
+			 * 
+			 * if (self.getDir() != 0) {
+			 * 
+			 * if (i == null) i =
+			 * Binary.gc.createCompatibleVolatileImage(dim.getWidth(),
+			 * dim.getHeight(), VolatileImage.TRANSLUCENT);
+			 * i.validate(Binary.gc);
+			 * 
+			 * Graphics2D gr = (Graphics2D) i.getGraphics(); gr.setColor(new
+			 * Color(0, 0, 0, 0)); gr.setComposite(AlphaComposite
+			 * .getInstance(AlphaComposite.SRC_OUT)); gr.fillRect(0, 0,
+			 * i.getWidth(), i.getHeight());
+			 * 
+			 * gr.drawImage(ScriptUtils.fetchImage(imageIndex), (int) 0, (int)
+			 * 0, (int) dim.x, (int) dim.y, x * (int) bRight.x, y * (int)
+			 * bRight.y, x * (int) bRight.x + (int) bRight.x, y * (int) bRight.y
+			 * + (int) bRight.y, null);
+			 * 
+			 * AffineTransform affineTransform = new AffineTransform(); //
+			 * rotate with the anchor point as the mid of the image
+			 * affineTransform.translate(pos.x, pos.y);
+			 * affineTransform.rotate(Math.toRadians(self.getDir()), dim.x / 2,
+			 * dim.y / 2);
+			 * 
+			 * ((Graphics2D) g).drawImage(i, affineTransform, null); } else {
+			 * g.drawImage(ScriptUtils.fetchImage(imageIndex), (int) pos.x,
+			 * (int) pos.y, (int) (pos.x + dim.x), (int) (pos.y + dim.y), x *
+			 * (int) bRight.x, y (int) bRight.y, x * (int) bRight.x + (int)
+			 * bRight.x, y * (int) bRight.y + (int) bRight.y, null); }
+			 */
 		}
 
 		public Dimension getTileDimension() {

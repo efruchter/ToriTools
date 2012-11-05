@@ -90,9 +90,8 @@ public class TTT_VariableCase implements XMLSerializeable {
 				var.appendChild(s.getValue().toString());
 				variables.appendChild(var);
 			} else if (s.getValue() instanceof Vector2) {
-				Element v = Vector2.writeToElement((Vector2) s.getValue());
-				v.setLocalName(s.getKey());
-				v.addAttribute(new Attribute("type", "Vector2"));
+				Element v = Vector2.writeToElement((Vector2) s.getValue(),
+						s.getKey());
 				variables.appendChild(v);
 			}
 		}

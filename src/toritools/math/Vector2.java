@@ -231,8 +231,11 @@ public class Vector2 {
 		y = vec2.y;
 	}
 
-	public static Element writeToElement(final Vector2 vec) {
-		Element e = new Element(getElementName());
+	public static Element writeToElement(final Vector2 vec,
+			final String elementName) {
+		Element e = new Element(elementName);
+		e.setLocalName(elementName);
+		e.addAttribute(new Attribute("type", "Vector2"));
 		e.addAttribute(new Attribute("x", vec.x + ""));
 		e.addAttribute(new Attribute("y", vec.y + ""));
 		return e;
@@ -241,9 +244,5 @@ public class Vector2 {
 	public static Vector2 assembleFromElement(final Element entity) {
 		return new Vector2(Float.parseFloat(entity.getAttributeValue("x")),
 				Float.parseFloat(entity.getAttributeValue("y")));
-	}
-
-	private static String getElementName() {
-		return "vector2";
 	}
 }
