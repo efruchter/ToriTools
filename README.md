@@ -1,3 +1,11 @@
+Binaries
+---------
+[Snakemeleon](https://dl.dropbox.com/u/8669480/binaries/Snakemeleon%20v04.zip), a physics platformer.
+
+[Kresendur](https://dl.dropbox.com/u/8669480/binaries/Kresendur.zip), the musical bullet-hell.
+
+ToriTools
+=========
 A tiled xml level editor and set of classes to make 2D game-making easier.
 
 The top level packages are:
@@ -25,11 +33,5 @@ Linux / OSX
 -Dsun.java2d.opengl=True
 
 Windows should activate the directx pipeline automatically.
-
-Binaries
----------
-[Snakemeleon](https://dl.dropbox.com/u/8669480/binaries/Snakemeleon%20v04.zip), a physics platformer.
-
-[Kresendur](https://dl.dropbox.com/u/8669480/binaries/Kresendur.zip), the musical bullet-hell.
 
 ~toriscope
