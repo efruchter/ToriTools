@@ -1,4 +1,4 @@
-Binaries
+Downloadables
 ---------
 [Snakemeleon](https://dl.dropbox.com/u/8669480/binaries/Snakemeleon%20v04.zip), a physics platformer.
 
