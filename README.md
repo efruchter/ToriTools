@@ -28,10 +28,10 @@ Just peek into the top level classes for each of the sample games to see how set
 
 How to enable hardware acceleration:
 
-Linux / OSX
-
 -Dsun.java2d.opengl=True
 
 Windows should activate the directx pipeline automatically.
+
+Swing OpenGL hardware acceleration does not work on OSX. Based on what I've read, there is simply no support for it.
 
 ~toriscope
